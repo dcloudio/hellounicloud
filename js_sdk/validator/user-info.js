@@ -1,0 +1,159 @@
+
+// 表单校验规则由 DB-Schema 生成，不建议直接修改校验规则，而建议通过 DB-Schema 生成, 详情: https://uniapp.dcloud.net.cn/uniCloud/schema
+
+import word_filter from '@/js_sdk/validator/validateFunction/word_filter.js'
+
+export default {
+  "username": {
+    "rules": [
+      {
+        "format": "string",
+        "errorMessage": "只能输入中文"
+      },
+      {
+        "pattern": "^[\\u4e00-\\u9fa5]+$",
+        "errorMessage": "只能输入中文"
+      }
+    ],
+    "label": "真实姓名"
+  },
+  "gender": {
+    "rules": [
+      {
+        "format": "int"
+      },
+      {
+        "range": [
+          {
+            "text": "未知",
+            "value": 0
+          },
+          {
+            "text": "男",
+            "value": 1
+          },
+          {
+            "text": "女",
+            "value": 2
+          }
+        ]
+      }
+    ],
+    "defaultValue": 0,
+    "label": "性别"
+  },
+  "birth_date": {
+    "rules": [
+      {
+        "format": "timestamp"
+      }
+    ],
+    "label": "生日"
+  },
+  "weight": {
+    "rules": [
+      {
+        "format": "int"
+      },
+      {
+        "minimum": 50,
+        "maximum": 500,
+        "exclusiveMinimum": false,
+        "exclusiveMaximum": true
+      }
+    ],
+    "label": "体重"
+  },
+  "mobile": {
+    "rules": [
+      {
+        "format": "string"
+      },
+      {
+        "pattern": "^\\+?[0-9-]{3,20}$"
+      }
+    ],
+    "label": "手机号码"
+  },
+  "email": {
+    "rules": [
+      {
+        "format": "string"
+      },
+      {
+        "format": "email"
+      }
+    ],
+    "label": "邮箱账号"
+  },
+  "url": {
+    "rules": [
+      {
+        "format": "string"
+      },
+      {
+        "format": "url"
+      }
+    ],
+    "label": "个人博客"
+  },
+  "favorite_book": {
+    "rules": [
+      {
+        "format": "string"
+      }
+    ],
+    "label": "喜欢的书"
+  },
+  "address": {
+    "rules": [
+      {
+        "format": "string"
+      }
+    ],
+    "label": "地址"
+  },
+  "party_member": {
+    "rules": [
+      {
+        "format": "bool"
+      }
+    ],
+    "label": "是否为党员"
+  },
+  "hobby": {
+    "rules": [
+      {
+        "format": "array"
+      },
+      {
+        "range": [
+          {
+            "text": "唱歌",
+            "value": "Sing"
+          },
+          {
+            "text": "跳舞",
+            "value": "dance"
+          },
+          {
+            "text": "画画",
+            "value": "draw"
+          }
+        ]
+      }
+    ],
+    "label": "业余爱好"
+  },
+  "comment": {
+    "rules": [
+      {
+        "format": "string"
+      },
+      {
+        validateFunction: word_filter
+      }
+    ],
+    "label": "备注"
+  }
+}

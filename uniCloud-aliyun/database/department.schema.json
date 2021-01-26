@@ -1,0 +1,25 @@
+{
+	"bsonType": "object",
+	"required": ["name"],
+	"permission":{
+		"read":true
+	},
+	"properties": {
+		"_id": {
+			"description": "ID，系统自动生成"
+		},
+		"name": {
+			"bsonType": "string",
+			"description": "名称"
+		},
+		"parent_id": {
+			"bsonType": "string",
+			"description": "父id",
+			"parentKey": "_id"  // 指定父子关系为：如果数据库记录A的_id和数据库记录B的parent_id相等，则A是B的父级。
+		},
+		"status": {
+			"bsonType": "int",
+			"description": "部门状态，0-正常、1-禁用"
+		}
+	}
+}
