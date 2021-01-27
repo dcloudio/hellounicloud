@@ -20,7 +20,9 @@
 
 <style lang="scss">
 	/*每个页面公共css */
+	/* #ifndef APP-NVUE */
 	view{
 		box-sizing: border-box;
 	}
+	/* #endif */
 </style>

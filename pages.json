@@ -200,6 +200,12 @@
             "path": "pages/validate-demo/detail",
             "style": {}
         }
+        ,{
+            "path" : "pages/videoPlay/videoPlay",
+			"style":{
+				"navigationBarTitleText":"schema2code操作步骤演示"
+			}
+        }
     ],
     "tabBar": {
         "color": "#7A7E83",

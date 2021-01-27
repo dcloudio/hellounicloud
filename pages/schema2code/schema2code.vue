@@ -5,9 +5,9 @@
 			<text>\n uniCloud/database/user-info.schema.json \n</text>
 			<text class="link" @click="showSchemaCode">查看详情</text>
 		</view>
-		<video src="/static/show-schema2code.mov"></video>
+		<j-video :url="videoUrl" height="421rpx" width="750rpx" :direction="90"></j-video>
 		<showJson ref="showJson"></showJson>
-		<button class="toForm" @click="toForm" type="primary" size="mini">前往生成的云端一体页面</button>
+		<button class="toForm" @click="toForm" type="primary" size="mini" plain>前往生成的云端一体页面</button>
     </view>
 </template>
 
@@ -16,7 +16,8 @@ import schemaCode from './schemaCode';
     export default {
         data() {
             return {
-				schemaCode:schemaCode
+				schemaCode:schemaCode,
+				videoUrl:"https://vkceyugu.cdn.bspapp.com/VKCEYUGU-aliyun-fkixoysdctc5381ccc/85f97090-6096-11eb-8ff1-d5dcf8779628.mp4"
             }
         },
         methods: {
@@ -72,12 +73,10 @@ import schemaCode from './schemaCode';
 	color:#888;
 }
 .toForm{
+	width: 500rpx;
+	margin:30px 125rpx;
 }
 .uni-title text.link{
 	color: #586b95;
-}
-video{
-	width: 750rpx;
-	height: 600rpx;
 }
 </style>
