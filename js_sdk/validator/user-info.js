@@ -1,9 +1,9 @@
 
-// 表单校验规则由 DB-Schema 生成，不建议直接修改校验规则，而建议通过 DB-Schema 生成, 详情: https://uniapp.dcloud.net.cn/uniCloud/schema
+// 表单校验规则由 schema2code 生成，不建议直接修改校验规则，而建议通过 schema2code 生成, 详情: https://uniapp.dcloud.net.cn/uniCloud/schema
 
 import word_filter from '@/js_sdk/validator/validateFunction/word_filter.js'
 
-export default {
+const validator = {
   "username": {
     "rules": [
       {
@@ -97,7 +97,7 @@ export default {
     ],
     "label": "个人博客"
   },
-  "favorite_book": {
+  "favorite_book_id": {
     "rules": [
       {
         "format": "string"
@@ -105,7 +105,7 @@ export default {
     ],
     "label": "喜欢的书"
   },
-  "address": {
+  "address_code": {
     "rules": [
       {
         "format": "string"
@@ -157,3 +157,27 @@ export default {
     "label": "备注"
   }
 }
+
+const enumConverter = {
+  "gender_valuetotext": {
+    "0": "未知",
+    "1": "男",
+    "2": "女"
+  },
+  "hobby_valuetotext": [
+    {
+      "text": "唱歌",
+      "value": "Sing"
+    },
+    {
+      "text": "跳舞",
+      "value": "dance"
+    },
+    {
+      "text": "画画",
+      "value": "draw"
+    }
+  ]
+}
+
+export { validator, enumConverter }

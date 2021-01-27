@@ -9,7 +9,7 @@
   <uni-data-checkbox v-model="formData.gender" :localdata="formOptions.gender_localdata" />
 </uni-forms-item>
 <uni-forms-item name="birth_date" label="生日">
-  <uni-datetime-picker :timestamp="true" :value="formData.birth_date" />
+  <uni-datetime-picker return-type="timestamp" :value="formData.birth_date" />
 </uni-forms-item>
 <uni-forms-item name="weight" label="体重">
   <uni-easyinput placeholder="限输入 >50 && <=500" type="number" v-model="formData.weight" />
@@ -23,11 +23,11 @@
 <uni-forms-item name="url" label="个人博客">
   <uni-easyinput placeholder="请输入网址的地址" v-model="formData.url" />
 </uni-forms-item>
-<uni-forms-item name="favorite_book" label="喜欢的书">
-  <uni-data-checkbox v-model="formData.favorite_book" collection="book" field="title as text, _id as value" orderby="desc" />
+<uni-forms-item name="favorite_book_id" label="喜欢的书">
+  <uni-data-checkbox v-model="formData.favorite_book_id" collection="book" field="title as text, _id as value" orderby="desc" />
 </uni-forms-item>
-<uni-forms-item name="address" label="地址">
-  <uni-data-picker self-field="code" parent-field="parent_code" v-model="formData.address" collection="opendb-city-china" orderby="value asc" field="code as value, name as text"></uni-data-picker>
+<uni-forms-item name="address_code" label="地址">
+  <uni-data-picker self-field="code" parent-field="parent_code" v-model="formData.address_code" collection="opendb-city-china" orderby="value asc" field="code as value, name as text"></uni-data-picker>
 </uni-forms-item>
 <uni-forms-item name="party_member" label="是否为党员">
   <switch @change="binddata('party_member', $event.detail.value)" :checked="formData.party_member" />
@@ -47,10 +47,9 @@
 </template>
 
 <script>
-  import validator from '@/js_sdk/validator/user-info.js';
+  import { validator } from '@/js_sdk/validator/user-info.js';
 
   const db = uniCloud.database();
-  const dbCmd = db.command;
   const dbCollectionName = 'user-info';
 
   function getValidator(fields) {
@@ -74,8 +73,8 @@
   "mobile": "",
   "email": "",
   "url": "",
-  "favorite_book": "",
-  "address": "",
+  "favorite_book_id": "",
+  "address_code": "",
   "party_member": null,
   "hobby": [],
   "comment": ""
@@ -111,7 +110,7 @@
   ]
 },
         rules: {
-          ...getValidator(["birth_date","weight","mobile","email","url","favorite_book","address","party_member","hobby","comment","username","gender"])
+          ...getValidator(["username","gender","birth_date","weight","mobile","email","url","favorite_book_id","address_code","party_member","hobby","comment"])
         }
       }
     },
@@ -134,12 +133,14 @@
       },
 
       submitForm(value) {
-        // 使用 uni-clientDB 提交数据
+        // 使用 clientDB 提交数据
         db.collection(dbCollectionName).add(value).then((res) => {
           uni.showToast({
             icon: 'none',
             title: '新增成功'
           })
+          this.getOpenerEventChannel().emit('refreshData')
+          setTimeout(() => uni.navigateBack(), 500)
         }).catch((err) => {
           uni.showModal({
             content: err.message || '请求服务失败',

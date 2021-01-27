@@ -1,4 +1,3 @@
-// 文档教程: https://uniapp.dcloud.net.cn/uniCloud/schema
 {
 	"bsonType": "object",
 	"required": ["title"],
@@ -73,14 +72,13 @@
 		},
 		"favorite_book_id": {
 			"bsonType": "string",
-			"title": "喜欢的书",
+			"title": "喜欢的书的id",
 			"description":"选项来源book表",
 			"foreignKey": "book._id",
 			"enum": {
-				"collection": "book", // 表名，这里使用 uni-id-roles表举例，在uniCloud控制台使用 opendb 创建此表
-				"field": "title as text, _id as value", //字段筛选，需要 as 成前端组件支持的字段名 text、value。text、value是datacom组件规范的标准
-				//"where": "", // 查询条件
-				"orderby": "desc" // 排序字段及正序倒叙设置
+				"collection": "book", 
+				"field": "title as text, _id as value", 
+				"orderby": "desc" 
 			}
 		},
 		"address_code": {
