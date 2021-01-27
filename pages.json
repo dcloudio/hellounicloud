@@ -213,27 +213,27 @@
         "borderStyle": "black",
         "backgroundColor": "#ffffff",
         "list": [{
-                "pagePath": "pages/clientDB/clientDB",
-                "iconPath": "static/logo.png",
-                "selectedIconPath": "static/logo.png",
-                "text": "clientDB"
-            },
-            {
-                "pagePath": "pages/schema2code/schema2code",
-                "iconPath": "static/logo.png",
-                "selectedIconPath": "static/logo.png",
-                "text": "schema2code"
-            },
-            {
                 "pagePath": "pages/cloudFunction/cloudFunction",
                 "iconPath": "static/logo.png",
                 "selectedIconPath": "static/logo.png",
                 "text": "云函数"
-            }, {
+            },
+            {
                 "pagePath": "pages/storage/storage",
                 "iconPath": "static/logo.png",
                 "selectedIconPath": "static/logo.png",
                 "text": "云存储"
+            },
+            {
+                "pagePath": "pages/clientDB/clientDB",
+                "iconPath": "static/logo.png",
+                "selectedIconPath": "static/logo.png",
+                "text": "clientDB"
+            }, {
+                "pagePath": "pages/schema2code/schema2code",
+                "iconPath": "static/logo.png",
+                "selectedIconPath": "static/logo.png",
+                "text": "schema2code"
             }
         ]
     },
