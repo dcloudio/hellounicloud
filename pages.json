@@ -1,19 +1,18 @@
 {
     "pages": [ //pages数组中第一项表示应用启动页，参考：https://uniapp.dcloud.io/collocation/pages
         {
-            "path": "pages/clientDB/demo/demo",
-            "style": {
-                "navigationBarTitleText": "留言板",
-                "enablePullDownRefresh": false
-            }
-        },
-        {
             "path": "pages/schema2code/schema2code",
             "style": {
                 "navigationBarTitleText": "schema2code",
                 "enablePullDownRefresh": false
             }
-
+        },
+        {
+            "path": "pages/clientDB/demo/demo",
+            "style": {
+                "navigationBarTitleText": "留言板",
+                "enablePullDownRefresh": false
+            }
         },
         {
             "path": "pages/clientDB/permission-table-simple/permission-table-simple",
