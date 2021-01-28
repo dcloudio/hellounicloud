@@ -318,6 +318,8 @@
 		width: auto;
 		line-height: 2;
 		font-size: 14px;
+		min-height: 26px;
+		line-height: 26px;
 		// padding-right: 10px;
 	}
 

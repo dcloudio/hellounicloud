@@ -11,10 +11,10 @@
 			<view class="code">
 				配置规则：
 				<view class="code-box">
-					 <text space="emsp">{{lll}}</text>
-					<!--<text space="emsp">\n "{{type}}":</text>
+					<text space="emsp">"permission":{</text>
+					<text space="emsp">\n "{{type}}":</text>
 					<text class="light">{{item.code}}</text>
-					<text space="emsp">\n}</text>-->
+					<text space="emsp">\n}</text>
 				</view> 
 				<text>含义解释：{{item.explain}}</text>
 				<text>【{{typeText}}】</text>

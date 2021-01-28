@@ -83,7 +83,15 @@
                 "navigationBarTitleText": "角色权限",
                 "enablePullDownRefresh": false
             }
-        }, {
+        },
+		{
+		    "path": "pages/clientDB/permission-demo/readme",
+		    "style": {
+		        "navigationBarTitleText": "角色权限",
+		        "enablePullDownRefresh": false
+		    }
+		},
+		{
             "path": "pages/clientDB/permission-field-simple/permission-field-simple",
             "style": {
                 "navigationBarTitleText": "简单-字段级权限控制",
@@ -131,17 +139,10 @@
             "style": {}
         }
         ,{
-            "path" : "pages/videoPlay/videoPlay",
-			"style":{
-				"navigationStyle":"custom",
-				"navigationBarTitleText":"加载中..."
-			}
-        }
-        ,{
             "path" : "pages/webview/webview",
             "style" :                                                                                    
             {
-                "navigationBarTitleText": "加载中...",
+                "navigationBarTitleText": "",
                 "enablePullDownRefresh": false
             }
             
@@ -155,7 +156,7 @@
         "list": [{
                 "pagePath": "pages/cloudFunction/cloudFunction",
                 "iconPath": "static/tabbar/fn.png",
-                "selectedIconPath": "static/tabbar/fn1",
+                "selectedIconPath": "static/tabbar/fn1.png",
                 "text": "云函数"
             },
             {

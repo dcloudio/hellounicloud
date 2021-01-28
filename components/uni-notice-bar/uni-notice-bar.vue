@@ -344,7 +344,7 @@
 		font-size: 14px;
 		line-height: 18px;
 		/* #ifndef APP-NVUE */
-		word-break: break-all;
+		word-break: break-word;
 		/* #endif */
 	}
 

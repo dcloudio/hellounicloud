@@ -2,11 +2,11 @@
     <view class="root">
 		<view class="uni-title dashed-box">
 			<text class="tip">
-				schema2code是一个根据数据库schema自动生成代码的工具。它可以直接生成云端一体的列表、详情、新建、修改页面，云端一体直接可用。大幅提升开发效率。\n
+				schema2code是一个根据数据库schema自动生成代码的工具。它可以直接生成云端一体的列表、详情、新建、修改页面，云端一体直接可用。大幅提升开发效率。
 			</text>
-			schema路径:
-			<text>\n uniCloud/database/user-info.schema.json \n</text>
-			<text class="link" @click="showSchemaCode">查看详情</text>
+			
+			<text>\n schema路径:uniCloud/database/user-info.schema.json \n</text>
+			<button class="showSchemaCode" size="mini" @click="showSchemaCode" type="primary" plain>查看schema代码</button>
 		</view>
 		<j-video :url="videoUrl" title="schema2code步骤演示" height="421rpx" width="750rpx"></j-video>
 		<showJson ref="showJson"></showJson>
@@ -52,11 +52,6 @@ import schemaCode from './schemaCode';
 .root{
 	//padding-bottom: 86px;
 }
-.tip{
-	background-color: #FFFFFF;
-	padding: x 0;
-	height: 80px;
-}
 .dashed-box{
 	border: dashed 1px #EEEEEE;
 	border-radius: 5px;
@@ -65,8 +60,7 @@ import schemaCode from './schemaCode';
 .uni-title {
 	width: 680rpx;
 	margin: 15rpx;
-	font-size:30rpx;
-	font-weight:500;
+	font-size:26rpx;
 	padding:20rpx;
 	line-height:1.5;
 	background-color: #FFFFFF;
@@ -81,5 +75,13 @@ import schemaCode from './schemaCode';
 }
 .uni-title text.link{
 	color: #586b95;
+}
+text.tip{
+	background-color: #FFFFFF;
+	color: #333;
+	height: 80px;
+}
+.showSchemaCode{
+	margin-top: 10px;
 }
 </style>

@@ -303,8 +303,8 @@ $list-item-pd: $uni-spacing-col-lg $uni-spacing-row-lg;
 	left: 0;
 	height: 1px;
 	content: '';
-	-webkit-transform: scaleY(0.5);
-	transform: scaleY(0.5);
+	-webkit-transform: scaleY(0.1);
+	transform: scaleY(0.1);
 	background-color: $uni-border-color;
 }
 

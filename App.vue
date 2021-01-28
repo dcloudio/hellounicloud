@@ -24,5 +24,12 @@
 	view{
 		box-sizing: border-box;
 	}
+	@font-face {
+	    font-family: "iconfont";
+	    src: url('https://at.alicdn.com/t/font_2354462_s00xh8caffp.ttf');
+	}
+	.ico{
+		font-family: iconfont;
+	}
 	/* #endif */
 </style>

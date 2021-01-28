@@ -4,11 +4,22 @@
 	<view :style="{width,height}" @click="play" class="box">
 		<image class="playIcon" src="../../static/play.png" mode="widthFix"></image>
 	</view>
+	<video
+		id="myVideo"
+		style="width: 1px;height: 1px;"
+		:src="url"
+		@timeupdate="timeupdate"
+		@fullscreenchange="fullscreenchange"
+	></video>
 </view>
 </template>
 
 <script>
+var videoContext;
 	export default {
+		mounted() {
+			videoContext = uni.createVideoContext('myVideo',this)
+		},
 		computed:{
 			posterUrl(){
 				if(this.poster) return this.poster
@@ -19,23 +30,18 @@
 			fullscreenchange(e){
 				console.log(e.detail.fullScreen);
 				this.state = e.detail.fullScreen
+				if(!e.detail.fullScreen){
+					videoContext.pause()
+				}
+			},
+			timeupdate(e){
+				console.log(e.detail);
+				this.duration = e.detail.duration
+				this.currentTime = e.detail.currentTime
 			},
 			play(){
-				uni.navigateTo({
-					url:"/pages/videoPlay/videoPlay?videoUrl="+this.url+"&title="+this.title+"&direction="+this.direction,
-					complete: (e) => {
-						console.log(e);
-					},
-					animationType:"fade-in",
-					animationDuration:1000,
-					events:{
-						timeupdate:(e)=>{
-							console.log(e.detail);
-							this.duration = e.detail.duration
-							this.currentTime = e.detail.currentTime
-						}
-					}
-				})
+				videoContext.play()
+				videoContext.requestFullScreen({direction:this.direction})
 			}
 		},
 		watch: {
