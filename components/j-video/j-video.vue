@@ -22,11 +22,12 @@
 			},
 			play(){
 				uni.navigateTo({
-					url:"/pages/videoPlay/videoPlay?videoUrl="+this.url,
+					url:"/pages/videoPlay/videoPlay?videoUrl="+this.url+"&title="+this.title+"&direction="+this.direction,
 					complete: (e) => {
 						console.log(e);
 					},
 					animationType:"fade-in",
+					animationDuration:1000,
 					events:{
 						timeupdate:(e)=>{
 							console.log(e.detail);
@@ -60,10 +61,16 @@
 					return ''
 				}
 			},
+			title: {
+				type: String,
+				default(){
+					return ''
+				}
+			},
 			direction: {
 				type: Number,
 				default(){
-					return 0
+					return -90
 				}
 			},
 			width: {

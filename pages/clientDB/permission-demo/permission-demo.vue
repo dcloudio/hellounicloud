@@ -1,422 +1,299 @@
 <template>
-	<view class="page">
-		<showJson ref="showJson"></showJson>
-		<uniNoticeBar showIcon="true" iconType="info" text="管理员(admin)拥有任何权限,权限控制对其无效。"></uniNoticeBar>
-		<!-- <view class="tips">
-			<text>DB Schema的数据权限系统permission，是为clientDB设计的。
-			因为在云函数中操作数据库，是管理员权限。云函数代码可以完整控制数据库的增删改查操作。而前端是不能任意操作数据库的。
-			在过去，开发者需要在后端写代码来处理权限控制，但实际上有了DB Schema，这种权限控制的后台代码就不用再写了。
-			只要配好DB Schema，放开让前端写业务即可。配置里声明不能读写的数据，前端就无法读写。
-			</text>
-		</view> -->
-		
-		<view class="uni-title tip">
-			一、示例简介
-			<text>\n 演示了：
-			1.用户可以编辑自己的个人资料。
-			2.审核员，审核资料的username字段。
-			3.审核期间用户不能修改username字段。
-			4.未登陆的游客看不到用户的phone字段 \n \n</text>
-			二、需要的资源，schema路径:
-			<text>\n uniCloud/database/permission-test.schema.json \n \n</text>
-			三、数据的介绍，表字段:
-			<text>\n username(姓名), state(审核状态), nickname(昵称), phone(手机号码)</text>
+	<view>
+		<view class="uni-container">
+			<uni-forms ref="form" :value="formData" validate-trigger="submit" err-show-type="toast">
+				<uni-forms-item name="nickname" label="昵称">
+					<uni-easyinput :disabled="rulo_index!=1" v-model="formData.nickname" />
+				</uni-forms-item>
+				<uni-forms-item name="username" label="姓名">
+					<uni-easyinput @click.native="formData.state==0?showTip():''" :disabled="rulo_index!=1||formData.state==0" v-model="formData.username" />
+				</uni-forms-item>
+				<uni-forms-item name="state" label="状态" v-if="rulo_index>0">
+					<uni-data-checkbox v-if="rulo_index>1" @change="setState" :value="formData.state" :multiple="false" :localdata='stateOption' />
+					<text class="tip">{{states}}</text>
+					<template v-if="rulo_index==1">
+						<text class="tip" v-if="formData.state">
+							\n你可以修改“姓名”数据，然后会再次进入“审核中”状态。审核期间，用户名不能修改。
+						</text>
+						<text class="tip" v-else>
+							\n审核期间，用户名不能修改。
+							你可以切换到管理员角色,更改审核状态后再来更新姓名内容。
+							但审核期间你可以更新你的昵称和电话数据
+						</text>
+					</template>
+					<text class="tip" v-if="rulo_index>1">
+						<text v-if="formData.state">
+							可以在底部工具条切换其他为用户角色,更新编辑姓名字段
+						</text>
+						<text v-else>你可以点击checkbox编辑审核状态</text>
+					</text>
+				</uni-forms-item>
+				<uni-forms-item name="phone" label="电话">
+					<uni-easyinput :disabled="!rulo_index===1" v-if="formData.phone" v-model="formData.phone" />
+					<text v-else class="tip">未登陆，账号获取不到phone字段，可以在底部工具条切换其他为用户角色查看</text>
+				</uni-forms-item>
+
+				<view class="uni-button-group" v-if="rulo_index===1&&formData._id">
+					<button type="primary" class="uni-button" @click="submit">更新</button>
+				</view>
+			</uni-forms>
 		</view>
-		<button @click="toDemo" plain type="primary">查看示例</button>
-		<!-- <image @click="previewImage('/static/permission-test-xmind.png')" src="@/static/permission-test-xmind.png" style="width: 750rpx;" mode="widthFix"></image> -->
-		
-		
-		<view class="tips">
-			<text>DB Schema的permission规则，分为两部分，一边是对操作数据的指定，一边是对角色的指定，规则中对两者进行关联，匹配则校验通过。</text>
-		</view>
-		
-		<page-head title="表级权限控制" subTitle="包括增删改查四种权限，分别称为：create、delete、update、read"></page-head>
-		<!-- <uni-section title="表级权限控制"
-			subTitle="包括增删改查四种权限，分别称为：create、delete、update、read" 
-			type="circle"
-		></uni-section> --><!-- ,任何用户,允许/拒绝操作本表增删改查。 -->
-		<uni-section title="根据true和false控制数据库的相关操作" type="circle" ></uni-section>
-			<view class="uni-title pl10">
-				配置规则：
-				<view class="code-box">
-					<text space="emsp">"permission":{</text>
-					<text space="emsp">\n "read":</text>
-					<text class="light">true</text>
-					<text space="emsp">\n}</text>
-				</view>
-				<text>含义解释：允许任何账户读取本表</text>
-			</view>
-			<button @click="getFn('uid,username,nickname,state')" plain type="primary">读取表全部数据</button>
-			<view  class="uni-title pl10">
-				配置规则：
-				<view class="code-box">
-					<text space="emsp">"permission":{</text>
-					<text space="emsp">\n  "delete":</text>
-					<text class="light">false</text>
-					<text space="emsp">\n}</text>
-				</view>
-				<text>含义解释： 禁止任何账户执行删除表中的记录操作</text>
-				<text>\n 但管理员账号不受schema限制，可在底部工具条切换成管理员角色体验</text>
-			</view>
-			<button @click="removeFn" plain type="primary">删除全部记录数据</button>
-			<!-- 你可以尝试切换任何账号，点击如上：读取和删除按钮体验。 -->
-		<uni-section title="根据操作的用户id、角色和权限数组" type="circle" ></uni-section>
-			<view  class="uni-title pl10">
-				配置规则：
-				<view class="code-box">
-					<text space="emsp">"permission":{</text>
-					<text space="emsp">\n  "create":</text>
-					<text class="light2">"auth.uid != null"</text>
-					<text space="emsp">\n}</text>
-				</view>
-				<text>含义解释：表示仅已登陆后的用户才能执行创建操作</text>
-			</view>
-			<button @click="addFn()" plain type="primary">创建一条数据</button>
-		<uni-section title="根据数据库中的目标数据记录"
-			type="circle"
-		></uni-section>
-			<view  class="uni-title pl10 uni-common-mt">
-				配置规则：
-				<view class="code-box">
-					<text>{</text>
-					<text space="emsp">\n "permission":{</text>
-					<text space="emsp">\n  "update":</text>
-					<text class="light2" space="ensp">\n        "auth.uid==doc.uid || 
-												        'AUDITOR' in auth.role || 
-												        UPDATE_USER_INFO' in auth.permission"</text>
-					<text space="emsp">\n }\n</text>
-					<text space="emsp">}</text>
-				</view>
-				<text>含义解释：\n 1.数据创建者 \n 2.角色为审核员 \n 3.拥有编辑权限; \n 三种情况，拥有字段更新权限
-				</text>
-			</view>
-			<button @click="updateFn({nickname:'新昵称'},'uid == $env.uid')" plain type="primary"><text>更新nickname="新昵称"\n（仅当前用户为创建者的数据）</text></button>
-			<button @click="updateFn({nickname:'新昵称'})" plain type="primary"><text>更新nickname="新昵称"\n（表中全部数据）</text></button>
-		<page-head title="字段级权限控制"></page-head>
-		<uni-section title="修改指定字段需要特殊角色" type="circle" ></uni-section>
-			<view  class="uni-title pl10 uni-common-mt">
-				配置规则：
-				<view class="code-box">
-					<text space="emsp">"properties":{</text>
-					<text space="emsp">\n "state":{</text>
-					<text space="emsp">\n  "permission":{ </text>
-					<text space="emsp">\n   "write":</text>
-					<text class="light2">"AUDITOR' in auth.role"</text>
-					<text space="emsp">\n  }</text>
-					<text space="emsp">\n }</text>
-					<text space="emsp">\n}</text>
-				</view>
-			</view>
-				<button @click="updateFn({state:1})" plain type="primary"><text>更新 state = 1</text></button>
-			<view  class="uni-title pl10 uni-common-mt">
-				<text>含义解释：限角色为审核员才能更新，字段state</text>
-			</view>
-			
-		<uni-section title="修改指定字段时,当前记录的某个字段应当满足某种条件" type="circle" ></uni-section>
-			<view class="uni-title pl10 uni-common-mt">
-				<view>配置规则：</view><!-- 字段的: -->
-				<view class="code-box">
-					<text space="emsp">"properties":{</text>
-					<text space="emsp">\n "username":{</text>
-					<text space="emsp">\n  "permission":{ </text>
-					<text space="emsp">\n   "write":</text>
-					<text class="light2">"doc.state != 0"</text>
-					<text space="emsp">\n  }</text>
-					<text space="emsp">\n }</text>
-					<text space="emsp">\n}</text>
-				</view>
-				<text>含义解释：表示执行该操作需要满足，update的表级权限控制外，还需要满足正在被操作的记录的字段state!=0</text>
-			</view>
-			<button @click='updateFn({username:"新姓名"})' plain type="primary"><text>更新 username:'新姓名' \n(表中全部数据)</text></button>
-			<button @click='updateFn({username:"新姓名"},"uid == $env.uid")' plain type="primary"><text>更新 username:'新姓名' \n(仅当前角色为创建者的数据)</text></button>
-			<!-- <view class="uni-title pl10 uni-common-mt">
-				<view>注意：</view>
-				<text>新创建的数据，默认字段state=0，\n</text>
-				<text>通过按钮3，新建1条数据。然后通过按钮5执行本操作，你会得到被拒绝的提示。\n</text>
-				<text>如果你执行步骤改为，按钮3-4-5将会顺利执行当前操作：修改username</text>
-			</view> -->
-		
-		<uni-section title="控制特殊字段不可读" type="circle"></uni-section>
-			<view  class="uni-title pl10 uni-common-mt">
-				配置规则：<!-- phone字段的read:"auth.uid != null" -->
-				<view class="code-box">
-					<text space="emsp">"properties":{</text>
-					<text space="emsp">\n "phone":{</text>
-					<text space="emsp">\n  "permission":{ </text>
-					<text space="emsp">\n   "read":</text>
-					<text class="light2">"auth.uid != null"</text>
-					<text space="emsp">\n  }</text>
-					<text space="emsp">\n }</text>
-					<text space="emsp">\n}</text>
-				</view>
-				<text>含义解释：综合表级任何用户可读的条件下，新增了未登录游客不能读取phone字段</text>
-			</view>
-			<button  @click="getFn('uid,username,nickname,state')" plain type="primary">读不带phone字段的数据</button>
-			<button  @click="getFn('uid,username,nickname,state,phone')" plain type="primary">读带phone字段的数据</button>
 		<set-permission ref="set-permission" @change="changePermission"></set-permission>
 	</view>
 </template>
 
 <script>
+	import validator from '@/js_sdk/validator/permission-test.js';
 	//import db from '@/js_sdk/uni-clientDB/index.js'
-	 const db = uniCloud.database()
-	const ptDb = db.collection('permission-test')
-	import uniPopup from '@/components/uni-popup/uni-popup.vue'
-	import uniPopupMessage from '@/components/uni-popup/uni-popup-message.vue'
-	import uniPopupDialog from '@/components/uni-popup/uni-popup-dialog.vue'
-	import uniNoticeBar from '@/components/uni-notice-bar/uni-notice-bar.vue'
-	import showJson from '@/components/showJson/showJson.vue';
+	const db = uniCloud.database();
+	const dbCmd = db.command;
+	const dbCollectionName = 'permission-test';
+
+	function getValidator(fields) {
+		let reuslt = {}
+		for (let key in validator) {
+			if (fields.indexOf(key) > -1) {
+				reuslt[key] = validator[key]
+			}
+		}
+		return reuslt
+	}
+
 	export default {
-		components: {
-			uniPopup,
-			uniPopupMessage,
-			uniPopupDialog,
-			uniNoticeBar,
-			showJson
-		},
 		data() {
-			return {}
+			return {
+				formData: {
+					"_id": false,
+					"nickname": "",
+					"username": "",
+					"state": 0,
+					"phone": ""
+				},
+				formOptions: {},
+				rules: {
+					...getValidator(["nickname", "username", "state", "phone"])
+				},
+				stateOption: [
+					//	{text:"审核中",value:0},
+					{
+						text: "审核通过",
+						value: 1
+					},
+					{
+						text: "审核拒绝",
+						value: -1
+					}
+				],
+				rulo_index: 0
+			}
 		},
 		mounted() {
-			uni.setStorageSync('uni_id_token', '')
-			uni.setStorageSync('uni_id_token_expired', '')
+			this.$refs['set-permission'].init(1)
 		},
-		onShow() {
-			this.$nextTick(()=>{
-				this.$refs['set-permission'].init(0)
-			})
+		computed: {
+			states() {
+				let _text;
+				[{
+						text: "审核中",
+						value: 0
+					},
+					{
+						text: "审核通过",
+						value: 1
+					},
+					{
+						text: "审核拒绝",
+						value: -1
+					}
+				].forEach(({
+					text,
+					value
+				}) => {
+					if (value == this.formData.state) {
+						_text = text
+					}
+				})
+				return "当前为"+_text+"状态。\n"
+			}
 		},
 		methods: {
-			toDemo(){
-				uni.navigateTo({
-					url:"../../permission-test/add"
-				})
-			},
-			previewImage(url){
-				uni.previewImage({
-					urls:[url]
-				})
-			},
-			addFn(){
-				uni.showLoading({mask:true})
-				ptDb.add({
-					nickname:"默认昵称",
-					username:"默认姓名",
-					phone:"18888888888"
-				}).then(e=>{
-					console.log(e);
-					uni.showModal({
-						content: '成功写入一条数据：\n{ "nickname":"默认昵称",\n "username":"默认姓名",\n "phone":"18888888888" }',
-						showCancel: false,
-						confirmText:"知道了"
-					});
-				}).catch(err=>{
+			setState(e){
+				console.log(e.detail.value);
+				db.collection(dbCollectionName).update({
+					state:e.detail.value
+				}).then((res) => {
+					this.formData.state = e.detail.value
+					uni.showToast({
+						icon: 'none',
+						title: '更新成功'
+					})
+				}).catch((err) => {
 					console.log(err);
+					console.log(JSON.stringify(err));
 					uni.showModal({
-						title:"未登录游客不能写入数据",
-						content: "请在底部工具条切换其他角色重试",
-						showCancel: false,
-						confirmText:"知道了"
-					});
+						content: err.message || '请求服务失败',
+						showCancel: false
+					})
 				}).finally(() => {
 					uni.hideLoading()
 				})
 			},
-			removeFn(){
-				uni.showLoading({mask:true})
-				ptDb.remove().then(e=>{
-					console.log(e);
-					uni.showModal({
-						content: JSON.stringify(e.result),
-						showCancel: false,
-						confirmText:"知道了"
-					});
-				}).catch(err=>{
-					console.log(err);
-					uni.showModal({
-						title:"当前角色没有该权限",
-						content: `管理员角色不受schema限制，请在底部工具条切换为管理员角色重试`,
-						showCancel: false,
-						confirmText:"知道了"
-					});
-				}).finally(() => {
-					uni.hideLoading()
-				})
+			showTip() {
+				uni.showToast({
+					title: '审核中不能编辑',
+					icon: 'none'
+				});
 			},
-			updateNickname(self){
-				
-			},
-			updateFn(data,where={}){
-				console.log("data");
-				console.log(data);
-				uni.showLoading({mask:true})
-				ptDb
-				.where(where)
-				.update(data)
-				.then(e=>{
-					console.log(e);
-					uni.showModal({
-						content: JSON.stringify(e.result),
-						showCancel: false,
-						confirmText:"知道了"
-					});
-				}).catch(err=>{
-					
-					if('nickname' in data){
-						uni.showModal({
-							title:"被拒绝，普通用户角色，只能更新自己创建的数据。",
-							content: '请在底部工具条切换为审核员角色重试',
-							showCancel: false,
-							confirmText:"知道了"
-						});
-					}else if('state' in data){
-						uni.showModal({
-							title:"当前角色无该操作权限",
-							content: '请在底部工具条切换为审核员角色重试',
-							showCancel: false,
-							confirmText:"知道了"
-						});
-					}else if("username" in data){
-						if(Object.keys(where).length === 0){
-							uni.showModal({
-								title:"根据表级updat权限设置，普通用户角色限更新自己的数据",
-								content:"请在底部工具条切换为审核员角色重试",
-								showCancel:false,
-								confirmText:"知道了"
-							})
+			changePermission({rulo,index}){
+				console.log('index', index);
+				this.rulo_index = index
+				let field = "_id,username,nickname,state";
+				let where = {}
+				if (index>0) {
+					field += ',phone';
+				}
+				if (index==1) {
+					where = "uid == $env.uid"
+				}
+				db.collection('permission-test')
+					.where(where)
+					.field(field).get().then(e => {
+						console.log(e.result.data);
+						if (e.result.data[0]){
+							this.formData = e.result.data[0]
 						}else{
-							uni.showModal({
-								title:"被拒绝，更新的数据含字段state==0的数据",
-								content:"请在底部工具条切换为审核员角色，将全部数据的state更新为1后重试",
-								showCancel:false,
-								confirmText:"知道了"
+							uni.showLoading({
+								title: '正在初始化数据',
+								mask: false
 							});
+							this.addDefaultData()
 						}
-					}else{
-						uni.showModal({
-							title:err.message,
-							showCancel: false,
-							confirmText:"知道了"
-						});
-					}
-					console.log("错误------",err);
-					console.log("错误------",err.message);
-					//console.log(err);
-					/* 
-					 */
-				/* 	uni.showModal({
-						title:"执行更新操作失败！",
-						content: "schema配置了，更新该字段限：\n 1、数据创建者，2、审核员，3、当然还有无任何权限限制的管理员",
-						showCancel: false,
-						confirmText:"知道了"
-					}); */
-				}).finally(() => {
+					}).catch((errors) => {
+						console.log(errors);
+						uni.hideLoading()
+					})
+			},
+			/**
+			 * 触发表单提交
+			 */
+			submit() {
+				uni.showLoading({
+					mask: true
+				})
+				this.$refs.form.submit().then((res) => {
+					this.submitForm(res)
+				}).catch((errors) => {
 					uni.hideLoading()
 				})
 			},
-			getFn(field='uid,username,nickname,state'){
-				uni.showLoading({mask:true})
-				ptDb.field(field).get()
-				.then(e=>{
-					console.log(e);
-					if(e.result.data.length){
-						/* uni.showModal({
-							title:"成功查询到数据",
-							content: JSON.stringify(, null, "\n"),
-							showCancel: false,
-							confirmText:"知道了"
-						}); */
-						console.log(this.$refs.showJson);
-						this.$refs.showJson.open(e.result.data)
-					}else{
-						uni.showModal({
-							title:"查询执行成功",
-							content:"但目前数据库为空,\n 请滚动页面找到【创建一条数据】点击后重试!",
-							showCancel: false,
-							confirmText:"知道了"
-						});
-					}
-				}).catch(err=>{
+			addDefaultData() {
+				console.log('addDefaultData');
+				db.collection(dbCollectionName).add({
+					"nickname":"默认昵称",
+					"username":"默认姓名",
+					"phone":"1888888888"
+				}).then((res) => {
+					console.log(res.result.id);
+					this.formData._id = res.result.id
+					uni.showToast({
+						icon: 'none',
+						title: '新增成功'
+					})
+					this.$refs['set-permission'].init(0)
+				}).catch((err) => {
 					console.log(err);
 					uni.showModal({
-						title:"当前角色无权访问含phone字段数据",
-						content: "请在底部工具条切换其他角色重试",
-						showCancel: false,
-						confirmText:"知道了"
-					});
+						content: err.message || '请求服务失败',
+						showCancel: false
+					})
 				}).finally(() => {
 					uni.hideLoading()
 				})
 			},
-			changePermission(role){
-				console.log(role);
+			submitForm(value) {
+				// 使用 uni-clientDB 提交数据
+				console.log('value._id------------------------------------------------------', this.formData._id);
+				if (this.formData._id) {
+					console.log(this.formData.state);
+					if(this.formData.state===0){
+						delete value.username
+					}
+					if (this.rulo_index <= 1) { //非管理员提交数据。state只能=0，即改状态为审核中，否则会被权限拒绝
+						delete value.state
+					}
+					console.log(value);
+					db.action('permission_test_update')
+						.collection(dbCollectionName)
+						.where("uid == $env.uid")
+						.update(value)
+						.then((res) => {
+							console.log( JSON.stringify(res.result) );
+							if (this.rulo_index <= 1 && res.result.changeState) { //非管理员提交数据。state只能=0，即改状态为审核中，否则会被权限拒绝
+								this.formData.state = 0
+							}
+							uni.showToast({
+								icon: 'none',
+								title: '更新成功'
+							})
+						}).catch((err) => {
+							console.log(err.message);
+							console.log(JSON.stringify(err));
+							uni.showModal({
+								content: err.message || '请求服务失败',
+								showCancel: false
+							})
+						}).finally(() => {
+							uni.hideLoading()
+						})
+				} else {
+					console.log('err 9527');
+				}
+
 			}
 		}
 	}
 </script>
 
 <style>
-.code-box{
-	background-color:#fffae7;
-	padding:5px 15px;
-}
-.code-box text{
-	font-size: 24rpx!important;
-	color: #2b8300!important;
-}
-.code-box .light{
-	color: #0077cc!important;
-}
-.code-box .light2{
-	color: #009891!important;
-}
-.navigator{
-	padding: 16rpx;
-	color: #586b95;
-}
-.page{
-	padding-bottom: 100px;
-	background-color: #FFFFFF;font-size: 12px;
-}
-.tip{
-	border: dashed 1px #EEEEEE;
-	border-radius: 5px;
-}
-.uni-title {
-	width: 700rpx;
-	margin:0 25rpx;
-	font-size:12px;
-	font-weight:500;
-	padding:8rpx 20rpx;
-	line-height:1.5;
-}
-.uni-title text{
-	font-size:24rpx;
-	color:#888;
-	word-break: break-word;
-}
+	.uni-container {
+		padding: 15px;
+	}
+	.uni-input-border,
+	.uni-textarea-border {
+		width: 100%;
+		font-size: 14px;
+		color: #666;
+		border: 1px #e5e5e5 solid;
+		border-radius: 5px;
+		box-sizing: border-box;
+	}
 
-.pl10{
-	padding-left: 20rpx;
-}
-.title {
-	color: #555555;
-	font-size: 16px;
-	padding:10px 10px;
-}
-.tips {
-	color: #444;
-	font-size: 14px;
-	padding:10px 20px;
-}
-.btn-box{
-}
-button{
-	width: 480rpx;
-	margin:10px auto;
-	font-size: 14px;
-	text-align: center;
-	line-height: 22px;
-	padding: 10rpx;
-}
+	.uni-input-border {
+		padding: 0 10px;
+		height: 35px;
+
+	}
+
+	.uni-textarea-border {
+		padding: 10px;
+		height: 80px;
+	}
+
+	.uni-button-group {
+		margin-top: 50px;
+		display: flex;
+		justify-content: center;
+	}
+
+	.uni-button {
+		width: 184px;
+		padding: 12px 20px;
+		font-size: 14px;
+		border-radius: 4px;
+		line-height: 1;
+		margin: 0;
+	}
+	.tip{
+		color: #DD524D;
+	}
 </style>

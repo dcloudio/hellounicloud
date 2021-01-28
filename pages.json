@@ -36,19 +36,6 @@
                 "enablePullDownRefresh": false
             }
         },
-        /* {
-            "path": "pages/schema2code-demo/schema2code-demo",
-            "style": {
-                "navigationBarTitleText": "生成表单的schema文件",
-                "enablePullDownRefresh": false
-            }
-        }, */
-        {
-            "path": "pages/permission-test/add",
-            "style": {
-                "navigationBarTitleText": "个人资料管理系统"
-            }
-        },
         {
             "path": "pages/user-info/add",
             "style": {
@@ -82,14 +69,7 @@
                 "navigationBarTitleText": "云存储",
                 "enablePullDownRefresh": false
             }
-
-        },
-        {
-            "path": "pages/database/database",
-            "style": {
-                "navigationBarTitleText": "uni-app"
-            }
-        }, 
+		},
         {
             "path": "pages/clientDB/permission/permission",
             "style": {
@@ -110,44 +90,17 @@
                 "enablePullDownRefresh": false
             }
         },
-        /* {
-            "path": "pages/schema2code/list",
-            "style": {
-                "navigationBarTitleText": "",
-                "enablePullDownRefresh": false
-            }
-
-        }, */
         {
             "path": "pages/clientDB/clientDB-api/clientDB-api",
             "style": {
                 "navigationBarTitleText": "前端操作数据库的API",
                 "enablePullDownRefresh": false
             }
-        }, {
-            "path": "pages/permission-test/edit",
-            "style": {
-                "navigationBarTitleText": "修改"
-            }
-        }, {
-            "path": "pages/permission-test/list",
-            "style": {
-                "navigationBarTitleText": ""
-            }
-        }, {
-            "path": "pages/permission-test/detail",
-            "style": {}
-        }, {
-            "path": "components/showJson/showJson",
-            "style": {
-                "navigationBarTitleText": "",
-                "enablePullDownRefresh": false
-            }
-
-        }, {
+        }, 
+        {
             "path": "pages/clientDB/unicloud-db-demo/unicloud-db-demo",
             "style": {
-                "navigationBarTitleText": "",
+                "navigationBarTitleText": "unicloud-db demo",
                 "enablePullDownRefresh": false
             }
 
@@ -180,14 +133,15 @@
         ,{
             "path" : "pages/videoPlay/videoPlay",
 			"style":{
-				"navigationBarTitleText":"schema2code操作步骤演示"
+				"navigationStyle":"custom",
+				"navigationBarTitleText":"加载中..."
 			}
         }
         ,{
             "path" : "pages/webview/webview",
             "style" :                                                                                    
             {
-                "navigationBarTitleText": "",
+                "navigationBarTitleText": "加载中...",
                 "enablePullDownRefresh": false
             }
             
