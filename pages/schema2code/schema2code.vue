@@ -4,7 +4,6 @@
 			<text class="tip">
 				schema2code是一个根据数据库schema自动生成代码的工具。它可以直接生成云端一体的列表、详情、新建、修改页面，云端一体直接可用。大幅提升开发效率。
 			</text>
-			
 			<text>\n schema路径:uniCloud/database/user-info.schema.json \n</text>
 			<button class="showSchemaCode" size="mini" @click="showSchemaCode" type="primary" plain>查看schema代码</button>
 		</view>
@@ -55,6 +54,7 @@ import schemaCode from './schemaCode';
 .dashed-box{
 	border: dashed 1px #EEEEEE;
 	border-radius: 5px;
+	width: 750rpx;
 	position: relative;
 }
 .uni-title {
@@ -80,6 +80,7 @@ text.tip{
 	background-color: #FFFFFF;
 	color: #333;
 	height: 80px;
+	width: 750rpx;
 }
 .showSchemaCode{
 	margin-top: 10px;
