@@ -38,19 +38,6 @@
 				<uni-list-item title="预置字段值 defaultValue" note="为字段设置默认值，可用schema直接修改" rightText="" />
 				<uni-list-item title="强制字段值 forceDefaultValue" note="强制设置字段值,无法用schema直接修改;但可以通过云函数(含action)修改。支持插入:当前时间戳、当前客户端IP、当前用户Id。" rightText="" />
 			</view>
-<!-- <pre>
-DB Schema配置的字段，在生成页面时使用什么组件渲染？决定关系如下：	
- ·如果配置了字段的component属性，则严格按component的配置执行。
- ·如果没有配置component属性，那么默认有如下策略：
- ·字段类型为bool时，默认使用switch组件
- ·字段类型为Array时，默认使用uni-data-checkbox组件
- ·字段类型为int时，满足以下条件，默认使用slider组件
-	必填字段
-	配置 minimum 或 maximum
- ·其他字段类型，将生成uni-easyinput组件。如果是数字类型，会同时把input的键盘类型设为数字。
- ·如果没有配label，则以title作为label，渲染在表单项前面
- ·description在渲染为input时会被设为placehold
-</pre> -->
 		</view>
 	</view>
 </template>
@@ -65,7 +52,7 @@ DB Schema配置的字段，在生成页面时使用什么组件渲染？决定�
 		components:{myForm},
 		data() {
 			return {
-				items: ['实例demo','值校验','域(范围)'],
+				items: ['实例demo','值校验文档','域校验文档'],
 				current:0
 			}
 		},

@@ -1,6 +1,9 @@
 <template>
     <view class="root">
 		<view class="uni-title dashed-box">
+			<text class="tip">
+				schema2code是一个根据数据库schema自动生成代码的工具。它可以直接生成云端一体的列表、详情、新建、修改页面，云端一体直接可用。大幅提升开发效率。\n
+			</text>
 			schema路径:
 			<text>\n uniCloud/database/user-info.schema.json \n</text>
 			<text class="link" @click="showSchemaCode">查看详情</text>

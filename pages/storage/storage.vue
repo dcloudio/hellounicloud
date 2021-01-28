@@ -1,8 +1,13 @@
 <template>
 	<view class="content">
-		<view class="title">uniCloud 基础示例</view>
+		<view class="title">直接上传文件到云存储</view>
 		<view class="tips">
-			<view>1.在uniCloud目录右键创建并关联服务空间</view>
+			<text>
+				阿里云单文件大小限制为100M，腾讯云单文件最大为5G
+				支付宝小程序开发工具上传文件到腾讯云时可能会返回失败，请以真机为准
+				各个小程序平台运行时，网络相关的 API 在使用前需要配置域名白名单。
+			</text>
+			<j-link text="参考" url="https://uniapp.dcloud.io/uniCloud/quickstart?id=%e5%b0%8f%e7%a8%8b%e5%ba%8f%e4%b8%ad%e4%bd%bf%e7%94%a8unicloud%e7%9a%84%e7%99%bd%e5%90%8d%e5%8d%95%e9%85%8d%e7%bd%ae"></j-link>
 		</view>
 		<view class="btn-list">
 			<button type="primary" @click="upload">上传文件</button>

@@ -5,17 +5,17 @@
 			<uni-segmented-control @clickItem="typeIndex = $event.currentIndex" :values="types.map(({text})=>text)"></uni-segmented-control>
 		</view>
 		<showJson ref="showJson"></showJson>
-		<view class="item" v-for="(item,index) in permissionList" v-if="item.exclude !== type">
+		<view class="item" v-for="(item,index) in permissionList" v-if="item.exclude !== type" :key="index">
 			<view class="msg">{{item.msg}}</view>
 			<text style="color: #999999;">schema路径：uniCloud/database/permission-test-{{index+1}}.schema.json\n</text>
 			<view class="code">
 				配置规则：
 				<view class="code-box">
-					<text space="emsp">"permission":{</text>
-					<text space="emsp">\n "{{type}}":</text>
+					 <text space="emsp">{{lll}}</text>
+					<!--<text space="emsp">\n "{{type}}":</text>
 					<text class="light">{{item.code}}</text>
-					<text space="emsp">\n}</text>
-				</view>
+					<text space="emsp">\n}</text>-->
+				</view> 
 				<text>含义解释：{{item.explain}}</text>
 				<text>【{{typeText}}】</text>
 				<text>{{item.explain_end}}</text>
@@ -74,6 +74,7 @@
 		},
 		data() {
 			return {
+				lll:'"permission":{',
 				types: [{
 						text: "创建",
 						value: "create"

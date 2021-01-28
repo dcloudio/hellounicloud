@@ -1,12 +1,11 @@
 {
     "pages": [ //pages数组中第一项表示应用启动页，参考：https://uniapp.dcloud.io/collocation/pages
         {
-            "path": "pages/clientDB/clientDB",
+            "path": "pages/clientDB/demo/demo",
             "style": {
-                "navigationBarTitleText": "前端操作数据库",
+                "navigationBarTitleText": "留言板",
                 "enablePullDownRefresh": false
             }
-
         },
         {
             "path": "pages/schema2code/schema2code",
@@ -32,9 +31,9 @@
 
         },
         {
-            "path": "pages/clientDB/demo/demo",
+            "path": "pages/clientDB/clientDB",
             "style": {
-                "navigationBarTitleText": "留言板",
+                "navigationBarTitleText": "前端操作数据库",
                 "enablePullDownRefresh": false
             }
         },
@@ -71,18 +70,6 @@
             "style": {}
         },
         {
-            "path": "pages/clientDB/article/list",
-            "style": {
-                "navigationBarTitleText": ""
-            }
-        },
-        {
-            "path": "pages/clientDB/article/add",
-            "style": {
-                "navigationBarTitleText": "新增"
-            }
-        },
-        {
             "path": "pages/cloudFunction/cloudFunction",
             "style": {
                 "navigationBarTitleText": "云函数",
@@ -103,12 +90,7 @@
             "style": {
                 "navigationBarTitleText": "uni-app"
             }
-        }, {
-            "path": "pages/clientDB/article/edit",
-            "style": {
-                "navigationBarTitleText": "修改"
-            }
-        },
+        }, 
         {
             "path": "pages/clientDB/permission/permission",
             "style": {
@@ -128,10 +110,6 @@
                 "navigationBarTitleText": "简单-字段级权限控制",
                 "enablePullDownRefresh": false
             }
-        },
-        {
-            "path": "pages/clientDB/article/detail",
-            "style": {}
         },
         /* {
             "path": "pages/schema2code/list",
@@ -206,33 +184,42 @@
 				"navigationBarTitleText":"schema2code操作步骤演示"
 			}
         }
+        ,{
+            "path" : "pages/webview/webview",
+            "style" :                                                                                    
+            {
+                "navigationBarTitleText": "",
+                "enablePullDownRefresh": false
+            }
+            
+        }
     ],
     "tabBar": {
         "color": "#7A7E83",
-        "selectedColor": "#3cc51f",
+        "selectedColor": "#1296db",
         "borderStyle": "black",
         "backgroundColor": "#ffffff",
         "list": [{
                 "pagePath": "pages/cloudFunction/cloudFunction",
-                "iconPath": "static/logo.png",
-                "selectedIconPath": "static/logo.png",
+                "iconPath": "static/tabbar/fn.png",
+                "selectedIconPath": "static/tabbar/fn1",
                 "text": "云函数"
             },
             {
                 "pagePath": "pages/storage/storage",
-                "iconPath": "static/logo.png",
-                "selectedIconPath": "static/logo.png",
+                "iconPath": "static/tabbar/storage.png",
+                "selectedIconPath": "static/tabbar/storage1.png",
                 "text": "云存储"
             },
             {
                 "pagePath": "pages/clientDB/clientDB",
-                "iconPath": "static/logo.png",
-                "selectedIconPath": "static/logo.png",
+                "iconPath": "static/tabbar/yun.png",
+                "selectedIconPath": "static/tabbar/yun1.png",
                 "text": "clientDB"
             }, {
                 "pagePath": "pages/schema2code/schema2code",
-                "iconPath": "static/logo.png",
-                "selectedIconPath": "static/logo.png",
+                "iconPath": "/static/tabbar/st-code.png",
+                "selectedIconPath": "static/tabbar/st-code1.png",
                 "text": "schema2code"
             }
         ]

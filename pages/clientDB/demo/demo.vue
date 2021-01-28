@@ -6,7 +6,7 @@
 			<view class="let-box">
 				<text>体验说明</text><uni-icons size="14" color="#aaaaaa" @click="$refs.helpPopup.open()" type="info"></uni-icons>
 			</view>
-			<text @click="$refs.dialog.open()" class="comment-btn">写留言</text>
+			<text @click="selfId?$refs.dialog.open():tipLogin()" class="comment-btn">写留言</text>
 		</view>
 		<unicloud-db ref="udb" v-slot:default="{data, loading, error, options}" :options="options"
 			page-data="replace"
@@ -117,6 +117,13 @@
 			this.getNoticeData()
 		},
 		methods: {
+			tipLogin(){
+				uni.showModal({
+					content: '未登陆游客不能写留言！可在底部工具条切换成其他角色体验',
+					showCancel: false,
+					confirmText:"知道了"
+				});
+			},
 			changePermission(role){
 				this.selfId = role.uid
 				console.log(role);
@@ -157,9 +164,28 @@
 			async updateState(e,_id){
 				console.log(e.detail.value,_id);
 				uni.showLoading({mask: true});
-				await this.$refs.udb.update(_id, {"state":e.detail.value/1},  {
-					toastTitle: '修改成功', // toast提示语
+				db.collection('comment')
+					.doc(_id)
+					.update({"state":e.detail.value/1})
+					.then(({code,message})=>{
+						uni.showToast({
+							title:'已切换为:'+(e.detail.value?'审核通过':'审核中'),
+							icon: 'none',
+							duration:3000
+						});
+						console.log(code, message);
+					}).catch(({code,message})=>{
+						console.log(code,message);
+					}).finally(e=>{
+						uni.hideLoading()
+						this.$refs.upDataDialog.close()
+					})
+				/* await this.$refs.udb.update(_id, {"state":e.detail.value/1},  {
 					success: (res) => { // 更新成功后的回调
+						uni.showToast({
+							title: e.detail.value?'审核通过':'审核中',
+							icon: 'none'
+						});
 						const { code, message } = res
 						console.log(code, message);
 					},
@@ -170,7 +196,7 @@
 						uni.hideLoading()
 						this.$refs.upDataDialog.close()
 					}
-				})
+				}) */
 			},
 			async updateComment(text){
 				console.log(text);
@@ -217,11 +243,14 @@
 				}).then(res => {
 					console.log(res);
 					this.getNewData()
-				}).catch((err)=>{
-					uni.showToast({
-						title: err.message,
-						icon: 'none'
-					});
+				}).catch(({code,message})=>{
+					if(code=='TOKEN_INVALID_ANONYMOUS_USER'){
+						uni.showModal({
+							content: '未登陆游客不能写留言',
+							showCancel: false
+						});
+					}
+					console.log(code,message);
 				})
 			},
 			getNewData(){
