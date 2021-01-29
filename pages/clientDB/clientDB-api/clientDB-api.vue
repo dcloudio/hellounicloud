@@ -1,6 +1,6 @@
 <template>
 	<view>
-		<showJson ref="showJson"></showJson>
+		<alertCode ref="alertCode"></alertCode>
 		
 		<view class="tips">
 			<view>schema配置详见uniCloud-aliyun/database下的book.schema.json、order.schema.json</view>
@@ -110,14 +110,14 @@
 					dataList.push({"data":Math.ceil(Math.random()*999)})
 				}
 				db.collection('test').add(dataList).then(res=>{
-					this.$refs.showJson.open(res.result)
+					this.$refs.alertCode.open(res.result)
 					uni.hideLoading()
 				})
 			},
 			addData2TestDb(){
 				uni.showLoading({mask: false});
 				db.collection('test').add({data:Date.now()}).then(res=>{
-					this.$refs.showJson.open(res.result)
+					this.$refs.alertCode.open(res.result)
 					uni.hideLoading()
 				})
 			},
@@ -130,7 +130,7 @@
 							data:Date.now()
 						}).then(res=>{
 							console.log(res);
-							this.$refs.showJson.open(res.result)
+							this.$refs.alertCode.open(res.result)
 							uni.hideLoading()
 						})
 					}else{
@@ -149,7 +149,7 @@
 					if(data){
 						testDb.doc(data._id).remove().then(res=>{
 							console.log(res);
-							this.$refs.showJson.open(res.result)
+							this.$refs.alertCode.open(res.result)
 							uni.hideLoading()
 						})
 					}else{
@@ -188,7 +188,7 @@
 				db.collection(tableName)
 					.get()
 					.then(res => {
-						this.$refs.showJson.open(res.result)
+						this.$refs.alertCode.open(res.result)
 						// uni.showModal({
 						// 	content: JSON.stringify(res.result.data),
 						// 	showCancel: false
@@ -207,7 +207,7 @@
 					.field('book_id{title,author},quantity') // 这里联表查询book表返回book表内的title、book表内的author、order表内的quantity
 					.get()
 					.then(res => {
-						this.$refs.showJson.open(res.result)
+						this.$refs.alertCode.open(res.result)
 						// uni.showModal({
 						// 	content: JSON.stringify(res.result.data),
 						// 	showCancel: false
@@ -224,7 +224,7 @@
 				db.collection('book')
 					.get({getOne:true})
 					.then(res => {
-						this.$refs.showJson.open(res.result)
+						this.$refs.alertCode.open(res.result)
 						// uni.showModal({
 						// 	content: JSON.stringify(res.result.data),
 						// 	showCancel: false
@@ -242,7 +242,7 @@
 					.field('title')
 					.get()
 					.then(res => {
-						this.$refs.showJson.open(res.result)
+						this.$refs.alertCode.open(res.result)
 						// uni.showModal({
 						// 	content: JSON.stringify(res.result.data),
 						// 	showCancel: false
@@ -260,7 +260,7 @@
 					.field('title,author as book_author')
 					.get()
 					.then(res => {
-						this.$refs.showJson.open(res.result)
+						this.$refs.alertCode.open(res.result)
 						// uni.showModal({
 						// 	content: JSON.stringify(res.result.data),
 						// 	showCancel: false
@@ -277,7 +277,7 @@
 					.orderBy(str)
 					.get()
 					.then(res => {
-						this.$refs.showJson.open(res.result)
+						this.$refs.alertCode.open(res.result)
 						// uni.showModal({
 						// 	content: JSON.stringify(res.result.data),
 						// 	showCancel: false
@@ -297,7 +297,7 @@
 							content: JSON.stringify(),
 							showCancel: false
 						}); */
-						this.$refs.showJson.open(res.result)
+						this.$refs.alertCode.open(res.result)
 					}).catch(err => {
 						console.error(err)
 					}).finally(() => {
@@ -319,7 +319,7 @@
 						content: JSON.stringify(resdata),
 						showCancel: false
 					}) */
-					this.$refs.showJson.open(resdata)
+					this.$refs.alertCode.open(resdata)
 				}).catch((err) => {
 					uni.showModal({
 						content: err.message || '请求服务失败',
@@ -338,7 +338,7 @@
 							.limit(this.pageCurrent)
 							.get()
 				console.log(res);
-				this.$refs.showJson.open(res.result.data)
+				this.$refs.alertCode.open(res.result.data)
 				uni.hideLoading()
 			}
 		}

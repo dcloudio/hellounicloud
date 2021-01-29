@@ -1,0 +1,8 @@
+
+.ico{
+	font-size: 14px;
+	color: #007AFF;
+	padding-right:6px;
+	margin-top: 5px;
+}
+

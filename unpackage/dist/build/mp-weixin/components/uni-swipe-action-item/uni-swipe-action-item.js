@@ -1,0 +1,10 @@
+(global["webpackJsonp"]=global["webpackJsonp"]||[]).push([["components/uni-swipe-action-item/uni-swipe-action-item"],{"10f3":function(t,e,n){"use strict";var o=function(t){t.options.wxsCallMethods||(t.options.wxsCallMethods=[]),t.options.wxsCallMethods.push("closeSwipe"),t.options.wxsCallMethods.push("change")};e["a"]=o},"6bdf":function(t,e,n){"use strict";n.r(e);var o=n("ce00"),u=n("7319");for(var a in u)"default"!==a&&function(t){n.d(e,t,(function(){return u[t]}))}(a);n("f775");var i,r=n("f0c5"),f=n("10f3"),s=Object(r["a"])(u["default"],o["b"],o["c"],!1,null,"53a22c46",null,!1,o["a"],i);"function"===typeof f["a"]&&Object(f["a"])(s),e["default"]=s.exports},7319:function(t,e,n){"use strict";n.r(e);var o=n("849e"),u=n.n(o);for(var a in o)"default"!==a&&function(t){n.d(e,t,(function(){return o[t]}))}(a);e["default"]=u.a},"849e":function(t,e,n){"use strict";Object.defineProperty(e,"__esModule",{value:!0}),e.default=void 0;var o=u(n("2935"));function u(t){return t&&t.__esModule?t:{default:t}}var a={mixins:[o.default],props:{show:{type:String,default:"none"},disabled:{type:Boolean,default:!1},autoClose:{type:Boolean,default:!0},threshold:{type:Number,default:20},leftOptions:{type:Array,default:function(){return[]}},rightOptions:{type:Array,default:function(){return[]}}},inject:["swipeaction"]};e.default=a},a6f8:function(t,e,n){},ce00:function(t,e,n){"use strict";var o;n.d(e,"b",(function(){return u})),n.d(e,"c",(function(){return a})),n.d(e,"a",(function(){return o}));var u=function(){var t=this,e=t.$createElement;t._self._c},a=[]},f775:function(t,e,n){"use strict";var o=n("a6f8"),u=n.n(o);u.a}}]);
+;(global["webpackJsonp"] = global["webpackJsonp"] || []).push([
+    'components/uni-swipe-action-item/uni-swipe-action-item-create-component',
+    {
+        'components/uni-swipe-action-item/uni-swipe-action-item-create-component':(function(module, exports, __webpack_require__){
+            __webpack_require__('543d')['createComponent'](__webpack_require__("6bdf"))
+        })
+    },
+    [['components/uni-swipe-action-item/uni-swipe-action-item-create-component']]
+]);

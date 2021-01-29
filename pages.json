@@ -7,6 +7,21 @@
                 "enablePullDownRefresh": false
             }
         },
+		{
+            "path" : "pages/test/test",
+            "style" :                                                                                    
+            {
+                "navigationBarTitleText": "",
+                "enablePullDownRefresh": false
+            }
+        },
+		{
+            "path": "pages/clientDB/unicloud-db-demo/unicloud-db-demo",
+            "style": {
+                "navigationBarTitleText": "unicloud-db demo",
+                "enablePullDownRefresh": false
+            }
+        },
         {
             "path": "pages/clientDB/demo/demo",
             "style": {
@@ -20,15 +35,15 @@
                 "navigationBarTitleText": "表级-简单权限控制",
                 "enablePullDownRefresh": false
             }
-
-        }, {
+        },
+		/* {
             "path": "pages/clientDB/permission-table-compound/permission-table-compound",
             "style": {
                 "navigationBarTitleText": "表级-复杂权限控制",
                 "enablePullDownRefresh": false
             }
 
-        },
+        }, */
         {
             "path": "pages/clientDB/clientDB",
             "style": {
@@ -77,27 +92,27 @@
                 "enablePullDownRefresh": false
             }
         },
-        {
+        /* {
             "path": "pages/clientDB/permission-demo/permission-demo",
             "style": {
                 "navigationBarTitleText": "角色权限",
                 "enablePullDownRefresh": false
             }
-        },
-		{
+        }, */
+		/* {
 		    "path": "pages/clientDB/permission-demo/readme",
 		    "style": {
 		        "navigationBarTitleText": "角色权限",
 		        "enablePullDownRefresh": false
 		    }
-		},
-		{
+		}, */
+		/* {
             "path": "pages/clientDB/permission-field-simple/permission-field-simple",
             "style": {
                 "navigationBarTitleText": "简单-字段级权限控制",
                 "enablePullDownRefresh": false
             }
-        },
+        }, */
         {
             "path": "pages/clientDB/clientDB-api/clientDB-api",
             "style": {
@@ -105,21 +120,14 @@
                 "enablePullDownRefresh": false
             }
         }, 
-        {
-            "path": "pages/clientDB/unicloud-db-demo/unicloud-db-demo",
-            "style": {
-                "navigationBarTitleText": "unicloud-db demo",
-                "enablePullDownRefresh": false
-            }
-
-        }, {
+		/* {
             "path": "pages/clientDB/validate/validate",
             "style": {
                 "navigationBarTitleText": "字段值域验证",
                 "enablePullDownRefresh": false
             }
 
-        }, {
+        }, */ {
             "path": "pages/validate-demo/add",
             "style": {
                 "navigationBarTitleText": "新增"

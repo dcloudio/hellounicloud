@@ -1,0 +1,1 @@
+<view><alert-code class="vue-ref" vue-id="f4372d00-1" data-ref="alertCode" bind:__l="__l"></alert-code><button type="default" data-event-opts="{{[['tap',[['openFn']]]]}}" bindtap="__e">alertCode</button></view>

@@ -8,7 +8,7 @@
 			<button class="showSchemaCode" size="mini" @click="showSchemaCode" type="primary" plain>查看schema代码</button>
 		</view>
 		<j-video :url="videoUrl" title="schema2code步骤演示" height="421rpx" width="750rpx"></j-video>
-		<showJson ref="showJson"></showJson>
+		<alertCode ref="alertCode"></alertCode>
 		<button class="toForm" @click="toForm" type="primary" size="mini" plain>前往生成的云端一体页面</button>
     </view>
 </template>
@@ -24,7 +24,7 @@ import schemaCode from './schemaCode';
         },
         methods: {
 			showSchemaCode(){
-				this.$refs.showJson.open(schemaCode)
+				this.$refs.alertCode.open(schemaCode)
 			},
 			toForm(){
 				uni.navigateTo({
@@ -35,7 +35,7 @@ import schemaCode from './schemaCode';
     }
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
 .code-view{
 	height:750rpx;
 	width: 750rpx;
@@ -50,6 +50,7 @@ import schemaCode from './schemaCode';
 }
 .root{
 	//padding-bottom: 86px;
+	flex-direction: column;
 }
 .dashed-box{
 	border: dashed 1px #EEEEEE;

@@ -1,0 +1,7 @@
+{
+  "navigationBarTitleText": "云存储",
+  "enablePullDownRefresh": false,
+  "usingComponents": {
+    "j-link": "/components/j-link/j-link"
+  }
+}

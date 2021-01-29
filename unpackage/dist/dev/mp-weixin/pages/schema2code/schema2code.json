@@ -1,0 +1,8 @@
+{
+  "navigationBarTitleText": "schema2code",
+  "enablePullDownRefresh": false,
+  "usingComponents": {
+    "j-video": "/components/j-video/j-video",
+    "alert-code": "/components/alertCode/alertCode"
+  }
+}

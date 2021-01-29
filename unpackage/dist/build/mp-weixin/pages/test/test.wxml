@@ -1,0 +1,1 @@
+<view><show-code vue-id="f4372d00-1" codes="{{schemaCode}}" bind:__l="__l"></show-code></view>

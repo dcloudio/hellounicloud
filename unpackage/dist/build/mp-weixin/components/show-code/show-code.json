@@ -1,0 +1,6 @@
+{
+  "component": true,
+  "usingComponents": {
+    "e-code": "/components/show-code/eCode"
+  }
+}

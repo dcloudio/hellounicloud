@@ -1,6 +1,7 @@
 <template>
 	<view class="root">
 		<unicloud-db ref="udb" v-slot:default="{data, loading, error, options,pagination,hasMore}"
+			:options="options"
 			:page-data="pageData"
 			:collection="collection"
 			:field="field.join(',')"
@@ -15,14 +16,8 @@
 						<text>查询匹配条数：{{getcount?pagination.count:"未知"}}，当前页数据条数：{{data.length}}。</text>
 					</view>
 					<view class="code">
-						<template v-if="loading">
-							<view>加载中...</view>
-						</template>
-						<template v-else>
-							<text class="text" space="emsp">
-							{{JSON.stringify(data,null,'\t &nbsp;')}}
-							</text>
-						</template>
+						<view v-if="loading">加载中...</view>
+						<showCode v-else :codes="data"></showCode>
 					</view>
 					<text class="hasMore" v-if="!hasMore&&!loading">没有更多数据了</text>
 				</view>
@@ -44,10 +39,7 @@
 		<template v-if="!getone">
 			<view class="item">
 				<text class="title">分页策略选择（page-data）</text>
-				<uni-data-checkbox v-model="pageData" :localdata='[
-					{"text":"add",value:"add"},
-					{"text":"replace",value:"replace"}
-				]' />
+				<uni-data-checkbox v-model="pageData" :localdata='pageDataList' />
 				<text class="msg">值为 add 代表下一页的数据追加到之前的数据中，常用于滚动到底加载下一页；值为 replace 时则替换当前data数据，常用于PC式交互，列表底部有页码分页按钮，默认值为add</text>
 			</view>
 			<view v-if="pageData == 'replace'" class="item row">
@@ -94,20 +86,24 @@
 
 <script>
 	var udb;
+	import showCode from '@/components/show-code/show-code';
 	export default {
+		components:{showCode},
 		data() {
 			return {
+				options:{a:'123'},
 				collection:"order",
 				fields:['book_id','create_date','quantity'],
 				field:['book_id','create_date','quantity'],
 				pageData:"replace",
+				pageDataList:[{"text":"add",value:"add"},{"text":"replace",value:"replace"}],
 				pageSize:2,
 				orderbyArr:[],
 				orderbyObj:{},
 				orderby:'',
 				getone:false,
 				pageCurrent:1,
-				getcount:true
+				getcount:true,
 			}
 		},
 		mounted() {

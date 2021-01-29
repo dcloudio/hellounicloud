@@ -1,6 +1,6 @@
 <template>
 	<view class="page">
-		<showJson ref="showJson"></showJson>
+		<alertCode ref="alertCode"></alertCode>
 		<uniNoticeBar showIcon="true" iconType="info" text="管理员(admin)拥有任何权限,权限控制对其无效。"></uniNoticeBar>
 		<!-- <view class="tips">
 			<text>DB Schema的数据权限系统permission，是为clientDB设计的。
@@ -165,14 +165,14 @@
 	import uniPopupMessage from '@/components/uni-popup/uni-popup-message.vue'
 	import uniPopupDialog from '@/components/uni-popup/uni-popup-dialog.vue'
 	import uniNoticeBar from '@/components/uni-notice-bar/uni-notice-bar.vue'
-	import showJson from '@/components/showJson/showJson.vue';
+	import alertCode from '@/components/alertCode/alertCode.vue';
 	export default {
 		components: {
 			uniPopup,
 			uniPopupMessage,
 			uniPopupDialog,
 			uniNoticeBar,
-			showJson
+			alertCode
 		},
 		data() {
 			return {}
@@ -326,8 +326,8 @@
 							showCancel: false,
 							confirmText:"知道了"
 						}); */
-						console.log(this.$refs.showJson);
-						this.$refs.showJson.open(e.result.data)
+						console.log(this.$refs.alertCode);
+						this.$refs.alertCode.open(e.result.data)
 					}else{
 						uni.showModal({
 							title:"查询执行成功",

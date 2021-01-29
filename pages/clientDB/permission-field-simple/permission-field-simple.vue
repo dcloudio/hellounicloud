@@ -4,7 +4,7 @@
 			<uniNoticeBar showIcon="true" iconType="info" text="管理员(admin)拥有任何权限,权限控制对其无效。"></uniNoticeBar>
 			<uni-segmented-control @clickItem="typeIndex = $event.currentIndex" :values="types.map(({text})=>text)"></uni-segmented-control>
 		</view>
-		<showJson ref="showJson"></showJson>
+		<alertCode ref="alertCode"></alertCode>
 		<view class="item" v-for="(item,index) in permissionList" v-if="item.exclude !== type">
 			<view class="msg">{{item.msg}}</view>
 			<text style="color: #999999;">schema路径：uniCloud/database/permission-test-{{index+10}}.schema.json\n</text>
@@ -44,14 +44,14 @@
 	import uniPopupMessage from '@/components/uni-popup/uni-popup-message.vue'
 	import uniPopupDialog from '@/components/uni-popup/uni-popup-dialog.vue'
 	import uniNoticeBar from '@/components/uni-notice-bar/uni-notice-bar.vue'
-	import showJson from '@/components/showJson/showJson.vue';
+	import alertCode from '@/components/alertCode/alertCode.vue';
 	export default {
 		components: {
 			uniPopup,
 			uniPopupMessage,
 			uniPopupDialog,
 			uniNoticeBar,
-			showJson
+			alertCode
 		},
 		computed: {
 			type() {
@@ -181,7 +181,7 @@
 					content: JSON.stringify(res.result),
 					showCancel: false
 				}); */
-				this.$refs.showJson.open(res.result)
+				this.$refs.alertCode.open(res.result)
 				
 			},
 			changePermission(role) {
