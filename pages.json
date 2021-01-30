@@ -36,14 +36,14 @@
                 "enablePullDownRefresh": false
             }
         },
-		/* {
+		{
             "path": "pages/clientDB/permission-table-compound/permission-table-compound",
             "style": {
                 "navigationBarTitleText": "表级-复杂权限控制",
                 "enablePullDownRefresh": false
             }
 
-        }, */
+        }, /* */
         {
             "path": "pages/clientDB/clientDB",
             "style": {
@@ -106,13 +106,13 @@
 		        "enablePullDownRefresh": false
 		    }
 		}, */
-		/* {
+		{
             "path": "pages/clientDB/permission-field-simple/permission-field-simple",
             "style": {
                 "navigationBarTitleText": "简单-字段级权限控制",
                 "enablePullDownRefresh": false
             }
-        }, */
+        },
         {
             "path": "pages/clientDB/clientDB-api/clientDB-api",
             "style": {

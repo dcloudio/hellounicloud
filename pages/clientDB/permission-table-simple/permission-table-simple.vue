@@ -10,13 +10,9 @@
 			<text style="color: #999999;">schema路径：uniCloud/database/permission-test-{{index+1}}.schema.json\n</text>
 			<view class="code">
 				配置规则：
-				<view class="code-box">
-<!-- 					<text space="emsp">"permission"</text>
-					<view>%7B</view>
-					<text space="emsp">\n "{{type}}":</text>
-					<text class="light">{{item.code}}</text>
-					<text space="emsp">\n</text> -->
-				</view> 
+				<scroll-view scroll-x class="code-box">
+					<show-code :codes="item.codes[type]"></show-code>
+				</scroll-view> 
 				<text>含义解释：{{item.explain}}</text>
 				<text>【{{typeText}}】</text>
 				<text>{{item.explain_end}}</text>
@@ -136,6 +132,24 @@
 		mounted() {
 			uni.setStorageSync('uni_id_token', '')
 			uni.setStorageSync('uni_id_token_expired', '')
+		},
+		watch:{
+			typeIndex:{
+				handler(typeIndex){
+					console.log(typeIndex);
+					for (let i = 0; i < this.permissionList.length; i++) {
+						let jsonString = `{
+							"${this.type}":{
+								"permission":{
+									"${this.type}":"${this.permissionList[i].code}"
+								}
+							}
+						}`
+						this.permissionList[i].codes = JSON.parse(jsonString)
+					}
+				},
+				immediate: true
+			}
 		},
 		methods: {
 			async myFn(e) { // {type:'',tableName:'',index,action:'',where:{}}

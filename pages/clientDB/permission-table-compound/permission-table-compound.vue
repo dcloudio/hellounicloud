@@ -5,22 +5,18 @@
 			<uni-segmented-control @clickItem="typeIndex = $event.currentIndex" :current="typeIndex" :values="types.map(({text})=>text)"></uni-segmented-control>
 		</view>
 		<alertCode ref="alertCode"></alertCode>
-		<view class="item" v-for="(item,index) in permissionList" v-if="item.exclude !== type">
+		<view class="item" v-for="(item,index) in permissionList" :key="index" v-if="item.exclude !== type">
 			<view class="msg">{{item.msg}}</view>
 			<text style="color: #999999;">schema路径：uniCloud/database/permission-test-{{index+8}}.schema.json\n</text>
 			<view class="code">
 				配置规则：
-				<view class="code-box">
-					<text space="emsp">"permission":{</text>
-					<text space="emsp">\n "{{type}}":</text>
-					<text class="light">{{item.code}}</text>
-					<text space="emsp">\n}</text>
-				</view>
+				<scroll-view scroll-x class="code-box">
+					<show-code :codes="item.codes[type]"></show-code>
+				</scroll-view>
 				<text>含义解释：{{item.explain}}</text>
 				<text>【{{types[typeIndex].text}}】</text>
 				<text>{{item.explain_end}}</text>
 			</view>
-			
 			<template v-if="index===0&&type!='create'">
 				<button type="primary" size="mini" @click="myFn({type:'create',index})">创建数据</button>
 				<button type="primary" size="mini" @click="myFn({type:'read',index,where:'create_time > '+(Date.now()-60000)})">{{typeText}}一分钟内的数据</button>
@@ -59,6 +55,24 @@
 			},
 			typeText() {
 				return this.types[this.typeIndex].text
+			}
+		},
+		watch:{
+			typeIndex:{
+				handler(typeIndex){
+					console.log(typeIndex);
+					for (let i = 0; i < this.permissionList.length; i++) {
+						let jsonString = `{
+							"${this.type}":{
+								"permission":{
+									"${this.type}":"${this.permissionList[i].code}"
+								}
+							}
+						}`
+						this.permissionList[i].codes = JSON.parse(jsonString)
+					}
+				},
+				immediate: true
 			}
 		},
 		data() {
@@ -222,6 +236,7 @@
 	.code-box {
 		background-color: #fffae7;
 		padding: 5px 15px;
+		width: 650rpx;
 	}
 
 	.code-box text {

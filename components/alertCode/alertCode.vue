@@ -1,43 +1,49 @@
 <template>
-	<view>
-		<uni-popup ref="pop">
-			<scroll-view scroll-x scroll-y class="box" show-scrollbar>
-				<show-code v-if="codes" :codes="codes"></show-code>
-				<!-- <text class="text" space="emsp">{{JSON.stringify(codes,null,' ')}}</text> -->
-			</scroll-view>
-		</uni-popup>
+	<view class="box" @click="isShow=false" :class="{isShow:isShow}">
+		<scroll-view scroll-x scroll-y @click.stop="" class="scroll-view" style="overflow: auto;">
+			<show-code v-if="codes" :codes="codes"></show-code>
+		</scroll-view>
 	</view>
 </template>
-
 <script>
 	export default {
 		data() {
 			return {
-				codes: false
+				codes: false,
+				isShow:false
 			}
-		},
-		mounted() {
-			// this.open()
 		},
 		methods: {
 			open(codes) {
 				this.codes = codes||{}
-				this.$refs.pop.open()
+				this.isShow = true
 			}
 		}
 	}
 </script>
-
 <style lang="scss" scoped>
 .box{
-	width: 650rpx;
-	overflow: auto;
-	max-height:60vh;
-	padding: 15rpx;
-	background-color:#fffae7;
-	color: #2b8300!important;
+	width: 100vw;
+	height: 100vh;
+	background-color: rgba(0,0,0,0.2);
+	position: fixed;
+	top: 0;
+	left: 100vw;
+	z-index: 999;
+	opacity:0;
+	transition: opacity 0.3s;
+	justify-content: center;
+	align-items: center;
+	display: flex;
 }
-.text{
-	font-size: 14px;
+.scroll-view{
+	background-color: #FFFAE7;
+	padding:14px 18rpx;
+	width: 610rpx;
+	max-height: 60vh;
+}
+.isShow{
+	opacity:1;
+	left: 0;
 }
 </style>

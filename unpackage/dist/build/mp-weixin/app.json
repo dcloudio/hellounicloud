@@ -5,6 +5,7 @@
     "pages/clientDB/unicloud-db-demo/unicloud-db-demo",
     "pages/clientDB/demo/demo",
     "pages/clientDB/permission-table-simple/permission-table-simple",
+    "pages/clientDB/permission-table-compound/permission-table-compound",
     "pages/clientDB/clientDB",
     "pages/user-info/add",
     "pages/user-info/edit",

@@ -10,16 +10,9 @@
 			<text style="color: #999999;">schema路径：uniCloud/database/permission-test-{{index+10}}.schema.json\n</text>
 			<view class="code">
 				配置规则
-				<view class="code-box">
-					<text space="emsp">"properties":{</text>
-					<text space="emsp">\n "{{item.field}}":{</text>
-					<text space="emsp">\n  "permission":{ </text>
-					<text space="emsp">\n   "{{type=='read'?'read':'write'}}:</text>
-					<text class="light">{{item.code}}</text>
-					<text space="emsp">\n  }</text>
-					<text space="emsp">\n }</text>
-					<text space="emsp">\n}</text>
-				</view>
+				<scroll-view scroll-x class="code-box">
+					<show-code :codes="item.codes[type]"></show-code>
+				</scroll-view>
 				<text>含义解释：{{item.explain}}</text>
 				<text>【{{typeText}}】</text>
 				<text>{{item.explain_end}}</text>
@@ -59,6 +52,28 @@
 			},
 			typeText() {
 				return this.types[this.typeIndex].text
+			}
+		},
+		watch:{
+			typeIndex:{
+				handler(typeIndex){
+					console.log(typeIndex);
+					for (let i = 0; i < this.permissionList.length; i++) {
+						let jsonString = `{
+							"${this.type}":{
+								"properties":{
+									"${this.permissionList[i].field}":{
+										"permission":{
+											"${this.type}":"${this.permissionList[i].code}"
+										}
+									}
+								}
+							}
+						}`
+						this.permissionList[i].codes = JSON.parse(jsonString)
+					}
+				},
+				immediate: true
 			}
 		},
 		data() {

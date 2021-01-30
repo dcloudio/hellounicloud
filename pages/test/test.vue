@@ -1,5 +1,6 @@
 <template>
 	<view>
+		<!-- <show-code :codes="schemaCode"></show-code> -->
 		<alertCode ref="alertCode"></alertCode>
 		<button @click="openFn()" type="default">alertCode</button>
 		<!-- <view v-for="(value,key) in schemaCode">

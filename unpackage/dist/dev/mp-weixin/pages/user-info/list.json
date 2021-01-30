@@ -1,7 +1,6 @@
 {
   "navigationBarTitleText": "",
   "usingComponents": {
-    "list-unicloud-db-default": "/pages/user-info/list-unicloud-db-default",
     "unicloud-db": "/node-modules/@dcloudio/uni-cli-shared/components/unicloud-db",
     "uni-list": "/components/uni-list/uni-list",
     "uni-list-item": "/components/uni-list-item/uni-list-item",

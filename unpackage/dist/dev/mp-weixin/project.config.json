@@ -9,24 +9,26 @@
   },
   "compileType": "miniprogram",
   "libVersion": "",
-  "appid": "wx07597007230e3702",
+  "appid": "wx81dbb061d2258234",
   "projectname": "hello uniCloud",
   "condition": {
-    "search": {
-      "current": -1,
-      "list": []
-    },
-    "conversation": {
-      "current": -1,
+    "plugin": {
       "list": []
     },
     "game": {
-      "current": -1,
+      "list": []
+    },
+    "gamePlugin": {
       "list": []
     },
     "miniprogram": {
-      "current": -1,
-      "list": []
+      "list": [
+        {
+          "name": "pages/clientDB/permission-table-compound/permission-table-compound",
+          "pathName": "pages/clientDB/permission-table-compound/permission-table-compound",
+          "scene": null
+        }
+      ]
     }
   }
 }

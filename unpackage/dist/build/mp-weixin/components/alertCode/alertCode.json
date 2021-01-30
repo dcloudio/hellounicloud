@@ -1,7 +1,6 @@
 {
+  "component": true,
   "usingComponents": {
-    "uni-popup": "/components/uni-popup/uni-popup",
     "show-code": "/components/show-code/show-code"
-  },
-  "component": true
+  }
 }
