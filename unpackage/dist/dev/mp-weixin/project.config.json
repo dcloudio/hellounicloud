@@ -26,6 +26,18 @@
         {
           "name": "pages/clientDB/permission-table-compound/permission-table-compound",
           "pathName": "pages/clientDB/permission-table-compound/permission-table-compound",
+          "query": "",
+          "scene": null
+        },
+        {
+          "name": "pages/clientDB/permission-field-simple/permission-field-simple",
+          "pathName": "pages/clientDB/permission-field-simple/permission-field-simple",
+          "query": "",
+          "scene": null
+        },
+        {
+          "name": "pages/clientDB/permission-demo/readme",
+          "pathName": "pages/clientDB/permission-demo/readme",
           "scene": null
         }
       ]

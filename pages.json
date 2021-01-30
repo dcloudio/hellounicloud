@@ -92,20 +92,20 @@
                 "enablePullDownRefresh": false
             }
         },
-        /* {
+        {
             "path": "pages/clientDB/permission-demo/permission-demo",
             "style": {
                 "navigationBarTitleText": "角色权限",
                 "enablePullDownRefresh": false
             }
-        }, */
-		/* {
+        },
+		{
 		    "path": "pages/clientDB/permission-demo/readme",
 		    "style": {
 		        "navigationBarTitleText": "角色权限",
 		        "enablePullDownRefresh": false
 		    }
-		}, */
+		},
 		{
             "path": "pages/clientDB/permission-field-simple/permission-field-simple",
             "style": {

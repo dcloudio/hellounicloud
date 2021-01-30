@@ -2,13 +2,6 @@
 	<view class="page">
 		<alertCode ref="alertCode"></alertCode>
 		<uniNoticeBar showIcon="true" iconType="info" text="管理员(admin)拥有任何权限,权限控制对其无效。"></uniNoticeBar>
-		<!-- <view class="tips">
-			<text>DB Schema的数据权限系统permission，是为clientDB设计的。
-			因为在云函数中操作数据库，是管理员权限。云函数代码可以完整控制数据库的增删改查操作。而前端是不能任意操作数据库的。
-			在过去，开发者需要在后端写代码来处理权限控制，但实际上有了DB Schema，这种权限控制的后台代码就不用再写了。
-			只要配好DB Schema，放开让前端写业务即可。配置里声明不能读写的数据，前端就无法读写。
-			</text>
-		</view> -->
 		
 		<view class="uni-title tip">
 			一、示例简介
@@ -23,7 +16,6 @@
 			<text>\n username(姓名), state(审核状态), nickname(昵称), phone(手机号码)</text>
 		</view>
 		<button @click="toDemo" plain type="primary">查看示例</button>
-		<!-- <image @click="previewImage('/static/permission-test-xmind.png')" src="@/static/permission-test-xmind.png" style="width: 750rpx;" mode="widthFix"></image> -->
 		
 		
 		<view class="tips">
@@ -31,30 +23,28 @@
 		</view>
 		
 		<page-head title="表级权限控制" subTitle="包括增删改查四种权限，分别称为：create、delete、update、read"></page-head>
-		<!-- <uni-section title="表级权限控制"
-			subTitle="包括增删改查四种权限，分别称为：create、delete、update、read" 
-			type="circle"
-		></uni-section> --><!-- ,任何用户,允许/拒绝操作本表增删改查。 -->
 		<uni-section title="根据true和false控制数据库的相关操作" type="circle" ></uni-section>
 			<view class="uni-title pl10">
 				配置规则：
-				<view class="code-box">
-					<text space="emsp">"permission":{</text>
-					<text space="emsp">\n "read":</text>
-					<text class="light">true</text>
-					<text space="emsp">\n}</text>
-				</view>
+				<scroll-view scroll-x class="code-box">
+					<show-code :codes='{
+						"permission":{
+							"read":true
+						}
+					}'></show-code>
+				</scroll-view>
 				<text>含义解释：允许任何账户读取本表</text>
 			</view>
 			<button @click="getFn('uid,username,nickname,state')" plain type="primary">读取表全部数据</button>
 			<view  class="uni-title pl10">
 				配置规则：
-				<view class="code-box">
-					<text space="emsp">"permission":{</text>
-					<text space="emsp">\n  "delete":</text>
-					<text class="light">false</text>
-					<text space="emsp">\n}</text>
-				</view>
+				<scroll-view scroll-x class="code-box">
+					<show-code :codes='{
+						"permission":{
+							"delete":false
+						}
+					}'></show-code>
+				</scroll-view>
 				<text>含义解释： 禁止任何账户执行删除表中的记录操作</text>
 				<text>\n 但管理员账号不受schema限制，可在底部工具条切换成管理员角色体验</text>
 			</view>
@@ -63,12 +53,13 @@
 		<uni-section title="根据操作的用户id、角色和权限数组" type="circle" ></uni-section>
 			<view  class="uni-title pl10">
 				配置规则：
-				<view class="code-box">
-					<text space="emsp">"permission":{</text>
-					<text space="emsp">\n  "create":</text>
-					<text class="light2">"auth.uid != null"</text>
-					<text space="emsp">\n}</text>
-				</view>
+				<scroll-view scroll-x class="code-box">
+					<show-code :codes='{
+						"permission":{
+							"create":"auth.uid != null"
+						}
+					}'></show-code>
+				</scroll-view>
 				<text>含义解释：表示仅已登陆后的用户才能执行创建操作</text>
 			</view>
 			<button @click="addFn()" plain type="primary">创建一条数据</button>
@@ -77,16 +68,21 @@
 		></uni-section>
 			<view  class="uni-title pl10 uni-common-mt">
 				配置规则：
-				<view class="code-box">
+				<scroll-view scroll-x class="code-box">
+					<show-code :codes='{
+						"permission":{
+							"create":"auth.uid==doc.uid || AUDITOR in auth.role || UPDATE_USER_INFO in auth.permission"
+						}
+					}'></show-code>
+				</scroll-view>
+				<!-- 
 					<text>{</text>
 					<text space="emsp">\n "permission":{</text>
 					<text space="emsp">\n  "update":</text>
-					<text class="light2" space="ensp">\n        "auth.uid==doc.uid || 
-												        'AUDITOR' in auth.role || 
-												        UPDATE_USER_INFO' in auth.permission"</text>
+					<text class="light2" space="ensp">\n        </text>
 					<text space="emsp">\n }\n</text>
 					<text space="emsp">}</text>
-				</view>
+				</view> -->
 				<text>含义解释：\n 1.数据创建者 \n 2.角色为审核员 \n 3.拥有编辑权限; \n 三种情况，拥有字段更新权限
 				</text>
 			</view>
@@ -96,7 +92,18 @@
 		<uni-section title="修改指定字段需要特殊角色" type="circle" ></uni-section>
 			<view  class="uni-title pl10 uni-common-mt">
 				配置规则：
-				<view class="code-box">
+				<scroll-view scroll-x class="code-box">
+					<show-code :codes='{
+						"properties":{
+							"state":{
+								"permission":{
+									"write":"AUDITOR in auth.role"
+								}
+							}
+						}
+					}'></show-code>
+				</scroll-view>
+				<!-- <view class="code-box">
 					<text space="emsp">"properties":{</text>
 					<text space="emsp">\n "state":{</text>
 					<text space="emsp">\n  "permission":{ </text>
@@ -105,7 +112,7 @@
 					<text space="emsp">\n  }</text>
 					<text space="emsp">\n }</text>
 					<text space="emsp">\n}</text>
-				</view>
+				</view> -->
 			</view>
 				<button @click="updateFn({state:1})" plain type="primary"><text>更新 state = 1</text></button>
 			<view  class="uni-title pl10 uni-common-mt">
@@ -115,7 +122,18 @@
 		<uni-section title="修改指定字段时,当前记录的某个字段应当满足某种条件" type="circle" ></uni-section>
 			<view class="uni-title pl10 uni-common-mt">
 				<view>配置规则：</view><!-- 字段的: -->
-				<view class="code-box">
+				<scroll-view scroll-x class="code-box">
+					<show-code :codes='{
+						"properties":{
+							"username":{
+								"permission":{
+									"write":"doc.state != 0"
+								}
+							}
+						}
+					}'></show-code>
+				</scroll-view>
+				<!-- <view class="code-box">
 					<text space="emsp">"properties":{</text>
 					<text space="emsp">\n "username":{</text>
 					<text space="emsp">\n  "permission":{ </text>
@@ -124,7 +142,7 @@
 					<text space="emsp">\n  }</text>
 					<text space="emsp">\n }</text>
 					<text space="emsp">\n}</text>
-				</view>
+				</view> -->
 				<text>含义解释：表示执行该操作需要满足，update的表级权限控制外，还需要满足正在被操作的记录的字段state!=0</text>
 			</view>
 			<button @click='updateFn({username:"新姓名"})' plain type="primary"><text>更新 username:'新姓名' \n(表中全部数据)</text></button>
@@ -139,7 +157,18 @@
 		<uni-section title="控制特殊字段不可读" type="circle"></uni-section>
 			<view  class="uni-title pl10 uni-common-mt">
 				配置规则：<!-- phone字段的read:"auth.uid != null" -->
-				<view class="code-box">
+				<scroll-view scroll-x class="code-box">
+					<show-code :codes='{
+						"properties":{
+							"phone":{
+								"permission":{
+									"read":"auth.uid != null"
+								}
+							}
+						}
+					}'></show-code>
+				</scroll-view>
+				<!-- <view class="code-box">
 					<text space="emsp">"properties":{</text>
 					<text space="emsp">\n "phone":{</text>
 					<text space="emsp">\n  "permission":{ </text>
@@ -148,7 +177,7 @@
 					<text space="emsp">\n  }</text>
 					<text space="emsp">\n }</text>
 					<text space="emsp">\n}</text>
-				</view>
+				</view> -->
 				<text>含义解释：综合表级任何用户可读的条件下，新增了未登录游客不能读取phone字段</text>
 			</view>
 			<button  @click="getFn('uid,username,nickname,state')" plain type="primary">读不带phone字段的数据</button>
@@ -189,7 +218,7 @@
 		methods: {
 			toDemo(){
 				uni.navigateTo({
-					url:"../../permission-test/add"
+					url:"./permission-demo"
 				})
 			},
 			previewImage(url){
@@ -355,20 +384,11 @@
 	}
 </script>
 
-<style>
+<style lang="scss" scoped>
 .code-box{
 	background-color:#fffae7;
 	padding:5px 15px;
-}
-.code-box text{
-	font-size: 24rpx!important;
-	color: #2b8300!important;
-}
-.code-box .light{
-	color: #0077cc!important;
-}
-.code-box .light2{
-	color: #009891!important;
+	width: 600rpx;
 }
 .navigator{
 	padding: 16rpx;

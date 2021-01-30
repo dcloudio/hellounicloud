@@ -331,24 +331,22 @@ var db = uniCloud.database();var uniPopup = function uniPopup() {Promise.all(/*!
     uni.setStorageSync('uni_id_token', '');
     uni.setStorageSync('uni_id_token_expired', '');
   },
-  watch: {
-    typeIndex: {
-      handler: function handler(typeIndex) {
-        console.log(typeIndex);
-        for (var i = 0; i < this.permissionList.length; i++) {
-          var jsonString = "{\n\t\t\t\t\t\t\"".concat(
-          this.type, "\":{\n\t\t\t\t\t\t\t\"permission\":{\n\t\t\t\t\t\t\t\t\"").concat(
+  created: function created() {
+    for (var j = 0; j < this.types.length; j++) {
+      var type = this.types[j].value;
+      console.log(type);
+      for (var i = 0; i < this.permissionList.length; i++) {
+        var jsonString = "{\n\t\t\t\t\t\t\"permission\":{\n\t\t\t\t\t\t\t\"".concat(
 
-          this.type, "\":\"").concat(this.permissionList[i].code, "\"\n\t\t\t\t\t\t\t}\n\t\t\t\t\t\t}\n\t\t\t\t\t}");
-
+        type, "\":").concat(this.permissionList[i].code, "\n\t\t\t\t\t\t}\n\t\t\t\t}");
 
 
-          this.permissionList[i].codes = JSON.parse(jsonString);
-        }
-      },
-      immediate: true } },
-
-
+        if (!this.permissionList[i].codes) this.permissionList[i].codes = {};
+        this.permissionList[i].codes[type] = JSON.parse(jsonString);
+      }
+    }
+    console.log(this.permissionList);
+  },
   methods: {
     myFn: function myFn(e) {var _this = this;return _asyncToGenerator( /*#__PURE__*/_regenerator.default.mark(function _callee() {var item, tableName, res;return _regenerator.default.wrap(function _callee$(_context) {while (1) {switch (_context.prev = _context.next) {case 0: // {type:'',tableName:'',index,action:'',where:{}}
                 console.log('myFun' + JSON.stringify(e));

@@ -57,23 +57,21 @@
 				return this.types[this.typeIndex].text
 			}
 		},
-		watch:{
-			typeIndex:{
-				handler(typeIndex){
-					console.log(typeIndex);
-					for (let i = 0; i < this.permissionList.length; i++) {
-						let jsonString = `{
-							"${this.type}":{
-								"permission":{
-									"${this.type}":"${this.permissionList[i].code}"
-								}
+		created() {
+			for (var j = 0; j < this.types.length; j++) {
+				let type = this.types[j].value
+				console.log(type);
+				for (let i = 0; i < this.permissionList.length; i++) {
+					let jsonString = `{
+							"permission":{
+								"${type}":"${this.permissionList[i].code}"
 							}
-						}`
-						this.permissionList[i].codes = JSON.parse(jsonString)
-					}
-				},
-				immediate: true
+					}`
+					if(!this.permissionList[i].codes) this.permissionList[i].codes = {}
+					this.permissionList[i].codes[type] = JSON.parse(jsonString)
+				}
 			}
+			console.log(this.permissionList);
 		},
 		data() {
 			return {
