@@ -7,10 +7,10 @@
 			<text>权限中的角色基于uni-id </text>
 			<j-link text="详情" url="https://uniapp.dcloud.io/uniCloud/uni-id"></j-link>
 		</view>
-		<uni-list-item title="表级-简单表达式权限控制" note="" to="../permission-table-simple/permission-table-simple" link></uni-list-item>
-		<uni-list-item title="表级-组合表达式权限控制" note="" to="../permission-table-compound/permission-table-compound" link></uni-list-item>
-		<uni-list-item title="字段级-简单表达式权限控制" note="" to="../permission-field-simple/permission-field-simple" link></uni-list-item>
-		<uni-list-item title="组合表与字段级权限控制示例项目" note="" to="../permission-demo/readme" link></uni-list-item>
+		<uni-list-item title="表级-简单表达式权限控制" to="../permission-table-simple/permission-table-simple" link></uni-list-item>
+		<uni-list-item title="表级-组合表达式权限控制" to="../permission-table-compound/permission-table-compound" link></uni-list-item>
+		<uni-list-item title="字段级-简单表达式权限控制" to="../permission-field-simple/permission-field-simple" link></uni-list-item>
+		<uni-list-item title="组合表与字段级权限控制示例项目" to="../permission-demo/readme" link></uni-list-item>
 	</view>
 </template>
 

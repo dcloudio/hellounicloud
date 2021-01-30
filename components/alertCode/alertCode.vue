@@ -1,7 +1,13 @@
 <template>
-	<view class="box" @click="isShow=false" :class="{isShow:isShow}">
-		<scroll-view scroll-x scroll-y @click.stop="" class="scroll-view" style="overflow: auto;">
-			<show-code v-if="codes" :codes="codes"></show-code>
+	<!-- #ifdef MP -->
+	<view class="box isShow" @click="closeMe" v-if="isShow">
+	<!-- #endif -->
+	<!-- #ifndef MP -->
+	<view class="box" @click="closeMe" :class="{isShow:isShow}">
+	<!-- #endif -->
+	<!-- 小程序存在动画切换的bug本版本先用 v-if="isShow" 处理 -->
+		<scroll-view scroll-x scroll-y @click.stop="tapCode" class="scroll-view" style="overflow: auto;">
+			<show-code :codes="codes"></show-code>
 		</scroll-view>
 	</view>
 </template>
@@ -9,14 +15,22 @@
 	export default {
 		data() {
 			return {
-				codes: false,
+				codes: {},
 				isShow:false
 			}
 		},
 		methods: {
 			open(codes) {
-				this.codes = codes||{}
+				this.codes = codes
 				this.isShow = true
+			},
+			tapCode(e){
+				console.log(e);
+				e.stopPropagation()
+			},
+			closeMe(e){
+				console.log('closeMe',e);
+				this.isShow = false
 			}
 		}
 	}

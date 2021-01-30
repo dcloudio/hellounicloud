@@ -27,7 +27,6 @@
 			<button @click="remove" type="primary" plain size="mini">删</button>
 			<button @click="update" type="primary" plain size="mini">改</button>
 			<button @click="getFn" type="primary" plain size="mini">查</button>
-			<!-- <button @click="linkGetFn" type="primary" plain size="mini">联查</button> -->
 		</view>
 		<view class="item">
 			<view class="row">
@@ -64,7 +63,11 @@
 				</text>
 				<text class="title">点击设置用于排序字段</text>
 				<uni-data-checkbox multiple @change="setOrderby" v-model="orderbyArr" :localdata="mArrJson(fields)" />
-				<text class="title" space="ensp">\n\n当前orderby="{{orderby}}"</text>
+				<view class="title row">
+					<text>当前orderby="</text>
+					<text space="ensp">{{orderby}}</text>
+					<text>"</text>
+				</view>
 			</view>
 			<view class="item">
 				<view class="row">
@@ -104,6 +107,8 @@
 				getone:false,
 				pageCurrent:1,
 				getcount:true,
+				L: "{",
+				R: "}",
 			}
 		},
 		mounted() {
@@ -191,6 +196,10 @@
 				udb.add({
 					book_id:"add-test",
 					quantity:Date.now()
+				},{
+					success: (res) => { // 新增成功后的回调
+						this.getFn()
+					}
 				})
 			},
 			remove(){
@@ -199,7 +208,12 @@
 			},
 			update(){
 				const _id = udb.dataList[0]._id
-				udb.update(_id,{book_id:"这条数据被改"})
+				udb.update(_id,{book_id:"这条数据被改"},
+				{
+					success: (res) => { // 新增成功后的回调
+						this.getFn()
+					}
+				})
 			},
 			getFn(){
 				udb.loadData()

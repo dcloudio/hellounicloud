@@ -8,14 +8,19 @@
 			<view v-else class="column">
 				<text v-if="isJson">{{L}}</text>
 				<text v-else>{{La}}</text>
-				<view v-for="(value,key) in codes" :key="key" class="pr ml" :style="{'left':kl*8*-1+'px'}">
-					<show-code v-if="isJson" :codes="key" e=":"></show-code>
-					<show-code :codes="value" :kl="key.length"></show-code>
+				<view v-for="(value,key,k) in codes" :key="key" class="pr ml" :style="{'left':kl*8*-1+'px'}">
+					<template v-if="isJson">
+						<show-code :codes="key" e=":"></show-code>
+						<show-code :codes="value" :e="(k==Object.keys(codes).length-1)?'':','" :kl="key.length"></show-code>
+					</template>
+					<template v-else>
+						<show-code :codes="value" :e="(key==codes.length-1)?'':','" :kl="key.length"></show-code>
+					</template>
 				</view>
 				<view class="row" :style="{'left':kl*8*-1+'px'}">
 					<text v-if="isJson">{{R}}</text>
 					<text v-else>{{Ra}}</text>
-					<text>,</text>
+					<text class="comma">,</text>
 				</view>
 			</view>
 		</view>

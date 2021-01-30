@@ -1,8 +1,8 @@
 <template>
 	<view>
-		<!-- <show-code :codes="schemaCode"></show-code> -->
-		<alertCode ref="alertCode"></alertCode>
-		<button @click="openFn()" type="default">alertCode</button>
+		<show-code :codes="schemaCode"></show-code>
+		<!-- <alertCode ref="alertCode"></alertCode> -->
+		<!-- <button @click="openFn()" type="default">alertCode</button> -->
 		<!-- <view v-for="(value,key) in schemaCode">
 			<text class="key">{{key}}:</text>
 			<text class="value">{{value}}</text>
@@ -28,5 +28,4 @@ import schemaCode from './schemaCode.json';
 </script>
 
 <style>
-
 </style>

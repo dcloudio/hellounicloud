@@ -6,33 +6,30 @@
 			<view class="let-box">
 				<text>体验说明</text><uni-icons size="14" color="#aaaaaa" @click="$refs.helpPopup.open()" type="info"></uni-icons>
 			</view>
-			<text @click="selfId?$refs.dialog.open():tipLogin()" class="comment-btn">写留言</text>
+			<text @click="options.selfId?$refs.dialog.open():tipLogin()" class="comment-btn">写留言</text>
 		</view>
 		<unicloud-db ref="udb" v-slot:default="{data, loading, error, options}" :options="options"
 			page-data="replace"
 			collection="comment,uni-id-users"
 			field="uid{username,_id},text,_id,state"
-			:where="where"
+			:where="options.where"
 		>
 		 	<scroll-view :show-scrollbar="true" scroll-y v-if="data.length" class="comment-list">
 				<view class="comment-item" v-for="(item,index) in data" :key="item._id"
 				>	
-					<image class="userImg" :src="userImg(item.uid[0].username)" mode=""></image>
+					<image class="userImg" :src="'../../../static/userImg/'+item.uid[0].username+'.png'" mode=""></image>
 					<view class="content">
 						<view style="flex-direction: column;">
 							<text style="color: #666;font-size: 14px;font-weight:700;">{{item.uid[0].username}}</text>
 							<text style="color: #888;font-size: 14px;">{{item.text}}</text>
 						</view>
 						<view style="flex-direction: row;">
-							<switch v-if="role.index>1" class="switch" :checked="item.state==1" @change="updateState($event,item._id)" />
-							
-							<template v-if="selfId == item.uid[0]._id || role.index>1">
-								<text class="in-review" v-if="role.index===1&&item.state==0">审核中</text>
+							<switch v-if="options.role.index>1" class="switch" :checked="item.state==1" @change="updateState($event,item._id)" />
+							<template v-if="options.selfId == item.uid[0]._id || options.role.index>1">
+								<text class="in-review" v-if="options.role.index===1&&item.state==0">审核中</text>
 								<uni-icons v-else color="#cdcfd4" class="ico" size="16" type="compose" @click="clickIcon(0,item)"></uni-icons>
 								<uni-icons v-if="" color="#cdcfd4" class="ico" size="16" type="trash" @click="clickIcon(1,item)"></uni-icons>
 							</template>
-							
-						
 						</view>
 					</view>
 				</view>
@@ -86,17 +83,18 @@
 		},
 		data() {
 			return {
-				selfId:"",
-				where:"state==1",
+				options:{
+					"selfId":"",
+					"where":"state==1",
+					role: {
+						index:0
+					},
+				},
 				noticeData:{
 					"_id":null
 				},
-				options:{},
 				activeNoticeId:false,
 				defaultText:"",
-				role: {
-					index:0
-				},
 				fields: "data",
 				swipeActionOptions: [{
 						text: '编辑',
@@ -125,25 +123,25 @@
 				});
 			},
 			changePermission(role){
-				this.selfId = role.uid
+				this.options.selfId = role.uid
 				console.log(role);
 				switch (role.index){
 					case 0:
-						this.where = "state==1"
+						this.options.where = "state==1"
 						break;
 					case 1:
-						this.where = "state==1 || uid._id==$env.uid"
+						this.options.where = "state==1 || uid._id==$env.uid"
 						break;
 					case 2:
-						this.where = {}
+						this.options.where = {}
 						break;
 					case 3:
-						this.where = {}
+						this.options.where = {}
 						break;
 					default:
 						break;
 				}
-				this.role = role
+				this.options.role = role
 			},
 			async getNoticeData(){
 				let res = await db.action('add_view_count')
@@ -257,7 +255,7 @@
 				console.log(this.$refs.udb);
 				this.$refs.udb.refresh()//{clear:true}
 			},
-			userImg(e){
+			getUserImg(e){
 				switch (e){
 					case "admin":
 						return '../../../static/userImg/2.png';
