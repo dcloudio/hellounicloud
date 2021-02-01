@@ -258,7 +258,7 @@
 	.page {
 		padding-bottom: 100px;
 		background-color: #FFFFFF;
-		font-size: 12px;
+		font-size: 14px;
 	}
 	
 	button{

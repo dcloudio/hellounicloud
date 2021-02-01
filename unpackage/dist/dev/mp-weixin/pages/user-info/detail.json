@@ -1,0 +1,10 @@
+{
+  "navigationBarTitleText": "详情",
+  "usingComponents": {
+    "detail-unicloud-db-default": "/pages/user-info/detail-unicloud-db-default",
+    "unicloud-db": "/node-modules/@dcloudio/uni-cli-shared/components/unicloud-db",
+    "uni-load-more": "/components/uni-load-more/uni-load-more",
+    "uni-dateformat": "/components/uni-dateformat/uni-dateformat",
+    "uni-data-picker": "/components/uni-data-picker/uni-data-picker"
+  }
+}

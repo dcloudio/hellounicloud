@@ -4,7 +4,7 @@
     "configurations": [{
      	"app-plus" : 
      	{
-     		"launchtype" : "local"
+     		"launchtype" : "remote"
      	},
      	"default" : 
      	{
@@ -12,7 +12,11 @@
      	},
      	"h5" : 
      	{
-     		"launchtype" : "remote"
+     		"launchtype" : "local"
+     	},
+     	"mp-weixin" : 
+     	{
+     		"launchtype" : "local"
      	},
      	"type" : "uniCloud"
      }

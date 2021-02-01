@@ -1,0 +1,18 @@
+{
+  "navigationBarTitleText": "留言板",
+  "enablePullDownRefresh": false,
+  "usingComponents": {
+    "demo-unicloud-db-default": "/pages/clientDB/demo/demo-unicloud-db-default",
+    "uni-icons": "/components/uni-icons/uni-icons",
+    "unicloud-db": "/node-modules/@dcloudio/uni-cli-shared/components/unicloud-db",
+    "uni-popup": "/components/uni-popup/uni-popup",
+    "uni-section": "/components/uni-section/uni-section",
+    "uni-list-item": "/components/uni-list-item/uni-list-item",
+    "set-permission": "/components/set-permission/set-permission",
+    "uni-swipe-action": "/components/uni-swipe-action/uni-swipe-action",
+    "uni-swipe-action-item": "/components/uni-swipe-action-item/uni-swipe-action-item",
+    "uni-popup-message": "/components/uni-popup/uni-popup-message",
+    "uni-popup-dialog": "/components/uni-popup/uni-popup-dialog",
+    "uni-notice-bar": "/components/uni-notice-bar/uni-notice-bar"
+  }
+}

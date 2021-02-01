@@ -43,7 +43,7 @@
                 "enablePullDownRefresh": false
             }
 
-        }, /* */
+        },
         {
             "path": "pages/clientDB/clientDB",
             "style": {
@@ -64,11 +64,13 @@
         }, {
             "path": "pages/user-info/list",
             "style": {
-                "navigationBarTitleText": ""
+                "navigationBarTitleText": "列表"
             }
         }, {
             "path": "pages/user-info/detail",
-            "style": {}
+            "style": {
+				"navigationBarTitleText": "详情"
+			}
         },
         {
             "path": "pages/cloudFunction/cloudFunction",
@@ -120,14 +122,14 @@
                 "enablePullDownRefresh": false
             }
         }, 
-		/* {
+		{
             "path": "pages/clientDB/validate/validate",
             "style": {
                 "navigationBarTitleText": "字段值域验证",
                 "enablePullDownRefresh": false
             }
 
-        }, */ {
+        },{
             "path": "pages/validate-demo/add",
             "style": {
                 "navigationBarTitleText": "新增"

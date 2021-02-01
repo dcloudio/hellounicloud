@@ -11,16 +11,18 @@
 				<view v-for="(value,key,k) in codes" :key="key" class="pr ml" :style="{'left':kl*8*-1+'px'}">
 					<template v-if="isJson">
 						<show-code :codes="key" e=":"></show-code>
-						<show-code :codes="value" :e="(k==Object.keys(codes).length-1)?'':','" :kl="key.length"></show-code>
 					</template>
-					<template v-else>
-						<show-code :codes="value" :e="(key==codes.length-1)?'':','" :kl="key.length"></show-code>
-					</template>
+					<!-- #ifdef MP -->
+					<show-code :codes="value" :last="false" :kl="key.length"></show-code>
+					<!-- #endif -->
+					<!-- #ifndef MP -->
+					<show-code :codes="value" :last="isLast(codes,key,k)" :e="isLast(codes,key,k)?'':','" :kl="key.length"></show-code>
+					<!-- #endif -->
 				</view>
 				<view class="row" :style="{'left':kl*8*-1+'px'}">
 					<text v-if="isJson">{{R}}</text>
 					<text v-else>{{Ra}}</text>
-					<text class="comma">,</text>
+					<text class="comma" v-if="!last">,</text>
 				</view>
 			</view>
 		</view>
@@ -71,8 +73,13 @@
 					return cType
 				}
 			},
-			isArr(e) {
-				//	return e[0] == true
+			isLast(codes,key,k){
+				if(this.isJson){
+					return Object.keys(codes).length == k+1
+				}else{
+					console.log(codes.length,k);
+					return codes.length == k+1
+				}
 			}
 		},
 		props: {
@@ -90,6 +97,11 @@
 			e: {
 				default () {
 					return ","
+				}
+			},
+			last: {
+				default () {
+					return true
 				}
 			},
 		},

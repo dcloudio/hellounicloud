@@ -1,0 +1,23 @@
+
+.uni-page-head{
+	padding:35rpx;
+	text-align: center;
+}
+.uni-page-head-title {
+	display: inline-block;
+	padding: 0 40rpx;
+	font-size: 30rpx;
+	height: 88rpx;
+	line-height: 88rpx;
+	color: #5c5b5d;
+	-webkit-box-sizing: border-box;
+	        box-sizing: border-box;
+	border-bottom: 2rpx solid #D8D8D8;
+}
+.row{
+	width: 750rpx;
+	text-align: center;
+	margin-top: -30rpx;
+	color: #999999;
+}
+

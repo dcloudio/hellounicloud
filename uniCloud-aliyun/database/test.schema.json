@@ -13,7 +13,7 @@
 			"description": "ID，系统自动生成"
 		},
 		"data":{
-			"bsonType":"timestamp"
+			"bsonType":"int"
 		}
 	}
 }

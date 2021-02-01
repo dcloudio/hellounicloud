@@ -7,7 +7,7 @@
 			<text>\n schema路径:uniCloud/database/user-info.schema.json \n</text>
 			<button class="showSchemaCode" size="mini" @click="showSchemaCode" type="primary" plain>查看schema代码</button>
 		</view>
-		<j-video :url="videoUrl" title="schema2code步骤演示" height="421rpx" width="750rpx"></j-video>
+		<j-video :src="videoUrl" title="schema2code步骤演示" height="421rpx" width="750rpx"></j-video>
 		<alertCode ref="alertCode"></alertCode>
 		<button class="toForm" @click="toForm" type="primary" size="mini" plain>前往生成的云端一体页面</button>
     </view>

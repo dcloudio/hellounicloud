@@ -253,7 +253,8 @@
 	}
 	.code-box {
 		background-color: #fffae7;
-		padding: 5px 15px;
+		padding: 5px 30rpx;
+		width: 650rpx;
 	}
 
 	.code-box text {
@@ -277,7 +278,7 @@
 	.page {
 		padding-bottom: 100px;
 		background-color: #FFFFFF;
-		font-size: 12px;
+		font-size: 14px;
 	}
 
 	button {

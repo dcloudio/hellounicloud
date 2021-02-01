@@ -7,7 +7,7 @@
 	<video
 		id="myVideo"
 		style="width: 1px;height: 1px;"
-		:src="url"
+		:src="src"
 		@timeupdate="timeupdate"
 		@fullscreenchange="fullscreenchange"
 	></video>
@@ -23,7 +23,7 @@ var videoContext;
 		computed:{
 			posterUrl(){
 				if(this.poster) return this.poster
-				return this.url + '?x-oss-process=video/snapshot,t_'+(parseInt(this.currentTime*1000))+',f_jpg,w_800,m_fast'
+				return this.src + '?x-oss-process=video/snapshot,t_'+(parseInt(this.currentTime*1000))+',f_jpg,w_800,m_fast'
 			}
 		},
 		methods:{
@@ -61,7 +61,7 @@ var videoContext;
 					return ''
 				}
 			},
-			url: {
+			src: {
 				type: String,
 				default(){
 					return ''

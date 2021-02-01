@@ -178,39 +178,35 @@
 						uni.hideLoading()
 						this.$refs.upDataDialog.close()
 					})
-				/* await this.$refs.udb.update(_id, {"state":e.detail.value/1},  {
-					success: (res) => { // 更新成功后的回调
-						uni.showToast({
-							title: e.detail.value?'审核通过':'审核中',
-							icon: 'none'
-						});
-						const { code, message } = res
-						console.log(code, message);
-					},
-					fail: (err) => { // 更新失败后的回调
-						const { message } = err
-					},
-					complete: () => { // 完成后的回调
-						uni.hideLoading()
-						this.$refs.upDataDialog.close()
-					}
-				}) */
 			},
 			async updateComment(text){
 				console.log(text);
 				console.log(this.activeNoticeId);
+				if(this.defaultText == text){
+					uni.showToast({
+						title: '内容未被修改',
+						icon: 'none'
+					});
+					this.$refs.upDataDialog.close()
+					return false
+				}
+				
 				uni.showLoading({
 					mask: true
 				});
 				await this.$refs.udb.update(this.activeNoticeId, {text},  {
+					action:"up_comment",
 					toastTitle: '修改成功', // toast提示语
 					success: (res) => { // 更新成功后的回调
 						const { code, message } = res
 						console.log(code, message);
-						//bug 等待修复，应当自动更新
+						//过度，后续unicloudDb的api会自动更新对应的数据
 						this.$refs.udb.dataList.forEach((item,index)=>{
 							if(item._id==this.activeNoticeId){
 								this.$refs.udb.dataList[index].text = text
+								if(this.options.role.index === 1){
+									this.$refs.udb.dataList[index].state = 0
+								}
 							}
 						})
 						
@@ -245,6 +241,12 @@
 					if(code=='TOKEN_INVALID_ANONYMOUS_USER'){
 						uni.showModal({
 							content: '未登陆游客不能写留言',
+							showCancel: false
+						});
+					}
+					if(code=='VALIDATION_ERROR'){
+						uni.showModal({
+							content: message,
 							showCancel: false
 						});
 					}
@@ -289,6 +291,8 @@
 	.page{
 		//background-color: #f2f2f2;
 		height: 100vh;
+		width: 750rpx;
+		overflow-x:hidden;
 	}
 	.row{
 		background-color: #FFFFFF;
