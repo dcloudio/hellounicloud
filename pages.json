@@ -1,9 +1,9 @@
 {
     "pages": [ //pages数组中第一项表示应用启动页，参考：https://uniapp.dcloud.io/collocation/pages
         {
-            "path": "pages/schema2code/schema2code",
+            "path": "pages/storage/storage",
             "style": {
-                "navigationBarTitleText": "schema2code",
+                "navigationBarTitleText": "云存储",
                 "enablePullDownRefresh": false
             }
         },
@@ -81,9 +81,9 @@
 
         },
         {
-            "path": "pages/storage/storage",
+            "path": "pages/schema2code/schema2code",
             "style": {
-                "navigationBarTitleText": "云存储",
+                "navigationBarTitleText": "schema2code",
                 "enablePullDownRefresh": false
             }
 		},

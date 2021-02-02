@@ -123,7 +123,7 @@
 				});
 			},
 			changePermission(role){
-				this.options.selfId = role.uid
+				this.options.selfId = uniCloud.getCurrentUserInfo().uid
 				console.log(role);
 				switch (role.index){
 					case 0:

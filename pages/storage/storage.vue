@@ -8,7 +8,10 @@
 			<j-link text="参考" url="https://uniapp.dcloud.io/uniCloud/quickstart?id=%e5%b0%8f%e7%a8%8b%e5%ba%8f%e4%b8%ad%e4%bd%bf%e7%94%a8unicloud%e7%9a%84%e7%99%bd%e5%90%8d%e5%8d%95%e9%85%8d%e7%bd%ae"></j-link>
 		</view>
 		<view class="btn-list">
-			<button type="primary" @click="upload">上传文件</button>
+			<button type="primary" plain @click="upload">选择文件“后”上传</button>
+			<text class="tips">先调用chooseImage选完文件/图片/视频后用uploadFile方法上传</text>
+			<button type="primary" plain @click="chooseAndUploadFile()">选择文件“并”上传</button>
+			<text class="tips">调用chooseAndUploadFile方法选择文件/图片/视频直接上传</text>
 		</view>
 	</view>
 </template>
@@ -18,123 +21,66 @@
 		data() {
 			return {}
 		},
+		mounted() {},
 		methods: {
-			add() {
-				uni.showLoading({
-					title: '处理中...'
-				})
-				uniCloud.callFunction({
-					name: 'add',
-					data: {
-						name: 'DCloud',
-						subType: 'uniCloud',
-						createTime: Date.now()
+			chooseAndUploadFile(file) {
+				uniCloud.chooseAndUploadFile({
+					type: 'image',
+					onChooseFile(res) {
+						console.log(res);
+						const processAll = []
+						for (let i = 0; i < res.tempFiles.length; i++) {
+							processAll.push(this.cropImg(res.tempFiles[i]))
+						}
+						return Promise.all(processAll).then((fileList) => {
+							let result = {
+								tempFilePaths: []
+							}
+							result.tempFiles = fileList.map((fileItem, index) => {
+								result.tempFilePaths.push(fileItem.path)
+								return {
+									path: fileItem.path,
+									cloudPath: '' + Date.now() + index + '.' + fileItem.ext, // 云端路径，这里随便生成了一个
+									fileType: fileItem.fileType
+								}
+							})
+							return result
+						})
 					}
-				}).then((res) => {
-					uni.hideLoading()
-					uni.showModal({
-						content: `成功添加一条数据，文档id为：${res.result.id}`,
-						showCancel: false
-					})
+				}).then(res => {
 					console.log(res)
 				}).catch((err) => {
-					uni.hideLoading()
-					uni.showModal({
-						content: `添加数据失败，错误信息为：${err.message}`,
-						showCancel: false
-					})
-					console.error(err)
+					console.log(err);
 				})
 			},
-			remove() {
-				uni.showLoading({
-					title: '处理中...'
-				})
-				uniCloud.callFunction({
-					name: 'remove'
-				}).then((res) => {
-					uni.hideLoading()
-					uni.showModal({
-						content: res.result.msg,
-						showCancel: false
+			cropImg(file) {
+				return new Promise((resolve, reject) => {
+					let ext
+					let filePathProcessed = file.path // 处理结果
+					// #ifdef H5
+					ext = file.name.split('.').pop()
+					resolve({
+						path: filePathProcessed,
+						ext,
+						fileType: file.fileType
 					})
-					console.log(res)
-				}).catch((err) => {
-					uni.hideLoading()
-					uni.showModal({
-						content: `删除失败，错误信息为：${err.message}`,
-						showCancel: false
+					// #endif
+					// #ifndef H5
+					uni.getImageInfo({
+						src: file.path,
+						success(info) {
+							ext = info.type.toLowerCase()
+							resolve({
+								path: filePathProcessed,
+								ext,
+								fileType: file.fileType
+							})
+						},
+						fail(err) {
+							reject(new Error(err.errMsg || '未能获取图片类型'))
+						}
 					})
-					console.error(err)
-				})
-			},
-			update() {
-				uni.showLoading({
-					title: '处理中...'
-				})
-				uniCloud.callFunction({
-					name: 'update',
-					data: {
-						name: 'DCloud',
-						subType: 'html 5+',
-						createTime: Date.now()
-					}
-				}).then((res) => {
-					uni.hideLoading()
-					uni.showModal({
-						content: res.result.msg,
-						showCancel: false
-					})
-					console.log(res)
-				}).catch((err) => {
-					uni.hideLoading()
-					uni.showModal({
-						content: `更新操作执行失败，错误信息为：${err.message}`,
-						showCancel: false
-					})
-					console.error(err)
-				})
-			},
-			get() {
-				uni.showLoading({
-					title: '处理中...'
-				})
-				uniCloud.callFunction({
-					name: 'get'
-				}).then((res) => {
-					uni.hideLoading()
-					uni.showModal({
-						content: `查询成功，获取数据列表为：${JSON.stringify(res.result.data)}`,
-						showCancel: false
-					})
-					console.log(res)
-				}).catch((err) => {
-					uni.hideLoading()
-					uni.showModal({
-						content: `查询失败，错误信息为：${err.message}`,
-						showCancel: false
-					})
-					console.error(err)
-				})
-			},
-			useCommon() {
-				console.log('请确保自己已经阅读并按照公用模块文档操作 https://uniapp.dcloud.io/uniCloud/cf-common')
-				uniCloud.callFunction({
-					name: 'use-common'
-				}).then((res) => {
-					uni.hideLoading()
-					uni.showModal({
-						content: '云函数use-common返回结果：' + JSON.stringify(res.result),
-						showCancel: false
-					})
-					console.log(res)
-				}).catch((err) => {
-					uni.hideLoading()
-					uni.showModal({
-						content: `云函数use-common执行失败，错误信息为：${err.message}`,
-						showCancel: false
-					})
-					console.error(err)
+					// #endif
 				})
 			},
 			upload() {
@@ -227,7 +173,7 @@
 	}
 
 	.btn-list button {
-		margin-bottom: 20px;
+		margin-top: 20px;
 	}
 
 	.upload-preview {
