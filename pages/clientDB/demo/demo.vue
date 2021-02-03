@@ -114,6 +114,9 @@
 		onLoad() {
 			this.getNoticeData()
 		},
+		onReady() {
+			console.log('111',uniCloud.getCurrentUserInfo());
+		},
 		methods: {
 			tipLogin(){
 				uni.showModal({
@@ -123,7 +126,7 @@
 				});
 			},
 			changePermission(role){
-				this.options.selfId = uniCloud.getCurrentUserInfo().uid
+				this.options.selfId = role.uid
 				console.log(role);
 				switch (role.index){
 					case 0:
