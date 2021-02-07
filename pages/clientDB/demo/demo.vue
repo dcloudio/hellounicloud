@@ -115,7 +115,6 @@
 			this.getNoticeData()
 		},
 		onReady() {
-			console.log('111',uniCloud.getCurrentUserInfo());
 		},
 		methods: {
 			tipLogin(){
@@ -235,8 +234,7 @@
 				this.$refs.dialog.close()
 				
 				db.collection('comment').add({
-					text,
-					notice_id: this.noticeData._id
+					text
 				}).then(res => {
 					console.log(res);
 					this.getNewData()

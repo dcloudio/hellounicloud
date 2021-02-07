@@ -195,7 +195,8 @@
 						// });
 					}).catch(err => {
 						console.error(err)
-					}).finally(() => {
+					})
+					.finally(() => {
 						uni.hideLoading()
 					})
 			},
