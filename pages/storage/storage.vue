@@ -26,7 +26,7 @@
 			chooseAndUploadFile(file) {
 				uniCloud.chooseAndUploadFile({
 					type: 'image',
-					onChooseFile(res) {
+					onChooseFile:(res)=> {
 						console.log(res);
 						const processAll = []
 						for (let i = 0; i < res.tempFiles.length; i++) {
@@ -49,8 +49,16 @@
 					}
 				}).then(res => {
 					console.log(res)
+					uni.showModal({
+						content: JSON.stringify(res),
+						showCancel: false
+					});
 				}).catch((err) => {
 					console.log(err);
+					uni.showModal({
+						content: JSON.stringify(err),
+						showCancel: false
+					});
 				})
 			},
 			cropImg(file) {
