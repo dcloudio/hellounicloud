@@ -24,6 +24,9 @@
 		mounted() {},
 		methods: {
 			chooseAndUploadFile(file) {
+				uni.showLoading({
+					title: '文件上传中...'
+				})
 				uniCloud.chooseAndUploadFile({
 					type: 'image',
 					onChooseFile:(res)=> {
@@ -59,6 +62,8 @@
 						content: JSON.stringify(err),
 						showCancel: false
 					});
+				}).finally(() => {
+					uni.hideLoading()
 				})
 			},
 			cropImg(file) {
