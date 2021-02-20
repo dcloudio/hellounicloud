@@ -108,7 +108,7 @@
 	}
 </script>
 
-<style lang="scss" scoped>
+<style scoped>
 	view,
 	text {
 		display: flex;

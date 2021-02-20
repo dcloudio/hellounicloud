@@ -68,7 +68,7 @@
 	}
 </script>
 
-<style lang="scss" scoped>
+<style scoped>
 	.page {
 		padding-top: 45px;
 	}

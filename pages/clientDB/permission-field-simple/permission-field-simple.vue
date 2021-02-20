@@ -5,7 +5,7 @@
 			<uni-segmented-control @clickItem="typeIndex = $event.currentIndex" :values="types.map(({text})=>text)"></uni-segmented-control>
 		</view>
 		<alertCode ref="alertCode"></alertCode>
-		<view class="item" v-for="(item,index) in permissionList" v-if="item.exclude !== type">
+		<view class="item" v-for="(item,index) in permissionList" v-if="item.exclude !== type" :key="index">
 			<view class="msg">{{item.msg}}</view>
 			<text style="color: #999999;">schema路径：uniCloud/database/permission-test-{{index+10}}.schema.json\n</text>
 			<view class="code">
@@ -204,7 +204,7 @@
 	}
 </script>
 
-<style scoped lang="scss">
+<style scoped>
 	.top-view {
 		background-color: #FFFFFF;
 		position: sticky;

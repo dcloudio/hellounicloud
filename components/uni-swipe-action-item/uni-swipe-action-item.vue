@@ -259,7 +259,6 @@
 	}
 </script>
 <style
-    lang="scss"
     scoped
 >
 	.uni-swipe {
@@ -278,7 +277,6 @@
 	}
 
 	.uni-swipe_content {
-		// border: 1px red solid;
 	}
 
 	.uni-swipe_button-group {

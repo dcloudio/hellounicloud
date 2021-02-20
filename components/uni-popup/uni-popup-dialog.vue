@@ -148,7 +148,7 @@
 	}
 </script>
 
-<style lang="scss" scoped>
+<style scoped>
 	.uni-popup-dialog {
 		width: 300px;
 		border-radius: 15px;
@@ -218,7 +218,7 @@
 	}
 
 	.uni-button-color {
-		color: $uni-color-primary;
+		color: #007aff;
 	}
 
 	.uni-dialog-input {
@@ -227,15 +227,15 @@
 	}
 
 	.uni-popup__success {
-		color: $uni-color-success;
+		color: #4cd964;
 	}
 
 	.uni-popup__warn {
-		color: $uni-color-warning;
+		color: #f0ad4e;
 	}
 
 	.uni-popup__error {
-		color: $uni-color-error;
+		color: #dd524d;
 	}
 
 	.uni-popup__info {

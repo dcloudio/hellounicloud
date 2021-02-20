@@ -384,7 +384,7 @@
 	}
 </script>
 
-<style lang="scss" scoped>
+<style scoped>
 .code-box{
 	background-color:#fffae7;
 	padding:5px 15px;

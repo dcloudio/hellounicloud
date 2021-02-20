@@ -122,13 +122,13 @@
 		}
 	};
 </script>
-<style lang="scss" scoped>
-	$box-height: 35px;
+<style scoped>
+	/* $box-height: 35px; */
 	/* #ifdef APP-NVUE */
-	$box-line-height: 35px;
+	/* $box-line-height: 35px; */
 	/* #endif */
-	$box-line-height: 26px;
-	$box-width: 35px;
+	/* $box-line-height: 26px;
+	$box-width: 35px; */
 	view{
 		box-sizing: content-box;
 	}
@@ -137,8 +137,8 @@
 		display: flex;
 		/* #endif */
 		flex-direction: row;
-		height: $box-height;
-		line-height: $box-height;
+		height: 35px;
+		line-height: 35px;
 		width: 120px;
 	}
 
@@ -149,14 +149,14 @@
 	}
 
 	.uni-numbox__value {
-		background-color: $uni-bg-color;
+		background-color: #ffffff;
 		width: 40px;
-		height: $box-height;
+		height: 35px;
 		text-align: center;
-		font-size: $uni-font-size-lg;
+		font-size: 32rpx;
 		border-width: 1rpx;
 		border-style: solid;
-		border-color: $uni-border-color;
+		border-color: #c8c7cc;
 		border-left-width: 0;
 		border-right-width: 0;
 		font-size: 16px;
@@ -169,18 +169,18 @@
 		flex-direction: row;
 		align-items: center;
 		justify-content: center;
-		width: $box-width;
-		height: $box-height;
-		// line-height: $box-line-height;
+		width: 35px;
+		height: 35px;
+		// line-height: 35px;
 		// text-align: center;
 		font-size: 20px;
-		color: $uni-text-color;
-		background-color: $uni-bg-color-grey;
+		color: #333;
+		background-color: #f8f8f8;
 		border-width: 1rpx;
 		border-style: solid;
-		border-color: $uni-border-color;
-		border-top-left-radius: $uni-border-radius-base;
-		border-bottom-left-radius: $uni-border-radius-base;
+		border-color: #c8c7cc;
+		border-top-left-radius: 6rpx;
+		border-bottom-left-radius: 6rpx;
 		border-right-width: 0;
 	}
 
@@ -191,24 +191,24 @@
 		flex-direction: row;
 		align-items: center;
 		justify-content: center;
-		width: $box-width;
-		height: $box-height;
+		width: 35px;
+		height: 35px;
 		border-width: 1rpx;
 		border-style: solid;
-		border-color: $uni-border-color;
-		border-top-right-radius: $uni-border-radius-base;
-		border-bottom-right-radius: $uni-border-radius-base;
-		background-color: $uni-bg-color-grey;
+		border-color: #c8c7cc;
+		border-top-right-radius: 6rpx;
+		border-bottom-right-radius: 6rpx;
+		background-color: #f8f8f8;
 		border-left-width: 0;
 	}
 
 	.uni-numbox--text {
 		font-size: 20px;
-		color: $uni-text-color;
+		color: #333;
 	}
 
 	.uni-numbox--disabled {
-		color: $uni-text-color-disable;
+		color: #c0c0c0;
 		/* #ifdef H5 */
 		cursor: not-allowed;
 		/* #endif */

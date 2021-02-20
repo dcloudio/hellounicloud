@@ -1,0 +1,51 @@
+
+view.data-v-3e91fd00,
+text.data-v-3e91fd00 {
+	display: -webkit-box;
+	display: -webkit-flex;
+	display: flex;
+}
+.column.data-v-3e91fd00 {
+	-webkit-box-orient: vertical;
+	-webkit-box-direction: normal;
+	-webkit-flex-direction: column;
+	        flex-direction: column;
+	-webkit-flex-shrink: 0;
+	        flex-shrink: 0;
+}
+.row.data-v-3e91fd00 {
+	position: relative;
+}
+.pr.data-v-3e91fd00{
+	position: relative;
+}
+text.data-v-3e91fd00{
+	font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+	font-weight: 500;
+	color: #555;
+}
+.string.data-v-3e91fd00 {
+	color: #2f897d;
+}
+.string.data-v-3e91fd00::before {
+	content: '"';
+}
+.string.data-v-3e91fd00::after {
+	content: '"';
+}
+.boolean.data-v-3e91fd00{
+	color: #34629d;
+}
+text.string.data-v-3e91fd00{
+	color: #447b15;
+}
+.val text.string.data-v-3e91fd00{
+	color: #2f897d;
+}
+.number.data-v-3e91fd00 {
+	color: #9661ef;
+}
+.ml.data-v-3e91fd00{
+	margin-left: 15px;
+}
+

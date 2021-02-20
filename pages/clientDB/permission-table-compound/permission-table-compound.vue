@@ -200,7 +200,7 @@
 	}
 </script>
 
-<style scoped lang="scss">
+<style scoped>
 	.top-view{
 		background-color: #FFFFFF;
 		position: sticky;

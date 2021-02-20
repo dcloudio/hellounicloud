@@ -69,7 +69,7 @@
 	}
 </script>
 
-<style lang="scss" scoped>
+<style scoped>
 	.uni-list-ad {
 		position: relative;
 		border: 1px red solid;
@@ -79,11 +79,11 @@
 		position: relative;
 		padding-bottom: 1px;
 		/* #ifdef APP-PLUS */
-		border-top-color: $uni-border-color;
+		border-top-color: #c8c7cc;
 		border-top-style: solid;
 		border-top-width: 0.5px;
 		/* #endif */
-		margin-left: $uni-spacing-row-lg;
+		margin-left: 30rpx;
 	}
 
 	/* #ifndef APP-NVUE */
@@ -96,7 +96,7 @@
 		content: '';
 		-webkit-transform: scaleY(.5);
 		transform: scaleY(.5);
-		background-color: $uni-border-color;
+		background-color: #c8c7cc;
 	}
 
 	.uni-list-item--first:after {

@@ -54,12 +54,12 @@ export default {
 	}
 };
 </script>
-<style lang="scss">
+<style>
 .uni-list {
 	/* #ifndef APP-NVUE */
 	display: flex;
 	/* #endif */
-	background-color: $uni-bg-color;
+	background-color: #ffffff;
 	position: relative;
 	flex-direction: column;
 }
@@ -67,10 +67,10 @@ export default {
 .uni-list--border {
 	position: relative;
 	/* #ifdef APP-NVUE */
-	border-top-color: $uni-border-color;
+	border-top-color: #c8c7cc;
 	border-top-style: solid;
 	border-top-width: 0.5px;
-	border-bottom-color: $uni-border-color;
+	border-bottom-color: #c8c7cc;
 	border-bottom-style: solid;
 	border-bottom-width: 0.5px;
 	/* #endif */
@@ -87,7 +87,7 @@ export default {
 	height: 1px;
 	-webkit-transform: scaleY(0.5);
 	transform: scaleY(0.5);
-	background-color: $uni-border-color;
+	background-color: #c8c7cc;
 	z-index: 1;
 }
 
@@ -99,7 +99,7 @@ export default {
 	height: 1px;
 	-webkit-transform: scaleY(0.5);
 	transform: scaleY(0.5);
-	background-color: $uni-border-color;
+	background-color: #c8c7cc;
 }
 
 /* #endif */

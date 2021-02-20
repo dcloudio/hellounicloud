@@ -121,7 +121,7 @@
 	}
 </script>
 
-<style lang="scss" scoped>
+<style scoped>
 
 	.uni-load-more {
 		/* #ifndef APP-NVUE */

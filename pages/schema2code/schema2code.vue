@@ -35,7 +35,7 @@ import schemaCode from './schemaCode';
     }
 </script>
 
-<style lang="scss" scoped>
+<style scoped>
 .code-view{
 	height:750rpx;
 	width: 750rpx;
@@ -49,7 +49,6 @@ import schemaCode from './schemaCode';
 	font-size: 12px;
 }
 .root{
-	//padding-bottom: 86px;
 	flex-direction: column;
 }
 .dashed-box{

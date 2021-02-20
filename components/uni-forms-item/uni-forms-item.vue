@@ -333,10 +333,9 @@
 	};
 </script>
 
-<style lang="scss" scoped>
+<style scoped>
 	.uni-forms-item {
 		position: relative;
-		// padding: 16px 14px;
 		text-align: left;
 		color: #333;
 		font-size: 14px;
@@ -348,8 +347,6 @@
 		/* #ifndef APP-NVUE */
 		display: flex;
 		/* #endif */
-		// flex-direction: row;
-		// align-items: center;
 	}
 
 	.is-direction-left {
@@ -370,8 +367,6 @@
 		font-size: 14px;
 		color: #333;
 		width: 65px;
-		// line-height: 2;
-		// margin-top: 3px;
 		padding: 5px 0;
 		box-sizing: border-box;
 		height: 36px;
@@ -381,11 +376,7 @@
 	.uni-forms-item__content {
 		/* #ifndef APP-NVUE */
 		width: 100%;
-		// display: flex;
 		/* #endif */
-		// flex: 1;
-		// flex-direction: row;
-		// align-items: center;
 		box-sizing: border-box;
 		min-height: 36px;
 	}
@@ -396,9 +387,8 @@
 		margin-top: -1px;
 	}
 
-	// 必填
 	.is-required {
-		color: $uni-color-error;
+		color: #dd524d;
 	}
 
 	.uni-error-message {
@@ -406,7 +396,7 @@
 		bottom: -17px;
 		left: 0;
 		line-height: 12px;
-		color: $uni-color-error;
+		color: #dd524d;
 		font-size: 12px;
 		text-align: left;
 	}
@@ -418,13 +408,12 @@
 	}
 
 	.is-input-error-border {
-		border-color: $uni-color-error;
+		border-color: #dd524d;
 	}
 
 	.uni-forms-item--border {
 		margin-bottom: 0;
 		padding: 10px 15px;
-		// padding-bottom: 0;
 		border-top: 1px #eee solid;
 	}
 

@@ -75,11 +75,10 @@
 		}
 	}
 </script>
-<style lang="scss" scoped>
+<style scoped>
 	.uni-group {
 		background: #fff;
 		margin-top: 10px;
-		// border: 1px red solid;
 	}
 
 	.group-margin {
@@ -93,14 +92,13 @@
 		align-items: center;
 		padding-left: 15px;
 		height: 40px;
-		background-color: $uni-bg-color-grey;
+		background-color: #f8f8f8;
 		font-weight: normal;
-		color: $uni-text-color;
+		color: #333;
 	}
 
 	.uni-group__content {
 		padding: 15px;
-		// padding-bottom: 5px;
 		background-color: #FFF;
 	}
 
@@ -109,8 +107,8 @@
 	}
 
 	.uni-group__title-text {
-		font-size: $uni-font-size-base;
-		color: $uni-text-color;
+		font-size: 28rpx;
+		color: #333;
 	}
 
 	.distraction {

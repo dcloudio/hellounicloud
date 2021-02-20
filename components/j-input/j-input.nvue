@@ -101,7 +101,7 @@
 		}
 	}
 </script>
-<style lang="scss">
+<style>
 .input-box{
 	width:750rpx;
 	padding:20rpx;

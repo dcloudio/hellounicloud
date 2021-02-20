@@ -95,7 +95,7 @@ var videoContext;
 	}
 </script>
 
-<style lang="scss" scoped>
+<style scoped>
 .root{
 	position:relative;
 	width: 750rpx;
@@ -106,11 +106,9 @@ var videoContext;
 	display: flex;
 	width: 750rpx;
 	height: 300px;
-	//border: solid 1px red;absolute
 	position:absolute;
 }
 .posterImg{
-	//border: solid red 1px;
 }
 .box{
 	justify-content: center;

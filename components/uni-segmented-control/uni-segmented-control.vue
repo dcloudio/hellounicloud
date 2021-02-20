@@ -68,8 +68,8 @@
 	}
 </script>
 
-<style lang="scss" scoped>
-	@import '@/uni.scss';
+<style scoped>
+	/* @import '@/uni.scss'; */
 
 	.segmented-control {
 		/* #ifndef APP-NVUE */

@@ -398,7 +398,7 @@
 	}
 </script>
 
-<style lang="scss">
+<style>
 	.tips {
 		color: #999999;
 		font-size: 14px;

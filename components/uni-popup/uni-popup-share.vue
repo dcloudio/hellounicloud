@@ -83,7 +83,7 @@
 		}
 	}
 </script>
-<style lang="scss" scoped>
+<style scoped>
 	.uni-popup-share {
 		background-color: #fff;
 	}

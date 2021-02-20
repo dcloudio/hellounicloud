@@ -216,7 +216,7 @@
 	};
 </script>
 
-<style lang="scss" scoped>
+<style scoped>
 	$background-color: #fff;
 	$divide-line-color: #e5e5e5;
 	$avatar-width: 45px;
@@ -251,9 +251,6 @@
 		background-color: $background-color;
 	}
 
-	// .uni-list-chat--disabled {
-	// 	opacity: 0.3;
-	// }
 
 	.uni-list-chat--hover {
 		background-color: $hover;

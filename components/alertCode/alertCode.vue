@@ -35,7 +35,7 @@
 		}
 	}
 </script>
-<style lang="scss" scoped>
+<style scoped>
 .box{
 	width: 100vw;
 	height: 100vh;

@@ -65,7 +65,7 @@
 		}
 	}
 </script>
-<style lang="scss" scoped>
+<style scoped>
 	.uni-popup-message {
 		/* #ifndef APP-NVUE */
 		display: flex;

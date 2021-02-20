@@ -282,7 +282,7 @@
 		}
 	}
 </script>
-<style lang="scss" scoped>
+<style scoped>
 	view {
 		display: flex;
 		flex-direction: column;
@@ -298,7 +298,6 @@
 	}
 
 	.page {
-		//background-color: #f2f2f2;
 		height: 100vh;
 		width: 750rpx;
 		overflow-x: hidden;
@@ -306,7 +305,6 @@
 
 	.row {
 		background-color: #FFFFFF;
-		//padding: 10px;
 		flex-direction: row;
 	}
 
@@ -345,7 +343,6 @@
 	}
 
 	.comment-list {
-		//background-color: #f2f2f2;
 		flex: 1;
 		width: 750rpx;
 		padding: 16rpx;

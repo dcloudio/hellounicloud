@@ -240,14 +240,14 @@ export default {
 };
 </script>
 
-<style lang="scss">
-$list-item-pd: $uni-spacing-col-lg $uni-spacing-row-lg;
+<style>
+/* $list-item-pd: $uni-spacing-col-lg $uni-spacing-row-lg; */
 
 .uni-list-item {
 	/* #ifndef APP-NVUE */
 	display: flex;
 	/* #endif */
-	font-size: $uni-font-size-lg;
+	font-size: 32rpx;
 	position: relative;
 	justify-content: space-between;
 	background-color: #fff;
@@ -259,7 +259,7 @@ $list-item-pd: $uni-spacing-col-lg $uni-spacing-row-lg;
 }
 
 .uni-list-item--hover {
-	background-color: $uni-bg-color-hover;
+	background-color: #f1f1f1;
 }
 
 .uni-list-item__container {
@@ -268,20 +268,16 @@ $list-item-pd: $uni-spacing-col-lg $uni-spacing-row-lg;
 	display: flex;
 	/* #endif */
 	flex-direction: row;
-	padding: $list-item-pd;
-	padding-left: $uni-spacing-row-lg;
+	padding: 20rpx;
+	padding-left: 30rpx;
 	flex: 1;
 	overflow: hidden;
-	// align-items: center;
 }
 
 .container--right {
 	padding-right: 0;
 }
 
-// .border--left {
-// 	margin-left: $uni-spacing-row-lg;
-// }
 
 .uni-list--border {
 	position: absolute;
@@ -289,7 +285,7 @@ $list-item-pd: $uni-spacing-col-lg $uni-spacing-row-lg;
 	right: 0;
 	left: 0;
 	/* #ifdef APP-NVUE */
-	border-top-color: $uni-border-color;
+	border-top-color: #c8c7cc;
 	border-top-style: solid;
 	border-top-width: 0.5px;
 	/* #endif */
@@ -305,7 +301,7 @@ $list-item-pd: $uni-spacing-col-lg $uni-spacing-row-lg;
 	content: '';
 	-webkit-transform: scaleY(0.1);
 	transform: scaleY(0.1);
-	background-color: $uni-border-color;
+	background-color: #c8c7cc;
 }
 
 /* #endif */
@@ -317,7 +313,6 @@ $list-item-pd: $uni-spacing-col-lg $uni-spacing-row-lg;
 	padding-right: 8px;
 	flex: 1;
 	color: #3b4144;
-	// overflow: hidden;
 	flex-direction: column;
 	justify-content: space-between;
 	overflow: hidden;
@@ -328,20 +323,19 @@ $list-item-pd: $uni-spacing-col-lg $uni-spacing-row-lg;
 }
 
 .uni-list-item__content-title {
-	font-size: $uni-font-size-base;
+	font-size: 28rpx;
 	color: #3b4144;
 	overflow: hidden;
 }
 
 .uni-list-item__content-note {
 	margin-top: 6rpx;
-	color: $uni-text-color-grey;
-	font-size: $uni-font-size-sm;
+	color: #999;
+	font-size: 24rpx;
 	overflow: hidden;
 }
 
 .uni-list-item__extra {
-	// width: 25%;
 	/* #ifndef APP-NVUE */
 	display: flex;
 	/* #endif */
@@ -369,8 +363,8 @@ $list-item-pd: $uni-spacing-col-lg $uni-spacing-row-lg;
 	/* #ifndef APP-NVUE */
 	display: block;
 	/* #endif */
-	height: $uni-img-size-base;
-	width: $uni-img-size-base;
+	height: 52rpx;
+	width: 52rpx;
 }
 
 .uni-icon-wrapper {
@@ -395,23 +389,23 @@ $list-item-pd: $uni-spacing-col-lg $uni-spacing-row-lg;
 }
 
 .uni-list--lg {
-	height: $uni-img-size-lg;
-	width: $uni-img-size-lg;
+	height: 80rpx;
+	width: 80rpx;
 }
 
 .uni-list--base {
-	height: $uni-img-size-base;
-	width: $uni-img-size-base;
+	height: 52rpx;
+	width: 52rpx;
 }
 
 .uni-list--sm {
-	height: $uni-img-size-sm;
-	width: $uni-img-size-sm;
+	height: 40rpx;
+	width: 40rpx;
 }
 
 .uni-list-item__extra-text {
-	color: $uni-text-color-grey;
-	font-size: $uni-font-size-sm;
+	color: #999;
+	font-size: 24rpx;
 }
 .uni-ellipsis-1 {
 	/* #ifndef APP-NVUE */

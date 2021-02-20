@@ -1,0 +1,8 @@
+{
+  "navigationBarTitleText": "角色权限",
+  "enablePullDownRefresh": false,
+  "usingComponents": {
+    "j-link": "/components/j-link/j-link",
+    "uni-list-item": "/components/uni-list-item/uni-list-item"
+  }
+}

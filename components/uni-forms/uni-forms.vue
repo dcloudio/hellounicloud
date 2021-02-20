@@ -430,15 +430,8 @@
 	}
 </script>
 
-<style lang="scss" scoped>
-	.uni-forms {
-		// overflow: hidden;
-		// padding: 10px 15px;
-		// background-color: #fff;
-	}
-
+<style scoped>
 	.uni-forms--top {
 		padding: 10px 15px;
-		// padding-top: 22px;
 	}
 </style>

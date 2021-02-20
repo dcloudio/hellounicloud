@@ -804,7 +804,6 @@
 		cursor: pointer;
 	}
 
-	// 下箭头
 	.uni-datetime-picker-down-arrow {
 		display: inline-block;
 		position: relative;

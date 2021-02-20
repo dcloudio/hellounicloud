@@ -286,14 +286,13 @@
 	};
 </script>
 
-<style lang="scss" scoped>
+<style scoped>
 	.uni-easyinput {
 		/* #ifndef APP-NVUE */
 		width: 100%;
 		/* #endif */
 		flex: 1;
 		position: relative;
-		// padding: 16px 14px;
 		text-align: left;
 		color: #333;
 		font-size: 14px;
@@ -320,7 +319,6 @@
 		font-size: 14px;
 		min-height: 26px;
 		line-height: 26px;
-		// padding-right: 10px;
 	}
 
 	.is-textarea {
@@ -338,10 +336,8 @@
 		width: auto;
 		line-height: 1.5;
 		font-size: 14px;
-		// padding-right: 10px;
 		padding-top: 6px;
 		padding-bottom: 10px;
-		// box-sizing: border-box;
 		min-height: 80px;
 		height: 80px;
 	}
@@ -359,25 +355,24 @@
 		margin-top: -1px;
 	}
 
-	// 显示边框
+	/* // 显示边框 */
 	.is-input-border {
 		/* #ifndef APP-NVUE */
 		display: flex;
 		/* #endif */
 		flex-direction: row;
 		align-items: center;
-		border: 1px solid $uni-border-color;
+		border: 1px solid #c8c7cc;
 		border-radius: 4px;
 		box-sizing: border-box;
 	}
 
 	.uni-easyinput__right {
-		// margin-left: 5px;
 	}
 
-	// 必填
+	/* // 必填 */
 	.is-required {
-		color: $uni-color-error;
+		color: #dd524d;
 	}
 
 	.uni-error-message {
@@ -385,7 +380,7 @@
 		bottom: -17px;
 		left: 0;
 		line-height: 12px;
-		color: $uni-color-error;
+		color: #dd524d;
 		font-size: 12px;
 		text-align: left;
 	}
@@ -397,13 +392,12 @@
 	}
 
 	.is-input-error-border {
-		border-color: $uni-color-error;
+		border-color: #dd524d;
 	}
 
 	.uni-easyinput--border {
 		margin-bottom: 0;
 		padding: 10px 15px;
-		// padding-bottom: 0;
 		border-top: 1px #eee solid;
 	}
 

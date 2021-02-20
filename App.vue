@@ -18,7 +18,7 @@
 	}
 </script>
 
-<style lang="scss">
+<style>
 	/*每个页面公共css */
 	/* #ifndef APP-NVUE */
 	view{

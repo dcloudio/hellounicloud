@@ -225,7 +225,7 @@
 	}
 </script>
 
-<style lang="scss" scoped>
+<style scoped>
 view{
 	display: flex;
 	flex-direction:column;
@@ -257,9 +257,6 @@ view{
 	color: #2b8300;
 }
 .info{
-	//position: absolute;
-	//top: 5rpx;
-	//right: 50rpx;
 	flex-direction: row;
 	background-color: #FFFFFF;
 	color: #0077CC;

@@ -99,7 +99,7 @@
 		},
 	}
 </script>
-<style lang="scss" scoped>
+<style scoped>
 	/* #ifndef APP-NVUE */
 	view,text{
 		display: flex;
@@ -142,7 +142,6 @@
 	.active-box{
 		position: absolute;
 		background-color: #007AFF;
-		//box-shadow: 1px 1px 6px #007AFF;
 		z-index: 1;
 		transition: left 0.3s;
 		font-size: 28rpx;

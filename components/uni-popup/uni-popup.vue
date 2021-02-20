@@ -205,7 +205,7 @@
 		}
 	}
 </script>
-<style lang="scss" scoped>
+<style scoped>
 	.uni-popup {
 		position: fixed;
 		/* #ifndef APP-NVUE */
@@ -219,7 +219,7 @@
 		bottom: 0;
 		left: 0;
 		right: 0;
-		background-color: $uni-bg-color-mask;
+		background-color: rgba(0, 0, 0, 0.4);
 		opacity: 0;
 	}
 
@@ -273,7 +273,6 @@
 	}
 
 	.content-ani {
-		// transition: transform 0.3s;
 		transition-property: transform, opacity;
 		transition-duration: 0.2s;
 	}

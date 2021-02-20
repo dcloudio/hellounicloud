@@ -1,0 +1,69 @@
+{
+  "pages": [
+    "pages/storage/storage",
+    "pages/test/test",
+    "pages/clientDB/unicloud-db-demo/unicloud-db-demo",
+    "pages/clientDB/demo/demo",
+    "pages/clientDB/permission-table-simple/permission-table-simple",
+    "pages/clientDB/permission-table-compound/permission-table-compound",
+    "pages/clientDB/clientDB",
+    "pages/user-info/add",
+    "pages/user-info/edit",
+    "pages/user-info/list",
+    "pages/user-info/detail",
+    "pages/cloudFunction/cloudFunction",
+    "pages/schema2code/schema2code",
+    "pages/clientDB/permission/permission",
+    "pages/clientDB/permission-demo/permission-demo",
+    "pages/clientDB/permission-demo/readme",
+    "pages/clientDB/permission-field-simple/permission-field-simple",
+    "pages/clientDB/clientDB-api/clientDB-api",
+    "pages/clientDB/validate/validate",
+    "pages/validate-demo/add",
+    "pages/validate-demo/edit",
+    "pages/validate-demo/list",
+    "pages/validate-demo/detail",
+    "pages/webview/webview"
+  ],
+  "subPackages": [],
+  "window": {
+    "navigationBarTextStyle": "black",
+    "navigationBarTitleText": "uni-app",
+    "navigationBarBackgroundColor": "#F8F8F8",
+    "backgroundColor": "#F8F8F8"
+  },
+  "tabBar": {
+    "color": "#7A7E83",
+    "selectedColor": "#1296db",
+    "borderStyle": "black",
+    "backgroundColor": "#ffffff",
+    "list": [
+      {
+        "pagePath": "pages/cloudFunction/cloudFunction",
+        "iconPath": "static/tabbar/fn.png",
+        "selectedIconPath": "static/tabbar/fn1.png",
+        "text": "云函数"
+      },
+      {
+        "pagePath": "pages/storage/storage",
+        "iconPath": "static/tabbar/storage.png",
+        "selectedIconPath": "static/tabbar/storage1.png",
+        "text": "云存储"
+      },
+      {
+        "pagePath": "pages/clientDB/clientDB",
+        "iconPath": "static/tabbar/yun.png",
+        "selectedIconPath": "static/tabbar/yun1.png",
+        "text": "clientDB"
+      },
+      {
+        "pagePath": "pages/schema2code/schema2code",
+        "iconPath": "/static/tabbar/st-code.png",
+        "selectedIconPath": "static/tabbar/st-code1.png",
+        "text": "schema2code"
+      }
+    ]
+  },
+  "usingComponents": {},
+  "sitemapLocation": "sitemap.json"
+}

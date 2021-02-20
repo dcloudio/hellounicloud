@@ -1,0 +1,1 @@
+<text data-event-opts="{{[['tap',[['navigator',['$event']]]]]}}" class="underline" style="{{'color:'+(color)+';'}}" bindtap="__e">{{text}}</text>
