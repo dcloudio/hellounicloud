@@ -2,7 +2,7 @@
 <view class="root">
 	<view v-if="showGuide" class="guide"></view>
 	<view class="box" :style="{width:170*roles.length+'rpx'}">
-		<text class="item" v-for="(item,index) in roles" :key="item.value"
+		<text class="roles-item" v-for="(item,index) in roles" :key="item.value"
 			:class="{active:activeIndex==index}"
 			@click="activeIndex=index"
 			>{{item.text}}</text>
@@ -125,7 +125,7 @@
 		z-index: 200;
 		overflow: hidden;
 	}
-	.item,.active-box{
+	.roles-item,.active-box{
 		border-radius: 20px;
 		height: 40px;
 		line-height: 40px;

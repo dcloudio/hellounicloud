@@ -31,7 +31,7 @@
 		<view class="item">
 			<view class="row">
 				<text class="title">指定查询结果是否仅返回数组第一条数据（getone）</text>
-				<switch :checked="getone" @change="getone = $event.detail.value" />
+				<switch class="switch-getone" :checked="getone" @change="getone = $event.detail.value" />
 			</view>
 			<text class="msg">默认 false。在false情况下返回的是数组，即便只有一条结果，也需要[0]的方式获取。在值为 true 时，直接返回结果数据，少一层数组，一般用于非列表页，比如详情页</text>
 		</view>
@@ -43,19 +43,19 @@
 			</view>
 			<view v-if="pageData == 'replace'" class="item row">
 				<text class="title">当前页码（pageCurrent）</text>
-				<uni-number-box  :min="1" @change="changePageCurrent($event/1)" :value="pageCurrent"></uni-number-box>
+				<uni-number-box class="num-box1" :min="1" @change="changePageCurrent($event/1)" :value="pageCurrent"></uni-number-box>
 			</view>
 			<view v-else class="item">
 				<text class="title">加载更多loadMore</text>
 				<view class="msg">
 					在列表的加载下一页场景下，使用ref方式访问组件方法，加载更多数据，每加载成功一次，当前页 +1
 				</view>
-				<button size="mini" plain type="primary" @click="$refs.udb.loadMore()">加载更多</button>
+				<button class="loadMore" size="mini" plain type="primary" @click="$refs.udb.loadMore()">加载更多</button>
 			</view>
 			
 			<view class="item row">
 				<text class="title">每页数据数量（pageSize）</text>
-				<uni-number-box :min="1" @change="$event/1>0?pageSize = $event/1:''" :value="pageSize"></uni-number-box>
+				<uni-number-box class="num-box2" :min="1" @change="$event/1>0?pageSize = $event/1:''" :value="pageSize"></uni-number-box>
 			</view>
 			<view class="item">
 				<text class="msg">
@@ -72,7 +72,7 @@
 			<view class="item">
 				<view class="row">
 					<text class="title">是否查询总数据条数（getcount）</text>
-					<switch :checked="getcount" @change="getcount = $event.detail.value" />
+					<switch class="switch-getcount" :checked="getcount" @change="getcount = $event.detail.value" />
 				</view>
 				<text class="msg">默认 false，需要分页模式时指定为 true</text>
 			</view>
@@ -80,7 +80,7 @@
 		
 		<view class="item">
 			<text class="title">指定要查询的字段（field）</text>
-			<uni-data-checkbox multiple v-model="field"
+			<uni-data-checkbox class="field-checkbox" multiple v-model="field"
 			:localdata="mArrJson(fields)" />
 			<text class="msg">多个字段用 , 分割。不写本属性，即表示查询所有字段。支持用 oldname as newname方式对返回字段重命名</text>
 		</view>
@@ -192,23 +192,24 @@
 				})
 				return arrJson
 			},
-			add(){
-				udb.add({
+			async add(){
+				return await udb.add({
 					book_id:"add-test",
 					quantity:Date.now()
 				},{
 					success: (res) => { // 新增成功后的回调
 						this.getFn()
+						return res.result.id
 					}
 				})
 			},
-			remove(){
+			async remove(){
 				const _id = udb.dataList[0]._id
-				udb.remove(_id)
+				return await udb.remove(_id)
 			},
-			update(){
+			async update(){
 				const _id = udb.dataList[0]._id
-				udb.update(_id,{book_id:"这条数据被改"},
+				return await udb.update(_id,{book_id:"这条数据被改"},
 				{
 					success: (res) => { // 新增成功后的回调
 						this.getFn()

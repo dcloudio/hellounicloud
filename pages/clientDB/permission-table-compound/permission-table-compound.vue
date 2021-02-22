@@ -141,6 +141,7 @@
 								});
 								return false
 							}
+							return res
 							break;
 						case 'create':
 							res = await db.action(e.action).collection(tableName).add({
@@ -166,33 +167,14 @@
 						content: item.explain +'【'+ this.typeText+'数据】' + (item.explain_end?item.explain_end:''),
 						showCancel: false
 					});
-					return false
+					//return false
+					return err.message
 				} finally{
 					uni.hideLoading()
 				}
-				/* uni.showModal({
-					title: this.typeText+'数据成功',
-					content: JSON.stringify(res.result),
-					showCancel: false
-				}); */
 				this.$refs.alertCode.open(res.result)
 				
 			},
-			/* myFn_action(tableName) {
-				db.action('add_view_count').collection(tableName).get().then((e) => {
-					uni.showModal({
-						title: "执行读取成功",
-						content: JSON.stringify(e.result.data),
-						showCancel: false
-					});
-				}).catch((err) => {
-					console.log(err);
-					uni.showModal({
-						content: err.message + " | code:" + err.code,
-						showCancel: false
-					});
-				})
-			}, */
 			changePermission(role) {
 				console.log(role);
 			}

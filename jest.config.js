@@ -21,7 +21,7 @@ module.exports = {
 			executablePath: "C:/Users/liuxi/download/微信web开发者工具/cli.bat", // 开发者工具cli路径，默认会自动查找,  windows: C:/Program Files (x86)/Tencent/微信web开发者工具/cli.bat", mac: /Applications/wechatwebdevtools.app/Contents/MacOS/cli
 		},
 	},
-	testTimeout: 32000,
+	testTimeout: 80000,
 	reporters: [
 		'default'
 	],

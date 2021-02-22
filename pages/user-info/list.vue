@@ -26,7 +26,8 @@
           contentdown: '',
           contentrefresh: '',
           contentnomore: ''
-        }
+        },
+		dataList:[]
       }
     },
     onPullDownRefresh() {
@@ -39,6 +40,11 @@
     onReachBottom() {
       this.$refs.udb.loadMore()
     },
+	onLoad() {
+		setTimeout(()=>{
+			this.dataList = this.$refs.udb.dataList
+		}, 2000);
+	},
     methods: {
       handleItemClick(id) {
         uni.navigateTo({

@@ -140,6 +140,7 @@
 			async clickIcon(e, item) {
 				if (e) {
 					let res = await this.$refs.udb.remove(item._id);
+					return res
 				} else {
 					this.defaultText = item.text
 					this.activeNoticeId = item._id
@@ -151,7 +152,7 @@
 				uni.showLoading({
 					mask: true
 				});
-				db.collection('comment')
+				return await db.collection('comment')
 					.doc(_id)
 					.update({
 						"state": e.detail.value / 1
@@ -166,14 +167,17 @@
 							duration: 3000
 						});
 						console.log(code, message);
+						return message
 					}).catch(({
 						code,
 						message
 					}) => {
 						console.log(code, message);
+						return message
 					}).finally(e => {
 						uni.hideLoading()
 						this.$refs.upDataDialog.close()
+						return e
 					})
 			},
 			async updateComment(text) {
@@ -191,7 +195,7 @@
 				uni.showLoading({
 					mask: true
 				});
-				await this.$refs.udb.update(this.activeNoticeId, {
+				return await this.$refs.udb.update(this.activeNoticeId, {
 					text
 				}, {
 					action: "up_comment",
@@ -211,12 +215,14 @@
 								}
 							}
 						})
+						return message
 
 					},
 					fail: (err) => { // 更新失败后的回调
 						const {
 							message
 						} = err
+						return message
 					},
 					complete: () => { // 完成后的回调
 						uni.hideLoading()
@@ -224,7 +230,7 @@
 					}
 				})
 			},
-			submitComment(text) {
+			async submitComment(text) {
 				console.log(text);
 				if (!text) {
 					uni.showToast({
@@ -235,11 +241,12 @@
 				}
 				this.$refs.dialog.close()
 
-				db.collection('comment').add({
+				return await db.collection('comment').add({
 					text
 				}).then(res => {
 					console.log(res);
 					this.getNewData()
+					return res.result
 				}).catch(({
 					code,
 					message
@@ -257,6 +264,7 @@
 						});
 					}
 					console.log(code, message);
+					return message
 				})
 			},
 			getNewData() {

@@ -13,11 +13,11 @@
 		<uni-section title="查询列表分页" subTitle="设置每页查询数量和页码查询" type="line"></uni-section>
 		<view class="item">
 			<text>页码：</text>
-			<uni-number-box :min="1" @change="$event/1>0?pageSize = $event/1:''" :value="pageSize"></uni-number-box>
+			<uni-number-box class="num-box1" :min="1" @change="$event/1>0?pageSize = $event/1:''" :value="pageSize"></uni-number-box>
 		</view>
 		<view class="item">
 			<text>每页查询数量：</text>
-			<uni-number-box :min="1" @change="$event/1>0?pageCurrent = $event/1:''" :value="pageCurrent"></uni-number-box>
+			<uni-number-box class="num-box2" :min="1" @change="$event/1>0?pageCurrent = $event/1:''" :value="pageCurrent"></uni-number-box>
 		</view>
 		<button @click="getPageData('order')" plain type="primary">分页查图书book表的数据</button>
 
@@ -214,152 +214,140 @@
 					uni.hideLoading()
 				}
 			},
-			getData(tableName) {
+			async getData(tableName) {
+				console.log(tableName);
 				uni.showLoading({
 					mask: true
 				});
 				// 客户端联表查询
-				db.collection(tableName)
+				return await db.collection(tableName)
 					.get()
 					.then(res => {
 						this.$refs.alertCode.open(res.result)
-						// uni.showModal({
-						// 	content: JSON.stringify(res.result.data),
-						// 	showCancel: false
-						// });
+						return res.result.data
 					}).catch(err => {
 						console.error(err)
+						return err
 					})
-					.finally(() => {
+					.finally((e) => {
+						console.log(e,9527);
 						uni.hideLoading()
 					})
 			},
-			getOrder() {
+			async getOrder() {
 				uni.showLoading({
 					mask: true
 				});
 				// 客户端联表查询
-				db.collection('order,book') // 注意collection方法内需要传入所有用到的表名，用逗号分隔，主表需要放在第一位
+				return await db.collection('order,book') // 注意collection方法内需要传入所有用到的表名，用逗号分隔，主表需要放在第一位
 					//.where('book_id.title == "三国演义"') // 查询order表内书名为“三国演义”的订单
 					.field('book_id{title,author},quantity') // 这里联表查询book表返回book表内的title、book表内的author、order表内的quantity
 					.get()
 					.then(res => {
 						this.$refs.alertCode.open(res.result)
-						// uni.showModal({
-						// 	content: JSON.stringify(res.result.data),
-						// 	showCancel: false
-						// });
+						return res.result.data
 					}).catch(err => {
 						console.error(err)
+						return err
 					}).finally(() => {
 						uni.hideLoading()
 					})
 			},
-			getOneBook() {
+			async getOneBook() {
 				uni.showLoading({
 					mask: true
 				});
 				// 客户端联表查询
-				db.collection('book')
+				return await db.collection('book')
 					.get({
 						getOne: true
 					})
 					.then(res => {
 						this.$refs.alertCode.open(res.result)
-						// uni.showModal({
-						// 	content: JSON.stringify(res.result.data),
-						// 	showCancel: false
-						// });
+						return res.result.data
 					}).catch(err => {
 						console.error(err)
+						return err
 					}).finally(() => {
 						uni.hideLoading()
 					})
 			},
-			getBookTitle() {
+			async getBookTitle() {
 				uni.showLoading({
 					mask: true
 				});
 				// 客户端联表查询
-				db.collection('book')
+				return await db.collection('book')
 					.field('title')
 					.get()
 					.then(res => {
 						this.$refs.alertCode.open(res.result)
-						// uni.showModal({
-						// 	content: JSON.stringify(res.result.data),
-						// 	showCancel: false
-						// });
+						return res.result.data
 					}).catch(err => {
 						console.error(err)
+						return err
 					}).finally(() => {
 						uni.hideLoading()
 					})
 			},
-			getBookAs() {
+			async getBookAs() {
 				uni.showLoading({
 					mask: true
 				});
 				// 客户端联表查询
-				db.collection('book')
+				return await db.collection('book')
 					.field('title,author as book_author')
 					.get()
 					.then(res => {
 						this.$refs.alertCode.open(res.result)
-						// uni.showModal({
-						// 	content: JSON.stringify(res.result.data),
-						// 	showCancel: false
-						// });
+						return res.result.data
 					}).catch(err => {
 						console.error(err)
+						return err
 					}).finally(() => {
 						uni.hideLoading()
 					})
 			},
-			getOrderOrderBy(str) {
+			async getOrderOrderBy(str) {
 				uni.showLoading({
 					mask: true
 				});
-				db.collection('order')
+				return await db.collection('order')
 					.orderBy(str)
 					.get()
 					.then(res => {
 						this.$refs.alertCode.open(res.result)
-						// uni.showModal({
-						// 	content: JSON.stringify(res.result.data),
-						// 	showCancel: false
-						// });
+						return res.result.data
 					}).catch(err => {
 						console.error(err)
+						return err
 					}).finally(() => {
 						uni.hideLoading()
 					})
 			},
-			getBookHasCount() {
+			async getBookHasCount() {
 				uni.showLoading({
 					mask: true
 				});
-				db.collection('book')
+				return await db.collection('book')
 					.get({
 						"getCount": true
 					})
 					.then(res => {
-						/* uni.showModal({
-							content: JSON.stringify(),
-							showCancel: false
-						}); */
 						this.$refs.alertCode.open(res.result)
+						return res.result
 					}).catch(err => {
 						console.error(err)
+						return err
 					}).finally(() => {
 						uni.hideLoading()
 					})
 			},
-			getTreeFn() {
+			async getTreeFn() {
 				uni.showLoading({
 					mask: true
 				});
-				db.collection("department").get({
+				return await db.collection("department").get({
 						getTree: {
 							limitLevel: 10, // 最大查询层级（不包含当前层级），可以省略默认10级，最大15，最小1
 							//	startWith: "parent_code==''"  // 第一层级条件，此初始条件可以省略，不传startWith时默认从最顶级开始查询
@@ -368,16 +356,14 @@
 					.then((res) => {
 						const resdata = res.result.data
 						console.log("resdata", );
-						/* uni.showModal({
-							content: JSON.stringify(resdata),
-							showCancel: false
-						}) */
 						this.$refs.alertCode.open(resdata)
+						return resdata
 					}).catch((err) => {
 						uni.showModal({
 							content: err.message || '请求服务失败',
 							showCancel: false
 						})
+						return err
 					}).finally(() => {
 						uni.hideLoading()
 					})
@@ -393,6 +379,7 @@
 				console.log(res);
 				this.$refs.alertCode.open(res.result.data)
 				uni.hideLoading()
+				return res.result.data
 			}
 		}
 	}

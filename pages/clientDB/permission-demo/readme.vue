@@ -226,9 +226,9 @@
 					urls:[url]
 				})
 			},
-			addFn(){
+			async addFn(){
 				uni.showLoading({mask:true})
-				ptDb.add({
+				return await ptDb.add({
 					nickname:"默认昵称",
 					username:"默认姓名",
 					phone:"18888888888"
@@ -239,6 +239,7 @@
 						showCancel: false,
 						confirmText:"知道了"
 					});
+					return e
 				}).catch(err=>{
 					console.log(err);
 					uni.showModal({
@@ -247,19 +248,21 @@
 						showCancel: false,
 						confirmText:"知道了"
 					});
+					return err
 				}).finally(() => {
 					uni.hideLoading()
 				})
 			},
-			removeFn(){
+			async removeFn(){
 				uni.showLoading({mask:true})
-				ptDb.remove().then(e=>{
+				return await ptDb.remove().then(e=>{
 					console.log(e);
 					uni.showModal({
 						content: JSON.stringify(e.result),
 						showCancel: false,
 						confirmText:"知道了"
 					});
+					return e
 				}).catch(err=>{
 					console.log(err);
 					uni.showModal({
@@ -268,6 +271,7 @@
 						showCancel: false,
 						confirmText:"知道了"
 					});
+					return err
 				}).finally(() => {
 					uni.hideLoading()
 				})
@@ -275,11 +279,11 @@
 			updateNickname(self){
 				
 			},
-			updateFn(data,where={}){
+			async updateFn(data,where={}){
 				console.log("data");
 				console.log(data);
 				uni.showLoading({mask:true})
-				ptDb
+				return await ptDb
 				.where(where)
 				.update(data)
 				.then(e=>{
@@ -289,6 +293,7 @@
 						showCancel: false,
 						confirmText:"知道了"
 					});
+					return e
 				}).catch(err=>{
 					
 					if('nickname' in data){
@@ -330,6 +335,7 @@
 					}
 					console.log("错误------",err);
 					console.log("错误------",err.message);
+					return err.message
 					//console.log(err);
 					/* 
 					 */
@@ -343,9 +349,9 @@
 					uni.hideLoading()
 				})
 			},
-			getFn(field='uid,username,nickname,state'){
+			async getFn(field='uid,username,nickname,state'){
 				uni.showLoading({mask:true})
-				ptDb.field(field).get()
+				return await ptDb.field(field).get()
 				.then(e=>{
 					console.log(e);
 					if(e.result.data.length){
@@ -365,6 +371,7 @@
 							confirmText:"知道了"
 						});
 					}
+					return e
 				}).catch(err=>{
 					console.log(err);
 					uni.showModal({
@@ -373,6 +380,7 @@
 						showCancel: false,
 						confirmText:"知道了"
 					});
+					return err
 				}).finally(() => {
 					uni.hideLoading()
 				})

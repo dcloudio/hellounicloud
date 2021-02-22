@@ -21,7 +21,6 @@ describe('pages/clientDB/permission/permission.vue', () => {
 		const getData = await perPage.$$(".table-item")
 		expect(getData.length).toBe(4)
 		
-		
 		const tableItem = await page.$(".table-item")
 		expect(await tableItem.text()).not.toBeUndefined();
 		

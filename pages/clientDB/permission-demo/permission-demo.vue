@@ -1,5 +1,5 @@
 <template>
-	<view>
+	<view class="page">
 		<view class="uni-container">
 			<uni-forms ref="form" :value="formData" validate-trigger="submit" err-show-type="toast">
 				<uni-forms-item name="nickname" label="昵称">

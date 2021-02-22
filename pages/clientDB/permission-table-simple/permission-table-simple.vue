@@ -176,19 +176,23 @@
 								});
 								return false
 							}
+							return res
 							break;
 						case 'create':
 							res = await db.action(e.action).collection(tableName).add({
 								"text": "默认写入的数据" + Date.now()
 							})
+							return res
 							break;
 						case 'update':
 							res = await db.action(e.action).collection(tableName).where(e.where).update({
 								"text": "更新后的数据" + Date.now()
 							})
+							return res
 							break;
 						case 'delete':
 							res = await db.action(e.action).collection(tableName).where(e.where).remove()
+							return res
 							break;
 						default:
 							console.log('err 未定义事件类型');
@@ -201,15 +205,11 @@
 						content: item.explain +'【'+ this.typeText+'数据】' + (item.explain_end?item.explain_end:''),
 						showCancel: false
 					});
-					return false
+					//return false
+					return err.message
 				} finally{
 					uni.hideLoading()
 				}
-				/* uni.showModal({
-					title: this.typeText+'数据成功',
-					content: JSON.stringify(res.result),
-					showCancel: false
-				}); */
 				this.$refs.alertCode.open(res.result)
 				
 			},
