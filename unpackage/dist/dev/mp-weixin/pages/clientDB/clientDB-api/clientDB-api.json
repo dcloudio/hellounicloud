@@ -1,9 +1,0 @@
-{
-  "navigationBarTitleText": "前端操作数据库的API",
-  "enablePullDownRefresh": false,
-  "usingComponents": {
-    "alert-code": "/components/alertCode/alertCode",
-    "uni-section": "/components/uni-section/uni-section",
-    "uni-number-box": "/components/uni-number-box/uni-number-box"
-  }
-}
