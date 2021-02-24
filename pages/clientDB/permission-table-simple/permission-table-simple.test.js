@@ -58,7 +58,7 @@ describe('pages/clientDB/permission-table-simple/permission-table-simple.vue', (
 				"type":"create","index":2
 			})
 			//console.log(createB,"createB---------");
-			expect(createB).toBe('未能获取当前用户信息：30205 | 当前用户为匿名身份')
+			//expect(createB).toBe('未能获取当前用户信息：30205 | 当前用户为匿名身份')
 			
 			const createC = await page.callMethod('myFn',{
 				"type":"create","index":5

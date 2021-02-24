@@ -5,7 +5,7 @@ module.exports = {
 		"executablePath": "C:/Program Files/Google/Chrome/Application/chrome.exe",
 	},
 	"mp-weixin": {
-		"executablePath": ""
+		"executablePath": "C:/Users/liuxi/download/微信web开发者工具/cli.bat"
 	},
 	"mp-qq": {
 		"executablePath": ""
@@ -25,7 +25,7 @@ module.exports = {
 	"app-plus": {
 		"android": {
 			"id": "",
-			"executablePath": ""
+			"executablePath": "D:/HX/alpha-3.1.3/HBuilderX/plugins/launcher/base/android_base.apk"
 		},
 		"version": "",
 		"ios": {
