@@ -12,7 +12,7 @@
 				配置规则：
 				<scroll-view scroll-x class="code-box">
 					<show-code :codes="item.codes[type]"></show-code>
-				</scroll-view> 
+				</scroll-view>
 				<text>含义解释：{{item.explain}}</text>
 				<text>【{{typeText}}】</text>
 				<text>{{item.explain_end}}</text>
@@ -71,7 +71,8 @@
 		},
 		data() {
 			return {
-				lll:'"permission":{',
+				"currentRole":"",
+				lll: '"permission":{',
 				types: [{
 						text: "创建",
 						value: "create"
@@ -143,7 +144,7 @@
 								"${type}":${this.permissionList[i].code}
 							}
 					}`
-					if(!this.permissionList[i].codes) this.permissionList[i].codes = {}
+					if (!this.permissionList[i].codes) this.permissionList[i].codes = {}
 					this.permissionList[i].codes[type] = JSON.parse(jsonString)
 				}
 			}
@@ -169,7 +170,7 @@
 					switch (e.type) {
 						case 'read':
 							res = await db.action(e.action).collection(tableName).where(e.where).get()
-							if(res.result.data.length == 0){
+							if (res.result.data.length == 0) {
 								uni.showModal({
 									title: "数据为空，请先点击创建数据",
 									showCancel: false
@@ -201,20 +202,23 @@
 				} catch (err) {
 					console.log('TODO handle the exception', err);
 					uni.showModal({
-						title: '错误:' + err.message+','+ err.code,
-						content: item.explain +'【'+ this.typeText+'数据】' + (item.explain_end?item.explain_end:''),
+						title: '错误:' + err.message + ',' + err.code,
+						content: item.explain + '【' + this.typeText + '数据】' + (item.explain_end ? item.explain_end : ''),
 						showCancel: false
 					});
 					//return false
 					return err.message
-				} finally{
+				} finally {
 					uni.hideLoading()
 				}
 				this.$refs.alertCode.open(res.result)
-				
+
 			},
-			changePermission(role) {
-				console.log(role);
+			changePermission(e) {
+				console.log(e, '切换完成');
+				console.log("role: ",e.role);
+				console.log("typeIndex: ",this.typeIndex);
+				this.currentRole = e.role
 			}
 		}
 	}
@@ -231,19 +235,23 @@
 		left: 0;
 		z-index: 999;
 	}
+
 	.top-view .segmented-control {
 		padding: 0 20rpx;
 	}
+
 	.item {
 		padding: 20rpx 20rpx 0 20rpx;
 		border-bottom: dashed 1px #E9E9EB;
 	}
-	.msg{
+
+	.msg {
 		font-weight: 500;
 		font-size: 16px;
 	}
-	.msg::before{
-		content:'·';
+
+	.msg::before {
+		content: '·';
 		width: 10px;
 		height: 10px;
 		line-height: 14px;
@@ -251,6 +259,7 @@
 		position: relative;
 		font-size: 30px;
 	}
+
 	.code-box {
 		background-color: #fffae7;
 		padding: 5px 30rpx;
@@ -284,6 +293,4 @@
 	button {
 		margin: 8rpx 16rpx;
 	}
-	
-	
 </style>

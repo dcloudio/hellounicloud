@@ -109,10 +109,16 @@
 				getcount:true,
 				L: "{",
 				R: "}",
+				dataList:[]
 			}
 		},
 		mounted() {
 			udb = this.$refs.udb
+		},
+		onLoad() {
+			setTimeout(()=>{
+				this.dataList = this.$refs.udb.dataList
+			}, 2000);
 		},
 		watch: {
 			field(field, oldValue) {
@@ -148,6 +154,7 @@
 				}
 			},
 			async setOrderby({detail:{value}}) {
+				console.log("value: ",value);
 				let arr = Object.keys(this.orderbyObj)
 				if(arr.length>value.length){
 					for (let key in this.orderbyObj) {
@@ -198,8 +205,9 @@
 					quantity:Date.now()
 				},{
 					success: (res) => { // 新增成功后的回调
+						console.log("res.result: ",res.result);
 						this.getFn()
-						return res.result.id
+						return res
 					}
 				})
 			},

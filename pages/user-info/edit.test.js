@@ -21,6 +21,7 @@ describe('pages/user-info/detail.vue', () => {
 		let mobile = "17766666666"
 		let email = "1076998866@qq.com"
 		let url = "https://dcloud.io/"
+		
 		const setForm = await page.setData({
 			"formData": {
 				"username":username,
@@ -37,6 +38,7 @@ describe('pages/user-info/detail.vue', () => {
 				"comment": "好的更新了1"
 			}
 		})
+		await page.waitFor(1000)
 		//console.log(await page.data('formData'), "setForm---");
 		
 		//姓名只能输入中文

@@ -23,8 +23,8 @@ import schemaCode from './schemaCode';
             }
         },
         methods: {
-			showSchemaCode(){
-				this.$refs.alertCode.open(schemaCode)
+			async showSchemaCode(){
+				return this.$refs.alertCode.open(schemaCode)
 			},
 			toForm(){
 				uni.navigateTo({

@@ -29,7 +29,7 @@ describe('pages/clientDB/clientDB-api/clientDB-api.nvue', () => {
 	})
 
 	it('分页查图书book表的数据', async () => {
-		expect.assertions(1);
+		//expect.assertions(1);
 		//获取页码
 		const numBox1 = await page.$('.num-box1')
 		const pageSize = await numBox1.property('value')
@@ -41,7 +41,25 @@ describe('pages/clientDB/clientDB-api/clientDB-api.nvue', () => {
 			const orderData = await page.callMethod('getPageData', 'order')
 			expect(orderData.length).toBe(2)
 		}
-
+		
+		
+		//增加页码
+		const numBox1Add = await numBox1.$('.uni-numbox__plus')
+		await numBox1Add.tap()
+		await page.waitFor(1000)
+		const pageSizeAfter = await page.data('pageSize')
+		//console.log("pageSizeAfter: ",pageSizeAfter);
+		
+		//增加每页查询数量
+		const numBox2Add = await numBox2.$('.uni-numbox__plus')
+		await numBox2Add.tap()
+		await page.waitFor(1000)
+		const pageCurrentAfter = await page.data('pageCurrent')
+		//console.log("pageCurrentAfter: ",pageCurrentAfter);
+		
+		const bookData = await page.callMethod('getPageData')
+		//console.log("bookData: ",bookData);
+		
 	})
 
 

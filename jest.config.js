@@ -20,6 +20,16 @@ module.exports = {
 			remote: false, // 是否真机自动化测试
 			executablePath: "C:/Users/liuxi/download/微信web开发者工具/cli.bat", // 开发者工具cli路径，默认会自动查找,  windows: C:/Program Files (x86)/Tencent/微信web开发者工具/cli.bat", mac: /Applications/wechatwebdevtools.app/Contents/MacOS/cli
 		},
+		"app-plus": { // 需要安装 HBuilderX
+			android: {
+				executablePath: "D:/HX/alpha-3.1.3/HBuilderX/plugins/launcher/base/android_base.apk" // apk 目录
+			},
+			/* ios: {
+				// uuid 必须配置，目前仅支持模拟器，可以（xcrun simctl list）查看要使用的模拟器 uuid
+				id: "",
+				executablePath: "HBuilderX/plugins/launcher/base/Pandora_simulator.app" // ipa 目录
+			} */
+		}
 	},
 	testTimeout: 80000,
 	reporters: [

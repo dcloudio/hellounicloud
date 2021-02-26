@@ -204,7 +204,9 @@
 			alertCode
 		},
 		data() {
-			return {}
+			return {
+				currentRole:""
+			}
 		},
 		mounted() {
 			uni.setStorageSync('uni_id_token', '')
@@ -385,8 +387,10 @@
 					uni.hideLoading()
 				})
 			},
-			changePermission(role){
-				console.log(role);
+			changePermission(e){
+				console.log(e, '切换完成');
+				this.currentRole = e.role
+				console.log("this.currentRole",this.currentRole);
 			}
 		}
 	}

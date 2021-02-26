@@ -75,6 +75,7 @@
 		},
 		data() {
 			return {
+				currentRole:"",
 				types:[
 					{
 						text:"创建",
@@ -175,8 +176,11 @@
 				this.$refs.alertCode.open(res.result)
 				
 			},
-			changePermission(role) {
-				console.log(role);
+			changePermission(e) {
+				console.log(e, '切换完成');
+				console.log("this.typeIndex: ",this.typeIndex);
+				this.currentRole = e.role
+				console.log("this.currentRole",this.currentRole);
 			}
 		}
 	}

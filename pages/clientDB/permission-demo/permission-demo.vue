@@ -146,6 +146,7 @@
 			},
 			changePermission({rulo,index}){
 				console.log('index', index);
+				console.log('rulo', rulo);
 				this.rulo_index = index
 				let field = "_id,username,nickname,state";
 				let where = {}

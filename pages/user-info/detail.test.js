@@ -12,7 +12,6 @@ describe('pages/user-info/detail.vue', () => {
 			await page.waitFor(10000)
 		}
 		page = await program.currentPage()
-		//console.log("page: ",page);
 	})
 	
 	it('点击修改',async()=>{

@@ -20,7 +20,6 @@ describe('pages/storage/storage.nvue', () => {
 	})
 	
 	it('上传文件',async()=>{
-		//expect.assertions(1);
 		const upload = await page.callMethod('upload')
 	})
 	

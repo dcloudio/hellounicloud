@@ -69,6 +69,7 @@
 		},
 		data() {
 			return {
+				currentRole:"",
 				options: {
 					"selfId": "",
 					"where": "state==1",
@@ -110,8 +111,8 @@
 				});
 			},
 			changePermission(role) {
+				console.log("role: ",role);
 				this.options.selfId = role.uid
-				console.log(role);
 				switch (role.index) {
 					case 0:
 						this.options.where = "state==1"
@@ -129,6 +130,8 @@
 						break;
 				}
 				this.options.role = role
+				this.currentRole = role.role
+				console.log("this.currentRole: ",this.currentRole);
 			},
 			async getNoticeData() {
 				let res = await db.action('add_view_count')
