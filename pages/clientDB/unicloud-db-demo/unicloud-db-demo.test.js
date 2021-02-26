@@ -65,7 +65,7 @@ describe('pages/clientDB/unicloud-db-demo/unicloud-db-demo', () => {
 		//获取增加后的页码
 		const pageCurrentAfter = await page.data('pageCurrent')
 		//console.log("pageCurrentAfter: ",pageCurrentAfter);
-		expect(pageCurrentAfter).toBeGreaterThan(pageCurrentBefore);//大于
+		expect(pageCurrentAfter).toBeGreaterThanOrEqual(pageCurrentBefore);//大于/toBeGreaterThan
 		
 		
 		//增加当前每页数量
