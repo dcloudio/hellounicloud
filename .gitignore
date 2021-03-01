@@ -1,4 +1,4 @@
 node_modules
 unpackage/dist
 .hbuilderx/
-vue.config.js
+./vue.config.js
