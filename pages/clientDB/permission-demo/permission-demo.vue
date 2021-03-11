@@ -144,9 +144,9 @@
 					icon: 'none'
 				});
 			},
-			changePermission({rulo,index}){
+			changePermission({role,index}){
 				console.log('index', index);
-				console.log('rulo', rulo);
+				console.log('role', role);
 				this.rulo_index = index
 				let field = "_id,username,nickname,state";
 				let where = {}
@@ -236,6 +236,7 @@
 								icon: 'none',
 								title: '更新成功'
 							})
+							console.log("33333333333: ",33333333333);
 						}).catch((err) => {
 							console.log(err.message);
 							console.log(JSON.stringify(err));
@@ -243,11 +244,14 @@
 								content: err.message || '请求服务失败',
 								showCancel: false
 							})
+							console.log("44444444: ",33333333333);
 						}).finally(() => {
 							uni.hideLoading()
+							console.log("5555555555: ",33333333333);
 						})
 				} else {
 					console.log('err 9527');
+					console.log("6666666666: ",33333333333);
 				}
 
 			}

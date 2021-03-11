@@ -12,21 +12,67 @@ describe('pages/clientDB/permission-demo/permission-demo.vue', () => {
 		}
 		page = await program.currentPage()
 	})
+	
+	it('未登陆', async () => {
+		//console.log(process.env.UNI_PLATFORM);
+	
+		if (process.env.UNI_PLATFORM === "h5" || process.env.UNI_PLATFORM === "app-plus" 
+		|| process.env.UNI_PLATFORM === "ios"  ) {
+			const perPage = await page.$('.page')
+			//底部角色控制条
+			const roles = await perPage.$$('.roles-item')
+			//点击创建
+			await roles[0].tap()
+			//console.log("222: ",await roles[0].text());
+		}
+		
+		if (process.env.UNI_PLATFORM === "mp-weixin") {
+			const perPage = await page.$('.page')
+			const setPer = await perPage.$('set-permission')
+			//底部角色控制条
+			const roles = await setPer.$$('.roles-item')
+			//点击创建
+			await roles[0].tap()
+			
+		}
+		
+		
+		const unlogin = await page.waitFor(async()=>{
+			const unloginRole = await page.data('rulo_index')
+			return unloginRole === 0 
+		})
+		//console.log(unlogin,"unlogin------------------------------");
+		
+		const getData = await page.data('formData')
+		//console.log('getData---------', getData);
+		
+	})
 
 	it('用户', async () => {
-		const perPage = await page.$('.page')
-		//底部角色控制条
-		const roles = await perPage.$$('.roles-item')
-		//点击创建
-		await roles[1].tap()
+		if (process.env.UNI_PLATFORM === "h5" || process.env.UNI_PLATFORM === "app-plus" 
+		|| process.env.UNI_PLATFORM === "ios" ) {
+			const perPage = await page.$('.page')
+			//底部角色控制条
+			const roles = await perPage.$$('.roles-item')
+			//点击创建
+			await roles[1].tap()
+		}
+		
+		if (process.env.UNI_PLATFORM === "mp-weixin") {
+			const perPage = await page.$('.page')
+			const setPer = await perPage.$('set-permission')
+			//底部角色控制条
+			const roles = await setPer.$$('.roles-item')
+			//点击创建
+			await roles[1].tap()
+		}
+		
 		
 		const user = await page.waitFor(async()=>{
 			const userRole = await page.data('rulo_index')
 			return userRole === 1 
 		})
-		//console.log(user,"user------------------------------");
-		
-		
+		//console.log("user: ",user);
 		//更新一条数据
 		const setDataA = await page.setData({
 			"formData": {
@@ -45,33 +91,31 @@ describe('pages/clientDB/permission-demo/permission-demo.vue', () => {
 		
 	})
 	
-	it('未登陆', async () => {
-		const perPage = await page.$('.page')
-		//底部角色控制条
-		const roles = await perPage.$$('.roles-item')
-		//点击创建
-		await roles[0].tap()
-		
-		const unlogin = await page.waitFor(async()=>{
-			const unloginRole = await page.data('rulo_index')
-			return unloginRole === 0 
-		})
-		//console.log(unlogin,"unlogin------------------------------");
-		
-		
-		const getData = await page.data('formData')
-		//console.log('getData---------', getData);
-		//expect(getData.nickname).toBe('我是一只小鸟')
-		//expect(getData.username).toBe('默认姓名')
-		
-	})
+	
 	
 	it('审核员', async () => {
-		const perPage = await page.$('.page')
-		//底部角色控制条
-		const roles = await perPage.$$('.roles-item')
-		//点击创建
-		await roles[2].tap()
+		
+		if (process.env.UNI_PLATFORM === "h5" || process.env.UNI_PLATFORM === "app-plus" 
+		|| process.env.UNI_PLATFORM === "ios"  ) {
+			const perPage = await page.$('.page')
+			//底部角色控制条
+			const roles = await perPage.$$('.roles-item')
+			
+			//点击创建
+			await roles[2].tap()
+		}
+		
+		
+		if (process.env.UNI_PLATFORM === "mp-weixin") {
+			const perPage = await page.$('.page')
+			const setPer = await perPage.$('set-permission')
+			//底部角色控制条
+			const roles = await setPer.$$('.roles-item')
+			
+			//点击创建
+			await roles[2].tap()
+		}
+		
 		
 		
 		const auditor = await page.waitFor(async()=>{
@@ -96,11 +140,29 @@ describe('pages/clientDB/permission-demo/permission-demo.vue', () => {
 	})
 
 	it('管理员', async () => {
-		const perPage = await page.$('.page')
+		/* const perPage = await page.$('.page')
 		//底部角色控制条
-		const roles = await perPage.$$('.roles-item')
-		//点击创建
-		await roles[3].tap()
+		const roles = await perPage.$$('.roles-item') */
+		
+		if (process.env.UNI_PLATFORM === "h5" || process.env.UNI_PLATFORM === "app-plus" 
+		|| process.env.UNI_PLATFORM === "ios"  ) {
+			const perPage = await page.$('.page')
+			//底部角色控制条
+			const roles = await perPage.$$('.roles-item')
+			//点击创建
+			await roles[3].tap()
+		}
+		
+		if (process.env.UNI_PLATFORM === "mp-weixin") {
+			const perPage = await page.$('.page')
+			const setPer = await perPage.$('set-permission')
+			//底部角色控制条
+			const roles = await setPer.$$('.roles-item')
+			//点击创建
+			await roles[3].tap()
+		}
+		
+		
 		
 		const admin = await page.waitFor(async()=>{
 			const adminRole = await page.data('rulo_index')

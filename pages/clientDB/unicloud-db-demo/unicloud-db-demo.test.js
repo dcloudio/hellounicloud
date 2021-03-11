@@ -20,6 +20,7 @@ describe('pages/clientDB/unicloud-db-demo/unicloud-db-demo', () => {
 		const addData = await page.callMethod('add')
 		
 		const getDataList = await page.data('dataList')
+		// console.log("getDataList: ",getDataList);
 		expect(await getDataList.length).toBeGreaterThanOrEqual(1);
 		
 		const removeData = await page.callMethod('remove')
@@ -91,11 +92,21 @@ describe('pages/clientDB/unicloud-db-demo/unicloud-db-demo', () => {
 			const addText = await page.data('pageData')
 			return addText === 'add'
 		})
-		if(isAdd){//加载更多
-			const loadMore = await page.$('.loadMore')
-			await loadMore.tap()
-			await page.waitFor(300)
-		}
+		
+		/* if(isAdd){//加载更多
+			if (process.env.UNI_PLATFORM === "mp-weixin") {
+				const items = await page.$('.item')
+				const loadMore = await items.$('.loadMore')
+				console.log("loadMore: ",loadMore);
+				await loadMore.tap()
+				await page.waitFor(300)
+			}
+			if (process.env.UNI_PLATFORM != "mp-weixin") {
+				const loadMore = await page.$('.loadMore')
+				await loadMore.tap()
+				await page.waitFor(300)
+			}
+		} */
 		
 
 		//每页数据数量减去1

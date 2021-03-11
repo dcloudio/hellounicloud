@@ -35,7 +35,7 @@
 						"text": "管理员"
 					}
 				],
-				showGuide:true
+				showGuide:false
 			};
 		},
 		watch: {

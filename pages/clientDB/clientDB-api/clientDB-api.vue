@@ -224,6 +224,7 @@
 					.get()
 					.then(res => {
 						this.$refs.alertCode.open(res.result)
+						console.log(res.result.data,"111");
 						return res.result.data
 					}).catch(err => {
 						console.error(err)
@@ -245,6 +246,7 @@
 					.get()
 					.then(res => {
 						this.$refs.alertCode.open(res.result)
+						console.log(res.result.data,"111");
 						return res.result.data
 					}).catch(err => {
 						console.error(err)

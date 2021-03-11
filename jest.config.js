@@ -5,7 +5,7 @@ module.exports = {
 		compile: true,
 		h5: { // 为了节省测试时间，可以指定一个 H5 的 url 地址，若不指定，每次运行测试，会先 npm run dev:h5
 			//169.254.90.119:8080
-			//url: "http://169.254.90.119:8080/h5/",
+			//url: "http://169.254.90.119:8080/h5/",192.168.28.249:8081
 			options: {
 				headless: false // 配置是否显示 puppeteer 测试窗口
 			}
@@ -31,13 +31,14 @@ module.exports = {
 			} */
 		}
 	},
-	testTimeout: 80000,
+	testTimeout:100000,
 	reporters: [
 		'default'
 	],
 	watchPathIgnorePatterns: ['/node_modules/', '/dist/', '/.git/'],
 	moduleFileExtensions: ['js', 'json'],
 	rootDir: __dirname,
+	// testMatch: ['<rootDir>/pages/clientDB/unicloud-db-demo/cunicloud-db-demo.test.js'],
 	testMatch: ['<rootDir>/pages/**/*test.[jt]s?(x)'],
-	testPathIgnorePatterns: ['/node_modules/', '.*/test.js', '/js_sdk/validator/permission-test.js']
+	testPathIgnorePatterns: ['/node_modules/', '.*/test.js', '/js_sdk/validator/permission-test.js','/pages/user-info/detail.test.js']
 }

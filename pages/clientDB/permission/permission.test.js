@@ -23,7 +23,8 @@ describe('pages/clientDB/permission/permission.vue', () => {
 			expect(listItem.length).toBe(4)
 		}
 		
-		if(process.env.UNI_PLATFORM != "mp-weixin"){
+		if (process.env.UNI_PLATFORM === "h5" || process.env.UNI_PLATFORM === "app-plus"
+		|| process.env.UNI_PLATFORM === "ios"  ) {
 			const perPage = await page.$('.page')
 			const getData = await perPage.$$(".table-item")
 			expect(getData.length).toBe(4)
