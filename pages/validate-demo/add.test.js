@@ -13,13 +13,9 @@ describe('pages/validate-demo/add.vue', () => {
 		page = await program.currentPage()
 
 		const formData = await page.data('formData')
-		//console.log(formData, 'formData---');
 	})
 
 	it('输入表单内容', async () => {
-
-
-		
 		let type = 1
 		let type_name = "数字天堂"
 		let comment = "我是备注消息"
@@ -69,6 +65,5 @@ describe('pages/validate-demo/add.vue', () => {
 		expect(weight).toBeLessThanOrEqual(500)
 		await page.callMethod('submit')
 	})
-
 
 })

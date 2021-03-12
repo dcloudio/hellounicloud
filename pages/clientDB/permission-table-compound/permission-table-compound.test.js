@@ -30,14 +30,12 @@ describe('pages/clientDB/permission-table-compound/permission-table-compound.vue
 			const createUnloginRole = await page.data('currentRole')
 			return createUnloginIndex === 0 && createUnloginRole === 0 
 		})
-		//console.log(createUnlogin,"createUnlogin------------------------------");
 		
 		
 		const createA = await page.callMethod('myFn',{
 			"type":"create",
 			"index":1
 		})
-		//console.log(createA,"createA---------");
 		expect(createA).toBe('未能获取当前用户信息：30205 | 当前用户为匿名身份')
 		
 		await page.callMethod('myFn',{
@@ -62,7 +60,6 @@ describe('pages/clientDB/permission-table-compound/permission-table-compound.vue
 			const readUnloginRole = await page.data('currentRole')
 			return readUnloginIndex === 1 && readUnloginRole === 0 
 		})
-		//console.log(readUnlogin,"readUnlogin------------------------------");
 		
 		await page.callMethod('myFn',{
 			"type":"create",
@@ -74,21 +71,18 @@ describe('pages/clientDB/permission-table-compound/permission-table-compound.vue
 			"index":0,
 			"where":"create_time > 1613534788761"
 		})
-		//console.log(readA,"readA---------");
 		expect(readA).toBe('未能获取当前用户信息：30205 | 当前用户为匿名身份')
 		
 		const readB = await page.callMethod('myFn',{
 			"type":"read",
 			"index":0
 		})
-		//console.log(readB,"readB---------");
 		expect(readB).toBe('未能获取当前用户信息：30205 | 当前用户为匿名身份')
 		
 		const readC = await page.callMethod('myFn',{
 			"type":"read",
 			"index":1
 		})
-		//console.log(readC,"readC---------");
 		expect(readC).toBe('未能获取当前用户信息：30205 | 当前用户为匿名身份')
 				
 		await page.callMethod('myFn',{
@@ -115,7 +109,6 @@ describe('pages/clientDB/permission-table-compound/permission-table-compound.vue
 			const updateUnloginRole = await page.data('currentRole')
 			return updateUnloginIndex === 2 && updateUnloginRole === 0 
 		})
-		//console.log(updateUnlogin,"updateUnlogin------------------------------");
 		
 		
 		await page.callMethod('myFn',{
@@ -128,21 +121,18 @@ describe('pages/clientDB/permission-table-compound/permission-table-compound.vue
 			"index":0,
 			"where":"create_time > 1613534788761"
 		})
-		//console.log(readA,"readA---------");
 		expect(updateA).toBe('未能获取当前用户信息：30205 | 当前用户为匿名身份')
 		
 		const updateB = await page.callMethod('myFn',{
 			"type":"update",
 			"index":0
 		})
-		//console.log(readB,"readB---------");
 		expect(updateB).toBe('权限校验未通过')
 		
 		const updateC = await page.callMethod('myFn',{
 			"type":"update",
 			"index":1
 		})
-		//console.log(readC,"readC---------");
 		expect(updateC).toBe('未能获取当前用户信息：30205 | 当前用户为匿名身份')
 				
 		await page.callMethod('myFn',{
@@ -168,7 +158,6 @@ describe('pages/clientDB/permission-table-compound/permission-table-compound.vue
 			const deleteUnloginRole = await page.data('currentRole')
 			return deleteUnloginIndex === 3 && deleteUnloginRole === 0 
 		})
-		//console.log(deleteUnlogin,"deleteUnlogin------------------------------");
 		
 		await page.callMethod('myFn',{
 			"type":"create",
@@ -180,21 +169,18 @@ describe('pages/clientDB/permission-table-compound/permission-table-compound.vue
 			"index":0,
 			"where":"create_time > 1613534788761"
 		})
-		//console.log(deleteA,"deleteA---------");
 		expect(deleteA).toBe('未能获取当前用户信息：30205 | 当前用户为匿名身份')
 		
 		const deleteB = await page.callMethod('myFn',{
 			"type":"delete",
 			"index":0
 		})
-		//console.log(deleteB,"deleteB---------");
 		expect(deleteB).toBe('权限校验未通过')
 		
 		const deleteC = await page.callMethod('myFn',{
 			"type":"delete",
 			"index":1
 		})
-		//console.log(deleteC,"deleteC---------");
 		expect(deleteC).toBe('未能获取当前用户信息：30205 | 当前用户为匿名身份')
 				
 		await page.callMethod('myFn',{
@@ -223,7 +209,6 @@ describe('pages/clientDB/permission-table-compound/permission-table-compound.vue
 			const createUserRole = await page.data('currentRole')
 			return createUserIndex === 0 && createUserRole === 'user' 
 		})
-		//console.log(createUser,"createUser------------------------------");
 		
 		await page.callMethod('myFn',{
 			"type":"create","index":1
@@ -252,7 +237,6 @@ describe('pages/clientDB/permission-table-compound/permission-table-compound.vue
 			const readUserRole = await page.data('currentRole')
 			return readUserIndex === 1 && readUserRole === 'user' 
 		})
-		//console.log(readUser,"readUser------------------------------");
 		
 		await page.callMethod('myFn',{
 			"type":"create",
@@ -302,7 +286,6 @@ describe('pages/clientDB/permission-table-compound/permission-table-compound.vue
 			const updateUserRole = await page.data('currentRole')
 			return updateUserIndex === 2 && updateUserRole === 'user' 
 		})
-		//console.log(updateUser,"updateUser------------------------------");
 		
 		
 		await page.callMethod('myFn',{
@@ -323,7 +306,6 @@ describe('pages/clientDB/permission-table-compound/permission-table-compound.vue
 		const updateUserB = await page.callMethod('myFn',{
 			"type":"update","index":0
 		})
-		//console.log(updateUserB,"updateUserB---------");
 		expect(updateUserB).toBe('权限校验未通过')
 		
 		await page.callMethod('myFn',{
@@ -353,7 +335,6 @@ describe('pages/clientDB/permission-table-compound/permission-table-compound.vue
 			const deleteUserRole = await page.data('currentRole')
 			return deleteUserIndex === 3 && deleteUserRole === 'user' 
 		})
-		//console.log(deleteUser,"deleteUser------------------------------");
 		
 		
 			
@@ -367,14 +348,12 @@ describe('pages/clientDB/permission-table-compound/permission-table-compound.vue
 			"index":0,
 			"where":"create_time > 1613534788761"
 		})
-		//console.log(deleteUserA,"deleteUserA---------");
 		expect(deleteUserA).toBe('权限校验未通过')
 		
 		const deleteUserB = await page.callMethod('myFn',{
 			"type":"delete",
 			"index":0
 		})
-		//console.log(deleteUserB,"deleteUserB---------");
 		expect(deleteUserB).toBe('权限校验未通过')
 		
 		await page.callMethod('myFn',{
@@ -407,7 +386,6 @@ describe('pages/clientDB/permission-table-compound/permission-table-compound.vue
 			const createAuditorRole = await page.data('currentRole')
 			return createAuditorIndex === 0 && createAuditorRole === 'auditor' 
 		})
-		//console.log(createAuditor,"createAuditor------------------------------");
 		
 		await page.callMethod('myFn',{
 			"type":"create","index":1
@@ -436,7 +414,6 @@ describe('pages/clientDB/permission-table-compound/permission-table-compound.vue
 			const readAuditorRole = await page.data('currentRole')
 			return readAuditorIndex === 1 && readAuditorRole === 'auditor' 
 		})
-		//console.log(readAuditor,"readAuditor------------------------------");
 		
 		await page.callMethod('myFn',{
 			"type":"create",
@@ -452,7 +429,6 @@ describe('pages/clientDB/permission-table-compound/permission-table-compound.vue
 		const readAuditorA = await page.callMethod('myFn',{
 			"type":"read","index":0
 		})
-		//console.log(readAuditorA,"readAuditorA---------");
 		
 		
 		await page.callMethod('myFn',{
@@ -483,7 +459,6 @@ describe('pages/clientDB/permission-table-compound/permission-table-compound.vue
 			const updateAuditorRole = await page.data('currentRole')
 			return updateAuditorIndex === 2 && updateAuditorRole === 'auditor' 
 		})
-		//console.log(updateAuditor,"updateAuditor------------------------------");
 		
 		await page.callMethod('myFn',{
 			"type":"create",
@@ -500,7 +475,6 @@ describe('pages/clientDB/permission-table-compound/permission-table-compound.vue
 		const updateAuditorA = await page.callMethod('myFn',{
 			"type":"update","index":0
 		})
-		//console.log(updateAuditorA,"updateAuditorA---------");
 		expect(updateAuditorA).toBe('权限校验未通过')
 		
 		await page.callMethod('myFn',{
@@ -530,7 +504,6 @@ describe('pages/clientDB/permission-table-compound/permission-table-compound.vue
 			const deleteAuditorRole = await page.data('currentRole')
 			return deleteAuditorIndex === 3 && deleteAuditorRole === 'auditor' 
 		})
-		//console.log(deleteAuditor,"deleteAuditor------------------------------");
 		
 		
 		await page.callMethod('myFn',{
@@ -549,7 +522,6 @@ describe('pages/clientDB/permission-table-compound/permission-table-compound.vue
 			"type":"delete",
 			"index":0
 		})
-		//console.log(deleteAuditorB,"deleteAuditorB---------");
 		expect(deleteAuditorB).toBe('权限校验未通过')
 		
 		await page.callMethod('myFn',{
@@ -582,7 +554,6 @@ describe('pages/clientDB/permission-table-compound/permission-table-compound.vue
 			const createAdminRole = await page.data('currentRole')
 			return createAdminIndex === 0 && createAdminRole === 'admin' 
 		})
-		//console.log(createAdmin,"createAdmin------------------------------");
 		
 		await page.callMethod('myFn',{
 			"type":"create","index":1
@@ -611,7 +582,6 @@ describe('pages/clientDB/permission-table-compound/permission-table-compound.vue
 			const readAdminRole = await page.data('currentRole')
 			return readAdminIndex === 1 && readAdminRole === 'admin' 
 		})
-		//console.log(readAdmin,"readAdmin------------------------------");
 		
 			
 		await page.callMethod('myFn',{
@@ -658,7 +628,6 @@ describe('pages/clientDB/permission-table-compound/permission-table-compound.vue
 			const updateAdminRole = await page.data('currentRole')
 			return updateAdminIndex === 2 && updateAdminRole === 'admin' 
 		})
-		//console.log(updateAdmin,"updateAdmin------------------------------");
 		
 		await page.callMethod('myFn',{
 			"type":"create",
@@ -702,8 +671,6 @@ describe('pages/clientDB/permission-table-compound/permission-table-compound.vue
 			const deleteAdminRole = await page.data('currentRole')
 			return deleteAdminIndex === 3 && deleteAdminRole === 'admin' 
 		})
-		//console.log(deleteAdmin,"deleteAdmin------------------------------");
-		
 		
 			
 		await page.callMethod('myFn',{

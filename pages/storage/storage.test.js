@@ -20,9 +20,9 @@ describe('pages/storage/storage.nvue', () => {
 		expect(await title.text()).toBe('直接上传文件到云存储');
 	})
 	
-	it('上传文件',async()=>{
-		const upload = await page.callMethod('upload')
-	})
+	// it('上传文件',async()=>{
+	// 	const upload = await page.callMethod('upload')
+	// })
 	
 	
 })

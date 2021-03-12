@@ -45,7 +45,7 @@
 				<text class="title">当前页码（pageCurrent）</text>
 				<uni-number-box class="num-box1" :min="1" @change="changePageCurrent($event/1)" :value="pageCurrent"></uni-number-box>
 			</view>
-			<view v-else class="item">
+			<view v-else class="item toLoadMore">
 				<text class="title">加载更多loadMore</text>
 				<view class="msg">
 					在列表的加载下一页场景下，使用ref方式访问组件方法，加载更多数据，每加载成功一次，当前页 +1

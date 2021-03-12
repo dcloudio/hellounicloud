@@ -20,7 +20,6 @@ describe('pages/clientDB/unicloud-db-demo/unicloud-db-demo', () => {
 		const addData = await page.callMethod('add')
 		
 		const getDataList = await page.data('dataList')
-		// console.log("getDataList: ",getDataList);
 		expect(await getDataList.length).toBeGreaterThanOrEqual(1);
 		
 		const removeData = await page.callMethod('remove')
@@ -56,7 +55,6 @@ describe('pages/clientDB/unicloud-db-demo/unicloud-db-demo', () => {
 		
 		//增加当前页码
 		const pageCurrentBefore = await page.data('pageCurrent')
-		//console.log("pageCurrentBefore: ",pageCurrentBefore);
 		const numBox1 = await page.$('.num-box1')
 		const numboxAdd1 = await numBox1.$('.uni-numbox__plus')
 		await numboxAdd1.tap()
@@ -65,20 +63,17 @@ describe('pages/clientDB/unicloud-db-demo/unicloud-db-demo', () => {
 		
 		//获取增加后的页码
 		const pageCurrentAfter = await page.data('pageCurrent')
-		//console.log("pageCurrentAfter: ",pageCurrentAfter);
 		expect(pageCurrentAfter).toBeGreaterThanOrEqual(pageCurrentBefore);//大于/toBeGreaterThan
 		
 		
 		//增加当前每页数量
 		const pageSizeBefore = await page.data('pageSize')
-		//console.log("pageSizeBefore: ",pageSizeBefore);
 		const numBox2 = await page.$('.num-box2')
 		const numboxAdd2 = await numBox2.$('.uni-numbox__plus')
 		await numboxAdd2.tap()
 		await page.waitFor(500)
 		//增加每页数据数量
 		const pageSizeAfter = await page.data('pageSize')
-		//console.log("pageSizeAfter: ",pageSizeAfter);
 		expect(pageSizeAfter).toBeGreaterThan(pageSizeBefore);//大于
 		
 		
@@ -93,25 +88,23 @@ describe('pages/clientDB/unicloud-db-demo/unicloud-db-demo', () => {
 			return addText === 'add'
 		})
 		
-		/* if(isAdd){//加载更多
+		if(isAdd){//加载更多
 			if (process.env.UNI_PLATFORM === "mp-weixin") {
-				const items = await page.$('.item')
-				const loadMore = await items.$('.loadMore')
-				console.log("loadMore: ",loadMore);
+				const toLoadMore = await page.$('.toLoadMore')
+				const loadMore = await toLoadMore.$('.loadMore')
 				await loadMore.tap()
 				await page.waitFor(300)
 			}
-			if (process.env.UNI_PLATFORM != "mp-weixin") {
+			if (process.env.UNI_PLATFORM === "h5" || process.env.UNI_PLATFORM === "app-plus") {
 				const loadMore = await page.$('.loadMore')
 				await loadMore.tap()
 				await page.waitFor(300)
 			}
-		} */
+		}
 		
 
 		//每页数据数量减去1
 		const pageSizeSubBefore = await page.data('pageSize')
-		//console.log("pageSizeSubBefore: ",pageSizeSubBefore);
 		
 		const numBox2 = await page.$('.num-box2')
 		const numboxMin2 = await numBox2.$('.uni-numbox__minus')
@@ -120,7 +113,6 @@ describe('pages/clientDB/unicloud-db-demo/unicloud-db-demo', () => {
 
 		//减少数据数量，由3页变为2页
 		const pageSizeSubAfter = await page.data('pageSize')
-		//console.log("pageSizeSubAfter: ",pageSizeSubAfter);
 		expect(pageSizeSubAfter).toBeLessThan(pageSizeSubBefore);//小于
 
 	})
@@ -138,7 +130,6 @@ describe('pages/clientDB/unicloud-db-demo/unicloud-db-demo', () => {
 		await swGetcount.tap()
 		await page.waitFor(500)
 		const getcountBool = await page.data('getcount')
-		//console.log(getcountBool,"getcountBool-------");
 		expect.assertions(1);
 		expect(getcountBool).toBeFalsy();
 

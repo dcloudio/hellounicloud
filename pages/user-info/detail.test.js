@@ -19,13 +19,11 @@ describe('pages/user-info/detail.vue', () => {
 		const getQuery = await page.query
 		expect(getQuery).not.toBeUndefined();
 		const handleUpdate = await page.callMethod('handleUpdate')
-		//console.log("handleUpdate: ",handleUpdate);
 	})
 	
 	
 	it('点击删除',async()=>{
 		const handleDelete = await page.callMethod('handleDelete')
-		//console.log("handleDelete: ",handleDelete);
 	})
 	
 	

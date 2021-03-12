@@ -15,7 +15,6 @@ describe('pages/clientDB/clientDB.nvue', () => {
 	
 	it('当前页面-clientDB', async () => {
 		expect.assertions(2);
-		//console.log("await page.path: ",await page.path);
 		expect(await page.path).toBe('pages/clientDB/clientDB')
 		//当前页面数据length
 		const getList = await page.$$('.item')

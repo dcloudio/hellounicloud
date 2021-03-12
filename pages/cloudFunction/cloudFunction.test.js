@@ -24,7 +24,6 @@ describe('pages/cloudFunction/cloudFunction.nvue', () => {
 	it('添加一条数据',async()=>{
 		expect.assertions(1);
 		const addData = await page.callMethod('add')
-		//console.log(addData);
 		expect(addData).toBeDefined();
 	})
 	
@@ -39,14 +38,12 @@ describe('pages/cloudFunction/cloudFunction.nvue', () => {
 	it('修改数据',async()=>{
 		expect.assertions(1);
 		const updateData = await page.callMethod('update')
-		//console.log(updateData);
 		expect(updateData).toBeDefined();
 	})
 	
 	it('查询前10条数据',async()=>{
 		expect.assertions(1);
 		const getTenData = await page.callMethod('get')
-		//console.log("getTenData: ",getTenData);
 		expect(getTenData.length).not.toBeUndefined();
 	})
 	

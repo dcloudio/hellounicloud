@@ -25,8 +25,6 @@ describe('pages/clientDB/demo/demo.vue', () => {
 			const unLoginRole = await page.data('currentRole')
 			return unLoginRole === 0 
 		})
-		//console.log(unLogin,"unLogin------------------------------");
-		
 		const commentBtn = await page.$('.comment-btn')
 		expect(await commentBtn.text()).toBe('写留言')
 		
@@ -44,14 +42,10 @@ describe('pages/clientDB/demo/demo.vue', () => {
 			const userRole = await page.data('currentRole')
 			return userRole === 'user' 
 		})
-		//console.log(user,"user------------------------------");
 		
 		//新增一条留言
-		
 		const userWrite = await page.callMethod('submitComment', '我是用户')
-		//console.log(userWrite,"userWrite--------");
 		const usId = userWrite.id
-		//console.log("usId: ",usId);
 		//expect(usId).not.toBeUndefined();
 		await page.waitFor(1000)
 		
@@ -70,14 +64,11 @@ describe('pages/clientDB/demo/demo.vue', () => {
 			const auditorRole = await page.data('currentRole')
 			return auditorRole === 'auditor' 
 		})
-		//console.log(auditor,"auditor------------------------------");
 		
 		
 		//新增一条留言
 		const auditorWrite = await page.callMethod('submitComment', '我是审核员11')
-		//console.log("auditorWrite: ",auditorWrite);
 		const audId = auditorWrite.id
-		//console.log(audId, "audId----------");
 		expect(audId).not.toBeUndefined();
 		await page.waitFor(1000)
 		// 审核一条为通过
@@ -95,11 +86,9 @@ describe('pages/clientDB/demo/demo.vue', () => {
 		const setUid = await page.setData({
 			"activeNoticeId":audId
 		})
-		//console.log(await page.data('activeNoticeId'),"setUid-----------");
 		const auditorUpdate = await page.callMethod('updateComment',
 			"我是审核员123"
 		) 
-		//console.log(auditorUpdate,"auditorUpdate--------");
 		await page.waitFor(1000)
 
 	})
@@ -116,14 +105,11 @@ describe('pages/clientDB/demo/demo.vue', () => {
 			const adminRole = await page.data('currentRole')
 			return adminRole === 'admin' 
 		})
-		//console.log(admin,"admin------------------------------");
 		
 		
 		//管理员写入一条留言
 		const adminWrite = await page.callMethod('submitComment','我是管理员') 
-		//console.log("adminWrite: ",adminWrite);
 		var admId = adminWrite.id
-		//console.log(admId,"admId----------");
 		expect(admId).not.toBeUndefined();
 		await page.waitFor(1000)
 		
@@ -158,8 +144,5 @@ describe('pages/clientDB/demo/demo.vue', () => {
 				"_id": admId
 			}
 		) 
-		
 	})
-
-
 })

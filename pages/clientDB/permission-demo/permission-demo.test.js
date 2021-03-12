@@ -16,14 +16,12 @@ describe('pages/clientDB/permission-demo/permission-demo.vue', () => {
 	it('未登陆', async () => {
 		//console.log(process.env.UNI_PLATFORM);
 	
-		if (process.env.UNI_PLATFORM === "h5" || process.env.UNI_PLATFORM === "app-plus" 
-		|| process.env.UNI_PLATFORM === "ios"  ) {
+		if (process.env.UNI_PLATFORM === "h5" || process.env.UNI_PLATFORM === "app-plus" ) {
 			const perPage = await page.$('.page')
 			//底部角色控制条
 			const roles = await perPage.$$('.roles-item')
 			//点击创建
 			await roles[0].tap()
-			//console.log("222: ",await roles[0].text());
 		}
 		
 		if (process.env.UNI_PLATFORM === "mp-weixin") {
@@ -33,7 +31,6 @@ describe('pages/clientDB/permission-demo/permission-demo.vue', () => {
 			const roles = await setPer.$$('.roles-item')
 			//点击创建
 			await roles[0].tap()
-			
 		}
 		
 		
@@ -41,16 +38,12 @@ describe('pages/clientDB/permission-demo/permission-demo.vue', () => {
 			const unloginRole = await page.data('rulo_index')
 			return unloginRole === 0 
 		})
-		//console.log(unlogin,"unlogin------------------------------");
-		
 		const getData = await page.data('formData')
-		//console.log('getData---------', getData);
 		
 	})
 
 	it('用户', async () => {
-		if (process.env.UNI_PLATFORM === "h5" || process.env.UNI_PLATFORM === "app-plus" 
-		|| process.env.UNI_PLATFORM === "ios" ) {
+		if (process.env.UNI_PLATFORM === "h5" || process.env.UNI_PLATFORM === "app-plus") {
 			const perPage = await page.$('.page')
 			//底部角色控制条
 			const roles = await perPage.$$('.roles-item')
@@ -72,80 +65,62 @@ describe('pages/clientDB/permission-demo/permission-demo.vue', () => {
 			const userRole = await page.data('rulo_index')
 			return userRole === 1 
 		})
-		//console.log("user: ",user);
 		//更新一条数据
 		const setDataA = await page.setData({
 			"formData": {
 				"_id": "60200c3554a29f0001d14586",
-				"nickname": "我是一只小鸟",
+				"nickname": "我是学生",
 				"username": "小明",
 				"state": 0,
 				"phone": "18890903030"
 			}
 		})
-		//console.log(await page.data('formData'), "setDataA-------");
 		const buttonGroup = await page.$('.uni-button-group')
 		const toButton = await buttonGroup.$('.uni-button')
 		await toButton.tap()
 		await page.waitFor(800)
-		
 	})
 	
 	
 	
 	it('审核员', async () => {
 		
-		if (process.env.UNI_PLATFORM === "h5" || process.env.UNI_PLATFORM === "app-plus" 
-		|| process.env.UNI_PLATFORM === "ios"  ) {
+		if (process.env.UNI_PLATFORM === "h5" || process.env.UNI_PLATFORM === "app-plus" ) {
 			const perPage = await page.$('.page')
 			//底部角色控制条
 			const roles = await perPage.$$('.roles-item')
-			
 			//点击创建
 			await roles[2].tap()
 		}
-		
 		
 		if (process.env.UNI_PLATFORM === "mp-weixin") {
 			const perPage = await page.$('.page')
 			const setPer = await perPage.$('set-permission')
 			//底部角色控制条
 			const roles = await setPer.$$('.roles-item')
-			
 			//点击创建
 			await roles[2].tap()
 		}
-		
-		
 		
 		const auditor = await page.waitFor(async()=>{
 			const auditorRole = await page.data('rulo_index')
 			return auditorRole === 2 
 		})
-		//console.log(auditor,"auditor------------------------------");
-		
-		//console.log(await roles[2].text())
 		const setDataB = await page.setData({
 			"formData": {
 				"_id": "60200c3554a29f0001d14586",
-				"nickname": "我是一只小鸟",
+				"nickname": "我是学生",
 				"username": "小明",
 				"state":1,
 				"phone": "18890903030"
 			}
 		})
 		//console.log(await page.data('formData'), "setDataB-------");
-			
 		
 	})
 
 	it('管理员', async () => {
-		/* const perPage = await page.$('.page')
-		//底部角色控制条
-		const roles = await perPage.$$('.roles-item') */
-		
-		if (process.env.UNI_PLATFORM === "h5" || process.env.UNI_PLATFORM === "app-plus" 
-		|| process.env.UNI_PLATFORM === "ios"  ) {
+		if (process.env.UNI_PLATFORM === "h5" || process.env.UNI_PLATFORM === "app-plus" ) {
 			const perPage = await page.$('.page')
 			//底部角色控制条
 			const roles = await perPage.$$('.roles-item')
@@ -162,26 +137,21 @@ describe('pages/clientDB/permission-demo/permission-demo.vue', () => {
 			await roles[3].tap()
 		}
 		
-		
-		
 		const admin = await page.waitFor(async()=>{
 			const adminRole = await page.data('rulo_index')
 			return adminRole === 3 
 		})
-		//console.log(admin,"admin------------------------------");
 		
 		
 		const setDataC = await page.setData({
 			"formData": {
 				"_id": "60200c3554a29f0001d14586",
-				"nickname": "我是一只小鸟",
+				"nickname": "我是学生",
 				"username": "小明",
 				"state":-1,
 				"phone": "18890903030"
 			}
 		})
-		//console.log(await page.data('formData'), "setDataC-------");
-		
 	})
 	
 })

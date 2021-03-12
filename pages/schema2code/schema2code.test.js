@@ -14,15 +14,17 @@ describe('pages/schema2code/schema2code.nvue', () => {
 	    page = await program.currentPage()
 	})
 	
-	it('schema2code-检查标题',async()=>{
-		const showSchemaCode = await page.callMethod('showSchemaCode')
+	it('schema2code-点击',async()=>{
+		
+		const title = await page.$('.uni-title')
+		
+		const showSchemaCode = await title.$('.showSchemaCode')
+		await showSchemaCode.tap()
+		await page.waitFor(300)
+		
+		// const showSchemaCode = await page.callMethod('showSchemaCode')
 	})
 	
-	/* it('播放视频',async()=>{
-		const video = await page.$('video')
-		await video.tap()
-		await page.waitFor(500)
-	}) */
 	
 	it('前往生成的云端一体页面',async()=>{
 		
@@ -30,13 +32,10 @@ describe('pages/schema2code/schema2code.nvue', () => {
 		await toForm.tap()
 		await page.waitFor(500)
 		
-		/* expect( (await program.currentPage()).path).toBe('pages/clientDB/unicloud-db-demo/unicloud-db-demo')
-		await page.waitFor(500) */
+		expect( (await program.currentPage()).path).toBe('pages/user-info/list')
+		await page.waitFor(500) 
 		//返回navigateBack 验证是否返回
-		//console.log((await program.navigateBack()).path);
-		/* expect((await program.navigateBack()).path).toBe('pages/schema2code/schema2code') */
-		
-		
+		expect((await program.navigateBack()).path).toBe('pages/schema2code/schema2code')
 	})
 	
 })

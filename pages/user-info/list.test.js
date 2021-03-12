@@ -14,37 +14,14 @@ describe('pages/user-info/list.vue', () => {
 	})
 	
 	it('点击某一条',async()=>{
-		
 		const getDataList = await page.data('dataList')
-		//console.log(getDataList,"getDataList----------");
-		
 		const uId = getDataList[0]._id
-		//console.log("uId: ",uId);
-		
-		
-		const handleItemClick = await page.callMethod('handleItemClick',
-			uId
-		)
-		//console.log(handleItemClick,"handleItemClick------------");
-		
-		
-		/* console.log((await program.currentPage()).path,"000000000000");
-		
-		
-		expect((await program.currentPage()).path).toBe('pages/user-info/detail') */
-		//pages/user-info/detail?id=601d044ac9e7be0001cc00b8
-		
-		
-		/* await page.waitFor(500)
-		expect((await program.navigateBack()).path).toBe('pages/user-info/list') */
-		
-		
+		const handleItemClick = await page.callMethod('handleItemClick',uId)
 	})
 	
 	
 	it('点击fab跳转到添加页',async()=>{
 		const fabClick = await page.callMethod('fabClick')
-		//console.log(fabClick,"fabClick--------");
 	})
 	
 })
