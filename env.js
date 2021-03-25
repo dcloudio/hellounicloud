@@ -1,7 +1,10 @@
 module.exports = {
 	"compile": true,
 	"h5": {
-/* 		"executablePath": "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome" */
+		//"executablePath": "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome"
+		options: {
+			headless: false // 配置是否显示 puppeteer 测试窗口
+		},
 		"executablePath": "C:/Program Files/Google/Chrome/Application/chrome.exe",
 	},
 	"mp-weixin": {

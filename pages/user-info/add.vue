@@ -140,14 +140,17 @@
 			},
 
 			async submitForm(value) {
+				console.log("dbCollectionName: ",dbCollectionName);
 				// 使用 clientDB 提交数据
 				return await db.collection(dbCollectionName).add(value).then((res) => {
 					uni.showToast({
 						icon: 'none',
 						title: '新增成功'
 					})
-					this.getOpenerEventChannel().emit('refreshData')
+					// this.getOpenerEventChannel().emit('refreshData')
 					setTimeout(() => uni.navigateBack(), 500)
+					 console.log("res: ",res);
+					return res
 				}).catch((err) => {
 					uni.showModal({
 						content: err.message || '请求服务失败',

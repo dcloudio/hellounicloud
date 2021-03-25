@@ -258,7 +258,7 @@
 			async removeFn(){
 				uni.showLoading({mask:true})
 				return await ptDb.remove().then(e=>{
-					console.log(e);
+					console.log(e,"123");
 					uni.showModal({
 						content: JSON.stringify(e.result),
 						showCancel: false,
@@ -266,7 +266,7 @@
 					});
 					return e
 				}).catch(err=>{
-					console.log(err);
+					console.log(JSON.stringify(err));
 					uni.showModal({
 						title:"当前角色没有该权限",
 						content: `管理员角色不受schema限制，请在底部工具条切换为管理员角色重试`,
@@ -337,7 +337,7 @@
 					}
 					console.log("错误------",err);
 					console.log("错误------",err.message);
-					return err.message
+					return err
 					//console.log(err);
 					/* 
 					 */
@@ -352,18 +352,15 @@
 				})
 			},
 			async getFn(field='uid,username,nickname,state'){
+				// console.time('getFn');
 				uni.showLoading({mask:true})
 				return await ptDb.field(field).get()
 				.then(e=>{
-					console.log(e);
+					// console.timeEnd('getFn');
+					console.log(e,"1111");
 					if(e.result.data.length){
-						/* uni.showModal({
-							title:"成功查询到数据",
-							content: JSON.stringify(, null, "\n"),
-							showCancel: false,
-							confirmText:"知道了"
-						}); */
-						console.log(this.$refs.alertCode);
+						console.log(e.result.data.length);
+						//console.log(this.$refs.alertCode);
 						this.$refs.alertCode.open(e.result.data)
 					}else{
 						uni.showModal({
@@ -373,9 +370,10 @@
 							confirmText:"知道了"
 						});
 					}
-					return e
+					return e.result
 				}).catch(err=>{
-					console.log(err);
+					// console.timeEnd('getFn');
+					console.log(err,"err---");
 					uni.showModal({
 						title:"当前角色无权访问含phone字段数据",
 						content: "请在底部工具条切换其他角色重试",

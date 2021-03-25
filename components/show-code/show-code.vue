@@ -77,7 +77,7 @@
 				if(this.isJson){
 					return Object.keys(codes).length == k+1
 				}else{
-					console.log(codes.length,k);
+					// console.log(codes.length,k);
 					return codes.length == k+1
 				}
 			}

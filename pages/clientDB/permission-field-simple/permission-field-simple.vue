@@ -56,7 +56,7 @@
 		},
 		data() {
 			return {
-				currentRole:"",
+				currentRole:0,
 				types: [{
 						text: "创建",
 						value: "create"

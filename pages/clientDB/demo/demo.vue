@@ -69,7 +69,7 @@
 		},
 		data() {
 			return {
-				currentRole:"",
+				currentRole:0,
 				options: {
 					"selfId": "",
 					"where": "state==1",
@@ -271,7 +271,7 @@
 				})
 			},
 			getNewData() {
-				console.log(this.$refs.udb);
+				//console.log(this.$refs.udb);
 				this.$refs.udb.refresh() //{clear:true}
 			},
 			getUserImg(e) {

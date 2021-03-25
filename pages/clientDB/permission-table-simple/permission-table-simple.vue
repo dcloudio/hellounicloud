@@ -71,7 +71,7 @@
 		},
 		data() {
 			return {
-				"currentRole":"",
+				"currentRole":0,
 				lll: '"permission":{',
 				types: [{
 						text: "创建",
@@ -219,6 +219,7 @@
 				console.log("role: ",e.role);
 				console.log("typeIndex: ",this.typeIndex);
 				this.currentRole = e.role
+				console.log(this.currentRole);
 			}
 		}
 	}

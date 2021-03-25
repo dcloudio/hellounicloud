@@ -4,14 +4,19 @@ describe('pages/cloudFunction/cloudFunction.nvue', () => {
 	beforeAll(async () => {
 	    // 重新reLaunch至首页，并获取首页page对象（其中 program 是uni-automator自动注入的全局对象）
 	    page = await program.reLaunch('/pages/cloudFunction/cloudFunction')
-	    if (process.env.UNI_PLATFORM === "h5") {
+	    if (process.env.UNI_PLATFORM === "h5"|| process.env.UNI_PLATFORM === "app-plus") {
 	    	await page.waitFor(1000)
 	    }
 	    if (process.env.UNI_PLATFORM === "mp-weixin") {
-	    	await page.waitFor(10000)
+	    	await page.waitFor(1000);//微信等待
 	    }
 	    
 	    page = await program.currentPage()
+	})
+	
+	beforeEach(async()=>{
+		jest.setTimeout(5000)
+		return false
 	})
 	
 	it('云函数页-检查标题',async()=>{

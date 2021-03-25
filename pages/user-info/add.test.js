@@ -4,17 +4,26 @@ describe('pages/user-info/add.vue', () => {
 	beforeAll(async () => {
 		// 重新reLaunch至首页，并获取首页page对象（其中 program 是uni-automator自动注入的全局对象）
 		page = await program.reLaunch('/pages/user-info/add')
-		if (process.env.UNI_PLATFORM === "h5") {
+		if (process.env.UNI_PLATFORM === "h5"|| process.env.UNI_PLATFORM === "app-plus") {
 			await page.waitFor(1000)
 		}
 		if (process.env.UNI_PLATFORM === "mp-weixin") {
-			await page.waitFor(10000)
+			await page.waitFor(1000);//微信等待
 		}
 		page = await program.currentPage()
 	})
 
+
+	beforeEach(async()=>{
+		jest.setTimeout(20000)
+		return false
+	})
 	
 	it('输入表单内容', async () => {
+		
+		
+		const getForm = await page.data('formData')
+		console.log("getForm: ",getForm);
 		
 		let username = "林小明"
 		let weight = 51
@@ -56,7 +65,8 @@ describe('pages/user-info/add.vue', () => {
 		//体重要大于50 小于或等于500
 		expect(weight).toBeGreaterThan(50)
 		expect(weight).toBeLessThanOrEqual(500)
-		await page.callMethod('submit')
+		const subRes = await page.callMethod('submit')
+		console.log("subRes: ",subRes);
 	})
 	
 	
