@@ -29,7 +29,7 @@ module.exports = {
 			} */
 		}
 	},
-	testTimeout:600000,//getFn: 260.245849609375ms
+	testTimeout:600000,//jest-branch getFn: 260.245849609375ms
 	reporters: [
 		'default'
 	],
