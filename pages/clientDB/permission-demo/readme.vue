@@ -190,18 +190,11 @@
 	//import db from '@/js_sdk/uni-clientDB/index.js'
 	 const db = uniCloud.database()
 	const ptDb = db.collection('permission-test')
-	import uniPopup from '@/components/uni-popup/uni-popup.vue'
-	import uniPopupMessage from '@/components/uni-popup/uni-popup-message.vue'
-	import uniPopupDialog from '@/components/uni-popup/uni-popup-dialog.vue'
-	import uniNoticeBar from '@/components/uni-notice-bar/uni-notice-bar.vue'
 	import alertCode from '@/components/alertCode/alertCode.vue';
+	import uniNoticeBar from '@/uni_modules/uni-notice-bar/components/uni-notice-bar/uni-notice-bar.vue'
 	export default {
 		components: {
-			uniPopup,
-			uniPopupMessage,
-			uniPopupDialog,
-			uniNoticeBar,
-			alertCode
+			uniNoticeBar,alertCode
 		},
 		data() {
 			return {

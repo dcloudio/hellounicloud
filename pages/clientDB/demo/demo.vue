@@ -10,21 +10,25 @@
 			<text @click="options.selfId?$refs.dialog.open():tipLogin()" class="comment-btn">写留言</text>
 		</view>
 		<unicloud-db ref="udb" v-slot:default="{data, loading, error, options}" :options="options" page-data="replace"
-		 collection="comment,uni-id-users" field="uid{username,_id},text,_id,state" :where="options.where">
+			collection="comment,uni-id-users" field="uid{username,_id},text,_id,state" :where="options.where">
 			<scroll-view :show-scrollbar="true" scroll-y v-if="data.length" class="comment-list">
 				<view class="comment-item" v-for="(item,index) in data" :key="item._id">
-					<image class="userImg" :src="'../../../static/userImg/'+item.uid[0].username+'.png'" mode=""></image>
+					<image class="userImg" :src="'../../../static/userImg/'+item.uid[0].username+'.png'" mode="">
+					</image>
 					<view class="content">
 						<view style="flex-direction: column;">
 							<text style="color: #666;font-size: 14px;font-weight:700;">{{item.uid[0].username}}</text>
 							<text style="color: #888;font-size: 14px;">{{item.text}}</text>
 						</view>
 						<view style="flex-direction: row;">
-							<switch v-if="options.role.index>1" class="switch" :checked="item.state==1" @change="updateState($event,item._id)" />
+							<switch v-if="options.role.index>1" class="switch" :checked="item.state==1"
+								@change="updateState($event,item._id)" />
 							<template v-if="options.selfId == item.uid[0]._id || options.role.index>1">
 								<text class="in-review" v-if="options.role.index===1&&item.state==0">审核中</text>
-								<uni-icons v-else color="#cdcfd4" class="ico" size="16" type="compose" @click="clickIcon(0,item)"></uni-icons>
-								<uni-icons v-if="" color="#cdcfd4" class="ico" size="16" type="trash" @click="clickIcon(1,item)"></uni-icons>
+								<uni-icons v-else color="#cdcfd4" class="ico" size="16" type="compose"
+									@click="clickIcon(0,item)"></uni-icons>
+								<uni-icons v-if="" color="#cdcfd4" class="ico" size="16" type="trash"
+									@click="clickIcon(1,item)"></uni-icons>
 							</template>
 						</view>
 					</view>
@@ -33,11 +37,13 @@
 		</unicloud-db>
 
 		<uni-popup ref="dialog" type="dialog">
-			<uni-popup-dialog mode="input" @confirm="submitComment" title="提交留言" placeholder="留言内容不能含单词test"></uni-popup-dialog>
+			<uni-popup-dialog mode="input" @confirm="submitComment" title="提交留言" placeholder="留言内容不能含单词test">
+			</uni-popup-dialog>
 		</uni-popup>
 
 		<uni-popup ref="upDataDialog" type="dialog">
-			<uni-popup-dialog mode="input" :value="defaultText" @confirm="updateComment" title="更新留言" placeholder="留言内容不能含单词test"></uni-popup-dialog>
+			<uni-popup-dialog mode="input" :value="defaultText" @confirm="updateComment" title="更新留言"
+				placeholder="留言内容不能含单词test"></uni-popup-dialog>
 		</uni-popup>
 		<uni-popup ref="helpPopup" type="center">
 			<uni-section title="demo说明" type="line"></uni-section>
@@ -52,24 +58,14 @@
 </template>
 <script>
 	const db = uniCloud.database()
-	import uniPopup from '@/components/uni-popup/uni-popup.vue'
-	import uniPopupMessage from '@/components/uni-popup/uni-popup-message.vue'
-	import uniPopupDialog from '@/components/uni-popup/uni-popup-dialog.vue'
-	import uniNoticeBar from '@/components/uni-notice-bar/uni-notice-bar.vue'
-	import uniSwipeAction from '@/components/uni-swipe-action/uni-swipe-action.vue'
-	import uniSwipeActionItem from '@/components/uni-swipe-action-item/uni-swipe-action-item.vue'
+	import uniNoticeBar from '@/uni_modules/uni-notice-bar/components/uni-notice-bar/uni-notice-bar.vue'
 	export default {
 		components: {
-			uniSwipeAction,
-			uniSwipeActionItem,
-			uniPopup,
-			uniPopupMessage,
-			uniPopupDialog,
 			uniNoticeBar
 		},
 		data() {
 			return {
-				currentRole:0,
+				currentRole: 0,
 				options: {
 					"selfId": "",
 					"where": "state==1",
@@ -111,7 +107,7 @@
 				});
 			},
 			changePermission(role) {
-				console.log("role: ",role);
+				console.log("role: ", role);
 				this.options.selfId = role.uid
 				switch (role.index) {
 					case 0:
@@ -131,7 +127,7 @@
 				}
 				this.options.role = role
 				this.currentRole = role.role
-				console.log("this.currentRole: ",this.currentRole);
+				console.log("this.currentRole: ", this.currentRole);
 			},
 			async getNoticeData() {
 				let res = await db.action('add_view_count')
