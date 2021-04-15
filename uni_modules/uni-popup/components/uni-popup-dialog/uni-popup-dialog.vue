@@ -5,7 +5,7 @@
 		</view>
 		<view class="uni-dialog-content">
 			<text class="uni-dialog-content-text" v-if="mode === 'base'">{{content}}</text>
-			<input v-else class="uni-dialog-input" v-model="val" type="text" :placeholder="placeholder" :focus="focus">
+			<input v-else class="uni-dialog-input" v-model="val" type="text" :placeholder="placeholder" :focus="focus" >
 		</view>
 		<view class="uni-dialog-button-group">
 			<view class="uni-dialog-button" @click="close">
@@ -15,19 +15,11 @@
 				<text class="uni-dialog-button-text uni-button-color">确定</text>
 			</view>
 		</view>
-		<view v-if="popup.isDesktop" class="uni-popup-dialog__close" @click="close">
-			<span class="uni-popup-dialog__close-icon "></span>
-		</view>
-		<!-- #ifdef H5 -->
-		<keypress @esc="close" @enter="onOk"/>
-		<!-- #endif -->
+
 	</view>
 </template>
 
 <script>
-	// #ifdef H5
-	import keypress from './keypress.js'
-	// #endif
 	/**
 	 * PopUp 弹出层-对话框样式
 	 * @description 弹出层-对话框样式
@@ -50,11 +42,6 @@
 
 	export default {
 		name: "uniPopupDialog",
-		components: {
-			// #ifdef H5
-			keypress
-			// #endif
-		},
 		props: {
 			value: {
 				type: [String, Number],
@@ -139,10 +126,11 @@
 			 * 点击确认按钮
 			 */
 			onOk() {
-				this.$emit('confirm', () => {
+				if (this.mode === 'input'){
+					this.$emit('confirm', this.val)
+				}else{
 					this.popup.close()
-					if (this.mode === 'input') this.val = this.value
-				}, this.mode === 'input' ? this.val : '')
+				}
 			},
 			/**
 			 * 点击取消按钮
@@ -160,10 +148,10 @@
 	}
 </script>
 
-<style lang="scss" scoped>
+<style scoped>
 	.uni-popup-dialog {
 		width: 300px;
-		border-radius: 5px;
+		border-radius: 15px;
 		background-color: #fff;
 	}
 
@@ -217,9 +205,6 @@
 		justify-content: center;
 		align-items: center;
 		height: 45px;
-		/* #ifdef H5 */
-		cursor: pointer;
-		/* #endif */
 	}
 
 	.uni-border-left {
@@ -233,7 +218,7 @@
 	}
 
 	.uni-button-color {
-		color: $uni-color-primary;
+		color: #007aff;
 	}
 
 	.uni-dialog-input {
@@ -242,43 +227,18 @@
 	}
 
 	.uni-popup__success {
-		color: $uni-color-success;
+		color: #4cd964;
 	}
 
 	.uni-popup__warn {
-		color: $uni-color-warning;
+		color: #f0ad4e;
 	}
 
 	.uni-popup__error {
-		color: $uni-color-error;
+		color: #dd524d;
 	}
 
 	.uni-popup__info {
 		color: #909399;
-	}
-
-	.uni-popup-dialog__close {
-		display: block;
-		cursor: pointer;
-		position: absolute;
-		top: 9px;
-		right: 17px;
-	}
-
-	.uni-popup-dialog__close-icon {
-		display: inline-block;
-		width: 13px;
-		height: 1px;
-		background: #909399;
-		transform: rotate(45deg);
-	}
-
-	.uni-popup-dialog__close-icon::after {
-		content: '';
-		display: block;
-		width: 13px;
-		height: 1px;
-		background: #909399;
-		transform: rotate(-90deg);
 	}
 </style>
