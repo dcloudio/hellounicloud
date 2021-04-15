@@ -48,16 +48,16 @@
 
 <script>
 	const db = uniCloud.database()
-	import uniPopup from '@/components/uni-popup/uni-popup.vue'
-	import uniPopupMessage from '@/components/uni-popup/uni-popup-message.vue'
-	import uniPopupDialog from '@/components/uni-popup/uni-popup-dialog.vue'
-	import uniNoticeBar from '@/components/uni-notice-bar/uni-notice-bar.vue'
+	// import uniPopup from '@/components/uni-popup/uni-popup.vue'
+	// import uniPopupMessage from '@/components/uni-popup/uni-popup-message.vue'
+	// import uniPopupDialog from '@/components/uni-popup/uni-popup-dialog.vue'
+	import uniNoticeBar from '@/uni_modules/uni-notice-bar/components/uni-notice-bar/uni-notice-bar.vue'
 	import alertCode from '@/components/alertCode/alertCode.vue';
 	export default {
 		components: {
-			uniPopup,
-			uniPopupMessage,
-			uniPopupDialog,
+			// uniPopup,
+			// uniPopupMessage,
+			// uniPopupDialog,
 			uniNoticeBar,
 			alertCode
 		},

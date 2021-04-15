@@ -1,0 +1,432 @@
+// 在本文件中可配置云数据库初始化，数据格式见：https://uniapp.dcloud.io/uniCloud/cf-database?id=db_init
+
+// 编写完毕后对本文件点右键，可按配置规则创建表和添加数据
+
+{
+	"department": {
+		"data": [{
+				"_id": "5fe77207974b6900018c6c9c",
+				"name": "总部",
+				"parent_id": "",
+				"status": 0
+			},
+			{
+				"_id": "5fe77232974b6900018c6cb1",
+				"name": "一级部门A",
+				"parent_id": "5fe77207974b6900018c6c9c",
+				"status": 0
+			}
+		]
+	},
+	"book": {
+		"data": [{
+				"_id": "1",
+				"title": "西游记",
+				"author": "吴承恩"
+			},
+			{
+				"_id": "2",
+				"title": "水浒传",
+				"author": "施耐庵"
+			},
+			{
+				"_id": "3",
+				"title": "三国演义",
+				"author": "罗贯中"
+			},
+			{
+				"_id": "4",
+				"title": "红楼梦",
+				"author": "曹雪芹"
+			}
+		]
+	},
+	"order": {
+		"data": [{
+				"book_id": "1",
+				"quantity": 111,
+				"create_date": 5 //演示数据方便比较分析
+			},
+			{
+				"book_id": "2",
+				"quantity": 222,
+				"create_date": 3
+			},
+			{
+				"book_id": "3",
+				"quantity": 333,
+				"create_date": 6
+			},
+			{
+				"book_id": "4",
+				"quantity": 444,
+				"create_date": 9
+			},
+			{
+				"book_id": "3",
+				"quantity": 555,
+				"create_date": 4
+			}
+		]
+	},
+	"test": {
+		"data": []
+	},
+	"opendb-app-list": {
+		"data": [],
+		"index": [{
+			"IndexName": "appid",
+			"MgoKeySchema": {
+				"MgoIndexKeys": [{
+					"Name": "appid",
+					"Direction": "1"
+				}],
+				"MgoIsUnique": true
+			}
+		}, {
+			"IndexName": "name",
+			"MgoKeySchema": {
+				"MgoIndexKeys": [{
+					"Name": "name",
+					"Direction": "1"
+				}],
+				"MgoIsUnique": false
+			}
+		}]
+	},
+	"opendb-app-versions": {
+		"data": [],
+		"index": [{
+			"IndexName": "appid",
+			"MgoKeySchema": {
+				"MgoIndexKeys": [{
+					"Name": "appid",
+					"Direction": "1"
+				}],
+				"MgoIsUnique": false
+			}
+		}, {
+			"IndexName": "查找上线发行应用",
+			"MgoKeySchema": {
+				"MgoIndexKeys": [{
+					"Name": "appid",
+					"Direction": "1"
+				}, {
+					"Name": "platform",
+					"Direction": "1"
+				}, {
+					"Name": "stable_publish",
+					"Direction": "1"
+				}],
+				"MgoIsUnique": false
+			}
+		}]
+	},
+	"permission-test-1": {
+		"data": [{"state":0,"text":"该用户比较懒啥也没写！"}]
+	},
+	"permission-test-2": {
+		"data": [{"state":0,"text":"该用户比较懒啥也没写！"}]
+	},
+	"permission-test-3": {
+		"data": [{"state":0,"text":"该用户比较懒啥也没写！"}]
+	},
+	"permission-test-4": {
+		"data": [{"state":0,"text":"该用户比较懒啥也没写！"}]
+	},
+	"permission-test-5": {
+		"data": [{"state":0,"text":"该用户比较懒啥也没写！"}]
+	},
+	"permission-test-6": {
+		"data": [{"state":0,"text":"该用户比较懒啥也没写！"}]
+	},
+	"permission-test-7": {
+		"data": [{"state":0,"text":"该用户比较懒啥也没写！"}]
+	},
+	"comment": {},
+	"notice": {
+		"data": [{
+			"view_count": 0,
+			"data": "这是一个由clientDB实现的留言板示例；权限部分由DBschema和action云函数控制。\n规则如下：\n  1.未登陆的游客,只能看到审核通过的留言。\n  2.登陆的用户还可以：发表留言，会进入审核状态，期间支持查看和删除。审核通过后可以重新编辑留言。但在重新编辑后会自动再次进入审核状态。\n  3.审核员和管理员可以：查看所有状态的留言，操作：审核、编辑、删除。"
+		}]
+	},
+	"opendb-city-china": {},
+	"uni-id-users": {
+		"data": [{
+				"username": "admin",
+				"password": "03caebb36670995fc261a275d212cad65e4bbebd",
+				"role": ["admin"]
+			},
+			{
+				"username": "user",
+				"password": "03caebb36670995fc261a275d212cad65e4bbebd",
+				"role": ["USER"]
+			},
+			{
+				"username": "auditor",
+				"password": "03caebb36670995fc261a275d212cad65e4bbebd",
+				"role": ["AUDITOR"]
+			}
+		],
+		"index": [{
+			"IndexName": "username",
+			"MgoKeySchema": {
+				"MgoIndexKeys": [{
+					"Name": "username",
+					"Direction": "1"
+				}],
+				"MgoIsUnique": false
+			}
+		}, {
+			"IndexName": "mobile",
+			"MgoKeySchema": {
+				"MgoIndexKeys": [{
+					"Name": "mobile",
+					"Direction": "1"
+				}],
+				"MgoIsUnique": false
+			}
+		}, {
+			"IndexName": "email",
+			"MgoKeySchema": {
+				"MgoIndexKeys": [{
+					"Name": "email",
+					"Direction": "1"
+				}],
+				"MgoIsUnique": false
+			}
+		}, {
+			"IndexName": "wx_openid.app-plus",
+			"MgoKeySchema": {
+				"MgoIndexKeys": [{
+					"Name": "wx_openid.app-plus",
+					"Direction": "1"
+				}],
+				"MgoIsUnique": false
+			}
+		}, {
+			"IndexName": "wx_openid.mp-weixin",
+			"MgoKeySchema": {
+				"MgoIndexKeys": [{
+					"Name": "wx_openid.mp-weixin",
+					"Direction": "1"
+				}],
+				"MgoIsUnique": false
+			}
+		}, {
+			"IndexName": "wx_unionid",
+			"MgoKeySchema": {
+				"MgoIndexKeys": [{
+					"Name": "wx_unionid",
+					"Direction": "1"
+				}],
+				"MgoIsUnique": false
+			}
+		}, {
+			"IndexName": "ali_openid",
+			"MgoKeySchema": {
+				"MgoIndexKeys": [{
+					"Name": "ali_openid",
+					"Direction": "1"
+				}],
+				"MgoIsUnique": false
+			}
+		}, {
+			"IndexName": "my_invite_code",
+			"MgoKeySchema": {
+				"MgoIndexKeys": [{
+					"Name": "my_invite_code",
+					"Direction": "1"
+				}],
+				"MgoIsUnique": false
+			}
+		}, {
+			"IndexName": "inviter_uid",
+			"MgoKeySchema": {
+				"MgoIndexKeys": [{
+					"Name": "inviter_uid",
+					"Direction": "1"
+				}],
+				"MgoIsUnique": false
+			}
+		}, {
+			"IndexName": "invite_time",
+			"MgoKeySchema": {
+				"MgoIndexKeys": [{
+					"Name": "invite_time",
+					"Direction": "1"
+				}],
+				"MgoIsUnique": false
+			}
+		}, {
+			"IndexName": "role",
+			"MgoKeySchema": {
+				"MgoIndexKeys": [{
+					"Name": "role",
+					"Direction": "1"
+				}],
+				"MgoIsUnique": false
+			}
+		}]
+	},
+	"uni-verify": {
+		"data": [],
+		"index": [{
+			"IndexName": "mobile",
+			"MgoKeySchema": {
+				"MgoIndexKeys": [{
+					"Name": "mobile",
+					"Direction": "1"
+				}, {
+					"Name": "code",
+					"Direction": "1"
+				}],
+				"MgoIsUnique": false
+			}
+		}, {
+			"IndexName": "email",
+			"MgoKeySchema": {
+				"MgoIndexKeys": [{
+					"Name": "email",
+					"Direction": "1"
+				}, {
+					"Name": "code",
+					"Direction": "1"
+				}],
+				"MgoIsUnique": false
+			}
+		}]
+	},
+	"uni-id-roles": {
+		"data": [{
+				"role_id": "USER",
+				"role_name": "用户",
+				"permission": [
+					"P_TEST_ADD"
+				]
+			},
+			{
+				"role_id": "AUDITOR",
+				"role_name": "审核员",
+				"permission": [
+					"P_TEST_UPDATE"
+				]
+			}
+		],
+		"index": [{
+				"IndexName": "role_id",
+				"MgoKeySchema": {
+					"MgoIndexKeys": [{
+						"Name": "role_id",
+						"Direction": "1"
+					}],
+					"MgoIsUnique": true
+				}
+			},
+			{
+				"IndexName": "permission",
+				"MgoKeySchema": {
+					"MgoIndexKeys": [{
+						"Name": "permission",
+						"Direction": "1"
+					}],
+					"MgoIsUnique": false
+				}
+			}
+		]
+	},
+	"uni-id-permissions": {
+		"data": [{
+				"permission_id": "P_TEST_ADD",
+				"permission_name": "增加permission-test表数据"
+			},
+			{
+				"permission_id": "P_TEST_UPDATE",
+				"permission_name": "修改permission-test表数据"
+			}
+		],
+		"index": [{
+			"IndexName": "permission_id",
+			"MgoKeySchema": {
+				"MgoIndexKeys": [{
+					"Name": "permission_id",
+					"Direction": "1"
+				}],
+				"MgoIsUnique": true
+			}
+		}]
+	},
+	"opendb-admin-menu": {
+		"data": [],
+		"index": [{
+			"IndexName": "parent_id",
+			"MgoKeySchema": {
+				"MgoIndexKeys": [{
+					"Name": "parent_id",
+					"Direction": "1"
+				}],
+				"MgoIsUnique": false
+			}
+		}]
+	},
+	"unicloud-test":{},
+	"opendb-verify-codes": {
+		"data": []
+	},
+	"uni-id-log": {
+		"data": []
+	},
+	"opendb-admin-menus": {
+		"data": [{
+			"menu_id": "system_management",
+			"name": "系统管理",
+			"icon": "uni-icons-gear",
+			"url": "",
+			"sort": 1000,
+			"parent_id": "",
+			"permission": [],
+			"enable": true,
+			"create_date": 1602662469396
+		}, {
+			"menu_id": "system_user",
+			"name": "用户管理",
+			"icon": "uni-icons-person",
+			"url": "/pages/system/user/list",
+			"sort": 1010,
+			"parent_id": "system_management",
+			"permission": [],
+			"enable": true,
+			"create_date": 1602662469398
+		}, {
+			"menu_id": "system_role",
+			"name": "角色管理",
+			"icon": "uni-icons-personadd",
+			"url": "/pages/system/role/list",
+			"sort": 1020,
+			"parent_id": "system_management",
+			"permission": [],
+			"enable": true,
+			"create_date": 1602662469397
+		}, {
+			"menu_id": "system_permission",
+			"name": "权限管理",
+			"icon": "uni-icons-locked",
+			"url": "/pages/system/permission/list",
+			"sort": 1030,
+			"parent_id": "system_management",
+			"permission": [],
+			"enable": true,
+			"create_date": 1602662469396
+		}, {
+			"menu_id": "system_menu",
+			"name": "菜单管理",
+			"icon": "uni-icons-settings",
+			"url": "/pages/system/menu/list",
+			"sort": 1040,
+			"parent_id": "system_management",
+			"permission": [],
+			"enable": true,
+			"create_date": 1602662469396
+		}]
+	}
+}

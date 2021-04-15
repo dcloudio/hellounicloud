@@ -1,7 +1,9 @@
 <script>
+	import checkUpdate from '@/uni_modules/uni-upgrade-center-app/utils/check-update';
 	export default {
 		onLaunch: function() {
 			console.log('App Launch')
+			checkUpdate()//更新升级
 		},
 		mounted() {
 			// #ifdef H5
