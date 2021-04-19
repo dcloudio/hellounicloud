@@ -11,6 +11,7 @@ describe('pages/clientDB/demo/demo.vue', () => {
 			await page.waitFor(1000);//微信等待
 		}
 		page = await program.currentPage()
+		console.log("page-------------: ",page);
 	})
 
 	beforeEach(async()=>{
@@ -21,6 +22,10 @@ describe('pages/clientDB/demo/demo.vue', () => {
 
 
 	it('未登陆', async () => {
+		
+		
+		console.log("未登陆---------------");
+		
 		const perPage = await page.$('.page')
 		//底部角色控制条
 		const roles = await perPage.$$('.roles-item')

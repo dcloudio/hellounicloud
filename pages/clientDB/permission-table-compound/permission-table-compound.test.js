@@ -11,12 +11,18 @@ describe('pages/clientDB/permission-table-compound/permission-table-compound.vue
 			await page.waitFor(1000);//微信等待
 		}
 		page = await program.currentPage()
+		
+		console.log("page------------------: ",page);
 	})
 	
 	beforeEach(async()=>{
 		jest.setTimeout(30000)
 		return false
 	})
+
+
+
+
 
 	it('创建--未登陆', async () => {
 		const perPage = await page.$('.page')

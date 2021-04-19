@@ -20,12 +20,13 @@ describe('pages/clientDB/clientDB.nvue', () => {
 	})
 
 	it('当前页面-clientDB', async () => {
-		await page.waitFor(1000)
+		// await page.waitFor(1000)
 		//expect.assertions(2);
 		expect(await page.path).toBe('pages/clientDB/clientDB')
 		
-		await page.waitFor(1000)
+		await page.waitFor(300)
 		const list = await page.$('uni-list')
+		console.log("list: ",list);
 		// if(list){
 		// 	const getList = await list.$$('.item')
 		// 	console.log("getList: ",getList);

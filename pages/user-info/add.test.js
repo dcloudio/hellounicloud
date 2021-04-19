@@ -11,6 +11,7 @@ describe('pages/user-info/add.vue', () => {
 			await page.waitFor(1000);//微信等待
 		}
 		page = await program.currentPage()
+		console.log("page-add: ",page);
 	})
 
 

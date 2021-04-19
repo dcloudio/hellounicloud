@@ -199,7 +199,7 @@ describe('pages/clientDB/permission-field-simple/permission-field-simple.nvue', 
 
 	it('创建--用户', async () => {
 		const perPage = await page.$('.page')
-		console.log("perPage: ",perPage);
+		console.log("perPage---------------: ",perPage);
 		//头部操作控制条
 		const segItems = await perPage.$$('.segmented-control__item')
 		console.log("segItems: ",segItems);

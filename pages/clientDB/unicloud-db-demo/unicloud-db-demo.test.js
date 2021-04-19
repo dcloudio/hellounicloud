@@ -3,7 +3,11 @@ describe('pages/clientDB/unicloud-db-demo/unicloud-db-demo', () => {
 	let page
 	beforeAll(async () => {
 		// 重新reLaunch至首页，并获取首页page对象（其中 program 是uni-automator自动注入的全局对象）
-		page = await program.reLaunch('/pages/clientDB/unicloud-db-demo/unicloud-db-demo')
+		pageGet = await program.reLaunch('/pages/clientDB/unicloud-db-demo/unicloud-db-demo')
+		
+		
+		console.log("pageGet---页面加载完成---------------: ",pageGet);
+		
 		if (process.env.UNI_PLATFORM === "h5"|| process.env.UNI_PLATFORM === "app-plus") {
 			await page.waitFor(1000)
 		}
@@ -11,6 +15,9 @@ describe('pages/clientDB/unicloud-db-demo/unicloud-db-demo', () => {
 			await page.waitFor(1000);//微信等待
 		}
 		page = await program.currentPage()
+		
+		console.log("page-------获取页面------------------: ",page);
+		
 	})
 	
 	beforeEach(async()=>{

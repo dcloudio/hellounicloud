@@ -21,6 +21,8 @@ describe('pages/validate-demo/add.vue', () => {
 	})
 
 	it('输入表单内容', async () => {
+		
+		
 		let type = 1
 		let type_name = "数字天堂"
 		let comment = "我是备注消息"
@@ -43,7 +45,8 @@ describe('pages/validate-demo/add.vue', () => {
 				"address": "110108"
 			}
 		})
-		//console.log(await page.data('formData'), "setForm---");
+		
+		console.log(await page.data('formData'), "setForm---");
 
 		//姓名只能输入中文
 		//expect(username).toMatch(/\u4e00-\u9fa5/);
