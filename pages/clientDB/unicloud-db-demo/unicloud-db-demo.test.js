@@ -8,12 +8,12 @@ describe('pages/clientDB/unicloud-db-demo/unicloud-db-demo', () => {
 		
 		console.log("pageGet---页面加载完成---------------: ",pageGet);
 		
-		if (process.env.UNI_PLATFORM === "h5"|| process.env.UNI_PLATFORM === "app-plus") {
+		/* if (process.env.UNI_PLATFORM === "h5"|| process.env.UNI_PLATFORM === "app-plus") {
 			await page.waitFor(1000)
 		}
 		if (process.env.UNI_PLATFORM === "mp-weixin") {
 			await page.waitFor(1000);//微信等待
-		}
+		} */
 		page = await program.currentPage()
 		
 		console.log("page-------获取页面------------------: ",page);

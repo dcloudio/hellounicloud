@@ -23,6 +23,7 @@ describe('pages/clientDB/permission-table-simple/permission-table-simple.vue', (
 		const perPage = await page.$('.page')
 		//头部操作控制条
 		const segItems = await perPage.$$('.segmented-control__item')
+		console.log("segItems: ",segItems);
 		//底部角色控制条
 		const roles = await perPage.$$('.roles-item')
 

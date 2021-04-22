@@ -34,10 +34,13 @@ describe('pages/clientDB/clientDB-api/clientDB-api.nvue', () => {
 		//expect.assertions(1);
 		//获取页码
 		const numBox1 = await page.$('.num-box1')
+		
 		const pageSize = await numBox1.property('value')
+		console.log("pageSize: ",pageSize);
 		//获取当前页
 		const numBox2 = await page.$('.num-box2')
 		const pageCurrent = await numBox2.property('value')
+		console.log("pageCurrent: ",pageCurrent);
 
 		if (pageSize === 1 && pageCurrent == 2) {
 			const orderData = await page.callMethod('getPageData', 'order')

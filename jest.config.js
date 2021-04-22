@@ -36,8 +36,9 @@ module.exports = {
 	watchPathIgnorePatterns: ['/node_modules/', '/dist/', '/.git/'],
 	moduleFileExtensions: ['js', 'json'],
 	rootDir: __dirname,
-	// testMatch: ['<rootDir>/pages/clientDB/permission-table-simple/permission-table-simple.test.js'],
-	testMatch: ['<rootDir>/pages/**/*test.[jt]s?(x)'],
+	testMatch: ['<rootDir>/pages/clientDB/demo/demo.test.js',"<rootDir>/pages/clientDB/unicloud-db-demo/unicloud-db-demo.test.js",
+	"<rootDir>/pages/user-info/list.test.js","<rootDir>/pages/schema2code/schema2code","<rootDir>/pages/clientDB/permission-field-simple/permission-field-simple","<rootDir>/pages/clientDB/permission-table-compound/permission-table-compound"],
+	// testMatch: ['<rootDir>/pages/**/*test.[jt]s?(x)'],
 	testPathIgnorePatterns: ['/node_modules/', '.*/test.js', '/js_sdk/validator/permission-test.js','/pages/user-info/detail.test.js',
 	'/pages/user-info/edit.test.js','/pages/clientDB/permission-demo/permission-demo.test.js',]
 }
