@@ -27,7 +27,7 @@
 								<text class="in-review" v-if="options.role.index===1&&item.state==0">审核中</text>
 								<uni-icons v-else color="#cdcfd4" class="ico" size="16" type="compose"
 									@click="clickIcon(0,item)"></uni-icons>
-								<uni-icons v-if="" color="#cdcfd4" class="ico" size="16" type="trash"
+								<uni-icons color="#cdcfd4" class="ico" size="16" type="trash"
 									@click="clickIcon(1,item)"></uni-icons>
 							</template>
 						</view>
