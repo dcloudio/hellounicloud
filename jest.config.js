@@ -29,16 +29,17 @@ module.exports = {
 			} */
 		}
 	},
-	testTimeout:600000,//getFn: 260.245849609375ms
+	collectCoverage:true,
+	collectCoverageFrom: ["src/**/*.{js,vue}"],
+	testTimeout:100000,//getFn: 260.245849609375ms  600000
 	reporters: [
 		'default'
 	],
 	watchPathIgnorePatterns: ['/node_modules/', '/dist/', '/.git/'],
 	moduleFileExtensions: ['js', 'json'],
 	rootDir: __dirname,
-	testMatch: ['<rootDir>/pages/clientDB/demo/demo.test.js',"<rootDir>/pages/clientDB/unicloud-db-demo/unicloud-db-demo.test.js",
-	"<rootDir>/pages/user-info/list.test.js","<rootDir>/pages/schema2code/schema2code","<rootDir>/pages/clientDB/permission-field-simple/permission-field-simple","<rootDir>/pages/clientDB/permission-table-compound/permission-table-compound"],
-	// testMatch: ['<rootDir>/pages/**/*test.[jt]s?(x)'],
+	// testMatch: ["<rootDir>/pages/storage/storage.test.js"],
+	testMatch: ['<rootDir>/pages/**/*test.[jt]s?(x)'],
 	testPathIgnorePatterns: ['/node_modules/', '.*/test.js', '/js_sdk/validator/permission-test.js','/pages/user-info/detail.test.js',
 	'/pages/user-info/edit.test.js','/pages/clientDB/permission-demo/permission-demo.test.js',]
 }
