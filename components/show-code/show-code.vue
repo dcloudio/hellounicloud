@@ -30,12 +30,16 @@
 </template>
 
 <script>
+	// #ifdef VUE2
 	import showCode from '@/components/show-code/show-code.vue';
+	// #endif
 	export default {
 		name: "show-code",
+		// #ifdef VUE2
 		components: {
 			"show-code": showCode
 		},
+		// #endif
 		data() {
 			return {
 				L: "{",

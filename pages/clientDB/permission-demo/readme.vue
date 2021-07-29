@@ -21,7 +21,6 @@
 		<view class="tips">
 			<text>DB Schema的permission规则，分为两部分，一边是对操作数据的指定，一边是对角色的指定，规则中对两者进行关联，匹配则校验通过。</text>
 		</view>
-		
 		<page-head title="表级权限控制" subTitle="包括增删改查四种权限，分别称为：create、delete、update、read"></page-head>
 		<uni-section title="根据true和false控制数据库的相关操作" type="circle" ></uni-section>
 			<view class="uni-title pl10">
@@ -213,7 +212,8 @@
 		methods: {
 			toDemo(){
 				uni.navigateTo({
-					url:"./permission-demo"
+					// url:"./permission-demo",
+					url:"/pages/clientDB/permission-demo/permission-demo"
 				})
 			},
 			previewImage(url){

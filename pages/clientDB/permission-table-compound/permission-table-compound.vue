@@ -5,31 +5,33 @@
 			<uni-segmented-control @clickItem="typeIndex = $event.currentIndex" :current="typeIndex" :values="types.map(({text})=>text)"></uni-segmented-control>
 		</view>
 		<alertCode ref="alertCode"></alertCode>
-		<view class="item" v-for="(item,index) in permissionList" :key="index" v-if="item.exclude !== type">
-			<view class="msg">{{item.msg}}</view>
-			<text style="color: #999999;">schema路径：uniCloud/database/permission-test-{{index+8}}.schema.json\n</text>
-			<view class="code">
-				配置规则：
-				<scroll-view scroll-x class="code-box">
-					<show-code :codes="item.codes[type]"></show-code>
-				</scroll-view>
-				<text>含义解释：{{item.explain}}</text>
-				<text>【{{types[typeIndex].text}}】</text>
-				<text>{{item.explain_end}}</text>
+		<template v-for="(item,index) in permissionList">
+			<view class="item" v-if="item.exclude !== type">
+				<view class="msg">{{item.msg}}</view>
+				<text style="color: #999999;">schema路径：uniCloud/database/permission-test-{{index+8}}.schema.json\n</text>
+				<view class="code">
+					配置规则：
+					<scroll-view scroll-x class="code-box">
+						<show-code :codes="item.codes[type]"></show-code>
+					</scroll-view>
+					<text>含义解释：{{item.explain}}</text>
+					<text>【{{types[typeIndex].text}}】</text>
+					<text>{{item.explain_end}}</text>
+				</view>
+				<template v-if="index===0&&type!='create'">
+					<button type="primary" size="mini" @click="myFn({type:'create',index})">创建数据</button>
+					<button type="primary" size="mini" @click="myFn({type:'read',index,where:'create_time > '+(Date.now()-60000)})">{{typeText}}一分钟内的数据</button>
+				</template>
+				<button type="primary" size="mini" plain @click="myFn({type,index})">
+					{{types[typeIndex].text}}
+					<text v-if="type!='create'">表全部数据</text>
+					<text v-else>一条记录</text>
+				</button>
+				<template v-if="index===1">
+					<button type="primary" size="mini" @click="myFn({type,index,action:'add_view_count'})">带action{{types[typeIndex].text}}</button>
+				</template>
 			</view>
-			<template v-if="index===0&&type!='create'">
-				<button type="primary" size="mini" @click="myFn({type:'create',index})">创建数据</button>
-				<button type="primary" size="mini" @click="myFn({type:'read',index,where:'create_time > '+(Date.now()-60000)})">{{typeText}}一分钟内的数据</button>
-			</template>
-			<button type="primary" size="mini" plain @click="myFn({type,index})">
-				{{types[typeIndex].text}}
-				<text v-if="type!='create'">表全部数据</text>
-				<text v-else>一条记录</text>
-			</button>
-			<template v-if="index===1">
-				<button type="primary" size="mini" @click="myFn({type,index,action:'add_view_count'})">带action{{types[typeIndex].text}}</button>
-			</template>
-		</view>
+		</template>
 		<set-permission @change="changePermission"></set-permission>
 	</view>
 </template>

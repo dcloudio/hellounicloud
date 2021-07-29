@@ -2,3 +2,5 @@ node_modules
 .hbuilderx/
 ./vue.config.js
 unpackage
+h5
+coverage

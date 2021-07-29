@@ -1,7 +1,7 @@
 <template name="page-head">
 <view>
-	<view class="uni-page-head">
-		<view class="uni-page-head-title">{{title}}</view>
+	<view class="uni-page-heads">
+		<view class="uni-page-heads-title">{{title}}</view>
 	</view>
 	<view class="row">
 		<view class="">{{subTitle}}</view>
@@ -23,12 +23,12 @@
 		}
 	}
 </script>
-<style>
-	.uni-page-head{
+<style lang="scss" scoped>
+	.uni-page-heads{
 		padding:35rpx;
 		text-align: center;
 	}
-	.uni-page-head-title {
+	.uni-page-heads-title {
 		display: inline-block;
 		padding: 0 40rpx;
 		font-size: 30rpx;

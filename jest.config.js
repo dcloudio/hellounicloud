@@ -38,8 +38,7 @@ module.exports = {
 	watchPathIgnorePatterns: ['/node_modules/', '/dist/', '/.git/'],
 	moduleFileExtensions: ['js', 'json'],
 	rootDir: __dirname,
-	// testMatch: ["<rootDir>/pages/storage/storage.test.js"],
-	testMatch: ['<rootDir>/pages/**/*test.[jt]s?(x)'],
-	testPathIgnorePatterns: ['/node_modules/', '.*/test.js', '/js_sdk/validator/permission-test.js','/pages/user-info/detail.test.js',
-	'/pages/user-info/edit.test.js','/pages/clientDB/permission-demo/permission-demo.test.js',]
+	testMatch: ["<rootDir>/pages/user-info/list/list.test.js"],
+	// testMatch: ["<rootDir>/pages/**/*test.[jt]s?(x)"],
+	testPathIgnorePatterns: ['/node_modules/', '.*/test.js', '/js_sdk/validator/permission-test.js']
 }

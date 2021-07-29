@@ -13,21 +13,21 @@
 			collection="comment,uni-id-users" field="uid{username,_id},text,_id,state" :where="options.where">
 			<scroll-view :show-scrollbar="true" scroll-y v-if="data.length" class="comment-list">
 				<view class="comment-item" v-for="(item,index) in data" :key="item._id">
-					<image class="userImg" :src="'../../../static/userImg/'+item.uid[0].username+'.png'" mode="">
+					<image v-if="item.uid[0]&&item.uid[0].username" class="userImg" :src="'../../../static/userImg/'+item.uid[0].username+'.png'" mode="">
 					</image>
 					<view class="content">
 						<view style="flex-direction: column;">
-							<text style="color: #666;font-size: 14px;font-weight:700;">{{item.uid[0].username}}</text>
+							<text v-if="item.uid[0]&&item.uid[0].username" style="color: #666;font-size: 14px;font-weight:700;">{{item.uid[0].username}}</text>
 							<text style="color: #888;font-size: 14px;">{{item.text}}</text>
 						</view>
 						<view style="flex-direction: row;">
 							<switch v-if="options.role.index>1" class="switch" :checked="item.state==1"
 								@change="updateState($event,item._id)" />
-							<template v-if="options.selfId == item.uid[0]._id || options.role.index>1">
+							<template v-if="item.uid[0]&&(options.selfId == item.uid[0]._id || options.role.index>1)">
 								<text class="in-review" v-if="options.role.index===1&&item.state==0">审核中</text>
 								<uni-icons v-else color="#cdcfd4" class="ico" size="16" type="compose"
 									@click="clickIcon(0,item)"></uni-icons>
-								<uni-icons v-if="" color="#cdcfd4" class="ico" size="16" type="trash"
+								<uni-icons color="#cdcfd4" class="ico" size="16" type="trash"
 									@click="clickIcon(1,item)"></uni-icons>
 							</template>
 						</view>

@@ -22,7 +22,7 @@ describe('pages/user-info/list.vue', () => {
 	it('点击某一条',async()=>{
 		const getDataList = await page.data('dataList')
 		
-		// console.log("getDataList: ",getDataList);
+		console.log("getDataList: ",getDataList);
 		
 		const uId = getDataList[0]._id
 		console.log("uId: ",uId);
@@ -30,7 +30,9 @@ describe('pages/user-info/list.vue', () => {
 		if(uId){
 			const handleItemClick = await page.callMethod('handleItemClick',uId)
 		}
+		
 	})
+	
 	
 	
 	it('点击fab跳转到添加页',async()=>{

@@ -5,28 +5,30 @@
 			<uni-segmented-control @clickItem="typeIndex = $event.currentIndex" :values="types.map(({text})=>text)"></uni-segmented-control>
 		</view>
 		<alertCode ref="alertCode"></alertCode>
-		<view class="item" v-for="(item,index) in permissionList" v-if="item.exclude !== type" :key="index">
-			<view class="msg">{{item.msg}}</view>
-			<text style="color: #999999;">schema路径：uniCloud/database/permission-test-{{index+10}}.schema.json\n</text>
-			<view class="code">
-				配置规则
-				<scroll-view scroll-x class="code-box">
-					<show-code :codes="item.codes[type]"></show-code>
-				</scroll-view>
-				<text>含义解释：{{item.explain}}</text>
-				<text>【{{typeText}}】</text>
-				<text>{{item.explain_end}}</text>
+		<template v-for="(item,index) in permissionList">
+			<view class="item"  v-if="item.exclude !== type">
+				<view class="msg">{{item.msg}}</view>
+				<text style="color: #999999;">schema路径：uniCloud/database/permission-test-{{index+10}}.schema.json\n</text>
+				<view class="code">
+					配置规则
+					<scroll-view scroll-x class="code-box">
+						<show-code :codes="item.codes[type]"></show-code>
+					</scroll-view>
+					<text>含义解释：{{item.explain}}</text>
+					<text>【{{typeText}}】</text>
+					<text>{{item.explain_end}}</text>
+				</view>
+			
+				<button type="primary" size="mini" plain @click="myFn({type,index})">
+					{{typeText}}
+					<text v-if="type!='create'">记录全部字段</text>
+					<text v-else>一条记录</text>
+				</button>
+				<template v-if="[0,1,2].includes(index)">
+					<button type="primary" size="mini" @click="myFn({type,index,field:'_id,state,create_time,text'})">{{typeText}}不含字段{{item.field}}的记录</button>
+				</template>
 			</view>
-
-			<button type="primary" size="mini" plain @click="myFn({type,index})">
-				{{typeText}}
-				<text v-if="type!='create'">记录全部字段</text>
-				<text v-else>一条记录</text>
-			</button>
-			<template v-if="[0,1,2].includes(index)">
-				<button type="primary" size="mini" @click="myFn({type,index,field:'_id,state,create_time,text'})">{{typeText}}不含字段{{item.field}}的记录</button>
-			</template>
-		</view>
+		</template>
 		<set-permission @change="changePermission"></set-permission>
 	</view>
 </template>
