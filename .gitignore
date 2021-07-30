@@ -4,3 +4,6 @@ node_modules
 unpackage
 h5
 coverage
+vue
+manifest
+mp-weixin

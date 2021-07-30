@@ -21,9 +21,6 @@ describe('pages/user-info/list.vue', () => {
 	
 	it('点击某一条',async()=>{
 		const getDataList = await page.data('dataList')
-		
-		console.log("getDataList: ",getDataList);
-		
 		const uId = getDataList[0]._id
 		console.log("uId: ",uId);
 		

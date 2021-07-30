@@ -120,5 +120,8 @@
             }
         }
     },
-    "vueVersion" : "2"
+    "vueVersion" : "2",
+    "mp-weixin" : {
+        "appid" : "wx81dbb061d2258234"
+    }
 }

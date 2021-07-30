@@ -1,10 +1,7 @@
 module.exports = {
-	/* globalTeardown: '@dcloudio/uni-automator/dist/teardown.js',
-	testEnvironment: '@dcloudio/uni-automator/dist/environment.js', */
 	testEnvironmentOptions: {
 		compile: true,
-		h5: { // 为了节省测试时间，可以指定一个 H5 的 url 地址，若不指定，每次运行测试，会先 npm run dev:h5
-			// url: "http://192.168.28.249:8081/h5/",
+		h5: { 
 			options: {
 				headless: false // 配置是否显示 puppeteer 测试窗口
 			}
@@ -31,14 +28,14 @@ module.exports = {
 	},
 	collectCoverage:true,
 	collectCoverageFrom: ["src/**/*.{js,vue}"],
-	testTimeout:100000,//getFn: 260.245849609375ms  600000
+	testTimeout:10000,
 	reporters: [
 		'default'
 	],
 	watchPathIgnorePatterns: ['/node_modules/', '/dist/', '/.git/'],
 	moduleFileExtensions: ['js', 'json'],
 	rootDir: __dirname,
-	testMatch: ["<rootDir>/pages/user-info/list/list.test.js"],
-	// testMatch: ["<rootDir>/pages/**/*test.[jt]s?(x)"],
-	testPathIgnorePatterns: ['/node_modules/', '.*/test.js', '/js_sdk/validator/permission-test.js']
+	// testMatch: ["<rootDir>/pages/user-info/list/list.test.js"],
+	testMatch: ["<rootDir>/pages/**/*test.[jt]s?(x)"],
+	testPathIgnorePatterns: ['/node_modules/','/js_sdk/validator/permission-test.js']
 }

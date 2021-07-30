@@ -1,6 +1,6 @@
 <template>
 	<view class="container">
-		<unicloud-db ref="udb" v-slot:default="{data, pagination, loading, hasMore, error}"
+		<unicloud-db ref="udb" v-slot:default="{data, pagination, loading, hasMore, error}" @load="load"
 			collection="user-info,book,opendb-city-china"
 			field="username,gender,birth_date,weight,mobile,email,url,favorite_book_id{title},address_code{name},party_member,hobby,comment">
 			<view v-if="error">{{error.message}}</view>
@@ -33,10 +33,6 @@
 				dataList:[]
 			}
 		},
-		onReady() {
-			this.dataList = this.$refs.udb.loadData()
-			console.log("this.dataList: ",this.dataList);
-		},
 		onPullDownRefresh() {
 			this.$refs.udb.loadData({
 				clear: true
@@ -48,6 +44,10 @@
 			this.$refs.udb.loadMore()
 		},
 		methods: {
+			load(e){
+				console.log("e: ",e);
+				this.dataList = e
+			},
 			handleItemClick(id) {
 				uni.navigateTo({
 					url: './detail?id=' + id
