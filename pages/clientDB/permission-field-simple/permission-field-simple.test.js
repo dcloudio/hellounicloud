@@ -19,9 +19,6 @@ describe('pages/clientDB/permission-field-simple/permission-field-simple.nvue', 
 	})
 
 	it('创建--未登陆', async () => {
-		
-		
-		
 		const perPage = await page.$('.page')
 		//头部操作控制条
 		const segItems = await perPage.$$('.segmented-control__item')
@@ -131,10 +128,6 @@ describe('pages/clientDB/permission-field-simple/permission-field-simple.nvue', 
 			"index": 2,
 			"field": "_id,state,create_time,text"
 		})
-
-
-
-
 	})
 
 	it('更新--未登陆', async () => {
@@ -190,22 +183,16 @@ describe('pages/clientDB/permission-field-simple/permission-field-simple.nvue', 
 			"field": "_id,state,create_time,text"
 		})
 
-
-
-
 	})
 
 
 
 	it('创建--用户', async () => {
 		const perPage = await page.$('.page')
-		console.log("perPage---------------: ",perPage);
 		//头部操作控制条
 		const segItems = await perPage.$$('.segmented-control__item')
-		console.log("segItems: ",segItems);
 		//底部角色控制条
 		const roles = await perPage.$$('.roles-item')
-		console.log("roles: ",roles);
 
 		//点击创建
 		await segItems[0].tap()
@@ -234,8 +221,6 @@ describe('pages/clientDB/permission-field-simple/permission-field-simple.nvue', 
 			"type": "create",
 			"index": 1,
 		})
-
-
 		await page.callMethod('myFn', {
 			"type": "create",
 			"index": 1,
@@ -248,15 +233,11 @@ describe('pages/clientDB/permission-field-simple/permission-field-simple.nvue', 
 		})
 		// expect(createUserB).toBe('[permission-test-12.ip.write]权限校验未通过')
 		//未能获取当前用户信息：30205 | 当前用户为匿名身份
-
 		await page.callMethod('myFn', {
 			"type": "create",
 			"index": 2,
 			"field": "_id,state,create_time,text",
 		})
-
-
-
 
 	})
 
@@ -367,9 +348,6 @@ describe('pages/clientDB/permission-field-simple/permission-field-simple.nvue', 
 			"field": "_id,state,create_time,text"
 		})
 
-
-
-
 	})
 
 
@@ -389,7 +367,6 @@ describe('pages/clientDB/permission-field-simple/permission-field-simple.nvue', 
 			const createAuditorRole = await page.data('currentRole')
 			return createAuditorIndex === 0 && createAuditorRole == 'auditor'
 		})
-
 
 		const createAuditorA = await page.callMethod('myFn', {
 			"type": "create",
@@ -425,9 +402,6 @@ describe('pages/clientDB/permission-field-simple/permission-field-simple.nvue', 
 			"field": "_id,state,create_time,text",
 		})
 
-
-
-
 	})
 
 	it('读取--审核员', async () => {
@@ -445,7 +419,6 @@ describe('pages/clientDB/permission-field-simple/permission-field-simple.nvue', 
 			const readAuditorRole = await page.data('currentRole')
 			return readAuditorIndex === 1 && readAuditorRole == 'auditor'
 		})
-
 
 		const readAuditorA = await page.callMethod('myFn', {
 			"type": "read",
@@ -480,9 +453,6 @@ describe('pages/clientDB/permission-field-simple/permission-field-simple.nvue', 
 			"index": 2,
 			"field": "_id,state,create_time,text"
 		})
-
-
-
 	})
 
 	it('更新--审核员', async () => {
@@ -500,8 +470,6 @@ describe('pages/clientDB/permission-field-simple/permission-field-simple.nvue', 
 			const updateAuditorRole = await page.data('currentRole')
 			return updateAuditorIndex === 2 && updateAuditorRole == 'auditor'
 		})
-
-
 
 		const updateAuditorA = await page.callMethod('myFn', {
 			"type": "update",
@@ -537,10 +505,6 @@ describe('pages/clientDB/permission-field-simple/permission-field-simple.nvue', 
 			"field": "_id,state,create_time,text"
 		})
 
-
-
-
-
 	})
 
 
@@ -560,9 +524,6 @@ describe('pages/clientDB/permission-field-simple/permission-field-simple.nvue', 
 			return createAdminIndex === 0 && createAdminRole == 'admin'
 		})
 
-
-
-
 		await page.callMethod('myFn', {
 			"type": "create",
 			"index": 0,
@@ -595,7 +556,6 @@ describe('pages/clientDB/permission-field-simple/permission-field-simple.nvue', 
 			"index": 2,
 			"field": "_id,state,create_time,text",
 		})
-
 
 	})
 
@@ -615,9 +575,6 @@ describe('pages/clientDB/permission-field-simple/permission-field-simple.nvue', 
 			return readAdminIndex === 1 && readAdminRole == 'admin'
 		})
 
-
-
-
 		await page.callMethod('myFn', {
 			"type": "read",
 			"index": 0
@@ -650,7 +607,6 @@ describe('pages/clientDB/permission-field-simple/permission-field-simple.nvue', 
 			"index": 2,
 			"field": "_id,state,create_time,text"
 		})
-
 
 	})
 
@@ -663,15 +619,11 @@ describe('pages/clientDB/permission-field-simple/permission-field-simple.nvue', 
 		//点击更新
 		await segItems[2].tap()
 		await roles[3].tap()
-
-
 		const updateAdmin = await page.waitFor(async () => {
 			const updateAdminIndex = await page.data('typeIndex')
 			const updateAdminRole = await page.data('currentRole')
 			return updateAdminIndex === 2 && updateAdminRole == 'admin'
 		})
-
-
 
 		await page.callMethod('myFn', {
 			"type": "update",
@@ -705,9 +657,6 @@ describe('pages/clientDB/permission-field-simple/permission-field-simple.nvue', 
 			"index": 2,
 			"field": "_id,state,create_time,text"
 		})
-
-
-
 	})
 
 })

@@ -3,21 +3,8 @@ describe('pages/clientDB/unicloud-db-demo/unicloud-db-demo', () => {
 	let page
 	beforeAll(async () => {
 		// 重新reLaunch至首页，并获取首页page对象（其中 program 是uni-automator自动注入的全局对象）
-		pageGet = await program.reLaunch('/pages/clientDB/unicloud-db-demo/unicloud-db-demo')
-		
-		
-		console.log("pageGet---页面加载完成---------------: ",pageGet);
-		
-		/* if (process.env.UNI_PLATFORM === "h5"|| process.env.UNI_PLATFORM === "app-plus") {
-			await page.waitFor(1000)
-		}
-		if (process.env.UNI_PLATFORM === "mp-weixin") {
-			await page.waitFor(1000);//微信等待
-		} */
-		page = await program.currentPage()
-		
-		console.log("page-------获取页面------------------: ",page);
-		
+		page = await program.reLaunch('/pages/clientDB/unicloud-db-demo/unicloud-db-demo')
+		await page.waitFor(1000);
 	})
 	
 	beforeEach(async()=>{
@@ -26,6 +13,8 @@ describe('pages/clientDB/unicloud-db-demo/unicloud-db-demo', () => {
 	})
 
 	it("增-删", async () => {
+		const count = await page.data('getcount')
+		console.log("count: ",count);
 		/* expect.assertions(1);
 		const count = await page.data('getcount')
 		expect(count).toBeTruthy(); */
@@ -33,7 +22,7 @@ describe('pages/clientDB/unicloud-db-demo/unicloud-db-demo', () => {
 		await page.waitFor(500)
 		const getDataList = await page.data('dataList')
 		console.log("getDataList: ",getDataList);
-		//expect(await getDataList.length).toBeGreaterThanOrEqual(1);
+		expect(await getDataList.length).toBeGreaterThanOrEqual(1);
 		
 		const removeData = await page.callMethod('remove')
 	})
@@ -72,7 +61,6 @@ describe('pages/clientDB/unicloud-db-demo/unicloud-db-demo', () => {
 		const numboxAdd1 = await numBox1.$('.uni-numbox__plus')
 		await numboxAdd1.tap()
 		await page.waitFor(500)
-		
 		
 		//获取增加后的页码
 		const pageCurrentAfter = await page.data('pageCurrent')
@@ -130,7 +118,6 @@ describe('pages/clientDB/unicloud-db-demo/unicloud-db-demo', () => {
 
 	})
 
-	
 	
 	it("设置排序字段-orderBy", async () => {
 		await page.setData({"orderby": 'create_date asc'})

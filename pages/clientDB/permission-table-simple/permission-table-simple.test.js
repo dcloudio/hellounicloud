@@ -23,7 +23,6 @@ describe('pages/clientDB/permission-table-simple/permission-table-simple.vue', (
 		const perPage = await page.$('.page')
 		//头部操作控制条
 		const segItems = await perPage.$$('.segmented-control__item')
-		console.log("segItems: ",segItems);
 		//底部角色控制条
 		const roles = await perPage.$$('.roles-item')
 
@@ -35,15 +34,13 @@ describe('pages/clientDB/permission-table-simple/permission-table-simple.vue', (
 		const createUnlogin = await page.waitFor(async () => {
 			const createUnlogintIndex = await page.data('typeIndex')
 			const createUnloginRole = await page.data('currentRole')
-			console.log({
-				createUnlogintIndex,
-				createUnloginRole
-			});
+			// console.log({
+			// 	createUnlogintIndex,
+			// 	createUnloginRole
+			// });
 			return createUnlogintIndex === 0 && createUnloginRole === 0
 		})
 		console.log(createUnlogin, "创建--未登陆");
-
-
 
 		if (createUnlogin) {
 

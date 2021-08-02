@@ -79,7 +79,8 @@
         options: {
           // 将scheme enum 属性静态数据中的value转成text
           ...enumConverter
-        }
+        },
+		  _id:''
       }
     },
     onLoad(e) {

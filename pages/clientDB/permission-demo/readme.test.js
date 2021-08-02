@@ -94,13 +94,11 @@ describe('pages/clientDB/permission-demo/readme.vue', () => {
 	
 	it('未登陆', async () => {
 		
-		console.log("11111111111111111");
-		
 		
 		if (process.env.UNI_PLATFORM === "h5" || process.env.UNI_PLATFORM === "app-plus" ) {
 			
 			
-			console.log("222222222222-h5");
+			console.log("h5");
 			await page.waitFor(2000)
 			const perPage = await page.$('.page')
 			//底部角色控制条
@@ -115,7 +113,7 @@ describe('pages/clientDB/permission-demo/readme.vue', () => {
 			
 			
 			await page.waitFor(300)
-			console.log("222222222222--mp-weixin");
+			console.log("mp-weixin");
 			const perPage = await page.$('.page')
 			const setPer = await perPage.$('set-permission')
 			//底部角色控制条
@@ -125,7 +123,6 @@ describe('pages/clientDB/permission-demo/readme.vue', () => {
 			await page.waitFor(500)
 		}
 		
-		console.log("33333333333333--");
 		
 		const unlogin = await page.waitFor(async()=>{
 			const unloginRole = await page.data('currentRole')

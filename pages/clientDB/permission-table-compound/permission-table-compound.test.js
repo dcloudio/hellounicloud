@@ -10,18 +10,15 @@ describe('pages/clientDB/permission-table-compound/permission-table-compound.vue
 		if (process.env.UNI_PLATFORM === "mp-weixin") {
 			await page.waitFor(1000);//微信等待
 		}
-		page = await program.currentPage()
+		// page = await program.currentPage()
 		
-		console.log("page------------------: ",page);
+		// console.log("page------------------: ",page);
 	})
 	
 	beforeEach(async()=>{
 		jest.setTimeout(30000)
 		return false
 	})
-
-
-
 
 
 	it('创建--未登陆', async () => {

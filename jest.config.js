@@ -35,7 +35,7 @@ module.exports = {
 	watchPathIgnorePatterns: ['/node_modules/', '/dist/', '/.git/'],
 	moduleFileExtensions: ['js', 'json'],
 	rootDir: __dirname,
-	// testMatch: ["<rootDir>/pages/user-info/list/list.test.js"],
+	// testMatch: ["<rootDir>/pages/clientDB/permission-demo/permission-demo.test.js"],
 	testMatch: ["<rootDir>/pages/**/*test.[jt]s?(x)"],
 	testPathIgnorePatterns: ['/node_modules/','/js_sdk/validator/permission-test.js']
 }
