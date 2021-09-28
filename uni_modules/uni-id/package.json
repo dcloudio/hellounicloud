@@ -1,13 +1,16 @@
 {
-  "id": "uni-config-center",
-  "displayName": "uni-config-center",
-  "version": "0.0.2",
-  "description": "uniCloud 配置中心",
+  "id": "uni-id",
+  "displayName": "uni-id",
+  "version": "3.3.6",
+  "description": "简单、统一、可扩展的用户中心",
   "keywords": [
-    "配置",
-    "配置中心"
+    "uniid",
+    "uni-id",
+    "用户管理",
+    "用户中心",
+    "短信验证码"
 ],
-  "repository": "",
+  "repository": "https://gitee.com/dcloud/uni-id.git",
   "engines": {
     "HBuilderX": "^3.1.0"
   },
@@ -34,11 +37,8 @@
     },
     "npmurl": ""
   },
-  "directories": {
-    "example": "../../../scripts/dist"
-  },
   "uni_modules": {
-    "dependencies": [],
+    "dependencies": ["uni-config-center"],
     "encrypt": [],
     "platforms": {
       "cloud": {
@@ -73,6 +73,10 @@
         "快应用": {
           "华为": "u",
           "联盟": "u"
+        },
+        "Vue": {
+            "vue2": "y",
+            "vue3": "u"
         }
       }
     }
