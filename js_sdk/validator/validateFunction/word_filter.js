@@ -1,6 +1,7 @@
+
 // 文档教程: https://uniapp.dcloud.net.cn/uniCloud/schema?id=validatefunction
 // 扩展校验函数示例
-export default function (rule, value, data, callback) {
+module.exports = function (rule, value, data, callback) {
 	// rule  当前规则
 	// value 当前规则校验数据
 	// data  全部校验数据
@@ -21,3 +22,4 @@ export default function (rule, value, data, callback) {
 		}
 	//}
 }
+

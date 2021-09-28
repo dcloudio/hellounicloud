@@ -1,3 +1,4 @@
+
 <template>
 	<view class="page">
 		<view class="top-view">
@@ -40,6 +41,14 @@
 	export default {
 		components: {
 			uniNoticeBar,alertCode
+		},
+		computed: {
+			type() {
+				return this.types[this.typeIndex].value
+			},
+			typeText() {
+				return this.types[this.typeIndex].text
+			}
 		},
 		computed: {
 			type() {

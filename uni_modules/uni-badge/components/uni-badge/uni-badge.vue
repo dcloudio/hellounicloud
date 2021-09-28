@@ -1,3 +1,4 @@
+
 <template>
 	<view class="uni-badge--x">
 		<slot />
@@ -156,7 +157,7 @@
 
 	.uni-badge--x {
 		/* #ifdef APP-NVUE */
-		align-self: flex-start;
+		// align-self: flex-start;
 		/* #endif */
 		/* #ifndef APP-NVUE */
 		display: inline-block;

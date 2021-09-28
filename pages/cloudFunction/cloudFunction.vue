@@ -13,6 +13,7 @@
 			<button type="primary" @click="update">修改数据</button>
 			<button type="primary" @click="get">查询前10条数据</button>
 			<button type="primary" @click="useCommon">使用公用模块</button>
+			<button type="primary" @click="toRedisPage">使用Redis</button>
 		</view>
 	</view>
 </template>
@@ -207,6 +208,11 @@
 							showCancel: false
 						})
 					}
+				})
+			},
+			toRedisPage(){
+				uni.navigateTo({
+					url:'/pages/cloudFunction/redis/redis'
 				})
 			}
 		}

@@ -1,3 +1,4 @@
+
 <template>
 	<view class="page">
 		<alertCode ref="alertCode"></alertCode>
@@ -212,8 +213,7 @@
 		methods: {
 			toDemo(){
 				uni.navigateTo({
-					// url:"./permission-demo",
-					url:"/pages/clientDB/permission-demo/permission-demo"
+					url:"./permission-demo"
 				})
 			},
 			previewImage(url){
@@ -443,3 +443,4 @@ button{
 	padding: 10rpx;
 }
 </style>
+
