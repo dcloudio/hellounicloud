@@ -117,6 +117,7 @@
 		},
 		onLoad() {
 			setTimeout(()=>{
+				console.log(this.$refs.udb,12121111);
 				this.dataList = this.$refs.udb.dataList
 			}, 2000);
 		},

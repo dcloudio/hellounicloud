@@ -7,7 +7,7 @@
 			:class="{ 'uni-list-item--disabled': disabled }"
 			:hover-class="(!clickable && !link) || disabled || showSwitch ? '' : 'uni-list-item--hover'"
 			class="uni-list-item"
-			@click.stop="onClick"
+			@click="onClick"
 		>
 			<view v-if="!isFirstChild" class="border--left" :class="{ 'uni-list--border': border }"></view>
 			<view class="uni-list-item__container" :class="{ 'container--right': showArrow || link, 'flex--direction': direction === 'column' }">
@@ -39,8 +39,6 @@
 </template>
 
 <script>
-
-
 /**
  * ListItem 列表子组件
  * @description 列表子组件
@@ -370,7 +368,7 @@ $list-item-pd: $uni-spacing-col-lg $uni-spacing-row-lg;
 	/* #endif */
 	height: $uni-img-size-base;
 	width: $uni-img-size-base;
-	marin-right: 10px;
+	margin-right: 10px;
 }
 
 .uni-icon-wrapper {

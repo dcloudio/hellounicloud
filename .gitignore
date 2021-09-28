@@ -1,4 +1,5 @@
-node_modules
-.hbuilderx/
-./vue.config.js
-unpackage
+/.hbuilderx/
+/node_modules/
+/unpackage/
+/manifest.json
+/vue.config.js

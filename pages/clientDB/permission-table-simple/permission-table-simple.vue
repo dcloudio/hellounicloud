@@ -5,43 +5,45 @@
 			<uni-segmented-control @clickItem="typeIndex = $event.currentIndex" :values="types.map(({text})=>text)"></uni-segmented-control>
 		</view>
 		<alertCode ref="alertCode"></alertCode>
-		<view class="item" v-for="(item,index) in permissionList" v-if="item.exclude !== type" :key="index">
-			<view class="msg">{{item.msg}}</view>
-			<text style="color: #999999;">schema路径：uniCloud/database/permission-test-{{index+1}}.schema.json\n</text>
-			<view class="code">
-				配置规则：
-				<scroll-view scroll-x class="code-box">
-					<show-code :codes="item.codes[type]"></show-code>
-				</scroll-view>
-				<text>含义解释：{{item.explain}}</text>
-				<text>【{{typeText}}】</text>
-				<text>{{item.explain_end}}</text>
+		<template v-for="(item,index) in permissionList">
+			<view class="item" v-if="item.exclude !== type" >
+				<view class="msg">{{item.msg}}</view>
+				<text style="color: #999999;">schema路径：uniCloud/database/permission-test-{{index+1}}.schema.json\n</text>
+				<view class="code">
+					配置规则：
+					<scroll-view scroll-x class="code-box">
+						<show-code :codes="item.codes[type]"></show-code>
+					</scroll-view>
+					<text>含义解释：{{item.explain}}</text>
+					<text>【{{typeText}}】</text>
+					<text>{{item.explain_end}}</text>
+				</view>
+			
+				<template v-if="index==3&&type != 'add'">
+					<button type="primary" size="mini" @click="myFn({type:'create',index})">先为测试需要,创建数据</button>
+					<button type="primary" size="mini" plain @click="myFn({type,index,where:'uid == $env.uid'})">只{{typeText}}当前角色创建的数据</button>
+				</template>
+			
+				<template v-if="index==4&&type != 'add'">
+					<button type="primary" size="mini" @click="myFn({type:'create',index})">先为测试需要,创建数据</button>
+					<button type="primary" size="mini" plain @click="myFn({type,index,where:'create_time > '+(Date.now()-60000)})">只{{typeText}}1分钟内创建的数据</button>
+				</template>
+			
+				<button type="primary" size="mini" plain @click="myFn({type,index})">
+					{{typeText}}
+					<text v-if="type!='create'">表全部数据</text>
+					<text v-else>一条记录</text>
+				</button>
+			
+			
+				<button type="primary" size="mini" v-if="index==6" @click="myFn({type,index,action:'add_view_count'})">
+					带上action
+					{{typeText}}
+					<text v-if="type!='create'">表全部数据</text>
+					<text v-else>一条记录</text>
+				</button>
 			</view>
-
-			<template v-if="index==3&&type != 'add'">
-				<button type="primary" size="mini" @click="myFn({type:'create',index})">先为测试需要,创建数据</button>
-				<button type="primary" size="mini" plain @click="myFn({type,index,where:'uid == $env.uid'})">只{{typeText}}当前角色创建的数据</button>
-			</template>
-
-			<template v-if="index==4&&type != 'add'">
-				<button type="primary" size="mini" @click="myFn({type:'create',index})">先为测试需要,创建数据</button>
-				<button type="primary" size="mini" plain @click="myFn({type,index,where:'create_time > '+(Date.now()-60000)})">只{{typeText}}1分钟内创建的数据</button>
-			</template>
-
-			<button type="primary" size="mini" plain @click="myFn({type,index})">
-				{{typeText}}
-				<text v-if="type!='create'">表全部数据</text>
-				<text v-else>一条记录</text>
-			</button>
-
-
-			<button type="primary" size="mini" v-if="index==6" @click="myFn({type,index,action:'add_view_count'})">
-				带上action
-				{{typeText}}
-				<text v-if="type!='create'">表全部数据</text>
-				<text v-else>一条记录</text>
-			</button>
-		</view>
+		</template>
 		<set-permission @change="changePermission"></set-permission>
 	</view>
 </template>

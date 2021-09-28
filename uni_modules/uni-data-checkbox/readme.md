@@ -263,6 +263,7 @@ export default {
 |selectedColor|String							|-											|#007aff|选中颜色|
 |selectedTextColor|String					|-											|#333		|选中文本颜色，如不填写则自动显示|
 |emptyText 	|String					|-											|暂无数据		|没有数据时显示的文字 ，本地数据无效|
+|map 				|Object					|-											|{text:'text',value:'value'}		|字段映射，将text/value映射到数据中的其他字段|
 
 #### Localdata Options
 
@@ -288,6 +289,11 @@ export default {
 
 | 事件名	| 事件说明								| 返回参数|
 | :-:		| :-:									| :-:			|
-| @chage| 选中状态改变时触发事件	| -				|
+| @change| 选中状态改变时触发事件	| -				|
 
 
+
+
+## 组件示例
+
+点击查看：[https://hellouniapp.dcloud.net.cn/pages/extUI/data-checkbox/data-checkbox](https://hellouniapp.dcloud.net.cn/pages/extUI/data-checkbox/data-checkbox)

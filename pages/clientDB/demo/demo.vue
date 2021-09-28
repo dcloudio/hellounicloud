@@ -13,8 +13,7 @@
 			collection="comment,uni-id-users" field="uid{username,_id},text,_id,state" :where="options.where">
 			<scroll-view :show-scrollbar="true" scroll-y v-if="data.length" class="comment-list">
 				<view class="comment-item" v-for="(item,index) in data" :key="item._id">
-					<image class="userImg" :src="'../../../static/userImg/'+item.uid[0].username+'.png'" mode="">
-					</image>
+					<image class="userImg" :src="'../../../static/userImg/'+item.uid[0].username+'.png'" mode=""></image>
 					<view class="content">
 						<view style="flex-direction: column;">
 							<text style="color: #666;font-size: 14px;font-weight:700;">{{item.uid[0].username}}</text>
@@ -35,7 +34,6 @@
 				</view>
 			</scroll-view>
 		</unicloud-db>
-
 		<uni-popup ref="dialog" type="dialog">
 			<uni-popup-dialog mode="input" @confirm="submitComment" title="提交留言" placeholder="留言内容不能含单词test">
 			</uni-popup-dialog>

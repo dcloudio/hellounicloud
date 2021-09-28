@@ -1,7 +1,7 @@
 {
     "id": "uni-cloud",
     "displayName": "hello uniCloud",
-    "version": "1.2.2",
+    "version": "1.2.5",
     "description": "为开发者提供的基于 serverless 模式和 js 编程的云开发平台。示例代码",
     "keywords": [
         "uniCloud示例"
@@ -67,6 +67,10 @@
                 "快应用": {
                     "华为": "u",
                     "联盟": "u"
+                },
+                "Vue": {
+                    "vue2": "y",
+                    "vue3": "y"
                 }
             }
         }

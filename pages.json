@@ -169,7 +169,16 @@
 				}
 			}
 		}
-	],
+	    ,{
+            "path" : "pages/cloudFunction/redis/redis",
+            "style" :                                                                                    
+            {
+                "navigationBarTitleText": "扩展能力Redis",
+                "enablePullDownRefresh": false
+            }
+            
+        }
+    ],
 	"tabBar": {
 		"color": "#7A7E83",
 		"selectedColor": "#1296db",

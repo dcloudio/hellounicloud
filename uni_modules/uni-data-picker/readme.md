@@ -46,6 +46,7 @@
 |v-model 							|String/ Number	| -				 	 |	-						|绑定数据|
 |localdata						|Array					| 					 |							|数据，[详情](https://gitee.com/dcloud/datacom)|
 |preload 							|Boolean				| true/false |	false				|预加载数据|
+|readonly 						|Boolean				| true/false |	false				|是否禁用|
 |step-searh 					|Boolean				| true/false |	true				|分步查询时，点击节点请求数据|
 |step-search-url			|String					| 					 |							|分步查询时，动态加载云端数据url格式，`https://xxx.com/{parentValue}`(当前版本暂不支持，下版支持)|
 |self-field						|String					| 					 |							|分步查询时当前字段名称|
@@ -86,12 +87,14 @@
 ```html
 <template>
   <view>
-    <uni-data-picker placeholder="请选择地址" popup-title="请选择城市" collection="opendb-city-china" field="code as value, name as text" orderby="value asc" :step-searh="true" :self-field="code" parent-field="parent_code"
+    <uni-data-picker placeholder="请选择地址" popup-title="请选择城市" collection="opendb-city-china" field="code as value, name as text" orderby="value asc" :step-searh="true" self-field="code" parent-field="parent_code"
  @change="onchange" @nodeclick="onnodeclick">
     </uni-data-picker>
   </view>
 </template>
+```
 
+```js
 <script>
   export default {
     data() {
@@ -121,7 +124,9 @@
     <uni-data-picker :localdata="items" popup-title="请选择班级" @change="onchange" @nodeclick="onnodeclick"></uni-data-picker>
   </view>
 </template>
+```
 
+```js
 <script>
   export default {
     data() {
@@ -197,7 +202,9 @@
 		</uni-data-picker>
 	</view>
 </template>
+```
 
+```js
 <script>
 	export default {
 		data() {
@@ -256,3 +263,8 @@
 </script>
 
 ```
+
+
+## 组件示例
+
+点击查看：[https://hellouniapp.dcloud.net.cn/pages/extUI/data-picker/data-picker](https://hellouniapp.dcloud.net.cn/pages/extUI/data-picker/data-picker)

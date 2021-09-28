@@ -2,19 +2,24 @@
   <view class="uni-data-pickerview">
     <scroll-view class="selected-area" scroll-x="true" scroll-y="false" :show-scrollbar="false">
       <view class="selected-list">
-        <view class="selected-item" :class="{'selected-item-active':index==selectedIndex}" v-for="(item,index) in selected"
-          :key="index" v-if="item.text" @click="handleSelect(index)">
-          <text class="">{{item.text}}</text>
-        </view>
+	    <template v-for="(item,index) in selected">
+			<view class="selected-item" :class="{'selected-item-active':index==selectedIndex}"
+				:key="index" v-if="item.text" @click="handleSelect(index)">
+				<text class="">{{item.text}}</text>
+			</view>
+	    </template>
       </view>
     </scroll-view>
     <view class="tab-c">
-      <scroll-view class="list" v-for="(child, i) in dataList" :key="i" v-if="i==selectedIndex" :scroll-y="true">
-        <view class="item" :class="{'is-disabled': !!item.disable}" v-for="(item, j) in child" :key="j" @click="handleNodeClick(item, i, j)">
-          <text class="item-text">{{item.text}}</text>
-          <view class="check" v-if="selected.length > i && item.value == selected[i].value"></view>
-        </view>
-      </scroll-view>
+		<template v-for="(child, i) in dataList">
+			<scroll-view class="list"  :key="i" v-if="i==selectedIndex" :scroll-y="true">
+			  <view class="item" :class="{'is-disabled': !!item.disable}" v-for="(item, j) in child" :key="j" @click="handleNodeClick(item, i, j)">
+			    <text class="item-text">{{item.text}}</text>
+			    <view class="check" v-if="selected.length > i && item.value == selected[i].value"></view>
+			  </view>
+			</scroll-view>
+		</template>
+      
       <view class="loading-cover" v-if="loading">
         <uni-load-more class="load-more" :contentText="loadMore" status="loading"></uni-load-more>
       </view>
@@ -29,9 +34,9 @@
   import dataPicker from "./uni-data-picker.js"
 
   /**
-   * uni-data-pickerview
+   * DataPickerview
    * @description uni-data-pickerview
-   * @tutorial https://uniapp.dcloud.net.cn/uniCloud/uni-data-picker
+   * @tutorial https://ext.dcloud.net.cn/plugin?id=3796
    * @property {Array} localdata 本地数据，参考
    * @property {Boolean} step-searh = [true|false] 是否分布查询
    * @value true 启用分布查询，仅查询当前选中节点
@@ -45,6 +50,7 @@
    */
   export default {
     name: 'UniDataPickerView',
+	emits:['nodeclick','change','datachange','update:modelValue'],
     mixins: [dataPicker],
     props: {
       managedMode: {
@@ -73,7 +79,7 @@
       load() {
         if (this.isLocaldata) {
           this.loadData()
-        } else if (this.value.length) {
+        } else if (this.dataValue.length) {
           this.getTreePath((res) => {
             this.loadData()
           })
@@ -110,7 +116,7 @@
           hasNodes
         } = this._updateBindData()
 
-        if (!this._isTreeView()) {
+        if (!this._isTreeView() && !hasNodes) {
           this.onSelectedChange(node, true)
           return
         }
@@ -153,9 +159,9 @@
           this._dispatchEvent()
         }
 
-				if (node) {
-					this.$emit('nodeclick', node)
-				}
+		if (node) {
+			this.$emit('nodeclick', node)
+		}
       },
       _dispatchEvent() {
         this.$emit('change', this.selected.slice(0))
