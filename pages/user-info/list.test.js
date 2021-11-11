@@ -13,14 +13,18 @@ describe('pages/user-info/list.vue', () => {
 		page = await program.currentPage()
 	})
 	
-	beforeEach(async()=>{
-		jest.setTimeout(20000)
-		return false
-	})
+	// beforeEach(async()=>{
+	// 	jest.setTimeout(20000)
+	// 	return false
+	// })
 	
 	
-	it('点击某一条',async()=>{
+	/* it('点击某一条',async()=>{
 		const getDataList = await page.data('dataList')
+		console.log("getDataList: ",getDataList);
+		for (var i = 0; i < getDataList.length; i++) {
+			console.log("getDataList[i]: ",getDataList[i]);
+		}
 		const uId = getDataList[0]._id
 		console.log("uId: ",uId);
 		
@@ -28,7 +32,7 @@ describe('pages/user-info/list.vue', () => {
 			const handleItemClick = await page.callMethod('handleItemClick',uId)
 		}
 		
-	})
+	}) */
 	
 	
 	

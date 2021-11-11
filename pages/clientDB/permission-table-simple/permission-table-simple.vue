@@ -155,7 +155,8 @@
 		},
 		methods: {
 			async myFn(e) { // {type:'',tableName:'',index,action:'',where:{}}
-				console.log('myFun' + JSON.stringify(e));
+				console.log("e:----------- ",e);
+				// console.log('myFun' + JSON.stringify(e));
 				e.where = e.where || {}
 				let item = this.permissionList[e.index]
 				let tableName = item.tableName || 'permission-test-' + (e.index + 1)
@@ -173,6 +174,7 @@
 					switch (e.type) {
 						case 'read':
 							res = await db.action(e.action).collection(tableName).where(e.where).get()
+							console.log("res:----read--------- ",res);
 							if (res.result.data.length == 0) {
 								uni.showModal({
 									title: "数据为空，请先点击创建数据",
@@ -183,19 +185,24 @@
 							return res
 							break;
 						case 'create':
+						console.log(e.action);
 							res = await db.action(e.action).collection(tableName).add({
 								"text": "默认写入的数据" + Date.now()
 							})
+							console.log("res:-----create-------- ",res);
 							return res
 							break;
 						case 'update':
+						console.log("tableName: ",tableName);
 							res = await db.action(e.action).collection(tableName).where(e.where).update({
 								"text": "更新后的数据" + Date.now()
 							})
+							console.log("res:----update--------- ",res);
 							return res
 							break;
 						case 'delete':
 							res = await db.action(e.action).collection(tableName).where(e.where).remove()
+							console.log("res:----delete--------- ",res);
 							return res
 							break;
 						default:
