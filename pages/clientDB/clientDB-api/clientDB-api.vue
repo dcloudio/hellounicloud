@@ -13,16 +13,20 @@
 		<uni-section title="查询列表分页" subTitle="设置每页查询数量和页码查询" type="line"></uni-section>
 		<view class="item">
 			<text>页码：</text>
-			<uni-number-box class="num-box1" :min="1" @change="$event/1>0?pageSize = $event/1:''" :value="pageSize"></uni-number-box>
+			<uni-number-box class="num-box1" :min="1" @change="$event/1>0?pageSize = $event/1:''" :value="pageSize">
+			</uni-number-box>
 		</view>
 		<view class="item">
 			<text>每页查询数量：</text>
-			<uni-number-box class="num-box2" :min="1" @change="$event/1>0?pageCurrent = $event/1:''" :value="pageCurrent"></uni-number-box>
+			<uni-number-box class="num-box2" :min="1" @change="$event/1>0?pageCurrent = $event/1:''"
+				:value="pageCurrent"></uni-number-box>
 		</view>
 		<button @click="getPageData('order')" plain type="primary">分页查图书book表的数据</button>
 
-		<uni-section title="联表查询" subTitle="只需在db schema中，将两个表的关联字段建立映射关系，就可以把2个表当做一个虚拟表来直接查询。" type="line"></uni-section>
-		<button @click="getOrder" plain type="primary">联表查询订单和图书</button>
+		<uni-section title="联表查询-订单和图书" subTitle="只需在db schema中，将两个表的关联字段建立映射关系，即可实现联表查询。" type="line">
+		</uni-section>
+		<button @click="getOrderByGetTemp" plain type="primary">数据表较大时，高性能查询</button>
+		<button @click="getOrder" plain type="primary">数据表较小时，便捷查询</button>
 
 		<uni-section title="getOne" subTitle="使用clientDB时可以在get方法内传入getOne:true来返回一条数据" type="line"></uni-section>
 		<button @click="getOneBook" plain type="primary">查询一本图书数据</button>
@@ -30,23 +34,27 @@
 		<uni-section title="getCount" subTitle="使用clientDB时可以在get方法内传入getCount:true来同时返回总数" type="line"></uni-section>
 		<button @click="getBookHasCount" plain type="primary">查询结果返回总数</button>
 
-		<uni-section title="field" subTitle="查询时可以使用field方法指定返回字段，在<uni-clientDB>组件中也支持field属性。不使用field方法时会返回所有字段" type="line"></uni-section>
+		<uni-section title="field" subTitle="查询时可以使用field方法指定返回字段，在<uni-clientDB>组件中也支持field属性。不使用field方法时会返回所有字段"
+			type="line"></uni-section>
 		<button @click="getBookTitle" plain type="primary">仅查询图书数据的书名</button>
 
 		<!-- <uni-section title="loadMore" subTitle="查询列表分页" type="line"></uni-section>
 		<button  @click="getUserData" type="primary">加载下一页</button>
 		<button  @click="getUserData" type="primary">点击页码按钮切换不同页</button> -->
 
-		<uni-section title="name as cname" subTitle="如：author as book_author，意思是将数据库的author字段重命名为book_author" type="line"></uni-section>
+		<uni-section title="name as cname" subTitle="如：author as book_author，意思是将数据库的author字段重命名为book_author"
+			type="line"></uni-section>
 		<button @click="getBookAs" plain type="primary">获得被设置别名的数据</button>
 
-		<uni-section title="orderBy" subTitle="orderBy方法内可以传入一个字符串来指定排序规则。如:订单表order根据quantity销量字段排序" type="line"></uni-section>
+		<uni-section title="orderBy" subTitle="orderBy方法内可以传入一个字符串来指定排序规则。如:订单表order根据quantity销量字段排序" type="line">
+		</uni-section>
 		<button @click="getOrderOrderBy('quantity asc')" type="primary" plain>按销量升序</button>
 		<button plain @click="getOrderOrderBy('create_date desc')" type="primary">按创建时间降序</button>
 		<button plain @click="getOrderOrderBy('quantity asc, create_date desc')" type="primary">销量相同时，按创建时间降序</button>
 
-		<uni-section title="查询树形数据" subTitle="树形数据，在数据库里一般不会按照tree的层次来存储，因为按tree结构通过json对象的方式存储不同层级的数据，不利于对tree上的某个节点单独做增删改查。一般存储树形数据，tree上的每个节点都是一条单独的数据表记录，然后通过类似parent_id来表达父子关系。如部门的数据表，里面有2条数据，一条数据记录是“总部”，parent_id为空；另一条数据记录“一级部门A”，parent_id为总部的_id"
-		 type="line"></uni-section>
+		<uni-section title="查询树形数据"
+			subTitle="树形数据，在数据库里一般不会按照tree的层次来存储，因为按tree结构通过json对象的方式存储不同层级的数据，不利于对tree上的某个节点单独做增删改查。一般存储树形数据，tree上的每个节点都是一条单独的数据表记录，然后通过类似parent_id来表达父子关系。如部门的数据表，里面有2条数据，一条数据记录是“总部”，parent_id为空；另一条数据记录“一级部门A”，parent_id为总部的_id"
+			type="line"></uni-section>
 		<button plain @click="getTreeFn" type="primary">查询树形数据</button>
 
 		<uni-section title="新增数据记录add" subTitle="获取到db的表对象后，通过add方法新增数据记录" type="line"></uni-section>
@@ -224,29 +232,38 @@
 					.get()
 					.then(res => {
 						this.$refs.alertCode.open(res.result)
-						console.log(res.result.data,"111");
+						console.log(res.result.data, "111");
 						return res.result.data
 					}).catch(err => {
 						console.error(err)
 						return err
 					})
 					.finally((e) => {
-						console.log(e,9527);
+						console.log(e, 9527);
 						uni.hideLoading()
 					})
 			},
+			async getOrderByGetTemp() {
+				//当数据表记录数较大时，务必使用本方法
+				uni.showLoading({mask: true});
+				const orderQuery = db.collection('order').field('book_id,quantity').getTemp()	// 使用getTemp先过滤处理获取临时表再联表查询
+				const bookQuery = db.collection('book').field('_id,author,title').getTemp()
+				const res = await db.collection(orderQuery,bookQuery).field('book_id as books_info,quantity').get()
+				uni.hideLoading()
+				this.$refs.alertCode.open(res.result)
+				console.log(res.result.data, "111");
+			},
 			async getOrder() {
-				uni.showLoading({
-					mask: true
-				});
+				//直接关联多个表为虚拟表再进行查询。仅数据表字段内容较少时使用，否者将查询超时
+				uni.showLoading({mask: true});
 				// 客户端联表查询
 				return await db.collection('order,book') // 注意collection方法内需要传入所有用到的表名，用逗号分隔，主表需要放在第一位
 					//.where('book_id.title == "三国演义"') // 查询order表内书名为“三国演义”的订单
-					.field('book_id{title,author},quantity') // 这里联表查询book表返回book表内的title、book表内的author、order表内的quantity
+					.field('book_id{title,author} as books_info,quantity') // 这里联表查询book表返回book表内的title、book表内的author、order表内的quantity
 					.get()
 					.then(res => {
 						this.$refs.alertCode.open(res.result)
-						console.log(res.result.data,"111");
+						console.log(res.result.data, "111");
 						return res.result.data
 					}).catch(err => {
 						console.error(err)

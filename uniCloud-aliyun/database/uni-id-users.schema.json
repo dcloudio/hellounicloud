@@ -1,12 +1,6 @@
 {
 	"bsonType": "object",
 	"required": [],
-	"permission": {
-		"read": true,
-		"create": false,
-		"update": false,
-		"delete": false
-	},
 	"properties": {
 		"_id": {
 			"description": "存储文档 ID（用户 ID），系统自动生成"
