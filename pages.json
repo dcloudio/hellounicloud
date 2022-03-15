@@ -8,6 +8,13 @@
 			}
 		},
 		{
+			"path": "pages/cloudObject/cloudObject",
+			"style": {
+				"navigationBarTitleText": "云对象",
+				"enablePullDownRefresh": false
+			}
+		},
+		{
 			"path": "pages/test/test",
 			"style": {
 				"navigationBarTitleText": "",
@@ -168,17 +175,14 @@
 
 				}
 			}
+		}, {
+			"path": "pages/cloudFunction/redis/redis",
+			"style": {
+				"navigationBarTitleText": "扩展能力Redis",
+				"enablePullDownRefresh": false
+			}
 		}
-	    ,{
-            "path" : "pages/cloudFunction/redis/redis",
-            "style" :                                                                                    
-            {
-                "navigationBarTitleText": "扩展能力Redis",
-                "enablePullDownRefresh": false
-            }
-            
-        }
-    ],
+	],
 	"tabBar": {
 		"color": "#7A7E83",
 		"selectedColor": "#1296db",
@@ -189,6 +193,12 @@
 				"iconPath": "static/tabbar/fn.png",
 				"selectedIconPath": "static/tabbar/fn1.png",
 				"text": "云函数"
+			},
+			{
+				"pagePath": "pages/cloudObject/cloudObject",
+				"iconPath": "static/tabbar/obj.png",
+				"selectedIconPath": "static/tabbar/obj1.png",
+				"text": "云对象"
 			},
 			{
 				"pagePath": "pages/storage/storage",

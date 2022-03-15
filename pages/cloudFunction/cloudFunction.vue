@@ -1,11 +1,11 @@
 <template>
 	<view class="content">
-		<view class="title">uniCloud 基础示例</view>
+		<view class="title">基础示例-云函数</view>
 		<view class="tips">
-			<view>1.在uniCloud目录右键创建并关联服务空间</view>
-			<view>2.在uniCloud/database目录内db_init.json上右键初始化云数据库</view>
-			<view>3.在uniCloud/cloudfunctions目录右键选择“上传所有云函数”</view>
-			<view>开始愉快的体验uniCloud吧！</view>
+			<view>1.在uniCloud目录右键"云服务空间初始化向导..."</view>
+			<view>2.没有服务空间，就点击新建创建一个</view>
+			<view>3.选择要绑定的服务空间</view>
+			<view>4.点击下一步，再点击开始部署</view>
 		</view>
 		<view class="btn-list">
 			<button type="primary" @click="add">新增一条数据</button>
@@ -145,69 +145,6 @@
 						showCancel: false
 					})
 					console.error(err)
-				})
-			},
-			upload() {
-				new Promise((resolve, reject) => {
-					uni.chooseImage({
-						count: 1,
-						success: res => {
-							const path = res.tempFilePaths[0]
-							let ext
-							// #ifdef H5
-							ext = res.tempFiles[0].name.split('.').pop()
-							const options = {
-								filePath: path,
-								cloudPath: Date.now() + '.' + ext
-							}
-							resolve(options)
-							// #endif
-							// #ifndef H5
-							uni.getImageInfo({
-								src: path,
-								success(info) {
-									const options = {
-										filePath: path,
-										cloudPath: Date.now() + '.' + info.type.toLowerCase()
-									}
-									resolve(options)
-								},
-								fail(err) {
-									reject(new Error(err.errMsg || '未能获取图片类型'))
-								}
-							})
-							// #endif
-						},
-						fail: () => {
-							reject(new Error('Fail_Cancel'))
-						}
-					})
-				}).then((options) => {
-					uni.showLoading({
-						title: '文件上传中...'
-					})
-					return uniCloud.uploadFile({
-						...options,
-						onUploadProgress(e) {
-							console.log(e)
-						}
-					})
-				}).then(res => {
-					uni.hideLoading()
-					console.log(res);
-					uni.showModal({
-						content: '图片上传成功，fileId为：' + res.fileID,
-						showCancel: false
-					})
-				}).catch((err) => {
-					uni.hideLoading()
-					console.log(err);
-					if (err.message !== 'Fail_Cancel') {
-						uni.showModal({
-							content: `图片上传失败，错误信息为：${err.message}`,
-							showCancel: false
-						})
-					}
 				})
 			},
 			toRedisPage(){
