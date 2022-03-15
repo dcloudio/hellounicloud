@@ -13,13 +13,13 @@
 		<uni-section title="查询列表分页" subTitle="设置每页查询数量和页码查询" type="line"></uni-section>
 		<view class="item">
 			<text>页码：</text>
-			<uni-number-box class="num-box1" :min="1" @change="$event/1>0?pageSize = $event/1:''" :value="pageSize">
+			<uni-number-box class="num-box1" :min="1" @change="pageCurrent = $event/1" :value="pageCurrent">
 			</uni-number-box>
 		</view>
 		<view class="item">
 			<text>每页查询数量：</text>
-			<uni-number-box class="num-box2" :min="1" @change="$event/1>0?pageCurrent = $event/1:''"
-				:value="pageCurrent"></uni-number-box>
+			<uni-number-box class="num-box2" :min="1" @change="pageSize = $event/1"
+				:value="pageSize"></uni-number-box>
 		</view>
 		<button @click="getPageData('order')" plain type="primary">分页查图书book表的数据</button>
 
@@ -104,8 +104,8 @@
 						data: ''
 					}
 				},
-				pageSize: 1,
-				pageCurrent: 2
+				pageCurrent: 1,
+				pageSize: 2
 			}
 		},
 		methods: {
@@ -392,8 +392,8 @@
 					mask: false
 				});
 				let res = await db.collection("book")
-					.skip((this.pageSize - 1) * this.pageCurrent)
-					.limit(this.pageCurrent)
+					.skip((this.pageCurrent - 1) * this.pageSize)
+					.limit(this.pageSize)
 					.get()
 				console.log(res);
 				this.$refs.alertCode.open(res.result.data)

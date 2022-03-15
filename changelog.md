@@ -1,3 +1,13 @@
+## 1.3.1（2022-03-09）
+修改错误的变量名称
+## 1.3.0（2022-02-25）
+新增[云对象](https://uniapp.dcloud.net.cn/uniCloud/cloud-obj)基础示例
+## 1.2.9（2021-12-30）
+新增适用于：数据表记录量较大时的联表查询示例：通过`getTemp`先过滤处理获取临时表再联表查询，提升查询性能。[详情](https://uniapp.dcloud.io/uniCloud/jql?id=lookup)
+## 1.2.7（2021-10-12）
+默认版本为：`Vue2`
+## 1.2.6（2021-10-03）
+修改入口页`main.js` 使用`import {createSSRApp} from 'vue' `
 ## 1.2.5（2021-08-30）
 新增Redis使用示例
 ## 1.2.4（2021-08-24）
