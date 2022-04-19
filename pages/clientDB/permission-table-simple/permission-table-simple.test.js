@@ -1074,14 +1074,7 @@ describe('pages/clientDB/permission-table-simple/permission-table-simple.vue', (
 			"action": "add_view_count"
 		})
 
-
-
-
-
 	})
-
-
-
 
 	it('创建--管理员admin', async () => {
 		const perPage = await page.$('.page')

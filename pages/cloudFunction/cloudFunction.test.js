@@ -1,4 +1,4 @@
-describe('pages/cloudFunction/cloudFunction.nvue', () => {
+describe('pages/cloudFunction/cloudFunction.vue', () => {
 	
 	let page
 	beforeAll(async () => {
@@ -22,7 +22,7 @@ describe('pages/cloudFunction/cloudFunction.nvue', () => {
 	it('云函数页-检查标题',async()=>{
 		expect.assertions(1);
 		const title = await page.$('.title')
-		expect(await title.text()).toBe('uniCloud 基础示例');
+		expect(await title.text()).toBe('基础示例-云函数');
 	})
 	
 	

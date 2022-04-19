@@ -1,11 +1,10 @@
 module.exports = {
 	"compile": true,
 	"h5": {
-		//"executablePath": "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome"
-		options: {
-			headless: false // 配置是否显示 puppeteer 测试窗口
+		"options": {
+			"headless": false
 		},
-		"executablePath": "C:/Program Files/Google/Chrome/Application/chrome.exe",
+		"executablePath": "C:/Program Files/Google/Chrome/Application/chrome.exe"
 	},
 	"mp-weixin": {
 		"executablePath": "C:/Users/liuxi/download/微信web开发者工具/cli.bat"
@@ -27,9 +26,10 @@ module.exports = {
 	},
 	"app-plus": {
 		"android": {
-			"executablePath": "D:/HX/alpha-3.1.3/HBuilderX/plugins/launcher/base/android_base.apk"
+			"executablePath": "D:\\HX\\alpha-3.1.3\\HBuilderX\\plugins\\launcher\\base\\android_base.apk",
+			"id": "a6160e9d"
 		},
-		"version": "",
+		"version": "D:\\HX\\alpha-3.1.3\\HBuilderX\\plugins\\launcher\\base\\version.txt",
 		"ios": {
 			"id": "",
 			"executablePath": ""

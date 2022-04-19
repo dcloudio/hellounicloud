@@ -50,6 +50,7 @@
 						showCancel: false
 					})
 					console.error(err)
+					return err
 				})
 			},
 			async remove() {
@@ -101,6 +102,7 @@
 						showCancel: false
 					})
 					console.error(err)
+					return err
 				})
 			},
 			async get() {
