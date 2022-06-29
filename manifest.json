@@ -16,8 +16,7 @@
             "delay" : 0
         },
         "modules" : {
-            "VideoPlayer" : {},
-            "OAuth" : {}
+            "VideoPlayer" : {}
         },
         "distribute" : {
             "android" : {
@@ -47,13 +46,7 @@
                 "ad" : {},
                 "share" : {},
                 "payment" : {},
-                "oauth" : {
-                    "weixin" : {
-                        "appid" : "",
-                        "appsecret" : "",
-                        "UniversalLinks" : ""
-                    }
-                }
+                "oauth" : {}
             },
             "icons" : {
                 "android" : {
@@ -117,5 +110,6 @@
             "maps" : {}
         }
     },
-    "vueVersion" : 2
+    "vueVersion" : "2",
+    "fallbackLocale" : "zh-Hans"
 }
