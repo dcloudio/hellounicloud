@@ -39,6 +39,8 @@ uniCloud 是 DCloud 联合阿里云、腾讯云，为开发者提供的基于 se
 
 2. 使用已有`uniCloud-admin`项目或新建项目：`打开HBuilderX` -> `文件` -> `新建` -> `项目` -> `uni-app` 选择 `uniCloud admin`模板，键入一个名字，确定
 
+3. 鼠标右键选择`关联云服务空间`和`运行云服务空间初始化向导`
+
 3. 在插件市场打开本插件页面，在右侧点击`使用 HBuilderX 导入插件`，选择 `uniCloud admin` 项目点击确定
 
 4. 等待下载安装完毕。由于本插件依赖一些uni-ui插件，下载完成后会显示合并插件页面，自行选择即可
@@ -67,21 +69,6 @@ uniCloud 是 DCloud 联合阿里云、腾讯云，为开发者提供的基于 se
 				"style": {
 					"navigationBarTitleText": "版本信息查看"
 				}
-			}, {
-				"path": "uni_modules/uni-upgrade-center/pages/app/list",
-				"style": {
-					"navigationBarTitleText": "应用列表"
-				}
-			}, {
-				"path": "uni_modules/uni-upgrade-center/pages/app/detail",
-				"style": {
-					"navigationBarTitleText": "应用信息查看"
-				}
-			}, {
-				"path": "uni_modules/uni-upgrade-center/pages/app/add",
-				"style": {
-					"navigationBarTitleText": "新增应用"
-				}
 			}
 ]
 ```
@@ -97,17 +84,27 @@ uniCloud 是 DCloud 联合阿里云、腾讯云，为开发者提供的基于 se
 
 10. 运行起来uniCloud admin，菜单管理模块会自动读取`/uni_modules/uni-upgrade-center/menu.json`文件中的菜单配置，生成【待添加菜单】，选中升级中心，点击`添加选中的菜单`即可
 
-<div align="center">
-<img src="https://vkceyugu.cdn.bspapp.com/VKCEYUGU-8ed92fab-502d-4290-af3c-1d65c4dbfc4d/9ad0469a-bf49-4d02-b061-1fdf99542154.png" width="800"></img>
-</div>
+	<div align="center">
+	<img src="https://vkceyugu.cdn.bspapp.com/VKCEYUGU-a90b5f95-90ba-4d30-a6a7-cd4d057327db/16dc338e-7d5b-4290-98a9-adb7f0c23754.png" width="800"></img>
+	</div>
 
 11. 添加成功后，就可以在左侧的菜单栏中找到`升级中心`菜单
 
-<div align="center">
-<img src="https://vkceyugu.cdn.bspapp.com/VKCEYUGU-8ed92fab-502d-4290-af3c-1d65c4dbfc4d/8056ce22-be40-4fd6-bb5b-a8d398eaedee.png" width="300"></img>
-</div>
+	<div align="center">
+	<img src="https://vkceyugu.cdn.bspapp.com/VKCEYUGU-a90b5f95-90ba-4d30-a6a7-cd4d057327db/fcf04804-0c4c-4342-9a8b-dfc273dfc83c.png" width="300"></img>
+	</div>
 
-12. 由于插件依赖的uni-ui的一些组件，建议右键`/uni_modules/uni-upgrade-center`安装一下第三方依赖，否则可能会出现一些问题
+12. 在进入`升级中心`之前：
+	1. 需要到`uni-admin`的`应用管理`中添加一个应用，才可以在`升级中心`中发布对应应用的版本。
+	2. 当你有多个应用时，可以在`/uni_modules/uni-upgrade-center/pages/utils.js`中修改`defaultDisplayApp`字段来设置默认显示应用的`appid`。
+	3. 如果不设置或设置应用不存在则默认从数据库中查出来的第一个应用。
+
+13. 由于插件依赖的uni-ui的一些组件，建议右键`/uni_modules/uni-upgrade-center`安装一下第三方依赖，否则可能会出现一些问题
+
+14. 运行在`uniCloud`，由于本插件使用了`clientDB`，因此可能需要配置一下`uni-config-center插件`关于`uni-id`的配置信息。如提示`公用模块uni-id缺少配置信息`请这样做：
+	1. 点击[uni-config-center](https://ext.dcloud.net.cn/plugin?id=4425)导入插件
+	2. 在`/uniCloud/cloudfunctions/common/uni-config-center/`下创建`uni-id`文件夹，文件夹内创建`config.json`文件。
+	3. 点击[config.json默认配置](https://uniapp.dcloud.net.cn/uniCloud/uni-id?id=start)。将内容拷贝至`config.json`中。**注：一定要把注释去除！**
 
 ## 使用指南
 
@@ -115,29 +112,29 @@ uniCloud 是 DCloud 联合阿里云、腾讯云，为开发者提供的基于 se
 
 #### 应用列表
 
-1. 点击菜单`升级中心`进入`应用管理`，这里展示你所添加的 App，点击右上角 `新增应用` 可以新增一个 App
+1. 点击菜单 `应用管理`，这里展示你所添加的 App，点击右上角 `新增` 可以新增一个 App
 
 <div align="center">
-<img src="https://vkceyugu.cdn.bspapp.com/VKCEYUGU-8ed92fab-502d-4290-af3c-1d65c4dbfc4d/03a5ac58-1eb4-4c68-8d11-20ebbe3abe38.png" width="400"></img>
+<img src="https://vkceyugu.cdn.bspapp.com/VKCEYUGU-a90b5f95-90ba-4d30-a6a7-cd4d057327db/7f85aa6a-eff3-4cc6-bb32-9feaaeaf97d0.png" width="400"></img>
 </div>
 
-2. 将App的信息都填写完善后，你可以在列表的操作列进行`查看`、`修改`应用信息或者`删除`该应用。
+2. 将App的信息都填写完善后，你可以在列表的操作列进行`修改`应用信息或者`删除`该应用。
 
 **Tips**
 - 删除应用会把该应用的所有版本记录同时删除
 
 #### 版本管理
-1. 在版本管理list的右上角点击`发布新版`，可以发布`原生App安装包`和`wgt资源包`
+1. 在版本管理list的右上角点击`发布新版`，可以发布`原生App安装包`和`wgt资源包`。在左上角点击`下拉列表`，可以切换展示应用。
 
 <div align="center">
-<img src="https://vkceyugu.cdn.bspapp.com/VKCEYUGU-8ed92fab-502d-4290-af3c-1d65c4dbfc4d/70f8c241-13d6-4e49-ac39-eee7f97fcea1.png" width="800"></img>
+<img src="https://vkceyugu.cdn.bspapp.com/VKCEYUGU-a90b5f95-90ba-4d30-a6a7-cd4d057327db/442e84e7-e7f3-4d27-9c98-45568e5db835.png" width="800"></img>
 </div>
 
 - #### 发布原生App安装包
 	1. 在上传安装包界面填写此次发版信息
 
 	<div align="center" >
-	<img src="https://vkceyugu.cdn.bspapp.com/VKCEYUGU-8ed92fab-502d-4290-af3c-1d65c4dbfc4d/abb84294-0931-4089-a8c5-3d6e7c354d4d.png" width="400"></img>
+	<img src="https://vkceyugu.cdn.bspapp.com/VKCEYUGU-a90b5f95-90ba-4d30-a6a7-cd4d057327db/67932ae3-1a7a-4f21-9849-ba3bcc500c36.png" width="400"></img>
 	</div>
 
 	2. `包地址`
@@ -161,7 +158,7 @@ uniCloud 是 DCloud 联合阿里云、腾讯云，为开发者提供的基于 se
 	1. 大部分配置与发布 `原生App安装包` 一致
 
 	<div align="center">
-	<img src="https://vkceyugu.cdn.bspapp.com/VKCEYUGU-8ed92fab-502d-4290-af3c-1d65c4dbfc4d/b872f3db-c859-410a-9e0f-a4a6a7767d5e.png" width="400"></img>
+	<img src="https://vkceyugu.cdn.bspapp.com/VKCEYUGU-a90b5f95-90ba-4d30-a6a7-cd4d057327db/ec916cde-0d0e-4bf3-a735-643ea2a45b74.png" width="400"></img>
 	</div>
 
 	2. `原生App最低版本`
@@ -177,7 +174,7 @@ uniCloud 是 DCloud 联合阿里云、腾讯云，为开发者提供的基于 se
 - #### 发布完成页面
 
 	<div align="center">
-	<img src="https://vkceyugu.cdn.bspapp.com/VKCEYUGU-8ed92fab-502d-4290-af3c-1d65c4dbfc4d/42742d4d-ccbb-4c3e-bd37-d12d0439817c.png" width="800"></img>
+	<img src="https://vkceyugu.cdn.bspapp.com/VKCEYUGU-a90b5f95-90ba-4d30-a6a7-cd4d057327db/c5470d8c-cc37-4b41-8d56-6d50f8daac62.png" width="800"></img>
 	</div>
 
 **Tips**
@@ -203,3 +200,24 @@ uniCloud 是 DCloud 联合阿里云、腾讯云，为开发者提供的基于 se
 在应用管理列表中点击某个应用的`版本管理`，进入该应用的所有版本记录。列表排序为：先排序已上线版本，剩下已下线版本根据创建时间排列。
 
 在应用版本列表中点击`详情`，即可进入该版本的信息详情中查看、修改或删除该记录。
+
+**Tips**
+- 升级中心设计之初就支持iOS的wgt更新
+- iOS的wgt更新肯定是违反apple政策的，注意事项：
+	- 审核期间请不要弹窗升级
+	- 升级完后尽量不要自行重启
+	- 尽量使用静默更新
+- 可以通过以下修改支持iOS的wgt更新：
+	> \uni_modules\uni-upgrade-center\pages\mixin\version_add_detail_mixin.js
+	> 
+	> 将 `data` 中的 `enableiOSWgt: false` 中 改为 `enableiOSWgt: true`
+
+**常见问题**
+- 以下问题可以通过升级插件版本解决：
+	- createdate不与默认值匹配 
+	- ["create_date"]在数据库中并不存在
+	- 提交的字段["dirty_data"]在数据库中并不存在
+	- 集合[opendb-app-list]对应的schema内存在错误，详细信息：opendb-app-list表对应的schema名称冲突，这是什么意思呢
+
+- 没有/找不到 [opendb-app-list] 集合/表。**解决方案：**升级 admin 至 1.6.0+ 即可
+- 测试时发布了高版本的包，测试完了发布包提示需要大于版本号 (x.x.x)。**解决方案：**直接在控制台修改数据库

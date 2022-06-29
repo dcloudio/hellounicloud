@@ -1,3 +1,18 @@
+## 1.0.2（2022-06-30）
+- 优化 在 uni-forms 中的依赖注入方式
+## 1.0.1（2022-02-07）
+- 修复 multiple 为 true 时，v-model 的值为 null 报错的 bug
+## 1.0.0（2021-11-19）
+- 优化 组件UI，并提供设计资源，详见:[https://uniapp.dcloud.io/component/uniui/resource](https://uniapp.dcloud.io/component/uniui/resource)
+- 文档迁移，详见:[https://uniapp.dcloud.io/component/uniui/uni-data-checkbox](https://uniapp.dcloud.io/component/uniui/uni-data-checkbox)
+## 0.2.5（2021-08-23）
+- 修复 在uni-forms中 modelValue 中不存在当前字段，当前字段必填写也不参与校验的问题
+## 0.2.4（2021-08-17）
+- 修复 单选 list 模式下 ，icon 为 left 时，选中图标不显示的问题
+## 0.2.3（2021-08-11）
+- 修复 在 uni-forms 中重置表单，错误信息无法清除的问题
+## 0.2.2（2021-07-30）
+- 优化 在uni-forms组件，与label不对齐的问题
 ## 0.2.1（2021-07-27）
 - 修复 单选默认值为0不能选中的Bug
 ## 0.2.0（2021-07-13）

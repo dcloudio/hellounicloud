@@ -2,7 +2,7 @@
 	<view class="uni-file-picker__container">
 		<view class="file-picker__box" v-for="(item,index) in filesList" :key="index" :style="boxStyle">
 			<view class="file-picker__box-content" :style="borderStyle">
-				<image class="file-image" :src="item.path" mode="aspectFill" @click.stop="prviewImage(item,index)"></image>
+				<image class="file-image" :src="item.url" mode="aspectFill" @click.stop="prviewImage(item,index)"></image>
 				<view v-if="delIcon && !readonly" class="icon-del-box" @click.stop="delFile(index)">
 					<view class="icon-del"></view>
 					<view class="icon-del rotate"></view>
@@ -30,6 +30,7 @@
 <script>
 	export default {
 		name: "uploadImage",
+		emits:['uploadFiles','choose','delFile'],
 		props: {
 			filesList: {
 				type: Array,
@@ -116,12 +117,14 @@
 					border
 				} = this.styles
 				let obj = {}
+				const widthDefaultValue = 1
+				const radiusDefaultValue = 3
 				if (typeof border === 'boolean') {
 					obj.border = border ? '1px #eee solid' : 'none'
 				} else {
-					let width = (border && border.width) || 1
+					let width = (border && border.width) || widthDefaultValue
 					width = this.value2px(width)
-					let radius = (border && border.radius) || 5
+					let radius = (border && border.radius) || radiusDefaultValue
 					radius = this.value2px(radius)
 					obj = {
 						'border-width': width,
@@ -176,102 +179,16 @@
 	}
 </script>
 
-<style lang="scss">
-	.uni-file-picker__container {
-		/* #ifndef APP-NVUE */
-		display: flex;
-		box-sizing: border-box;
-		/* #endif */
-		flex-wrap: wrap;
-		margin: -5px;
-	}
-
-	.file-picker__box {
-		position: relative;
-		// flex: 0 0 33.3%;
-		width: 33.3%;
-		height: 0;
-		padding-top: 33.33%;
-		/* #ifndef APP-NVUE */
-		box-sizing: border-box;
-		/* #endif */
-	}
-
-	.file-picker__box-content {
-		position: absolute;
-		top: 0;
-		right: 0;
-		bottom: 0;
-		left: 0;
-		margin: 5px;
-		border: 1px #eee solid;
-		border-radius: 8px;
-		overflow: hidden;
-	}
-
-	.file-picker__progress {
-		position: absolute;
-		bottom: 0;
-		left: 0;
-		right: 0;
-		/* border: 1px red solid; */
-		z-index: 2;
-	}
-
-	.file-picker__progress-item {
-		width: 100%;
-	}
-
-	.file-picker__mask {
-		/* #ifndef APP-NVUE */
-		display: flex;
-		/* #endif */
-		justify-content: center;
-		align-items: center;
-		position: absolute;
-		right: 0;
-		top: 0;
-		bottom: 0;
-		left: 0;
-		color: #fff;
-		font-size: 12px;
-		background-color: rgba(0, 0, 0, 0.4);
-	}
-
-	.file-image {
-		width: 100%;
-		height: 100%;
-	}
-
-	.is-add {
-		/* #ifndef APP-NVUE */
-		display: flex;
-		/* #endif */
-		align-items: center;
-		justify-content: center;
-	}
-
-	.icon-add {
-		width: 50px;
-		height: 5px;
-		background-color: #f1f1f1;
+	.icon-del {
+		width: 15px;
+		height: 2px;
+		background-color: #fff;
 		border-radius: 2px;
-	}
-
-	.rotate {
-		position: absolute;
-		transform: rotate(90deg);
-	}
-
-	.icon-del-box {
-		/* #ifndef APP-NVUE */
-		display: flex;
-		/* #endif */
 		align-items: center;
 		justify-content: center;
 		position: absolute;
-		top: 5px;
-		right: 5px;
+		top: 3px;
+		right: 3px;
 		height: 26px;
 		width: 26px;
 		border-radius: 50%;
@@ -281,7 +198,6 @@
 	}
 
 	.icon-del {
-		width: 15px;
 		height: 2px;
 		background-color: #fff;
 		border-radius: 2px;

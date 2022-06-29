@@ -4,21 +4,25 @@
 
 > 统一管理App及App在`Android`、`iOS`平台上`App安装包`和`wgt资源包`的发布升级
 
-> 本插件为升级中心前台检查更新，后台Admin管理系统请点击查看 [uni-upgrade-center](https://ext.dcloud.net.cn/plugin?id=4470)
+> uni升级中心分为业务插件和后台管理插件。本插件为业务插件，包括uni升级中心客户端检查更新的前后端逻辑。后台管理系统另见 [uni-upgrade-center - Admin](https://ext.dcloud.net.cn/plugin?id=4470)
 
-### 基于uni-upgrade-center的App前台检查升级插件
-  - 一键式检查更新，统一整包与wgt资源包更新
-  - 好看、实用、可自定义、可拓展的前台更新弹框
+### uni升级中心 - 客户端检查更新插件
+  - 一键式检查更新，同时支持整包升级与wgt资源包更新
+  - 好看、实用、可自定义的客户端提示框
 
 ## 安装指引
 
-1. 使用`HBuilderX 3.1.0+`，因为要使用到`uni_modules`
+1. 依赖数据库`opendb-app-versions`，如果没有此库，请在云服务空间中创建。
+
+2. 使用`HBuilderX 3.1.0+`，因为要使用到`uni_modules`
 
 3. 在插件市场打开本插件页面，在右侧点击`使用 HBuilderX 导入插件`，选择要导入的项目点击确定
 
+4. 绑定一个服务空间
+
 5. 找到`/uni_modules/uni-upgrade-center-app/uniCloud/cloudfunctions/check-version`，右键上传部署
 
-6. 在`pages.json`中添加页面路径
+6. 在`pages.json`中添加页面路径。**注：请不要设置为pages.json中第一项**
 ```json
 "pages": [
 		// ……其他页面配置
@@ -41,9 +45,12 @@
 ]
 ```
 
-7. 将`/uni_modules/uni-upgrade-center-app/utils/check-update`import到需要用到的地方，调用一下即可
+7. 将`@/uni_modules/uni-upgrade-center-app/utils/check-update`import到需要用到的地方，调用一下即可
+	1. 默认使用当前绑定的服务空间，如果要请求其他服务空间，可以使用其他服务空间的 `callFunction`。[详情](https://uniapp.dcloud.io/uniCloud/cf-functions.html#call-by-function-cross-space)
 
 8. 升级弹框可自行编写，也可以使用`uni.showModal`，或使用现有的升级弹框样式，如果不满足UI需求请自行替换资源文件。在`utils/check-update.js`中都有实例。
+
+9. wgt更新时，打包前请务必将manifest.json中的版本修改为更高版本。
 
 ### 更新下载安装`check-update.js`
 
@@ -68,8 +75,6 @@
 4. `wgtVersion` 使用 plus.runtime.getProperty(plus.runtime.appid,(wgtInfo) => { wgtInfo.version }) 获取
 
 5. `check-version`云函数内部会自动获取 App 平台
-
-6. 检查更新前端使用示例：`uni_modules/uni-upgrade-center-app/utils/check-update.js`，在要检查更新的地方导入调用即可
 
 
 **Tips**
@@ -107,10 +112,11 @@
 	- 使用上一步取出的版本包的版本号 和传参 appVersion、wgtVersion 来检测是否有更新。必须同时大于这两项，因为上一次可能是wgt热更新，否则返回暂无更新
 	- 如果库中 wgt包 版本大于传参 appVersion，但是不满足 min_uni_version < appVersion，则不会使用wgt更新，会接着判断库中 app包version 是否大于 appVersion
 	- 返回结果：
-	|code|message|
-	|:-:|:-:|
-	|0|当前版本已经是最新的，不需要更新|
-	|101|wgt更新|
-	|102|整包更新|
-	|-101|暂无更新或检查appid是否填写正确|
-	|-102|请检查传参是否填写正确|
+
+		|code|message|
+		|:-:|:-:|
+		|0|当前版本已经是最新的，不需要更新|
+		|101|wgt更新|
+		|102|整包更新|
+		|-101|暂无更新或检查appid是否填写正确|
+		|-102|请检查传参是否填写正确|

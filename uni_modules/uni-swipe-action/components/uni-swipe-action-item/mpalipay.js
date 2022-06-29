@@ -11,7 +11,7 @@ export default {
 	watch: {
 		show(newVal) {
 			if (this.autoClose) return
-			if (newVal && newVal !== 'none' ) {
+			if (newVal && newVal !== 'none') {
 				this.transition = true
 				this.open(newVal)
 			} else {
@@ -20,17 +20,10 @@ export default {
 		}
 	},
 	created() {
+		this.swipeaction = this.getSwipeAction()
 		if (this.swipeaction.children !== undefined) {
 			this.swipeaction.children.push(this)
 		}
-	},
-
-	beforeDestroy() {
-		this.swipeaction.children.forEach((item, index) => {
-			if (item === this) {
-				this.swipeaction.children.splice(index, 1)
-			}
-		})
 	},
 	mounted() {
 		this.isopen = false
@@ -61,13 +54,6 @@ export default {
 				})
 			}
 		},
-		// onClick(index, item, position) {
-		// 	this.$emit('click', {
-		// 		content: item,
-		// 		index,
-		// 		position
-		// 	})
-		// },
 		/**
 		 * 移动触发
 		 * @param {Object} e
@@ -146,7 +132,7 @@ export default {
 			// TODO 解决 x 值不更新的问题，所以会多触发一次 nextTick ，待优化
 			this.$nextTick(() => {
 				this.x = -this.leftWidth
-				if(this.isopen!=='none'){
+				if (this.isopen !== 'none') {
 					this.$emit('change', 'none')
 				}
 				this.isopen = 'none'
@@ -164,8 +150,8 @@ export default {
 				} else {
 					this.x = -this.rightWidth - this.leftWidth
 				}
-				
-				if(this.isopen!==type){
+
+				if (this.isopen !== type) {
 					this.$emit('change', type)
 				}
 				this.isopen = type

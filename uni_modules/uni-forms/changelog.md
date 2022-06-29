@@ -1,3 +1,31 @@
+## 1.4.0（2022-06-30）
+- 【重要】组件逻辑重构，部分用法用旧版本不兼容，请注意兼容问题
+- 【重要】组件使用 Provide/Inject 方式注入依赖，提供了自定义表单组件调用 uni-forms 校验表单的能力
+- 新增 model 属性，等同于原 value/modelValue 属性，旧属性即将废弃
+- 新增 validateTrigger 属性的 blur 值，仅 uni-easyinput 生效
+- 新增 onFieldChange 方法，可以对子表单进行校验，可替代binddata方法
+- 新增 子表单的 setRules 方法，配合自定义校验函数使用
+- 新增 uni-forms-item 的 setRules 方法，配置动态表单使用可动态更新校验规则
+- 优化 动态表单校验方式，废弃拼接name的方式
+## 1.3.3（2022-06-22）
+- 修复 表单校验顺序无序问题
+## 1.3.2（2021-12-09）
+-
+## 1.3.1（2021-11-19）
+- 修复 label 插槽不生效的bug
+## 1.3.0（2021-11-19）
+- 优化 组件UI，并提供设计资源，详见:[https://uniapp.dcloud.io/component/uniui/resource](https://uniapp.dcloud.io/component/uniui/resource)
+- 文档迁移，详见:[https://uniapp.dcloud.io/component/uniui/uni-forms](https://uniapp.dcloud.io/component/uniui/uni-forms)
+## 1.2.7（2021-08-13）
+- 修复 没有添加校验规则的字段依然报错的Bug
+## 1.2.6（2021-08-11）
+- 修复 重置表单错误信息无法清除的问题
+## 1.2.5（2021-08-11）
+- 优化 组件文档
+## 1.2.4（2021-08-11）
+- 修复 表单验证只生效一次的问题
+## 1.2.3（2021-07-30）
+- 优化 vue3下事件警告的问题
 ## 1.2.2（2021-07-26）
 - 修复 vue2 下条件编译导致destroyed生命周期失效的Bug
 - 修复 1.2.1 引起的示例在小程序平台报错的Bug

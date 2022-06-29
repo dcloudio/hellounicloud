@@ -17,22 +17,22 @@
 				<uni-easyinput placeholder="更新标题" v-model="formData.title" />
 			</uni-forms-item>
 			<uni-forms-item name="contents" label="更新内容" required>
-				<textarea auto-height style="box-sizing: content-box;" @input="binddata('contents', $event.detail.value)" class="uni-textarea-border"
-					:value.sync="formData.contents"></textarea>
+				<textarea auto-height style="box-sizing: content-box;"
+					@input="binddata('contents', $event.detail.value)" class="uni-textarea-border"
+					:value="formData.contents" @update:value="val => formData.contents = val"></textarea>
 			</uni-forms-item>
 			<uni-forms-item name="platform" label="平台" required>
-				<uni-data-checkbox :multiple="isWGT" v-model="formData.platform"
-					:localdata="!isWGT ? formOptions.platform_localdata : [formOptions.platform_localdata[0]]" />
+				<uni-data-checkbox :multiple="isWGT" v-model="formData.platform" :localdata="platformLocaldata" />
 			</uni-forms-item>
 			<uni-forms-item name="version" label="版本号" required>
-				<uni-easyinput v-model="formData.version" placeholder="当前包版本号，必须大于当前线上发行版本号"/>
+				<uni-easyinput v-model="formData.version" placeholder="当前包版本号，必须大于当前线上发行版本号" />
 			</uni-forms-item>
 			<uni-forms-item v-if="isWGT" name="min_uni_version" label="原生App最低版本" :required="isWGT">
 				<uni-easyinput placeholder="原生App最低版本" v-model="formData.min_uni_version" />
 				<show-info :content="minUniVersionContent"></show-info>
 			</uni-forms-item>
-			<uni-forms-item v-if="!isiOS" name="dirty_data" label="上传包">
-				<uni-file-picker v-model="appFileList" :file-extname="['apk','wgt']" :disabled="hasPackage"
+			<uni-forms-item v-if="!isiOS" label="上传包">
+				<uni-file-picker v-model="appFileList" :file-extname="fileExtname" :disabled="hasPackage"
 					returnType="object" file-mediatype="all" limit="1" @success="packageUploadSuccess"
 					@delete="packageDelete">
 					<button type="primary" size="mini" @click="selectFile">选择文件</button>
@@ -41,7 +41,7 @@
 					style="padding-left: 20px;color: #a8a8a8;">{{Number(appFileList.size / 1024 / 1024).toFixed(2)}}M</text>
 			</uni-forms-item>
 			<uni-forms-item name="url" :label="isiOS ? 'AppStore' : '包地址'" required>
-				<uni-easyinput placeholder="可下载安装包地址" v-model="formData.url" />
+				<uni-easyinput placeholder="可下载安装包地址" v-model="formData.url" :maxlength="-1" />
 				<show-info :top="-80" :content="uploadFileContent"></show-info>
 			</uni-forms-item>
 			<uni-forms-item v-if="isWGT" name="is_silently" label="静默更新">
@@ -100,21 +100,21 @@
 		v1 = String(v1).split('.')
 		v2 = String(v2).split('.')
 		const minVersionLens = Math.min(v1.length, v2.length);
-	
+
 		let result = 0;
 		for (let i = 0; i < minVersionLens; i++) {
 			const curV1 = Number(v1[i])
 			const curV2 = Number(v2[i])
-	
+
 			if (curV1 > curV2) {
 				result = 1
 				break;
-			} else if(curV1 < curV2) {
+			} else if (curV1 < curV2) {
 				result = -1
 				break;
 			}
 		}
-	
+
 		if (result === 0 && (v1.length !== v2.length)) {
 			const v1BiggerThenv2 = v1.length > v2.length;
 			const maxLensVersion = v1BiggerThenv2 ? v1 : v2;
@@ -126,7 +126,7 @@
 				}
 			}
 		}
-	
+
 		return result;
 	}
 
@@ -157,8 +157,8 @@
 				}
 
 				this.latestStableData = await this.getDetail(appid, type)
-				// 如果有数据，否则为发布第一版
-				if (this.latestStableData.length) {
+				// 如果有数据，否则为发布第一版，默认为Android
+				if (!this.isWGT && this.latestStableData.length) {
 					this.setFormData(platform_Android)
 				}
 				// 如果是wgt ，则需要将 min_uni_version 设为必填
@@ -179,15 +179,25 @@
 					return;
 				}
 				this.formData.url = ''
+			},
+			"formData.platform"(val) {
+				// wgt热更新数据渲染
+				if (this.isWGT) {
+					this.setFormData(val)
+				}
 			}
 		},
 		methods: {
 			setFormData(os) {
+				uni.showLoading({
+					mask: true
+				})
 				// 每次需初始化 版本 与 id ，因为可能是新增第一版
 				this.latestVersion = '0.0.0';
 				this.lastVersionId = ''
 
 				const data = this.getData(this.latestStableData, os)[0]
+
 				if (data) {
 					const {
 						_id,
@@ -201,28 +211,25 @@
 					this.lastVersionId = _id
 					this.latestVersion = version;
 
-					this.formData = {
-						...this.formData,
-						...{
-							name,
-							platform,
-							min_uni_version
-						}
-					}
+					this.formData.name = name
 
 					// 如果不是wgt，则需要删除 min_uni_version 字段
 					if (!this.isWGT) {
 						delete this.formData.min_uni_version;
-						this.formData.platform = this.formData.platform[0]
-					} else {
-						this.formData.platform = [os]
-					}
+						this.formData.platform = platform[0]
 
-					// iOS需要带出上一版本的AppStore链接
-					if (this.isiOS) {
-						this.formData.url = url;
+						// iOS需要带出上一版本的AppStore链接
+						if (this.isiOS) {
+							this.formData.url = url;
+						}
+					} else {
+						this.formData.min_uni_version = min_uni_version
+						// this.formData.platform = [os]
 					}
+				} else if (this.isWGT) {
+					this.formData.min_uni_version = ''
 				}
+				uni.hideLoading()
 			},
 			/**
 			 * 触发表单提交
@@ -231,7 +238,7 @@
 				uni.showLoading({
 					mask: true
 				})
-				this.$refs.form.submit().then((res) => {
+				this.$refs.form.validate().then((res) => {
 					if (compare(this.latestVersion, res.version) >= 0) {
 						uni.showModal({
 							content: `版本号必须大于当前已上线版本（${this.latestVersion}）`,
@@ -244,8 +251,6 @@
 					if (!this.isWGT) {
 						res.platform = [res.platform]
 					}
-					// 删除多余字段
-					delete res.dirty_data
 					this.submitForm(res)
 				}).catch((errors) => {
 					uni.hideLoading()
@@ -284,23 +289,26 @@
 					mask: true
 				})
 				return db.collection(dbCollectionName).where({
-					appid,
-					type,
-					stable_publish: true
-				}).field(fields).get().then((
-					res) => {
-					return res.result.data
-				}).catch((err) => {
-					uni.showModal({
-						content: err.message || '请求服务失败',
-						showCancel: false
+						appid,
+						type,
+						stable_publish: true
+					}).field(fields)
+					.get().then((res) => res.result.data)
+					.catch((err) => {
+						uni.showModal({
+							content: err.message || '请求服务失败',
+							showCancel: false
+						})
+					}).finally(() => {
+						uni.hideLoading()
 					})
-				}).finally(() => {
-					uni.hideLoading()
-				})
 			},
 			getData(data = [], platform) {
-				return data.filter(item => item.platform.includes(platform))
+				if (typeof platform === 'string') {
+					return data.filter(item => item.platform.includes(platform))
+				} else {
+					return data.filter(item => item.platform.toString() === platform.toString())
+				}
 			},
 			back() {
 				uni.showModal({
@@ -329,8 +337,18 @@
 </script>
 
 <style lang="scss">
-	/deep/ .uni-forms-item__content{
+	::v-deep .uni-forms-item__content {
 		display: flex;
 		align-items: center;
+	}
+
+	.uni-button-group {
+		& button {
+			margin-left: 15px;
+		}
+
+		& button:first-child {
+			margin-left: 0px;
+		}
 	}
 </style>

@@ -1,11 +1,11 @@
 {
   "id": "uni-notice-bar",
-  "displayName": "NoticeBar 通告栏",
-  "version": "1.0.7",
+  "displayName": "uni-notice-bar 通告栏",
+  "version": "1.2.0",
   "description": "NoticeBar 通告栏组件，常用于展示公告信息，可设为滚动公告",
   "keywords": [
-    "noticebar",
     "uni-ui",
+    "uniui",
     "通告栏",
     "公告",
     "跑马灯"
@@ -41,7 +41,10 @@
     "npmurl": "https://www.npmjs.com/package/@dcloudio/uni-ui"
   },
   "uni_modules": {
-    "dependencies": [],
+    "dependencies": [
+			"uni-scss",
+			"uni-icons"
+		],
     "encrypt": [],
     "platforms": {
       "cloud": {
@@ -76,6 +79,10 @@
         "快应用": {
           "华为": "u",
           "联盟": "u"
+        },
+        "Vue": {
+            "vue2": "y",
+            "vue3": "y"
         }
       }
     }

@@ -10,12 +10,17 @@
 					<scroll-view v-else-if="inputSelected.length" class="selected-area" scroll-x="true">
 						<view class="selected-list">
 							<view class="selected-item" v-for="(item,index) in inputSelected" :key="index">
-								<text>{{item.text}}</text><text v-if="index<inputSelected.length-1" class="input-split-line">{{split}}</text>
+								<text>{{item.text}}</text><text v-if="index<inputSelected.length-1"
+									class="input-split-line">{{split}}</text>
 							</view>
 						</view>
 					</scroll-view>
 					<text v-else class="selected-area placeholder">{{placeholder}}</text>
-					<view class="arrow-area" v-if="!readonly">
+					<view v-if="clearIcon && !readonly && inputSelected.length" class="icon-clear"
+						@click.stop="clear">
+						<uni-icons type="clear" color="#e1e1e1" size="14"></uni-icons>
+					</view>
+					<view class="arrow-area" v-if="(!clearIcon || !inputSelected.length) && !readonly ">
 						<view class="input-arrow"></view>
 					</view>
 				</view>
@@ -23,6 +28,7 @@
 		</view>
 		<view class="uni-data-tree-cover" v-if="isOpened" @click="handleClose"></view>
 		<view class="uni-data-tree-dialog" v-if="isOpened">
+			<view class="uni-popper__arrow"></view>
 			<view class="dialog-caption">
 				<view class="title-area">
 					<text class="dialog-title">{{popupTitle}}</text>
@@ -32,9 +38,11 @@
 					<view class="dialog-close-plus dialog-close-rotate" data-id="close"></view>
 				</view>
 			</view>
-			<data-picker-view class="picker-view" ref="pickerView" v-model="value" :localdata="localdata" :preload="preload"
-			 :collection="collection" :field="field" :orderby="orderby" :where="where" :step-searh="stepSearh" :self-field="selfField"
-			 :parent-field="parentField" :managed-mode="true" @change="onchange" @datachange="ondatachange" @nodeclick="onnodeclick"></data-picker-view>
+			<data-picker-view class="picker-view" ref="pickerView" v-model="dataValue" :localdata="localdata"
+				:preload="preload" :collection="collection" :field="field" :orderby="orderby" :where="where"
+				:step-searh="stepSearh" :self-field="selfField" :parent-field="parentField" :managed-mode="true"
+				:map="map" :ellipsis="ellipsis" @change="onchange" @datachange="ondatachange" @nodeclick="onnodeclick">
+			</data-picker-view>
 		</view>
 	</view>
 </template>
@@ -44,9 +52,9 @@
 	import DataPickerView from "../uni-data-pickerview/uni-data-pickerview.vue"
 
 	/**
-	 * uni-data-picker
-	 * @description uni-data-picker
-	 * @tutorial https://uniapp.dcloud.net.cn/uniCloud/uni-data-picker
+	 * DataPicker 级联选择
+	 * @description 支持单列、和多列级联选择。列数没有限制，如果屏幕显示不全，顶部tab区域会左右滚动。
+	 * @tutorial https://ext.dcloud.net.cn/plugin?id=3796
 	 * @property {String} popup-title 弹出窗口标题
 	 * @property {Array} localdata 本地数据，参考
 	 * @property {Boolean} border = [true|false] 是否有边框
@@ -68,6 +76,7 @@
 	 */
 	export default {
 		name: 'UniDataPicker',
+		emits: ['popupopened', 'popupclosed', 'nodeclick', 'input', 'change', 'update:modelValue'],
 		mixins: [dataPicker],
 		components: {
 			DataPickerView
@@ -95,6 +104,10 @@
 				type: Boolean,
 				default: false
 			},
+			clearIcon: {
+				type: Boolean,
+				default: true
+			},
 			border: {
 				type: Boolean,
 				default: true
@@ -102,6 +115,10 @@
 			split: {
 				type: String,
 				default: '/'
+			},
+			ellipsis: {
+				type: Boolean,
+				default: true
 			}
 		},
 		data() {
@@ -125,6 +142,10 @@
 			})
 		},
 		methods: {
+			clear() {
+				this.inputSelected.splice(0)
+				this._dispatchEvent([])
+			},
 			onPropsChange() {
 				this._treeData = []
 				this.selectedIndex = 0
@@ -132,18 +153,18 @@
 			},
 			load() {
 				if (this.readonly) {
-					this._processReadonly(this.localdata, this.value)
+					this._processReadonly(this.localdata, this.dataValue)
 					return
 				}
 
 				if (this.isLocaldata) {
 					this.loadData()
 					this.inputSelected = this.selected.slice(0)
-				} else if (!this.parentField && !this.selfField && this.value) {
+				} else if (!this.parentField && !this.selfField && this.hasValue) {
 					this.getNodeData(() => {
 						this.inputSelected = this.selected.slice(0)
 					})
-				} else if (this.value.length) {
+				} else if (this.hasValue) {
 					this.getTreePath(() => {
 						this.inputSelected = this.selected.slice(0)
 					})
@@ -161,13 +182,13 @@
 			},
 			show() {
 				this.isOpened = true
-				this.$nextTick(() => {
+				setTimeout(() => {
 					this.$refs.pickerView.updateData({
 						treeData: this._treeData,
 						selected: this.selected,
 						selectedIndex: this.selectedIndex
 					})
-				})
+				}, 200)
 				this.$emit('popupopened')
 			},
 			hide() {
@@ -194,26 +215,34 @@
 				this.inputSelected = e
 				this._dispatchEvent(e)
 			},
-			_processReadonly(dataList, valueArray) {
+			_processReadonly(dataList, value) {
 				var isTree = dataList.findIndex((item) => {
 					return item.children
 				})
 				if (isTree > -1) {
-					if (Array.isArray(valueArray)) {
-						let inputValue = valueArray[valueArray.length - 1]
+					let inputValue
+					if (Array.isArray(value)) {
+						inputValue = value[value.length - 1]
 						if (typeof inputValue === 'object' && inputValue.value) {
 							inputValue = inputValue.value
 						}
+					} else {
+						inputValue = value
 					}
 					this.inputSelected = this._findNodePath(inputValue, this.localdata)
 					return
 				}
 
+				if (!this.hasValue) {
+					this.inputSelected = []
+					return
+				}
+
 				let result = []
-				for (let i = 0; i < valueArray.length; i++) {
-					var value = valueArray[i]
+				for (let i = 0; i < value.length; i++) {
+					var val = value[i]
 					var item = dataList.find((v) => {
-						return v.value == value
+						return v.value == val
 					})
 					if (item) {
 						result.push(item)
@@ -237,16 +266,22 @@
 				return result
 			},
 			_dispatchEvent(selected) {
-				var value = new Array(selected.length)
-				for (var i = 0; i < selected.length; i++) {
-					value[i] = selected[i].value
+				let item = {}
+				if (selected.length) {
+					var value = new Array(selected.length)
+					for (var i = 0; i < selected.length; i++) {
+						value[i] = selected[i].value
+					}
+					item = selected[selected.length - 1]
+				} else {
+					item.value = ''
 				}
-
 				if (this.formItem) {
-					const item = selected[selected.length - 1]
 					this.formItem.setValue(item.value)
 				}
 
+				this.$emit('input', item.value)
+				this.$emit('update:modelValue', item.value)
 				this.$emit('change', {
 					detail: {
 						value: selected
@@ -257,7 +292,7 @@
 	}
 </script>
 
-<style scoped>
+<style >
 	.uni-data-tree {
 		position: relative;
 		font-size: 14px;
@@ -335,6 +370,7 @@
 		position: relative;
 		width: 20px;
 		/* #ifndef APP-NVUE */
+		margin-bottom: 5px;
 		margin-left: auto;
 		display: flex;
 		/* #endif */
@@ -390,7 +426,7 @@
 		display: flex;
 		/* #endif */
 		flex-direction: row;
-		border-bottom: 1px solid #f0f0f0;
+		/* border-bottom: 1px solid #f0f0f0; */
 	}
 
 	.title-area {
@@ -405,7 +441,7 @@
 	}
 
 	.dialog-title {
-		font-weight: bold;
+		/* font-weight: bold; */
 		line-height: 44px;
 	}
 
@@ -448,19 +484,56 @@
 
 		.uni-data-tree-dialog {
 			position: absolute;
-			top: 100%;
+			top: 55px;
 			height: auto;
 			min-height: 400px;
 			max-height: 50vh;
 			background-color: #fff;
-			border-radius: 5px;
-			box-shadow: 0 0 20px 5px rgba(0, 0, 0, .3);
+			border: 1px solid #EBEEF5;
+			box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.1);
+			border-radius: 4px;
+			overflow: unset;
 		}
 
 		.dialog-caption {
 			display: none;
 		}
+
+		.icon-clear {
+			margin-right: 5px;
+		}
 	}
 
 	/* #endif */
-</style>
+
+	/* picker 弹出层通用的指示小三角, todo：扩展至上下左右方向定位 */
+	/* #ifndef APP-NVUE */
+	.uni-popper__arrow,
+	.uni-popper__arrow::after {
+		position: absolute;
+		display: block;
+		width: 0;
+		height: 0;
+		border-color: transparent;
+		border-style: solid;
+		border-width: 6px;
+	}
+
+	.uni-popper__arrow {
+		filter: drop-shadow(0 2px 12px rgba(0, 0, 0, 0.03));
+		top: -6px;
+		left: 10%;
+		margin-right: 3px;
+		border-top-width: 0;
+		border-bottom-color: #EBEEF5;
+	}
+
+	.uni-popper__arrow::after {
+		content: " ";
+		top: 1px;
+		margin-left: -6px;
+		border-top-width: 0;
+		border-bottom-color: #fff;
+	}
+	/* #endif */
+	</style>

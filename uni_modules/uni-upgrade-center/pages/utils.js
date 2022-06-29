@@ -22,3 +22,5 @@ export function deepClone(obj) {
 
 export const appListDbName = 'opendb-app-list'
 export const appVersionListDbName = 'opendb-app-versions'
+// 版本列表默认显示应用Appid
+export const defaultDisplayApp = ''

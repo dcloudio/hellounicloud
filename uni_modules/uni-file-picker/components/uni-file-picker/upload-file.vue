@@ -21,10 +21,6 @@
 						<view class="icon-del rotate"></view>
 					</view>
 				</view>
-				<view v-if="(item.progress && item.progress !== 100) ||item.progress===0 " class="file-picker__progress">
-					<progress class="file-picker__progress-item" :percent="item.progress === -1?0:item.progress" stroke-width="4"
-					 :backgroundColor="item.errMsg?'#ff5a5f':'#EBEBEB'" />
-				</view>
 				<view v-if="item.status === 'error'" class="file-picker__mask" @click.stop="uploadFiles(item,index)">
 					点击重试
 				</view>
@@ -37,6 +33,7 @@
 <script>
 	export default {
 		name: "uploadFile",
+		emits:['uploadFiles','choose','delFile'],
 		props: {
 			filesList: {
 				type: Array,
@@ -234,7 +231,7 @@
 		margin-right: 25px;
 		/* #ifndef APP-NVUE */
 		word-break: break-all;
-		word-wrap: break-word
+		word-wrap: break-word;
 		/* #endif */
 	}
 

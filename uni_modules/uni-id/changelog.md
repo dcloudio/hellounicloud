@@ -1,3 +1,54 @@
+## 3.3.25（2022-06-30）
+- 修复config文件不合法时未抛出具体错误的Bug
+## 3.3.24（2022-06-28）
+- 修复3.3.12引出的使用多应用配置时报错的Bug
+## 3.3.23（2022-06-13）
+- 修复上版本引出的部分依赖未找到的Bug
+## 3.3.22（2022-06-13）
+- 新增 preferedWebPlatform 配置用于解决HBuilderX 3.4.9版本起web端platform不一致的问题 [详情](https://uniapp.dcloud.net.cn/uniCloud/uni-id?id=prefered-web-platform)
+## 3.3.21（2022-05-24）
+- 修复createInstance传入clientInfo无效的Bug
+## 3.3.20（2022-05-19）
+- 调整以下错误码（账号已注册[uni-id-account-exists]、账号不存在[uni-id-account-not-exists]、账号已绑定[uni-id-account-bound]）
+## 3.3.19（2022-05-19）
+- 修复 addUser 部分情况下会创建出重复账号的Bug
+## 3.3.18（2022-05-12）
+- 调整绑定、解绑邮箱手机号接口，只要传递code参数就进行验证码校验即使传递的值为undefined
+## 3.3.17（2022-05-09）
+- register_env内增加os_name字段用于区分注册时的客户端系统类型
+## 3.3.16（2022-05-09）
+- 修复 addUser接口添加的用户无法使用密码登录的Bug [详情](https://ask.dcloud.net.cn/question/144670)
+## 3.3.15（2022-05-08）
+- 修复config文件语法错误时报`this.t is not a function`的Bug 感谢@寒暄
+## 3.3.14（2022-05-08）
+- 新增 getWeixinUserInfo接口 用于获取app平台微信登录用户的用户信息 [详情](https://uniapp.dcloud.net.cn/uniCloud/uni-id.html#get-weixin-user-info)
+- 新增 addUser接口 用于手动添加用户 [详情](https://uniapp.dcloud.net.cn/uniCloud/uni-id.html#add-user)
+- 新增 resetPwdBySms接口 用于使用短信验证码重置密码 [详情](https://uniapp.dcloud.net.cn/uniCloud/uni-id.html#reset-pwd-by-sms)
+- 新增 refreshToken接口 用于主动刷新用户token [详情](https://uniapp.dcloud.net.cn/uniCloud/uni-id.html#refresh-token)
+- 调整 用户注册时记录用户注册环境到 register_env 字段 [详情](https://uniapp.dcloud.net.cn/uniCloud/uni-id.html#user-table)
+- 调整 用户注册时将注册 ip 移至 register_env 内
+
+## 3.3.13（2022-03-04）
+- createInstance方法支持传递clientInfo [详情](https://uniapp.dcloud.net.cn/uniCloud/uni-id.html#create-instance)
+- 修复`this.t is not a function`报错
+## 3.3.12（2022-01-15）
+- 新增 preferedAppPlatform 配置用于解决uni-app vue2版本vue3版本获取platform不一致的问题 [详情](https://uniapp.dcloud.net.cn/uniCloud/uni-id?id=prefered-app-platform)
+- 修复 checkToken 未返回自定义token内容的Bug
+## 3.3.11（2022-01-11）
+- 修复用户名密码登录时多个应用出现重复用户名登录报错的Bug
+## 3.3.10（2022-01-07）
+- 新增 自定义国际化语言支持 [详情](https://uniapp.dcloud.net.cn/uniCloud/uni-id?id=custom-i8n)
+- 修复 一键登录时未校验重复手机号是否已验证的Bug
+- 修复 Apple登录时用户邮箱为空时报错的Bug
+- 修复 登录接口未传username时错误提示不正确的Bug
+## 3.3.9（2021-11-09）
+- 去除重复的context.xxx未找到的提示语
+## 3.3.8（2021-10-28）
+- 新增 用户账户封禁接口 [详情](https://uniapp.dcloud.net.cn/uniCloud/uni-id?id=ban-account)
+- 新增 用户账户注销接口 [详情](https://uniapp.dcloud.net.cn/uniCloud/uni-id?id=close-account)
+- 修复 未传appid时用户重复注册的Bug
+## 3.3.7（2021-10-08）
+- 移除部分接口的废弃提示
 ## 3.3.6（2021-09-08）
 - 修复 邀请码可能重复的Bug
 ## 3.3.5（2021-08-10）

@@ -1,9 +1,21 @@
 <template>
 	<a v-if="isShowA" class="uni-link" :href="href"
 		:class="{'uni-link--withline':showUnderLine===true||showUnderLine==='true'}"
-		:style="{color,fontSize:fontSize+'px'}">{{text}}</a>
+		:style="{color,fontSize:fontSize+'px'}" :download="download">
+		<slot>{{text}}</slot>
+	</a>
+	<!-- #ifndef APP-NVUE -->
 	<text v-else class="uni-link" :class="{'uni-link--withline':showUnderLine===true||showUnderLine==='true'}"
-		:style="{color,fontSize:fontSize+'px'}" @click="openURL">{{text}}</text>
+		:style="{color,fontSize:fontSize+'px'}" @click="openURL">
+		<slot>{{text}}</slot>
+	</text>
+	<!-- #endif -->
+	<!-- #ifdef APP-NVUE -->
+	<text v-else class="uni-link" :class="{'uni-link--withline':showUnderLine===true||showUnderLine==='true'}"
+		:style="{color,fontSize:fontSize+'px'}" @click="openURL">
+		{{text}}
+	</text>
+	<!-- #endif -->
 </template>
 
 <script>
@@ -13,6 +25,7 @@
 	 * @tutorial https://ext.dcloud.net.cn/plugin?id=1182
 	 * @property {String} href 点击后打开的外部网页url
 	 * @property {String} text 显示的文字
+	 * @property {String} downlaod H5平台下载文件名
 	 * @property {Boolean} showUnderLine 是否显示下划线
 	 * @property {String} copyTips 在小程序端复制链接时显示的提示语
 	 * @property {String} color 链接文字颜色
@@ -27,6 +40,10 @@
 				default: ''
 			},
 			text: {
+				type: String,
+				default: ''
+			},
+			download: {
 				type: String,
 				default: ''
 			},

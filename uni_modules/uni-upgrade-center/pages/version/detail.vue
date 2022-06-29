@@ -22,22 +22,23 @@
 				<uni-easyinput :disabled="detailsState" placeholder="更新标题" v-model="formData.title" />
 			</uni-forms-item>
 			<uni-forms-item name="contents" label="更新内容" required>
-				<textarea auto-height style="box-sizing: content-box;" :disabled="detailsState" @input="binddata('contents', $event.detail.value)"
-					class="uni-textarea-border" :value.sync="formData.contents"></textarea>
+				<textarea auto-height style="box-sizing: content-box;" :disabled="detailsState"
+					@input="binddata('contents', $event.detail.value)" class="uni-textarea-border"
+					:value="formData.contents" @update:value="val => formData.contents = val"></textarea>
 			</uni-forms-item>
 			<uni-forms-item name="platform" label="平台" required>
 				<uni-data-checkbox :disabled="true" :multiple="true" v-model="formData.platform"
-					:localdata="!isWGT ? formOptions.platform_localdata : [formOptions.platform_localdata[0]]" />
+					:localdata="platformLocaldata" />
 			</uni-forms-item>
 			<uni-forms-item name="version" label="版本号" required>
-				<uni-easyinput :disabled="true" v-model="formData.version" placeholder="当前包版本号，必须大于当前已上线版本号"/>
+				<uni-easyinput :disabled="true" v-model="formData.version" placeholder="当前包版本号，必须大于当前已上线版本号" />
 			</uni-forms-item>
 			<uni-forms-item v-if="isWGT" name="min_uni_version" label="原生App最低版本" :required="isWGT">
 				<uni-easyinput :disabled="detailsState" placeholder="原生App最低版本" v-model="formData.min_uni_version" />
 				<show-info :content="minUniVersionContent"></show-info>
 			</uni-forms-item>
-			<uni-forms-item v-if="!isiOS && !detailsState" name="dirty_data" label="上传包">
-				<uni-file-picker v-model="appFileList" :file-extname="['apk','wgt']" :disabled="hasPackage"
+			<uni-forms-item v-if="!isiOS && !detailsState" label="上传包">
+				<uni-file-picker v-model="appFileList" :file-extname="fileExtname" :disabled="hasPackage"
 					returnType="object" file-mediatype="all" limit="1" @success="packageUploadSuccess"
 					@delete="packageDelete">
 					<button type="primary" size="mini" @click="selectFile">选择文件</button>
@@ -46,7 +47,7 @@
 					style="padding-left: 20px;color: #a8a8a8;">{{Number(appFileList.size / 1024 / 1024).toFixed(2)}}M</text>
 			</uni-forms-item>
 			<uni-forms-item name="url" :label="isiOS ? 'AppStore' : '包地址'" required>
-				<uni-easyinput :disabled="detailsState" placeholder="可下载安装包地址" v-model="formData.url" />
+				<uni-easyinput :disabled="detailsState" placeholder="可下载安装包地址" v-model="formData.url" :maxlength="-1" />
 				<show-info :top="-80" :content="uploadFileContent"></show-info>
 			</uni-forms-item>
 			<uni-forms-item v-if="isWGT" name="is_silently" label="静默更新">
@@ -150,8 +151,7 @@
 				uni.showLoading({
 					mask: true
 				})
-				this.$refs.form.submit().then((res) => {
-					delete res.dirty_data
+				this.$refs.form.validate().then((res) => {
 					this.submitForm(res)
 				}).catch((errors) => {
 					uni.hideLoading()
@@ -245,7 +245,8 @@
 					where.platform = this.formData.platform[0]
 				}
 				const latestStableData = await db.collection(dbCollectionName).where(where).get()
-				return latestStableData.result.data[0];
+				return latestStableData.result.data.find(item => item.platform.toString() === this.formData.platform
+					.toString());
 			},
 			cancelEdit() {
 				let content = '';
@@ -285,8 +286,18 @@
 		border: 1px solid #e9e9eb;
 	}
 
-	/deep/ .uni-forms-item__content{
+	::v-deep .uni-forms-item__content {
 		display: flex;
 		align-items: center;
+	}
+
+	.uni-button-group {
+		& button {
+			margin-left: 15px;
+		}
+
+		& button:first-child {
+			margin-left: 0px;
+		}
 	}
 </style>
