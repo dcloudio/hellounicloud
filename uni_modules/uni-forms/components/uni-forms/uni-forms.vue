@@ -56,10 +56,7 @@
 	export default {
 		name: 'uniForms',
 		components: {},
-		model: {
-			prop: 'modelValue',
-			event: 'update:modelValue'
-		},
+		emits:['input','reset','validate','submit'],
 		props: {
 			// 即将弃用
 			value: {
@@ -178,7 +175,13 @@
 			init(formRules) {
 				// 判断是否有规则
 				if (Object.keys(formRules).length === 0) {
-					this.formData = this.dataValue
+					try{
+						// TODO 不影响原始数据
+						this.formData = JSON.parse(JSON.stringify(this.dataValue))
+					}catch(e){
+						//TODO handle the exception
+						this.formData = {}
+					}
 					return
 				};
 				this.formRules = formRules;
@@ -197,7 +200,10 @@
 					let watch = this.$watch(
 						'dataValue.' + key,
 						value => {
-							if (!value) return
+							if (!value){
+								this.formData[key] = this._getValue(key,value);
+								return
+							  }
 							// 如果是对象 ，则平铺内容
 							if (value.toString() === '[object Object]') {
 								for (let i in value) {
@@ -236,8 +242,6 @@
 				value = this._getValue(example.name, value);
 				this.formData[name] = value;
 				example.val = value;
-				this.$emit('input', Object.assign({}, this.value, this.formData));
-				this.$emit('update:modelValue', Object.assign({}, this.value, this.formData));
 				return example.triggerCheck(value, callback);
 			},
 
@@ -251,6 +255,8 @@
 					const inputComp = this.inputChildrens.find(child => child.rename === item.name);
 					if (inputComp) {
 						inputComp.errMsg = '';
+						// fix by mehaotian 不触发其他组件的 setValue
+						inputComp.is_reset = true
 						inputComp.$emit('input', inputComp.multiple ? [] : '');
 						inputComp.$emit('update:modelValue', inputComp.multiple ? [] : '');
 					}
@@ -262,8 +268,6 @@
 					}
 				});
 
-				this.$emit('input', this.formData);
-				this.$emit('update:modelValue', this.formData);
 				this.$emit('reset', event);
 			},
 
@@ -464,7 +468,7 @@
 	};
 </script>
 
-<style lang="scss" scoped>
+<style lang="scss" >
 	.uni-forms {
 		// overflow: hidden;
 		// padding: 10px 15px;

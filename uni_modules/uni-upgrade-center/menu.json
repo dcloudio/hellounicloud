@@ -2,10 +2,9 @@
 	"menu_id": "system_update",
 	"name": "升级中心",
 	"icon": "uni-icons-cloud-upload",
-	"url": "uni_modules/uni-upgrade-center/pages/app/list",
+	"url": "uni_modules/uni-upgrade-center/pages/version/list",
 	"sort": 1050,
 	"parent_id": "system_management",
 	"permission": [],
-	"enable": true,
-	"create_date": 1614767457351
+	"enable": true
 }]

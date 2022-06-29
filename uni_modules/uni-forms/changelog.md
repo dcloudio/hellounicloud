@@ -1,3 +1,22 @@
+## 1.3.3（2022-06-22）
+- 修复 表单校验顺序无序问题
+## 1.3.2（2021-12-09）
+-
+## 1.3.1（2021-11-19）
+- 修复 label 插槽不生效的bug
+## 1.3.0（2021-11-19）
+- 优化 组件UI，并提供设计资源，详见:[https://uniapp.dcloud.io/component/uniui/resource](https://uniapp.dcloud.io/component/uniui/resource)
+- 文档迁移，详见:[https://uniapp.dcloud.io/component/uniui/uni-forms](https://uniapp.dcloud.io/component/uniui/uni-forms)
+## 1.2.7（2021-08-13）
+- 修复 没有添加校验规则的字段依然报错的Bug
+## 1.2.6（2021-08-11）
+- 修复 重置表单错误信息无法清除的问题
+## 1.2.5（2021-08-11）
+- 优化 组件文档
+## 1.2.4（2021-08-11）
+- 修复 表单验证只生效一次的问题
+## 1.2.3（2021-07-30）
+- 优化 vue3下事件警告的问题
 ## 1.2.2（2021-07-26）
 - 修复 vue2 下条件编译导致destroyed生命周期失效的Bug
 - 修复 1.2.1 引起的示例在小程序平台报错的Bug

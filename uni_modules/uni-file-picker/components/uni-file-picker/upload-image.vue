@@ -2,7 +2,7 @@
 	<view class="uni-file-picker__container">
 		<view class="file-picker__box" v-for="(item,index) in filesList" :key="index" :style="boxStyle">
 			<view class="file-picker__box-content" :style="borderStyle">
-				<image class="file-image" :src="item.path" mode="aspectFill" @click.stop="prviewImage(item,index)"></image>
+				<image class="file-image" :src="item.url" mode="aspectFill" @click.stop="prviewImage(item,index)"></image>
 				<view v-if="delIcon && !readonly" class="icon-del-box" @click.stop="delFile(index)">
 					<view class="icon-del"></view>
 					<view class="icon-del rotate"></view>
@@ -30,6 +30,7 @@
 <script>
 	export default {
 		name: "uploadImage",
+		emits:['uploadFiles','choose','delFile'],
 		props: {
 			filesList: {
 				type: Array,
@@ -116,12 +117,14 @@
 					border
 				} = this.styles
 				let obj = {}
+				const widthDefaultValue = 1
+				const radiusDefaultValue = 3
 				if (typeof border === 'boolean') {
 					obj.border = border ? '1px #eee solid' : 'none'
 				} else {
-					let width = (border && border.width) || 1
+					let width = (border && border.width) || widthDefaultValue
 					width = this.value2px(width)
-					let radius = (border && border.radius) || 5
+					let radius = (border && border.radius) || radiusDefaultValue
 					radius = this.value2px(radius)
 					obj = {
 						'border-width': width,
@@ -154,7 +157,7 @@
 				}
 				if(this.disablePreview) return
 				this.filesList.forEach(i => {
-					urls.push(i.path)
+					urls.push(i.url)
 				})
 
 				uni.previewImage({
@@ -205,7 +208,7 @@
 		left: 0;
 		margin: 5px;
 		border: 1px #eee solid;
-		border-radius: 8px;
+		border-radius: 5px;
 		overflow: hidden;
 	}
 
@@ -270,8 +273,8 @@
 		align-items: center;
 		justify-content: center;
 		position: absolute;
-		top: 5px;
-		right: 5px;
+		top: 3px;
+		right: 3px;
 		height: 26px;
 		width: 26px;
 		border-radius: 50%;

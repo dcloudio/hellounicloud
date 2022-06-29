@@ -4,12 +4,12 @@ exports.main = async (event, context) => {
 	console.log('event : ', event)
 
 	let res = {};
-	let data = event.data;
+	let params = event.data || event.params;
 
 	switch (event.action) {
 		case 'deleteFile':
 			res = await uniCloud.deleteFile({
-				fileList: data.fileList
+				fileList: params.fileList
 			})
 			break;
 	}

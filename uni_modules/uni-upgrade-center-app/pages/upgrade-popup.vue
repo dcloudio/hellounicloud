@@ -3,7 +3,7 @@
 		<view class="content botton-radius">
 			<view class="content-top">
 				<text class="content-top-text">{{title}}</text>
-				<image class="content-top" style="top: 0;" width="100%" height="100%" src="../static/bg_top.png">
+				<image class="content-top" style="top: 0;" width="100%" height="100%" src="../images/bg_top.png">
 				</image>
 			</view>
 			<view class="content-header"></view>
@@ -20,7 +20,7 @@
 					</scroll-view>
 				</view>
 				<view class="footer flex-center">
-					<template v-if="isiOS">
+					<template v-if="isAppStore">
 						<button class="content-button" style="border: none;color: #fff;" plain @click="jumpToAppStore">
 							{{downLoadBtnTextiOS}}
 						</button>
@@ -55,7 +55,7 @@
 				</view>
 			</view>
 
-			<image v-if="!is_mandatory" class="close-img" src="../static/app_update_close.png"
+			<image v-if="!is_mandatory" class="close-img" src="../images/app_update_close.png"
 				@click.stop="closeUpdate"></image>
 		</view>
 	</view>
@@ -88,7 +88,7 @@
 			if (curV1 > curV2) {
 				result = 1
 				break;
-			} else if(curV1 < curV2) {
+			} else if (curV1 < curV2) {
 				result = -1
 				break;
 			}
@@ -138,7 +138,7 @@
 				subTitle: '发现新版本',
 				downLoadBtnTextiOS: '立即跳转更新',
 				downLoadBtnText: '立即下载更新',
-				downLoadingText: '安装包下载中，请稍后…'
+				downLoadingText: '安装包下载中，请稍后'
 			}
 		},
 		onLoad({
@@ -183,6 +183,9 @@
 			},
 			isiOS() {
 				return !this.isWGT ? this.platform.includes(platform_iOS) : false;
+			},
+			isAppStore() {
+				return this.isiOS || (!this.isiOS && !this.isWGT && this.url.indexOf('.apk') === -1)
 			}
 		},
 		methods: {
@@ -192,15 +195,17 @@
 				if (localFilePathRecord) {
 					const {
 						version,
-						savedFilePath
+						savedFilePath,
+						installed
 					} = localFilePathRecord
+
 					// 比对版本
-					if (compare(version, this.version) === 0) {
+					if (!installed && compare(version, this.version) === 0) {
 						this.downloadSuccess = true;
 						this.installForBeforeFilePath = savedFilePath;
 						this.tempFilePath = savedFilePath
 					} else {
-						// 如果保存的包版本小，则直接删除
+						// 如果保存的包版本小 或 已安装过，则直接删除
 						this.deleteSavedFile(savedFilePath)
 					}
 				}
@@ -284,12 +289,6 @@
 					this.installing = false;
 					this.installed = true;
 
-					// 如果是安装之前的包，安装成功后删除之前的包
-					if (this.installForBeforeFilePath) {
-						await this.deleteSavedFile(this.installForBeforeFilePath)
-						this.installForBeforeFilePath = '';
-					}
-
 					// wgt包，安装后会提示 安装成功，是否重启
 					if (this.isWGT) {
 						// 强制更新安装完成重启
@@ -303,13 +302,13 @@
 								uni.hideLoading()
 								this.restart();
 							}, 1000)
-						} else {
-							uni.showLoading({
-								icon: 'none',
-								title: '安装成功，重启应用体验新版',
-								duration: 1000
-							})
 						}
+					} else {
+						const localFilePathRecord = uni.getStorageSync(localFilePathKey)
+						uni.setStorageSync(localFilePathKey, {
+							...localFilePathRecord,
+							installed: true
+						})
 					}
 				}, async err => {
 					// 如果是安装之前的包，安装失败后删除之前的包
@@ -319,10 +318,11 @@
 					}
 
 					// 安装失败需要重新下载安装包
+					this.installing = false;
 					this.installed = false;
 
 					uni.showModal({
-						title: '更新失败',
+						title: `更新失败${this.isWGT ? '' : '，APK文件不存在'}，请重新下载`,
 						content: err.message,
 						showCancel: false
 					});
@@ -486,11 +486,13 @@
 		font-size: 30rpx;
 		font-weight: 400;
 		color: #FFFFFF;
+		border-radius: 40rpx;
+		margin: 0 18rpx;
 
 		height: 80rpx;
 		line-height: 80rpx;
 
-		background: url(../static/button_bg.png) no-repeat center/contain;
+		background: linear-gradient(to right, #1785ff, #3DA7FF);
 	}
 
 	.flex-column {

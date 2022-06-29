@@ -37,6 +37,7 @@
 <script>
 	export default {
 		name: "uploadFile",
+		emits:['uploadFiles','choose','delFile'],
 		props: {
 			filesList: {
 				type: Array,
@@ -234,7 +235,7 @@
 		margin-right: 25px;
 		/* #ifndef APP-NVUE */
 		word-break: break-all;
-		word-wrap: break-word
+		word-wrap: break-word;
 		/* #endif */
 	}
 
