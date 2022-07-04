@@ -212,7 +212,9 @@
 			},
 			onchange(e) {
 				this.hide()
-				this.inputSelected = e
+				this.$nextTick(() => {
+					this.inputSelected = e;
+				})
 				this._dispatchEvent(e)
 			},
 			_processReadonly(dataList, value) {
@@ -294,6 +296,7 @@
 
 <style >
 	.uni-data-tree {
+		flex: 1;
 		position: relative;
 		font-size: 14px;
 	}
