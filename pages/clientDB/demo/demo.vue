@@ -1,3 +1,4 @@
+
 <template>
 	<view class="page">
 		<uniNoticeBar v-if="noticeData.data" showIcon="true" :text="noticeData.data"></uniNoticeBar>

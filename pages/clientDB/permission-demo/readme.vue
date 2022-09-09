@@ -1,3 +1,4 @@
+
 <template>
 	<view class="page">
 		<alertCode ref="alertCode"></alertCode>
@@ -442,3 +443,4 @@ button{
 	padding: 10rpx;
 }
 </style>
+

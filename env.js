@@ -1,0 +1,38 @@
+module.exports = {
+	"compile": true,
+	"h5": {
+		"options": {
+			"headless": false
+		},
+		"executablePath": "C:/Program Files/Google/Chrome/Application/chrome.exe"
+	},
+	"mp-weixin": {
+		"executablePath": "C:/Users/liuxi/download/微信web开发者工具/cli.bat"
+	},
+	"mp-qq": {
+		"executablePath": ""
+	},
+	"mp-baidu": {
+		"executablePath": ""
+	},
+	"mp-toutiao": {
+		"executablePath": ""
+	},
+	"mp-alipay": {
+		"executablePath": ""
+	},
+	"mp-360": {
+		"executablePath": ""
+	},
+	"app-plus": {
+		"android": {
+			"executablePath": "D:\\HX\\alpha\\HBuilderX\\plugins\\launcher\\base\\android_base.apk",
+			"id": "a6160e9d"
+		},
+		"version": "D:\\HX\\alpha\\HBuilderX\\plugins\\launcher\\base\\version.txt",
+		"ios": {
+			"id": "",
+			"executablePath": ""
+		}
+	}
+}

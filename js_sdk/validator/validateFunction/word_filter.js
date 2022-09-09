@@ -1,3 +1,4 @@
+
 // 文档教程: https://uniapp.dcloud.net.cn/uniCloud/schema?id=validatefunction
 // 扩展校验函数示例
 module.exports = function (rule, value, data, callback) {
@@ -21,3 +22,4 @@ module.exports = function (rule, value, data, callback) {
 		}
 	//}
 }
+

@@ -54,7 +54,9 @@ export default {
 	}
 };
 </script>
-<style lang="scss">
+<style lang="scss" >
+$uni-bg-color:#ffffff;
+$uni-border-color:#e5e5e5;
 .uni-list {
 	/* #ifndef APP-NVUE */
 	display: flex;

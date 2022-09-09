@@ -23,6 +23,7 @@ import { createAnimation } from './createAnimation'
  */
 export default {
 	name: 'uniTransition',
+	emits:['click','change'],
 	props: {
 		show: {
 			type: Boolean,
@@ -111,7 +112,7 @@ export default {
 			if (obj.duration) {
 				this.durationTime = obj.duration
 			}
-			this.animation = createAnimation(Object.assign(this.config, obj))
+			this.animation = createAnimation(Object.assign(this.config, obj),this)
 		},
 		/**
 		 * 点击组件触发回调

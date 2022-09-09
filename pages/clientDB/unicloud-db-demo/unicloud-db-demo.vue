@@ -1,5 +1,7 @@
+
 <template>
 	<view class="root">
+		
 		<unicloud-db ref="udb" v-slot:default="{data, loading, error, options,pagination,hasMore}"
 			:options="options"
 			:page-data="pageData"
@@ -116,10 +118,14 @@
 			udb = this.$refs.udb
 		},
 		onLoad() {
-			setTimeout(()=>{
+			this.$nextTick(()=>{
+				this.dataList = this.$refs.udb.dataList
+			})
+			
+			/* setTimeout(()=>{
 				console.log(this.$refs.udb,12121111);
 				this.dataList = this.$refs.udb.dataList
-			}, 2000);
+			}, 2000); */
 		},
 		watch: {
 			field(field, oldValue) {
@@ -214,6 +220,7 @@
 			},
 			async remove(){
 				const _id = udb.dataList[0]._id
+				console.log("_id: ",_id);
 				return await udb.remove(_id)
 			},
 			async update(){

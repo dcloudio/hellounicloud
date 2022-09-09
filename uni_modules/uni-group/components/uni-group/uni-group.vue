@@ -15,12 +15,14 @@
 	/**
 	 * Group 分组
 	 * @description 表单字段分组
-	 * @tutorial https://ext.dcloud.net.cn/plugin?id=21002
+	 * @tutorial https://ext.dcloud.net.cn/plugin?id=3281
 	 * @property {String} title 主标题
 	 * @property {Number} top 分组间隔
+	 * @property {Number} mode 模式
 	 */
 	export default {
 		name: 'uniGroup',
+		emits:['click'],
 		props: {
 			title: {
 				type: String,
@@ -33,6 +35,10 @@
 			mode: {
 				type: String,
 				default: 'default'
+			},
+			stat:{
+				type: Boolean,
+				default: false
 			}
 		},
 		data() {
@@ -43,7 +49,7 @@
 		},
 		watch: {
 			title(newVal) {
-				if (uni.report && newVal !== '') {
+				if (uni.report && this.stat && newVal !== '') {
 					uni.report('title', newVal)
 				}
 			}
@@ -75,7 +81,7 @@
 		}
 	}
 </script>
-<style lang="scss" scoped>
+<style lang="scss" >
 	.uni-group {
 		background: #fff;
 		margin-top: 10px;
@@ -94,9 +100,9 @@
 		align-items: center;
 		padding-left: 15px;
 		height: 40px;
-		background-color: $uni-bg-color-grey;
+		background-color: #eee;
 		font-weight: normal;
-		color: $uni-text-color;
+		color: #666;
 	}
 
 	.uni-group__content {
@@ -110,8 +116,8 @@
 	}
 
 	.uni-group__title-text {
-		font-size: $uni-font-size-base;
-		color: $uni-text-color;
+		font-size: 14px;
+		color: #666;
 	}
 
 	.distraction {

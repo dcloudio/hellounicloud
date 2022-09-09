@@ -8,6 +8,7 @@
 	"passwordErrorRetryTime": 3600,
 	"autoSetInviteCode": false,
 	"forceInviteCode": false,
+	"preferedAppPlatform": "app-plus",
 	"app-plus": {
 		"tokenExpiresIn": 2592000,
 		"oauth" : {
