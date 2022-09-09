@@ -52,25 +52,27 @@ uniCloud 是 DCloud 联合阿里云、腾讯云，为开发者提供的基于 se
 7. 在`pages.json`中添加页面路径
 ```json
 //此结构与uniCloud admin中的pages.json结构一致
-"pages": [
-			// ……其他页面配置
-			{
-				"path": "uni_modules/uni-upgrade-center/pages/version/list",
-				"style": {
-					"navigationBarTitleText": "版本列表"
+{
+	"pages": [
+				// ……其他页面配置
+				{
+					"path": "uni_modules/uni-upgrade-center/pages/version/list",
+					"style": {
+						"navigationBarTitleText": "版本列表"
+					}
+				}, {
+					"path": "uni_modules/uni-upgrade-center/pages/version/add",
+					"style": {
+						"navigationBarTitleText": "新版发布"
+					}
+				}, {
+					"path": "uni_modules/uni-upgrade-center/pages/version/detail",
+					"style": {
+						"navigationBarTitleText": "版本信息查看"
+					}
 				}
-			}, {
-				"path": "uni_modules/uni-upgrade-center/pages/version/add",
-				"style": {
-					"navigationBarTitleText": "新版发布"
-				}
-			}, {
-				"path": "uni_modules/uni-upgrade-center/pages/version/detail",
-				"style": {
-					"navigationBarTitleText": "版本信息查看"
-				}
-			}
-]
+	]
+}
 ```
 
 8. 在`manifest.json -> 源码视图`中添加以下配置：

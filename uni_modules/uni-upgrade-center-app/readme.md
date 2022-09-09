@@ -1,3 +1,7 @@
+## 升级中心 - app插件与 `uni-admin` 版本关系
+
+### `uni-admin >= 1.9.3`：云函数 `checkVersion` 废弃，使用 uni-admin 自带的 `uni-upgrade-center` 云函数。
+
 # uni-upgrade-center - App
 
 ### 概述
@@ -18,9 +22,9 @@
 
 3. 在插件市场打开本插件页面，在右侧点击`使用 HBuilderX 导入插件`，选择要导入的项目点击确定
 
-4. 绑定一个服务空间
+4. 绑定一个服务空间。自 `0.6.0` 起，依赖 `uni-admin 1.9.3+` 的 `uni-upgrade-center 云函数`，请和 uni-admin 项目关联同一个服务空间
 
-5. 找到`/uni_modules/uni-upgrade-center-app/uniCloud/cloudfunctions/check-version`，右键上传部署
+5. 找到`/uni_modules/uni-upgrade-center-app/uniCloud/cloudfunctions/check-version`，右键上传部署。自 `0.6.0` 起，依赖 `uni-admin 1.9.3+` 的 `uni-upgrade-center 云函数`，插件不再单独提供云函数，这样可以省下一个云函数名额。
 
 6. 在`pages.json`中添加页面路径。**注：请不要设置为pages.json中第一项**
 ```json

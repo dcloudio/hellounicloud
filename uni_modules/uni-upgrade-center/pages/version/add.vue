@@ -6,7 +6,7 @@
 				<view class="uni-sub-title">{{type_valuetotext[formData.type]}}</view>
 			</view>
 		</view>
-		<uni-forms ref="form" :value="formData" validateTrigger="bind">
+		<uni-forms ref="form" :value="formData" validateTrigger="bind" :labelWidth="labelWidth">
 			<uni-forms-item name="appid" label="AppID" required>
 				<uni-easyinput :disabled="true" v-model="formData.appid" trim="both" />
 			</uni-forms-item>
@@ -31,11 +31,15 @@
 				<uni-easyinput placeholder="原生App最低版本" v-model="formData.min_uni_version" />
 				<show-info :content="minUniVersionContent"></show-info>
 			</uni-forms-item>
-			<uni-forms-item v-if="!isiOS" label="上传包">
+			<uni-forms-item v-if="!isiOS" label="上传apk包">
 				<uni-file-picker v-model="appFileList" :file-extname="fileExtname" :disabled="hasPackage"
 					returnType="object" file-mediatype="all" limit="1" @success="packageUploadSuccess"
 					@delete="packageDelete">
-					<button type="primary" size="mini" @click="selectFile">选择文件</button>
+					<view class="flex">
+						<button type="primary" size="mini" @click="selectFile" style="margin: 0;">选择文件</button>
+						<text
+							style="padding: 10px;font-size: 12px;color: #666;">上传apk到当前服务空间的云存储中，上传成功后，会自动使用云存储地址填充下载链接</text>
+					</view>
 				</uni-file-picker>
 				<text v-if="hasPackage"
 					style="padding-left: 20px;color: #a8a8a8;">{{Number(appFileList.size / 1024 / 1024).toFixed(2)}}M</text>
@@ -44,6 +48,9 @@
 				<uni-easyinput placeholder="可下载安装包地址" v-model="formData.url" :maxlength="-1" />
 				<show-info :top="-80" :content="uploadFileContent"></show-info>
 			</uni-forms-item>
+
+			<!-- <uni-forms-item v-if="formData.store_list" name="store_list" style="height: 0px;"></uni-forms-item> -->
+
 			<uni-forms-item v-if="isWGT" name="is_silently" label="静默更新">
 				<switch @change="binddata('is_silently', $event.detail.value)" :checked="formData.is_silently" />
 				<show-info :top="-80" :content="silentlyContent"></show-info>
@@ -72,13 +79,13 @@
 		validator,
 		enumConverter
 	} from '@/uni_modules/uni-upgrade-center/js_sdk/validator/opendb-app-versions.js';
-	import showInfo from '../components/show-info.vue'
 	import addAndDetail, {
 		fields
 	} from '../mixin/version_add_detail_mixin.js';
 	import {
 		appVersionListDbName
 	} from '../utils.js';
+	import showInfo from '../components/show-info.vue'
 
 	const db = uniCloud.database();
 	const dbCmd = db.command;
@@ -147,12 +154,14 @@
 			type
 		}) {
 			if (appid && type && name) {
+				// const store_list = await this.getStoreList(appid)
 				this.formData = {
 					...this.formData,
 					...{
 						appid,
 						name,
-						type
+						type,
+						// store_list
 					}
 				}
 
@@ -235,10 +244,19 @@
 			 * 触发表单提交
 			 */
 			submit() {
+				if (!this.formData.url && this.isiOS) {
+					uni.showToast({
+						icon: 'error',
+						title: 'AppStore 链接必填'
+					})
+					return
+				}
 				uni.showLoading({
 					mask: true
 				})
 				this.$refs.form.validate().then((res) => {
+					// TODO 兼容 uni-forms 的bug
+					res.url = this.formData.url
 					if (compare(this.latestVersion, res.version) >= 0) {
 						uni.showModal({
 							content: `版本号必须大于当前已上线版本（${this.latestVersion}）`,
@@ -251,15 +269,36 @@
 					if (!this.isWGT) {
 						res.platform = [res.platform]
 					}
+					if (this.isiOS || this.isWGT) delete res.store_list;
+					if (res.store_list) {
+						res.store_list.forEach(item => {
+							item.priority = parseFloat(item.priority)
+						})
+					}
 					this.submitForm(res)
 				}).catch((errors) => {
 					uni.hideLoading()
 				})
 			},
 			async submitForm(value) {
+				value = this.createCenterRecord(value)
 				const collectionDB = db.collection(dbCollectionName)
+				// uni-stat 会创建这些字段 appid
+				let recordCreateByUniStat = []
+				if (!this.isWGT) {
+					recordCreateByUniStat = await this.getDetail(value.appid, value.type, this.createStatQuery(value))
+				}
+
+				let dbOperate
+				if (!recordCreateByUniStat.length) {
+					dbOperate = collectionDB.add(value)
+				} else {
+					value.create_date = Date.now()
+					dbOperate = collectionDB.doc(recordCreateByUniStat[0]._id).update(value)
+				}
+
 				// 使用 clientDB 提交数据
-				collectionDB.add(value).then(async (res) => {
+				dbOperate.then(async (res) => {
 					// 如果新增版本为上线发行，且之前有该平台的上线发行，则自动将上一版设为下线
 					if (value.stable_publish && this.lastVersionId) {
 						await collectionDB.doc(this.lastVersionId).update({
@@ -284,16 +323,21 @@
 			 * 获取表单数据
 			 * @param {Object} id
 			 */
-			getDetail(appid, type) {
+			getDetail(appid, type, args = {}) {
 				uni.showLoading({
 					mask: true
 				})
-				return db.collection(dbCollectionName).where({
-						appid,
-						type,
-						stable_publish: true
-					}).field(fields)
-					.get().then((res) => res.result.data)
+				return db.collection(dbCollectionName)
+					.where(
+						Object.assign({
+							appid,
+							type,
+							stable_publish: true
+						}, args)
+					)
+					.field(fields)
+					.get()
+					.then((res) => res.result.data)
 					.catch((err) => {
 						uni.showModal({
 							content: err.message || '请求服务失败',
@@ -301,6 +345,17 @@
 						})
 					}).finally(() => {
 						uni.hideLoading()
+					})
+			},
+			getStoreList(appid) {
+				return db.collection('opendb-app-list')
+					.where({
+						appid
+					})
+					.get()
+					.then(res => {
+						const data = res.result.data[0]
+						return data.store_list || []
 					})
 			},
 			getData(data = [], platform) {
@@ -313,7 +368,7 @@
 			back() {
 				uni.showModal({
 					title: '取消发布',
-					content: this.hasPackage ? '将会删除已上传的包' : '',
+					content: this.hasPackage ? '将会删除已上传的包' : undefined,
 					success: res => {
 						if (res.confirm) {
 							// 若已上传包但取消发布，则自动将包删除
@@ -350,5 +405,14 @@
 		& button:first-child {
 			margin-left: 0px;
 		}
+	}
+
+	.title_padding {
+		padding-bottom: 15px;
+		display: block;
+	}
+
+	::v-deep .uni-file-picker__files {
+		max-width: 100%;
 	}
 </style>
