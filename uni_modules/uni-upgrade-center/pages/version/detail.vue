@@ -11,7 +11,7 @@
 				<button class="uni-button" type="warn" size="mini" @click="deletePackage">删除</button>
 			</view>
 		</view>
-		<uni-forms ref="form" :value="formData" validateTrigger="bind">
+		<uni-forms ref="form" :value="formData" validateTrigger="bind" :labelWidth="labelWidth">
 			<uni-forms-item name="appid" label="AppID" required>
 				<uni-easyinput :disabled="true" v-model="formData.appid" trim="both" />
 			</uni-forms-item>
@@ -37,7 +37,7 @@
 				<uni-easyinput :disabled="detailsState" placeholder="原生App最低版本" v-model="formData.min_uni_version" />
 				<show-info :content="minUniVersionContent"></show-info>
 			</uni-forms-item>
-			<uni-forms-item v-if="!isiOS && !detailsState" label="上传包">
+			<uni-forms-item v-if="!isiOS && !detailsState" label="上传apk包">
 				<uni-file-picker v-model="appFileList" :file-extname="fileExtname" :disabled="hasPackage"
 					returnType="object" file-mediatype="all" limit="1" @success="packageUploadSuccess"
 					@delete="packageDelete">
@@ -46,24 +46,28 @@
 				<text v-if="hasPackage"
 					style="padding-left: 20px;color: #a8a8a8;">{{Number(appFileList.size / 1024 / 1024).toFixed(2)}}M</text>
 			</uni-forms-item>
-			<uni-forms-item name="url" :label="isiOS ? 'AppStore' : '包地址'" required>
-				<uni-easyinput :disabled="detailsState" placeholder="可下载安装包地址" v-model="formData.url" :maxlength="-1" />
-				<show-info :top="-80" :content="uploadFileContent"></show-info>
+			<uni-forms-item name="url" :label="isiOS ? 'AppStore' : '下载链接'" required>
+				<uni-easyinput :disabled="detailsState" placeholder="下载链接" v-model="formData.url" :maxlength="-1" />
+				<!-- <show-info :top="-80" :content="uploadFileContent"></show-info> -->
 			</uni-forms-item>
+
 			<uni-forms-item v-if="isWGT" name="is_silently" label="静默更新">
-				<switch :disabled="detailsState" @change="binddata('is_silently', $event.detail.value)"
+				<switch :disabled="detailsState"
+					@change="binddata('is_silently', $event.detail.value),formData.is_silently=$event.detail.value"
 					:checked="formData.is_silently" />
 				<show-info :top="-80" :content="silentlyContent"></show-info>
 			</uni-forms-item>
 			<uni-forms-item v-if="!isiOS" name="is_mandatory" label="强制更新">
-				<switch :disabled="detailsState" @change="binddata('is_mandatory', $event.detail.value)"
+				<switch :disabled="detailsState"
+					@change="binddata('is_mandatory', $event.detail.value),formData.is_mandatory=$event.detail.value"
 					:checked="formData.is_mandatory" />
-				<show-info :content="mandatoryContent"></show-info>
+				<show-info width="230" :top="-30" :content="mandatoryContent"></show-info>
 			</uni-forms-item>
 			<uni-forms-item name="stable_publish" label="上线发行">
-				<switch :disabled="detailsState || isStable" @change="binddata('stable_publish', $event.detail.value)"
+				<switch :disabled="detailsState || isStable"
+					@change="binddata('stable_publish', $event.detail.value),formData.stable_publish=$event.detail.value"
 					:checked="formData.stable_publish" />
-				<show-info v-if="isStable" :top="-100" :content="stablePublishContent"></show-info>
+				<show-info v-if="isStable" :top="-50" width="350" :content="stablePublishContent"></show-info>
 				<show-info v-else :top="-40" :content="stablePublishContent2"></show-info>
 			</uni-forms-item>
 			<uni-forms-item name="create_date" label="上传时间">
@@ -92,7 +96,6 @@
 		validator,
 		enumConverter
 	} from '@/uni_modules/uni-upgrade-center/js_sdk/validator/opendb-app-versions.js';
-	import showInfo from '../components/show-info.vue'
 	import addAndDetail, {
 		fields
 	} from '../mixin/version_add_detail_mixin.js'
@@ -100,6 +103,7 @@
 		deepClone,
 		appVersionListDbName
 	} from '../utils.js'
+	import showInfo from '../components/show-info.vue'
 
 	const db = uniCloud.database();
 	const dbCmd = db.command;
@@ -127,7 +131,7 @@
 			return {
 				showStableInfo: false,
 				isStable: true, // 是否是线上发行版
-				originalData: [], // 原始数据，用于恢复状态
+				originalData: {}, // 原始数据，用于恢复状态
 				detailsState: true // 查看状态
 			}
 		},
@@ -152,6 +156,12 @@
 					mask: true
 				})
 				this.$refs.form.validate().then((res) => {
+					res.store_list = this.formData.store_list
+					if (res.store_list) {
+						res.store_list.forEach(item => {
+							item.priority = parseFloat(item.priority)
+						})
+					}
 					this.submitForm(res)
 				}).catch((errors) => {
 					uni.hideLoading()
@@ -191,21 +201,24 @@
 				uni.showLoading({
 					mask: true
 				})
-				return db.collection(dbCollectionName).doc(id).field(fields).get().then((
-					res) => {
-					const data = res.result.data[0]
-					if (data) {
-						this.formData = data
-						this.originalData = deepClone(this.formData)
-					}
-				}).catch((err) => {
-					uni.showModal({
-						content: err.message || '请求服务失败',
-						showCancel: false
+				return db.collection(dbCollectionName)
+					.doc(id)
+					.field(fields)
+					.get()
+					.then((res) => {
+						const data = res.result.data[0]
+						if (data) {
+							this.formData = data
+							this.originalData = deepClone(this.formData)
+						}
+					}).catch((err) => {
+						uni.showModal({
+							content: err.message || '请求服务失败',
+							showCancel: false
+						})
+					}).finally(() => {
+						uni.hideLoading()
 					})
-				}).finally(() => {
-					uni.hideLoading()
-				})
 			},
 			deletePackage() {
 				uni.showModal({

@@ -35,6 +35,7 @@
 							<uni-th align="center">更新标题</uni-th>
 							<uni-th align="center">安装包类型</uni-th>
 							<uni-th align="center">平台</uni-th>
+							<!-- <uni-th align="center">已上架应用市场</uni-th> -->
 							<uni-th align="center">版本号</uni-th>
 							<uni-th align="center">安装包状态</uni-th>
 							<uni-th align="center">上传时间</uni-th>
@@ -56,6 +57,9 @@
 								<uni-data-picker :localdata="options.platform_valuetotext" :value="item.platform"
 									:border="false" :readonly="true" split="," />
 							</uni-td>
+							<!-- <uni-td align="center">
+								<text>{{store_list_key(item.store_list)}}</text>
+							</uni-td> -->
 							<uni-td align="center"> {{item.version}} </uni-td>
 							<uni-td align="center"> {{item.stable_publish == true ? '已上线' : '已下线'}} </uni-td>
 							<uni-td align="center">
@@ -93,8 +97,12 @@
 		appVersionListDbName,
 		defaultDisplayApp
 	} from '../utils.js'
+	import {
+		mapState
+	} from 'vuex'
 
 	const db = uniCloud.database()
+	const dbCmd = db.command
 	// 表查询配置
 	const dbOrderBy = 'stable_publish desc,create_date desc' // 排序字段
 	const dbSearchFields = ['name', 'title', 'stable_publish', 'type'] // 模糊搜索字段，支持模糊搜索的字段列表
@@ -107,6 +115,13 @@
 
 	function getScreenHeight() {
 		return document.documentElement ? document.documentElement.clientHeight : window.innerHeight;
+	}
+
+	function createListQuery(condition = {}) {
+		return {
+			create_env: dbCmd.neq("uni-stat"),
+			...condition
+		}
 	}
 
 	export default {
@@ -135,19 +150,25 @@
 				showAppIndex: 0
 			}
 		},
-		async onLoad(options) {
+		async onLoad({
+			appid
+		}) {
 			await this.getAppList()
 			if (!this.appList.length) return
 			this.loaded = true
 
 			this.appList.forEach((item, index) => {
-				if (item.appid === defaultDisplayApp) {
+				if (item.appid === appid || defaultDisplayApp) {
 					this.showAppIndex = index
 				}
 			})
 			this.setAppInfo(this.showAppIndex)
+			this.where = createListQuery({
+				appid: this.currentAppid
+			})
 		},
 		computed: {
+			...mapState('app', ['appid']),
 			appNameList() {
 				return this.appList.map(item => item.name)
 			}
@@ -156,9 +177,9 @@
 			showAppIndex(val) {
 				this.setAppInfo(val)
 
-				this.where = {
+				this.where = createListQuery({
 					appid: this.currentAppid
-				}
+				})
 			}
 		},
 		onReady() {
@@ -262,7 +283,7 @@
 						result
 					} = await db.collection(appListDbName).get()
 					if (result && result.data && result.data.length > 0) {
-						this.appList = result.data
+						this.appList = result.data.filter(item => item.appid !== this.appid)
 					} else {
 						this.showModalToAppManager()
 					}
@@ -296,6 +317,13 @@
 					confirmText: '立即跳转',
 					success: (res) => jump()
 				})
+			},
+			store_list_key(store_list) {
+				const arr = store_list ? store_list.filter(item => item.enable) : []
+				return arr.length ?
+					arr.sort((a, b) => b.priority - a.priority)
+					.map(item => item.name).join(',') :
+					'-'
 			}
 		}
 	}

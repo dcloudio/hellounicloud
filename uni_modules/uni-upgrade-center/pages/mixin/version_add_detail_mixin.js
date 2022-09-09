@@ -22,13 +22,15 @@ export const fields =
 export default {
 	data() {
 		return {
-			enableiOSWgt: true,	// 是否开启iOS的wgt更新
+			labelWidth: '80px',
+			enableiOSWgt: true, // 是否开启iOS的wgt更新
 			silentlyContent: '静默更新：App升级时会在后台下载wgt包并自行安装。新功能在下次启动App时生效',
 			mandatoryContent: '强制更新：App升级弹出框不可取消',
 			stablePublishContent: '同时只可有一个线上发行版，线上发行不可更设为下线。\n未上线可以设为上线发行并自动替换当前线上发行版',
 			stablePublishContent2: '使用本包替换当前线上发行版',
 			uploadFileContent: '可下载安装包地址。上传文件到云存储自动填写，也可以手动填写',
 			minUniVersionContent: '上次使用新Api或打包新模块的App版本',
+			priorityContent: '检查更新时，按照优先级从大到小依次尝试跳转商店。如果都跳转失败，则会打开浏览器使用下载链接下载apk安装包',
 			latestStableData: [], // 库中最新已上线版
 			appFileList: null, // 上传包
 			type_valuetotext: enumConverter.type_valuetotext,
@@ -91,7 +93,11 @@ export default {
 			return this.isWGT ? ['wgt'] : ['apk']
 		},
 		platformLocaldata() {
-			return !this.isWGT ? this.formOptions.platform_localdata : this.enableiOSWgt ? this.formOptions.platform_localdata : [this.formOptions.platform_localdata[0]]
+			return !this.isWGT ? this.formOptions.platform_localdata : this.enableiOSWgt ? this.formOptions
+				.platform_localdata : [this.formOptions.platform_localdata[0]]
+		},
+		uni_platform() {
+			return (this.isiOS ? platform_iOS : platform_Android).toLocaleLowerCase()
 		}
 	},
 	methods: {
@@ -128,6 +134,36 @@ export default {
 					title: '只可上传一个文件，请删除已上传后重试',
 					duration: 1000
 				});
+			}
+		},
+		createCenterRecord(value) {
+			return {
+				...value,
+				uni_platform: this.uni_platform,
+				create_env: 'upgrade-center'
+			}
+		},
+		createCenterQuery({
+			appid
+		}) {
+			return {
+				appid,
+				create_env: 'upgrade-center'
+			}
+		},
+		createStatQuery({
+			appid,
+			type,
+			version,
+			uni_platform
+		}) {
+			return {
+				appid,
+				type,
+				version,
+				uni_platform: uni_platform ? uni_platform : this.uni_platform,
+				create_env: 'uni-stat',
+				stable_publish: false
 			}
 		}
 	}

@@ -181,8 +181,9 @@
 					(value, oldVal) => {
 						const isEqual = this.form._isEqual(value, oldVal)
 						// 简单判断前后值的变化，只有发生变化才会发生校验
-						// TODO 如果 oldVal = undefined ，那么大概率是源数据里没有值导致 ，这个情况不哦校验 ,可能不严谨 ，需要在做观察
-						if (!isEqual && oldVal !== undefined) {
+						// TODO  如果 oldVal = undefined ，那么大概率是源数据里没有值导致 ，这个情况不哦校验 ,可能不严谨 ，需要在做观察
+						// fix by mehaotian 暂时取消 && oldVal !== undefined ，如果formData 中不存在，可能会不校验
+						if (!isEqual) {
 							const val = this.itemSetValue(value)
 							this.onFieldChange(val, false)
 						}
@@ -217,7 +218,7 @@
 			},
 			// 兼容老版本表单组件
 			setValue() {
-				console.log('setValue 方法已经弃用，请使用最新版本的 uni-forms 表单组件以及其他关联组件。');
+				// console.log('setValue 方法已经弃用，请使用最新版本的 uni-forms 表单组件以及其他关联组件。');
 			},
 			/**
 			 * 外部调用方法
@@ -386,9 +387,13 @@
 
 			// 是否显示星号
 			_isRequired() {
-				if (this.form) {
-					return this.required || this.form._isRequiredField(this.itemRules.rules || [])
-				}
+				// TODO 不根据规则显示 星号，考虑后续兼容
+				// if (this.form) {
+				// 	if (this.form._isRequiredField(this.itemRules.rules || []) && this.required) {
+				// 		return true
+				// 	}
+				// 	return false
+				// }
 				return this.required
 			},
 
@@ -479,6 +484,7 @@
 			padding: 0 12px 0 0;
 			/* #ifndef APP-NVUE */
 			vertical-align: middle;
+			flex-shrink: 0;
 			/* #endif */
 
 			/* #ifndef APP-NVUE */
@@ -492,8 +498,8 @@
 
 		&__content {
 			/* #ifndef MP-TOUTIAO */
-			display: flex;
-			align-items: center;
+			// display: flex;
+			// align-items: center;
 			/* #endif */
 			position: relative;
 			font-size: 14px;

@@ -1,3 +1,13 @@
+## 1.4.8（2022-08-23）
+- 优化 根据 rules 自动添加 required 的问题
+## 1.4.7（2022-08-22）
+- 修复 item 未设置 require 属性，rules 设置 require 后，星号也显示的 bug，详见：[https://ask.dcloud.net.cn/question/151540](https://ask.dcloud.net.cn/question/151540)
+## 1.4.6（2022-07-13）
+- 修复 model 需要校验的值没有声明对应字段时，导致第一次不触发校验的bug
+## 1.4.5（2022-07-05）
+- 新增 更多表单示例
+- 优化 子表单组件过期提示的问题
+- 优化 子表单组件uni-datetime-picker、uni-data-select、uni-data-picker的显示样式
 ## 1.4.4（2022-07-04）
 - 更新 删除组件日志
 ## 1.4.3（2022-07-04）
