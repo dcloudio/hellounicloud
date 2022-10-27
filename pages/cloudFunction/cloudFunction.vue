@@ -14,6 +14,12 @@
 			<button type="primary" @click="get">查询前10条数据</button>
 			<button type="primary" @click="useCommon">使用公用模块</button>
 			<button type="primary" @click="toRedisPage">使用Redis</button>
+
+      <!-- #ifdef APP-PLUS || MP-WEIXIN -->
+      <navigator url="../secure-network/cloud-function">
+        <button type="primary">安全网络</button>
+      </navigator>
+      <!-- #endif -->
 		</view>
 	</view>
 </template>
