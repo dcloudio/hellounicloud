@@ -211,7 +211,7 @@
         "navigationBarTitleText": "版本信息查看"
       }
     }
-  ],
+],
   "tabBar": {
     "color": "#7A7E83",
     "selectedColor": "#1296db",

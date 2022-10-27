@@ -7,7 +7,7 @@ exports.main = async (event, context) => {
   const secretType = context.secretType
   // secretType 是客户端调用 uniCloud.callFunction 传递的参数 secretType
 
-  if (secretType !== 'both' || secretType !== 'response') {
+  if (secretType !== 'both') {
     throw new Error('secretType invalid') // 拒绝返回有效数据
   }
 

@@ -3,6 +3,9 @@
   export default {
     onLaunch: async function() {
       console.log('App Launch')
+		// #ifdef MP-WEIXIN
+		uniCloud.initSecureNetworkByWeixin()
+		// #endif
       checkUpdate() //更新升级
     },
     mounted() {

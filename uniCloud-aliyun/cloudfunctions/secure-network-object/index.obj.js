@@ -10,7 +10,7 @@ module.exports = {
 
     console.log(secretType);
 
-    if (methodName === 'get' && (secretType !== 'both' || secretType !== 'response')) {
+    if (secretType !== 'both' ) {
       throw new Error('secretType invalid') // 拒绝返回有效数据
     }
   },
