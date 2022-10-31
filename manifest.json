@@ -89,7 +89,10 @@
             "urlCheck" : false,
             "es6" : false
         },
-        "usingComponents" : true
+        "usingComponents" : true,
+        "secureNetwork" : {
+            "enable" : true
+        }
     },
     "mp-alipay" : {
         "usingComponents" : true
