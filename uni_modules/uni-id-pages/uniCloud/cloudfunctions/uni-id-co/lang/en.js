@@ -40,7 +40,8 @@ const sentence = {
   'uni-id-unbind-failed': 'Please bind first and then unbind',
   'uni-id-unbind-not-supported': 'Unbinding is not supported',
   'uni-id-unbind-mobile-not-exists': 'This is the only way to login at the moment, please bind your phone number and then try to unbind',
-  'uni-id-unbind-password-not-exists': 'Please set a password first'
+  'uni-id-unbind-password-not-exists': 'Please set a password first',
+  'uni-id-unsupported-request': 'Unsupported request'
 }
 
 module.exports = {

@@ -40,7 +40,8 @@ const sentence = {
   'uni-id-unbind-failed': '请先绑定后再解绑',
   'uni-id-unbind-not-supported': '不支持解绑',
   'uni-id-unbind-mobile-not-exists': '这是当前唯一登录方式，请绑定手机号后再尝试解绑',
-  'uni-id-unbind-password-not-exists': '请先设置密码在尝试解绑'
+  'uni-id-unbind-password-not-exists': '请先设置密码在尝试解绑',
+  'uni-id-unsupported-request': '不支持的请求方式'
 }
 
 module.exports = {

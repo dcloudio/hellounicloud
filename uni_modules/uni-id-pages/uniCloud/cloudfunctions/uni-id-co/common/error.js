@@ -35,7 +35,8 @@ const ERROR = {
   UNBIND_NOT_SUPPORTED: 'uni-id-unbind-not-supported',
   UNBIND_UNIQUE_LOGIN: 'uni-id-unbind-unique-login',
   UNBIND_PASSWORD_NOT_EXISTS: 'uni-id-unbind-password-not-exists',
-  UNBIND_MOBILE_NOT_EXISTS: 'uni-id-unbind-mobile-not-exists'
+  UNBIND_MOBILE_NOT_EXISTS: 'uni-id-unbind-mobile-not-exists',
+  UNSUPPORTED_REQUEST: 'uni-id-unsupported-request'
 }
 
 function isUniIdError (errCode) {

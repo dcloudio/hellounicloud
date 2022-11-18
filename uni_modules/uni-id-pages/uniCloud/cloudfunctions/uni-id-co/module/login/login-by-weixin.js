@@ -44,7 +44,7 @@ module.exports = async function (params = {}) {
   } = params
   const {
     appId
-  } = this.getClientInfo()
+  } = this.getUniversalClientInfo()
   const weixinApi = initWeixin.call(this)
   const weixinPlatform = getWeixinPlatform.call(this)
   let apiName

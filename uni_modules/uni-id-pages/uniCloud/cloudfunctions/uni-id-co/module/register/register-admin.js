@@ -38,7 +38,7 @@ module.exports = async function (params = {}) {
   }).limit(1).get()
   if (getAdminRes.data.length > 0) {
     const [admin] = getAdminRes.data
-    const appId = this.getClientInfo().appId
+    const appId = this.getUniversalClientInfo().appId
 
     if (!admin.dcloud_appid || (admin.dcloud_appid && admin.dcloud_appid.includes(appId))) {
       return {

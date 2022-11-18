@@ -16,7 +16,7 @@ const {
  */
 module.exports = async function () {
   const { uid } = this.authInfo
-  const { appId } = this.getClientInfo()
+  const { appId } = this.getUniversalClientInfo()
   const qqPlatform = getQQPlatform.call(this)
 
   await preUnBind.call(this, {

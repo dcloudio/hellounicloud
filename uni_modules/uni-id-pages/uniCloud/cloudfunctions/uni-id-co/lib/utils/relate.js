@@ -29,7 +29,7 @@ async function preBind ({
 } = {}) {
   const userMatched = await findUser({
     userQuery: bindAccount,
-    authorizedApp: this.getClientInfo().appId
+    authorizedApp: this.getUniversalClientInfo().appId
   })
   if (userMatched.length > 0) {
     await this.middleware.uniIdLog({

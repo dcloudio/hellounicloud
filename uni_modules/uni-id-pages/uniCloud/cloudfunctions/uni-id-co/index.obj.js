@@ -12,6 +12,7 @@ const {
   isUniIdError
 } = require('./common/error')
 const middleware = require('./middleware/index')
+const universal = require('./common/universal')
 
 const {
   registerAdmin,
@@ -81,7 +82,10 @@ const {
 
 module.exports = {
   async _before () {
-    const clientInfo = this.getClientInfo()
+    // 支持 callFunction 与 URL化
+    universal.call(this)
+
+    const clientInfo = this.getUniversalClientInfo()
     /**
      * 检查clientInfo，无appId和uniPlatform时本云对象无法正常运行
      * 此外需要保证用到的clientInfo字段均经过类型检查
@@ -581,5 +585,5 @@ module.exports = {
   /**
    * 安全网络握手，目前仅处理微信小程序安全网络握手
    */
-   secureNetworkHandshakeByWeixin
+  secureNetworkHandshakeByWeixin
 }

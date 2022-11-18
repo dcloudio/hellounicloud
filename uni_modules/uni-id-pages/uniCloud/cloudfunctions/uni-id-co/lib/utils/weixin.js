@@ -12,7 +12,7 @@ const {
   openDataCollection
 } = require('../../common/constants')
 
-function decryptWeixinData({
+function decryptWeixinData ({
   encryptedData,
   sessionKey,
   iv
@@ -37,9 +37,9 @@ function decryptWeixinData({
   return decoded
 }
 
-function getWeixinPlatform() {
+function getWeixinPlatform () {
   const platform = this.clientPlatform
-  const userAgent = this.getClientInfo().userAgent
+  const userAgent = this.getUniversalClientInfo().userAgent
   switch (platform) {
     case 'app':
     case 'app-plus':
@@ -54,7 +54,7 @@ function getWeixinPlatform() {
   }
 }
 
-async function saveWeixinUserKey({
+async function saveWeixinUserKey ({
   openid,
   sessionKey, // 微信小程序用户sessionKey
   accessToken, // App端微信用户accessToken
@@ -64,7 +64,7 @@ async function saveWeixinUserKey({
   // 微信公众平台、开放平台refreshToken有效期均为30天（微信没有在网络请求里面返回30天这个值，务必注意未来可能出现调整，需及时更新此处逻辑）。
   // 此前QQ开放平台有调整过accessToken的过期时间：[access_token有效期由90天缩短至30天](https://wiki.connect.qq.com/%E3%80%90qq%E4%BA%92%E8%81%94%E3%80%91access_token%E6%9C%89%E6%95%88%E6%9C%9F%E8%B0%83%E6%95%B4)
 
-  const appId = this.getClientInfo().appId
+  const appId = this.getUniversalClientInfo().appId
   const weixinPlatform = getWeixinPlatform.call(this)
   const keyObj = {
     dcloudAppid: appId,
@@ -91,7 +91,7 @@ async function saveWeixinUserKey({
   }
 }
 
-async function saveSecureNetworkCache({
+async function saveSecureNetworkCache ({
   code,
   openid,
   unionid,
@@ -99,7 +99,7 @@ async function saveSecureNetworkCache({
 }) {
   const {
     appId
-  } = this.getClientInfo()
+  } = this.getUniversalClientInfo()
   const key = `uni-id:${appId}:weixin-mp:code:${code}:secure-network-cache`
   const value = JSON.stringify({
     openid,
@@ -120,7 +120,7 @@ async function saveSecureNetworkCache({
   }
 }
 
-function generateWeixinCache({
+function generateWeixinCache ({
   sessionKey, // 微信小程序用户sessionKey
   accessToken, // App端微信用户accessToken
   refreshToken, // App端微信用户refreshToken
@@ -153,11 +153,11 @@ function generateWeixinCache({
   }
 }
 
-function getWeixinOpenid({
+function getWeixinOpenid ({
   userRecord
 } = {}) {
   const weixinPlatform = getWeixinPlatform.call(this)
-  const appId = this.getClientInfo().appId
+  const appId = this.getUniversalClientInfo().appId
   const wxOpenidObj = userRecord.wx_openid
   if (!wxOpenidObj) {
     return
@@ -165,7 +165,7 @@ function getWeixinOpenid({
   return wxOpenidObj[`${weixinPlatform}_${appId}`] || wxOpenidObj[weixinPlatform]
 }
 
-async function getWeixinCacheFallback({
+async function getWeixinCacheFallback ({
   userRecord,
   key
 } = {}) {
@@ -178,13 +178,13 @@ async function getWeixinCacheFallback({
   return weixinCache && weixinCache[key]
 }
 
-async function getWeixinCache({
+async function getWeixinCache ({
   uid,
   userRecord,
   key
 } = {}) {
   const weixinPlatform = getWeixinPlatform.call(this)
-  const appId = this.getClientInfo().appId
+  const appId = this.getUniversalClientInfo().appId
   if (!userRecord) {
     const getUserRes = await userCollection.doc(uid).get()
     userRecord = getUserRes.data[0]
@@ -212,9 +212,9 @@ async function getWeixinCache({
   })
 }
 
-async function getWeixinAccessToken() {
+async function getWeixinAccessToken () {
   const weixinPlatform = getWeixinPlatform.call(this)
-  const appId = this.getClientInfo().appId
+  const appId = this.getUniversalClientInfo().appId
 
   const cache = await this.uniOpenBridge.getAccessToken({
     dcloudAppid: appId,

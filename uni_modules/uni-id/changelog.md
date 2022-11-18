@@ -1,3 +1,5 @@
+## 3.3.29（2022-10-20）
+- 使用[uni-open-bridge-common](https://uniapp.dcloud.net.cn/uniCloud/uni-open-bridge.html#common)存储用户三方凭证，以便其他服务使用。
 ## 3.3.28（2022-07-27）
 - 修复 app端微信登录返回的accessToken过期时间（expired）不正确的Bug
 ## 3.3.27（2022-07-27）
