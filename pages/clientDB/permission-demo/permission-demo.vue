@@ -84,7 +84,8 @@
 						value: -1
 					}
 				],
-				rulo_index: 0
+				rulo_index: 0,
+				role:''
 			}
 		},
 		mounted() {
@@ -118,17 +119,17 @@
 		},
 		methods: {
 			setState(e){
-				console.log(e.detail.value);
+				console.log(e.detail.value,dbCollectionName);
 				db.collection(dbCollectionName).update({
 					state:e.detail.value
 				}).then((res) => {
+					console.log("res: ",res);
 					this.formData.state = e.detail.value
 					uni.showToast({
 						icon: 'none',
 						title: '更新成功'
 					})
 				}).catch((err) => {
-					console.log(err);
 					console.log(JSON.stringify(err));
 					uni.showModal({
 						content: err.message || '请求服务失败',
@@ -147,6 +148,7 @@
 			changePermission({role,index}){
 				console.log('index', index);
 				console.log('role', role);
+				this.role = role
 				this.rulo_index = index
 				let field = "_id,username,nickname,state";
 				let where = {}
@@ -159,7 +161,7 @@
 				db.collection('permission-test')
 					.where(where)
 					.field(field).get().then(e => {
-						console.log(e.result.data);
+						console.log(e);
 						if (e.result.data[0]){
 							this.formData = e.result.data[0]
 						}else{
@@ -183,18 +185,18 @@
 				})
 				this.$refs.form.submit().then((res) => {
 					this.submitForm(res)
-				}).catch((errors) => {
+				}).catch((e) => {
 					uni.hideLoading()
 				})
 			},
 			addDefaultData() {
-				console.log('addDefaultData');
+				console.log("dbCollectionName: ",dbCollectionName);
 				db.collection(dbCollectionName).add({
 					"nickname":"默认昵称",
 					"username":"默认姓名",
 					"phone":"1888888888"
 				}).then((res) => {
-					console.log(res.result.id);
+					console.log(res);
 					this.formData._id = res.result.id
 					uni.showToast({
 						icon: 'none',
@@ -213,7 +215,6 @@
 			},
 			submitForm(value) {
 				// 使用 uni-clientDB 提交数据
-				console.log('value._id------------------------------------------------------', this.formData._id);
 				if (this.formData._id) {
 					console.log(this.formData.state);
 					if(this.formData.state===0){
@@ -236,22 +237,17 @@
 								icon: 'none',
 								title: '更新成功'
 							})
-							console.log("33333333333: ",33333333333);
 						}).catch((err) => {
-							console.log(err.message);
 							console.log(JSON.stringify(err));
 							uni.showModal({
 								content: err.message || '请求服务失败',
 								showCancel: false
 							})
-							console.log("44444444: ",33333333333);
 						}).finally(() => {
 							uni.hideLoading()
-							console.log("5555555555: ",33333333333);
 						})
 				} else {
 					console.log('err 9527');
-					console.log("6666666666: ",33333333333);
 				}
 
 			}

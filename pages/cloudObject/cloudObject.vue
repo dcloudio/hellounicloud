@@ -102,7 +102,6 @@
 						showCancel: false
 					})
 					console.log(res)
-					return res.msg
 				}).catch((err) => {
 					uni.hideLoading()
 					uni.showModal({

@@ -222,24 +222,20 @@
 					uni.hideLoading()
 				}
 			},
-			async getData(tableName) {
+			getData(tableName) {
 				console.log(tableName);
 				uni.showLoading({
 					mask: true
 				});
 				// 客户端联表查询
-				return await db.collection(tableName)
+				db.collection(tableName)
 					.get()
 					.then(res => {
 						this.$refs.alertCode.open(res.result)
-						console.log(res.result.data, "111");
-						return res.result.data
 					}).catch(err => {
 						console.error(err)
-						return err
 					})
 					.finally((e) => {
-						console.log(e, 9527);
 						uni.hideLoading()
 					})
 			},
@@ -251,138 +247,122 @@
 				const res = await db.collection(orderQuery,bookQuery).field('book_id as books_info,quantity').get()
 				uni.hideLoading()
 				this.$refs.alertCode.open(res.result)
-				console.log(res.result.data, "111");
 			},
-			async getOrder() {
+			getOrder() {
 				//直接关联多个表为虚拟表再进行查询。仅数据表字段内容较少时使用，否者将查询超时
 				uni.showLoading({mask: true});
 				// 客户端联表查询
-				return await db.collection('order,book') // 注意collection方法内需要传入所有用到的表名，用逗号分隔，主表需要放在第一位
+				db.collection('order,book') // 注意collection方法内需要传入所有用到的表名，用逗号分隔，主表需要放在第一位
 					//.where('book_id.title == "三国演义"') // 查询order表内书名为“三国演义”的订单
 					.field('book_id{title,author} as books_info,quantity') // 这里联表查询book表返回book表内的title、book表内的author、order表内的quantity
 					.get()
 					.then(res => {
 						this.$refs.alertCode.open(res.result)
-						console.log(res.result.data, "111");
-						return res.result.data
 					}).catch(err => {
 						console.error(err)
-						return err
 					}).finally(() => {
 						uni.hideLoading()
 					})
 			},
-			async getOneBook() {
+			getOneBook() {
 				uni.showLoading({
 					mask: true
 				});
 				// 客户端联表查询
-				return await db.collection('book')
+				db.collection('book')
 					.get({
 						getOne: true
 					})
 					.then(res => {
 						this.$refs.alertCode.open(res.result)
-						return res.result.data
 					}).catch(err => {
 						console.error(err)
-						return err
 					}).finally(() => {
 						uni.hideLoading()
 					})
 			},
-			async getBookTitle() {
+			getBookTitle() {
 				uni.showLoading({
 					mask: true
 				});
 				// 客户端联表查询
-				return await db.collection('book')
+				db.collection('book')
 					.field('title')
 					.get()
 					.then(res => {
 						this.$refs.alertCode.open(res.result)
-						return res.result.data
 					}).catch(err => {
 						console.error(err)
-						return err
 					}).finally(() => {
 						uni.hideLoading()
 					})
 			},
-			async getBookAs() {
+			getBookAs() {
 				uni.showLoading({
 					mask: true
 				});
 				// 客户端联表查询
-				return await db.collection('book')
+				db.collection('book')
 					.field('title,author as book_author')
 					.get()
 					.then(res => {
 						this.$refs.alertCode.open(res.result)
-						return res.result.data
 					}).catch(err => {
 						console.error(err)
-						return err
 					}).finally(() => {
 						uni.hideLoading()
 					})
 			},
-			async getOrderOrderBy(str) {
+			getOrderOrderBy(str) {
 				uni.showLoading({
 					mask: true
 				});
-				return await db.collection('order')
+				db.collection('order')
 					.orderBy(str)
 					.get()
 					.then(res => {
 						this.$refs.alertCode.open(res.result)
-						return res.result.data
 					}).catch(err => {
 						console.error(err)
-						return err
 					}).finally(() => {
 						uni.hideLoading()
 					})
 			},
-			async getBookHasCount() {
+			getBookHasCount() {
 				uni.showLoading({
 					mask: true
 				});
-				return await db.collection('book')
+				db.collection('book')
 					.get({
 						"getCount": true
 					})
 					.then(res => {
 						this.$refs.alertCode.open(res.result)
-						return res.result
 					}).catch(err => {
 						console.error(err)
-						return err
 					}).finally(() => {
 						uni.hideLoading()
 					})
 			},
-			async getTreeFn() {
+			getTreeFn() {
 				uni.showLoading({
 					mask: true
 				});
-				return await db.collection("department").get({
+				db.collection("department").get({
 						getTree: {
 							limitLevel: 10, // 最大查询层级（不包含当前层级），可以省略默认10级，最大15，最小1
 							//	startWith: "parent_code==''"  // 第一层级条件，此初始条件可以省略，不传startWith时默认从最顶级开始查询
 						}
 					})
 					.then((res) => {
+						console.log("res: ",res);
 						const resdata = res.result.data
-						console.log("resdata", );
 						this.$refs.alertCode.open(resdata)
-						return resdata
 					}).catch((err) => {
 						uni.showModal({
 							content: err.message || '请求服务失败',
 							showCancel: false
 						})
-						return err
 					}).finally(() => {
 						uni.hideLoading()
 					})
@@ -398,7 +378,6 @@
 				console.log(res);
 				this.$refs.alertCode.open(res.result.data)
 				uni.hideLoading()
-				return res.result.data
 			}
 		}
 	}

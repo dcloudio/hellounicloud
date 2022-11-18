@@ -47,7 +47,7 @@
 				});
 				if (!activeIndex) {
 					let res = await this.logout()
-					console.log(res.result.msg);
+					console.log(res);
 					uni.setStorageSync('role_index', activeIndex)
 					uni.setStorageSync('uni_id_token', false)
 					uni.setStorageSync('uni_id_uid', false)

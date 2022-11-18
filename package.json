@@ -1,20 +1,16 @@
 {
     "id": "uni-cloud",
     "displayName": "hello uniCloud",
-    "version": "1.3.1",
+    "version": "1.3.6",
     "description": "为开发者提供的基于 serverless 模式和 js 编程的云开发平台。示例代码",
     "keywords": [
         "uniCloud示例"
     ],
-    "repository": "https://gitee.com/dcloud/hello-uniCloud",
+    "repository": "https://gitcode.net/dcloud/hellounicloud",
     "engines": {
         "HBuilderX": "^3.3.12"
     },
     "dcloudext": {
-        "category": [
-            "uniCloud",
-            "云端一体项目模板"
-        ],
         "sale": {
             "regular": {
                 "price": "0.00"
@@ -31,7 +27,8 @@
             "data": "无",
             "permissions": "无"
         },
-        "npmurl": ""
+        "npmurl": "",
+        "type": "unicloud-template-project"
     },
     "uni_modules": {
         "platforms": {

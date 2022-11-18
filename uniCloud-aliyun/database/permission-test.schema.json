@@ -18,7 +18,7 @@
 		"username":{
 			"bsonType":"string",
 			"permission":{
-				"write":"doc.state != 0 || auth.uid != doc.uid"
+				"update":"doc.state != 0 || auth.uid != doc.uid"
 			}
 		},
 		"state":{

@@ -24,11 +24,11 @@
 			return {}
 		},
 		methods: {
-			async add() {
+			add() {
 				uni.showLoading({
 					title: '处理中...'
 				})
-				return await uniCloud.callFunction({
+				uniCloud.callFunction({
 					name: 'add',
 					data: {
 						name: 'DCloud',
@@ -42,7 +42,6 @@
 						showCancel: false
 					})
 					console.log(res)
-					return  res.result.id
 				}).catch((err) => {
 					uni.hideLoading()
 					uni.showModal({
@@ -53,11 +52,11 @@
 					return err
 				})
 			},
-			async remove() {
+			remove() {
 				uni.showLoading({
 					title: '处理中...'
 				})
-				return await uniCloud.callFunction({
+				uniCloud.callFunction({
 					name: 'remove'
 				}).then((res) => {
 					uni.hideLoading()
@@ -66,7 +65,6 @@
 						showCancel: false
 					})
 					console.log(res)
-					return res.result.msg
 				}).catch((err) => {
 					uni.hideLoading()
 					uni.showModal({
@@ -76,11 +74,11 @@
 					console.error(err)
 				})
 			},
-			async update() {
+			update() {
 				uni.showLoading({
 					title: '处理中...'
 				})
-				return await uniCloud.callFunction({
+				uniCloud.callFunction({
 					name: 'update',
 					data: {
 						name: 'DCloud',
@@ -94,7 +92,6 @@
 						showCancel: false
 					})
 					console.log(res)
-					return res.result.msg
 				}).catch((err) => {
 					uni.hideLoading()
 					uni.showModal({
@@ -105,11 +102,11 @@
 					return err
 				})
 			},
-			async get() {
+			get() {
 				uni.showLoading({
 					title: '处理中...'
 				})
-				return await uniCloud.callFunction({
+				uniCloud.callFunction({
 					name: 'get'
 				}).then((res) => {
 					uni.hideLoading()
@@ -118,7 +115,6 @@
 						showCancel: false
 					})
 					console.log(res)
-					return res.result.data
 				}).catch((err) => {
 					uni.hideLoading()
 					uni.showModal({
@@ -128,9 +124,9 @@
 					console.error(err)
 				})
 			},
-			async useCommon() {
+			useCommon() {
 				console.log('请确保自己已经阅读并按照公用模块文档操作 https://uniapp.dcloud.io/uniCloud/cf-common')
-				return await uniCloud.callFunction({
+				uniCloud.callFunction({
 					name: 'use-common'
 				}).then((res) => {
 					uni.hideLoading()
@@ -139,7 +135,6 @@
 						showCancel: false
 					})
 					console.log(res)
-					return res.result
 				}).catch((err) => {
 					uni.hideLoading()
 					uni.showModal({
