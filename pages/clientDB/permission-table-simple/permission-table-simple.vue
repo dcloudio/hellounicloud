@@ -139,7 +139,6 @@
 		created() {
 			for (var j = 0; j < this.types.length; j++) {
 				let type = this.types[j].value
-				console.log(type);
 				for (let i = 0; i < this.permissionList.length; i++) {
 					let jsonString = `{
 							"permission":{
@@ -179,28 +178,26 @@
 								});
 								return false
 							}
-							return res
 							break;
 						case 'create':
 							res = await db.action(e.action).collection(tableName).add({
 								"text": "默认写入的数据" + Date.now()
 							})
-							return res
 							break;
 						case 'update':
 							res = await db.action(e.action).collection(tableName).where(e.where).update({
 								"text": "更新后的数据" + Date.now()
 							})
-							return res
 							break;
 						case 'delete':
 							res = await db.action(e.action).collection(tableName).where(e.where).remove()
-							return res
 							break;
 						default:
 							console.log('err 未定义事件类型');
 							break;
 					}
+					console.log("res: ",res);
+					this.$refs.alertCode.open(res.result)
 				} catch (err) {
 					console.log('TODO handle the exception', err);
 					uni.showModal({
@@ -208,20 +205,15 @@
 						content: item.explain + '【' + this.typeText + '数据】' + (item.explain_end ? item.explain_end : ''),
 						showCancel: false
 					});
-					//return false
-					return err.message
 				} finally {
 					uni.hideLoading()
 				}
-				this.$refs.alertCode.open(res.result)
-
 			},
 			changePermission(e) {
 				console.log(e, '切换完成');
 				console.log("role: ",e.role);
 				console.log("typeIndex: ",this.typeIndex);
 				this.currentRole = e.role
-				console.log(this.currentRole);
 			}
 		}
 	}

@@ -128,53 +128,45 @@
 				console.log("this.currentRole: ", this.currentRole);
 			},
 			async getNoticeData() {
+				console.log('111111111111');
 				let res = await db.action('add_view_count')
 					.collection('notice')
 					.field('data,_id,update_time,view_count')
 					.get();
+					console.log("res: ",res);
 				this.noticeData = res.result.data[0]
 			},
 			async clickIcon(e, item) {
 				if (e) {
-					let res = await this.$refs.udb.remove(item._id);
-					return res
+					await this.$refs.udb.remove(item._id);
 				} else {
 					this.defaultText = item.text
 					this.activeNoticeId = item._id
 					this.$refs.upDataDialog.open()
 				}
 			},
-			async updateState(e, _id) {
+			updateState(e, _id) {
 				console.log(e.detail.value, _id);
 				uni.showLoading({
 					mask: true
 				});
-				return await db.collection('comment')
+				db.collection('comment')
 					.doc(_id)
 					.update({
 						"state": e.detail.value / 1
 					})
-					.then(({
-						code,
-						message
-					}) => {
+					.then(({code,message}) => {
 						uni.showToast({
 							title: '已切换为:' + (e.detail.value ? '审核通过' : '审核中'),
 							icon: 'none',
 							duration: 3000
 						});
 						console.log(code, message);
-						return message
-					}).catch(({
-						code,
-						message
-					}) => {
+					}).catch(({code,message}) => {
 						console.log(code, message);
-						return message
 					}).finally(e => {
 						uni.hideLoading()
 						this.$refs.upDataDialog.close()
-						return e
 					})
 			},
 			async updateComment(text) {
@@ -192,9 +184,7 @@
 				uni.showLoading({
 					mask: true
 				});
-				return await this.$refs.udb.update(this.activeNoticeId, {
-					text
-				}, {
+				await this.$refs.udb.update(this.activeNoticeId, {text}, {
 					action: "up_comment",
 					toastTitle: '修改成功', // toast提示语
 					success: (res) => { // 更新成功后的回调
@@ -212,14 +202,10 @@
 								}
 							}
 						})
-						return message
-
 					},
 					fail: (err) => { // 更新失败后的回调
-						const {
-							message
-						} = err
-						return message
+						console.log("err: ",err);
+						const {message} = err
 					},
 					complete: () => { // 完成后的回调
 						uni.hideLoading()
@@ -237,13 +223,11 @@
 					return false
 				}
 				this.$refs.dialog.close()
-
-				return await db.collection('comment').add({
+				await db.collection('comment').add({
 					text
 				}).then(res => {
 					console.log(res);
 					this.getNewData()
-					return res.result
 				}).catch(({
 					code,
 					message
@@ -261,11 +245,9 @@
 						});
 					}
 					console.log(code, message);
-					return message
 				})
 			},
 			getNewData() {
-				//console.log(this.$refs.udb);
 				this.$refs.udb.refresh() //{clear:true}
 			},
 			getUserImg(e) {

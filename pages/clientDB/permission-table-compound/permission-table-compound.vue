@@ -137,7 +137,6 @@
 								});
 								return false
 							}
-							return res
 							break;
 						case 'create':
 							res = await db.action(e.action).collection(tableName).add({
@@ -156,6 +155,8 @@
 							console.log('err 未定义事件类型');
 							break;
 					}
+					console.log("res: ",res);
+					this.$refs.alertCode.open(res.result)
 				} catch (err) {
 					console.log('TODO handle the exception', err);
 					uni.showModal({
@@ -163,19 +164,14 @@
 						content: item.explain +'【'+ this.typeText+'数据】' + (item.explain_end?item.explain_end:''),
 						showCancel: false
 					});
-					//return false
-					return err.message
 				} finally{
 					uni.hideLoading()
 				}
-				this.$refs.alertCode.open(res.result)
-				
 			},
 			changePermission(e) {
 				console.log(e, '切换完成');
 				console.log("this.typeIndex: ",this.typeIndex);
 				this.currentRole = e.role
-				console.log("this.currentRole",this.currentRole);
 			}
 		}
 	}

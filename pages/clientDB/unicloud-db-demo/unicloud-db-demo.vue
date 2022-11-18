@@ -117,7 +117,6 @@
 		},
 		onLoad() {
 			setTimeout(()=>{
-				console.log(this.$refs.udb,12121111);
 				this.dataList = this.$refs.udb.dataList
 			}, 2000);
 		},
@@ -155,7 +154,6 @@
 				}
 			},
 			async setOrderby({detail:{value}}) {
-				console.log("value: ",value);
 				let arr = Object.keys(this.orderbyObj)
 				if(arr.length>value.length){
 					for (let key in this.orderbyObj) {
@@ -171,10 +169,10 @@
 								uni.showActionSheet({
 									itemList,
 									success: ({tapIndex}) => {
-										console.log(tapIndex);
 										this.orderbyObj[key] = itemList[tapIndex];
 									},
 									fail: (err) => {
+										console.log(err);
 										this.orderbyArr = arr
 									},
 									complete() {
@@ -201,7 +199,7 @@
 				return arrJson
 			},
 			async add(){
-				return await udb.add({
+				await udb.add({
 					book_id:"add-test",
 					quantity:Date.now()
 				},{
@@ -212,13 +210,13 @@
 					}
 				})
 			},
-			async remove(){
+			remove(){
 				const _id = udb.dataList[0]._id
-				return await udb.remove(_id)
+				udb.remove(_id)
 			},
-			async update(){
+			update(){
 				const _id = udb.dataList[0]._id
-				return await udb.update(_id,{book_id:"这条数据被改"},
+				udb.update(_id,{book_id:"这条数据被改"},
 				{
 					success: (res) => { // 新增成功后的回调
 						this.getFn()

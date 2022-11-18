@@ -220,9 +220,9 @@
 					urls:[url]
 				})
 			},
-			async addFn(){
+			addFn(){
 				uni.showLoading({mask:true})
-				return await ptDb.add({
+				ptDb.add({
 					nickname:"默认昵称",
 					username:"默认姓名",
 					phone:"18888888888"
@@ -233,7 +233,6 @@
 						showCancel: false,
 						confirmText:"知道了"
 					});
-					return e
 				}).catch(err=>{
 					console.log(err);
 					uni.showModal({
@@ -242,21 +241,19 @@
 						showCancel: false,
 						confirmText:"知道了"
 					});
-					return err
 				}).finally(() => {
 					uni.hideLoading()
 				})
 			},
-			async removeFn(){
+			removeFn(){
 				uni.showLoading({mask:true})
-				return await ptDb.remove().then(e=>{
+				ptDb.remove().then(e=>{
 					console.log(e,"123");
 					uni.showModal({
 						content: JSON.stringify(e.result),
 						showCancel: false,
 						confirmText:"知道了"
 					});
-					return e
 				}).catch(err=>{
 					console.log(JSON.stringify(err));
 					uni.showModal({
@@ -265,7 +262,6 @@
 						showCancel: false,
 						confirmText:"知道了"
 					});
-					return err
 				}).finally(() => {
 					uni.hideLoading()
 				})
@@ -273,13 +269,10 @@
 			updateNickname(self){
 				
 			},
-			async updateFn(data,where={}){
-				console.log("data");
+			updateFn(data,where={}){
 				console.log(data);
 				uni.showLoading({mask:true})
-				return await ptDb
-				.where(where)
-				.update(data)
+				ptDb.where(where).update(data)
 				.then(e=>{
 					console.log(e);
 					uni.showModal({
@@ -287,9 +280,7 @@
 						showCancel: false,
 						confirmText:"知道了"
 					});
-					return e
 				}).catch(err=>{
-					
 					if('nickname' in data){
 						uni.showModal({
 							title:"被拒绝，普通用户角色，只能更新自己创建的数据。",
@@ -328,12 +319,7 @@
 						});
 					}
 					console.log("错误------",err);
-					console.log("错误------",err.message);
-					return err
-					//console.log(err);
-					/* 
-					 */
-				/* 	uni.showModal({
+					/* uni.showModal({
 						title:"执行更新操作失败！",
 						content: "schema配置了，更新该字段限：\n 1、数据创建者，2、审核员，3、当然还有无任何权限限制的管理员",
 						showCancel: false,
@@ -343,16 +329,14 @@
 					uni.hideLoading()
 				})
 			},
-			async getFn(field='uid,username,nickname,state'){
+			getFn(field='uid,username,nickname,state'){
 				// console.time('getFn');
 				uni.showLoading({mask:true})
-				return await ptDb.field(field).get()
+				ptDb.field(field).get()
 				.then(e=>{
 					// console.timeEnd('getFn');
-					console.log(e,"1111");
+					console.log(e);
 					if(e.result.data.length){
-						console.log(e.result.data.length);
-						//console.log(this.$refs.alertCode);
 						this.$refs.alertCode.open(e.result.data)
 					}else{
 						uni.showModal({
@@ -362,7 +346,6 @@
 							confirmText:"知道了"
 						});
 					}
-					return e.result
 				}).catch(err=>{
 					// console.timeEnd('getFn');
 					console.log(err,"err---");
@@ -372,7 +355,6 @@
 						showCancel: false,
 						confirmText:"知道了"
 					});
-					return err
 				}).finally(() => {
 					uni.hideLoading()
 				})
@@ -380,7 +362,6 @@
 			changePermission(e){
 				console.log(e, '切换完成');
 				this.currentRole = e.role
-				console.log("this.currentRole",this.currentRole);
 			}
 		}
 	}

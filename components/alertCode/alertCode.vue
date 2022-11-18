@@ -17,6 +17,7 @@
 	}
 
 	function purifyCodes(codes) {
+		codes = JSON.parse(JSON.stringify(codes))
 		const codesType = getType(codes)
 		switch (codesType) {
 			case 'object':
@@ -54,7 +55,6 @@
 				e.stopPropagation()
 			},
 			closeMe(e) {
-				console.log('closeMe', e);
 				this.isShow = false
 			}
 		}
