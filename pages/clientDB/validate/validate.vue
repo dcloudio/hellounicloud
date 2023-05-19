@@ -73,7 +73,6 @@
 		padding-top: 45px;
 	}
 	.segmented-control {
-		//margin-top: -45px;
 		background-color: #FFFFFF;
 		position: fixed;
 		width: 700rpx;
