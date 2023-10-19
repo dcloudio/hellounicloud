@@ -1,25 +1,22 @@
 describe('pages/clientDB/permission-table-compound/permission-table-compound.vue', () => {
-	let page
+	let page,errMsgA,errMsgB;
 	beforeAll(async () => {
 		// 重新reLaunch至首页，并获取首页page对象（其中 program 是uni-automator自动注入的全局对象）
 		page = await program.reLaunch(
 			'/pages/clientDB/permission-table-compound/permission-table-compound')
 		if (process.env.UNI_PLATFORM === "h5" || process.env.UNI_PLATFORM === "app-plus") {
-			await page.waitFor(1000)
+			await page.waitFor(500)
 		}
 		if (process.env.UNI_PLATFORM === "mp-weixin") {
 			await page.waitFor(1000);//微信等待
 		}
-		// page = await program.currentPage()
 		
-		// console.log("page------------------: ",page);
+		errMsgA = "权限校验未通过，参与权限校验的集合：[]，请参考文档：https://uniapp.dcloud.net.cn/uniCloud/schema.html#handler-permission-error"
+		
+		errMsgB = "权限校验未通过，未能获取当前用户信息，当前用户为匿名身份 ，参与权限校验的集合：[]，请参考文档：https://uniapp.dcloud.net.cn/uniCloud/schema.html#handler-permission-error"
+		// page = await program.currentPage()
 	})
 	
-	// beforeEach(async()=>{
-	// 	jest.setTimeout(30000)
-	// 	return false
-	// })
-
 
 	it('创建--未登陆', async () => {
 		const perPage = await page.$('.page')
@@ -44,7 +41,7 @@ describe('pages/clientDB/permission-table-compound/permission-table-compound.vue
 			"type": "create",
 			"index": 1
 		})
-		// expect(createA).toBe('未能获取当前用户信息：30205 | 当前用户为匿名身份')
+		expect(createA).toBe(errMsgB)
 
 		await page.callMethod('myFn', {
 			"type": "create",
@@ -91,21 +88,19 @@ describe('pages/clientDB/permission-table-compound/permission-table-compound.vue
 			"type": "read",
 			"index": 0
 		})
-		expect(readB).toBe('未能获取当前用户信息：30205 | 当前用户为匿名身份')
+		expect(readB).toBe(errMsgB)
 
 		const readC = await page.callMethod('myFn', {
 			"type": "read",
 			"index": 1
 		})
-		expect(readC).toBe('未能获取当前用户信息：30205 | 当前用户为匿名身份')
+		expect(readC).toBe(errMsgB)
 
 		await page.callMethod('myFn', {
 			"type": "read",
 			"index": 1,
 			"action": "add_view_count"
 		})
-
-
 
 	})
 
@@ -137,27 +132,26 @@ describe('pages/clientDB/permission-table-compound/permission-table-compound.vue
 			"index": 0,
 			"where": "create_time > 1613534788761"
 		})
-		expect(updateA).toBe('未能获取当前用户信息：30205 | 当前用户为匿名身份')
+		expect(updateA).toBe(errMsgB)
 
 		const updateB = await page.callMethod('myFn', {
 			"type": "update",
 			"index": 0
 		})
-		console.log("updateB: ",updateB);
+		// console.log("updateB: ",updateB);
 		// expect(updateB).toBe('权限校验未通过')
 
 		const updateC = await page.callMethod('myFn', {
 			"type": "update",
 			"index": 1
 		})
-		expect(updateC).toBe('未能获取当前用户信息：30205 | 当前用户为匿名身份')
+		expect(updateC).toBe(errMsgB)
 
 		await page.callMethod('myFn', {
 			"type": "update",
 			"index": 1,
 			"action": "add_view_count"
 		})
-
 
 
 	})
@@ -191,7 +185,7 @@ describe('pages/clientDB/permission-table-compound/permission-table-compound.vue
 			"index": 0,
 			"where": "create_time > 1613534788761"
 		})
-		expect(deleteA).toBe('未能获取当前用户信息：30205 | 当前用户为匿名身份')
+		expect(deleteA).toBe(errMsgB)
 
 		const deleteB = await page.callMethod('myFn', {
 			"type": "delete",
@@ -204,7 +198,7 @@ describe('pages/clientDB/permission-table-compound/permission-table-compound.vue
 			"type": "delete",
 			"index": 1
 		})
-		expect(deleteC).toBe('未能获取当前用户信息：30205 | 当前用户为匿名身份')
+		expect(deleteC).toBe(errMsgB)
 
 		await page.callMethod('myFn', {
 			"type": "delete",
@@ -212,10 +206,7 @@ describe('pages/clientDB/permission-table-compound/permission-table-compound.vue
 			"action": "add_view_count"
 		})
 
-
-
 	})
-
 
 
 
@@ -344,7 +335,7 @@ describe('pages/clientDB/permission-table-compound/permission-table-compound.vue
 			"type": "update",
 			"index": 0
 		})
-		expect(updateUserB).toBe('权限校验未通过')
+		expect(updateUserB).toBe(errMsgA)
 
 		await page.callMethod('myFn', {
 			"type": "update",
@@ -389,13 +380,13 @@ describe('pages/clientDB/permission-table-compound/permission-table-compound.vue
 			"index": 0,
 			"where": "create_time > 1613534788761"
 		})
-		expect(deleteUserA).toBe('权限校验未通过')
+		expect(deleteUserA).toBe(errMsgA)
 
 		const deleteUserB = await page.callMethod('myFn', {
 			"type": "delete",
 			"index": 0
 		})
-		expect(deleteUserB).toBe('权限校验未通过')
+		expect(deleteUserB).toBe(errMsgA)
 
 		await page.callMethod('myFn', {
 			"type": "delete",
@@ -532,7 +523,7 @@ describe('pages/clientDB/permission-table-compound/permission-table-compound.vue
 			"type": "update",
 			"index": 0
 		})
-		expect(updateAuditorA).toBe('权限校验未通过')
+		expect(updateAuditorA).toBe(errMsgA)
 
 		await page.callMethod('myFn', {
 			"type": "update",
@@ -582,7 +573,7 @@ describe('pages/clientDB/permission-table-compound/permission-table-compound.vue
 			"type": "delete",
 			"index": 0
 		})
-		expect(deleteAuditorB).toBe('权限校验未通过')
+		expect(deleteAuditorB).toBe(errMsgA)
 
 		await page.callMethod('myFn', {
 			"type": "delete",

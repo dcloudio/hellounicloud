@@ -131,27 +131,29 @@
         uni.showLoading({
           mask: true
         })
-        this.$refs.form.validate().then((res) => {
-          this.submitForm(res)
+        return this.$refs.form.validate().then(async(res) => {
+          return await this.submitForm(res)
         }).catch(() => {
           uni.hideLoading()
         })
       },
 
-      submitForm(value) {
+      async submitForm(value) {
         // 使用 clientDB 提交数据
-        db.collection(dbCollectionName).doc(this.formDataId).update(value).then((res) => {
+        return await db.collection(dbCollectionName).doc(this.formDataId).update(value).then((res) => {
           uni.showToast({
             icon: 'none',
             title: '修改成功'
           })
           this.getOpenerEventChannel().emit('refreshData')
           setTimeout(() => uni.navigateBack(), 500)
+			 return res
         }).catch((err) => {
           uni.showModal({
             content: err.message || '请求服务失败',
             showCancel: false
           })
+			 return err
         }).finally(() => {
           uni.hideLoading()
         })

@@ -4,24 +4,21 @@ describe('pages/storage/storage.nvue', () => {
 	beforeAll(async () => {
 	    // 重新reLaunch至首页，并获取首页page对象（其中 program 是uni-automator自动注入的全局对象）
 	    page = await program.reLaunch('/pages/storage/storage')
-	    if (process.env.UNI_PLATFORM === "h5"|| process.env.UNI_PLATFORM === "app-plus") {
-	    	await page.waitFor(1000)
-	    }
-	    if (process.env.UNI_PLATFORM === "mp-weixin") {
-	    	await page.waitFor(1000);//微信等待
-	    }
+	    await page.waitFor(300)
 	    page = await program.currentPage()
 	})
 	
-	beforeEach(async()=>{
-		jest.setTimeout(5000)
-		return false
-	})
+	// beforeEach(async()=>{
+	// 	console.log('beforeEach---')
+	// 	jest.setTimeout(300)
+	// 	return;
+	// })
 	
 	it('云存储页-检查标题',async()=>{
 		//expect.assertions(1);
-		await page.waitFor(300)
+		// await page.waitFor(300)
 		const content = await page.$('.content')
+		console.log('content: ',content);
 		
 		await page.waitFor(300)
 		const title = await content.$('.title')

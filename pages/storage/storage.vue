@@ -56,12 +56,14 @@
 						content: JSON.stringify(res),
 						showCancel: false
 					});
+					return res
 				}).catch((err) => {
 					console.log(err);
 					uni.showModal({
 						content: JSON.stringify(err),
 						showCancel: false
 					});
+					return err
 				}).finally(() => {
 					uni.hideLoading()
 				})

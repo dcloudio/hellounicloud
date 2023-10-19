@@ -158,6 +158,7 @@
 					}
 					console.log("res: ",res);
 					this.$refs.alertCode.open(res.result)
+					return res
 				} catch (err) {
 					console.log('TODO handle the exception', err);
 					uni.showModal({
@@ -165,6 +166,7 @@
 						content: item.explain +'【'+ this.typeText+'数据】' + (item.explain_end?item.explain_end:''),
 						showCancel: false
 					});
+					return err.message
 				} finally{
 					uni.hideLoading()
 				}

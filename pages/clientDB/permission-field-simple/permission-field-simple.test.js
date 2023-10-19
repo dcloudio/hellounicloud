@@ -1,16 +1,18 @@
 describe('pages/clientDB/permission-field-simple/permission-field-simple.nvue', () => {
-	let page
+	let page,errMsgA,errMsgB;
 	beforeAll(async () => {
 		// 重新reLaunch至首页，并获取首页page对象（其中 program 是uni-automator自动注入的全局对象）
 		page = await program.reLaunch(
 			'/pages/clientDB/permission-field-simple/permission-field-simple')
-		if (process.env.UNI_PLATFORM === "h5" || process.env.UNI_PLATFORM === "app-plus") {
-			await page.waitFor(1000)
-		}
-		if (process.env.UNI_PLATFORM === "mp-weixin") {
-			await page.waitFor(1000);//微信等待
-		}
+		await page.waitFor(1000)
 		page = await program.currentPage()
+		
+		// 权限校验未通过
+		// 未能获取当前用户信息：30205 | 当前用户为匿名身份
+		
+		errMsgA = "权限校验未通过，参与权限校验的集合：[]，请参考文档：https://uniapp.dcloud.net.cn/uniCloud/schema.html#handler-permission-error"
+		
+		errMsgB = "权限校验未通过，未能获取当前用户信息，当前用户为匿名身份 ，参与权限校验的集合：[]，请参考文档：https://uniapp.dcloud.net.cn/uniCloud/schema.html#handler-permission-error"
 	})
 
 	// beforeEach(async()=>{
@@ -34,7 +36,7 @@ describe('pages/clientDB/permission-field-simple/permission-field-simple.nvue', 
 			return createUnloginIndex === 0 && createUnloginRole === 0
 		})
 
-		console.log("createUnlogin: ",createUnlogin);
+		// console.log("createUnlogin: ",createUnlogin);
 
 		const createA = await page.callMethod('myFn', {
 			"type": "create",
@@ -64,7 +66,7 @@ describe('pages/clientDB/permission-field-simple/permission-field-simple.nvue', 
 			"type": "create",
 			"index": 2,
 		})
-		expect(createC).toBe('未能获取当前用户信息：30205 | 当前用户为匿名身份')
+		expect(createC).toBe(errMsgB)
 
 		await page.callMethod('myFn', {
 			"type": "create",
@@ -91,14 +93,14 @@ describe('pages/clientDB/permission-field-simple/permission-field-simple.nvue', 
 			const readUnloginRole = await page.data('currentRole')
 			return readUnloginIndex === 1 && readUnloginRole === 0
 		})
-		console.log("readUnlogin: ",readUnlogin);
+		// console.log("readUnlogin: ",readUnlogin);
 
 		const readA = await page.callMethod('myFn', {
 			"type": "read",
 			"index": 0
 		})
-		console.log("readA: ",readA);
-		// expect(readA).toBe('权限校验未通过')
+		// console.log("readA: ",readA);
+		expect(readA).toBe(errMsgB)
 
 		await page.callMethod('myFn', {
 			"type": "read",
@@ -110,7 +112,7 @@ describe('pages/clientDB/permission-field-simple/permission-field-simple.nvue', 
 			"type": "read",
 			"index": 1
 		})
-		expect(readB).toBe('未能获取当前用户信息：30205 | 当前用户为匿名身份')
+		expect(readB).toBe(errMsgB)
 
 		await page.callMethod('myFn', {
 			"type": "read",
@@ -122,7 +124,7 @@ describe('pages/clientDB/permission-field-simple/permission-field-simple.nvue', 
 			"type": "read",
 			"index": 2
 		})
-		expect(readC).toBe('未能获取当前用户信息：30205 | 当前用户为匿名身份')
+		expect(readC).toBe(errMsgB)
 
 		await page.callMethod('myFn', {
 			"type": "read",
@@ -146,14 +148,14 @@ describe('pages/clientDB/permission-field-simple/permission-field-simple.nvue', 
 			const updateUnloginRole = await page.data('currentRole')
 			return updateUnloginIndex === 2 && updateUnloginRole === 0
 		})
-		console.log("updateUnlogin: ",updateUnlogin);
+		// console.log("updateUnlogin: ",updateUnlogin);
 
 		const updateA = await page.callMethod('myFn', {
 			"type": "update",
 			"index": 0
 		})
-		console.log("updateA: ",updateA);
-		// expect(updateA).toBe('权限校验未通过')
+		// console.log("updateA: ",updateA);
+		expect(updateA).toBe(errMsgB)
 
 		await page.callMethod('myFn', {
 			"type": "update",
@@ -165,7 +167,8 @@ describe('pages/clientDB/permission-field-simple/permission-field-simple.nvue', 
 			"type": "update",
 			"index": 1
 		})
-		expect(updateB).toBe('未能获取当前用户信息：30205 | 当前用户为匿名身份')
+		// expect(updateB).toBe('未能获取当前用户信息：30205 | 当前用户为匿名身份')
+		expect(updateB).toBe(errMsgB)
 
 		await page.callMethod('myFn', {
 			"type": "update",
@@ -177,7 +180,7 @@ describe('pages/clientDB/permission-field-simple/permission-field-simple.nvue', 
 			"type": "update",
 			"index": 2
 		})
-		expect(updateC).toBe('未能获取当前用户信息：30205 | 当前用户为匿名身份')
+		expect(updateC).toBe(errMsgB)
 
 		await page.callMethod('myFn', {
 			"type": "update",
@@ -211,8 +214,8 @@ describe('pages/clientDB/permission-field-simple/permission-field-simple.nvue', 
 			"type": "create",
 			"index": 0,
 		})
-		console.log("createUserA: ",createUserA);
-		// expect(createUserA).toBe('[permission-test-10.ip.write]权限校验未通过')
+		// console.log("createUserA: ",createUserA);
+		expect(createUserA).toBe(errMsgA)
 
 		await page.callMethod('myFn', {
 			"type": "create",
@@ -260,13 +263,13 @@ describe('pages/clientDB/permission-field-simple/permission-field-simple.nvue', 
 			return readUserIndex === 1 && readUserRole == 'user'
 		})
 
-		console.log("readUser: ",readUser);
+		// console.log("readUser: ",readUser);
 		
 		const readUserA = await page.callMethod('myFn', {
 			"type": "read",
 			"index": 0
 		})
-		expect(readUserA).toBe('权限校验未通过')
+		expect(readUserA).toBe(errMsgA)
 
 		await page.callMethod('myFn', {
 			"type": "read",
@@ -289,7 +292,7 @@ describe('pages/clientDB/permission-field-simple/permission-field-simple.nvue', 
 			"type": "read",
 			"index": 2
 		})
-		expect(readUserB).toBe('权限校验未通过')
+		expect(readUserB).toBe(errMsgA)
 
 		await page.callMethod('myFn', {
 			"type": "read",
@@ -320,7 +323,7 @@ describe('pages/clientDB/permission-field-simple/permission-field-simple.nvue', 
 			"type": "update",
 			"index": 0
 		})
-		expect(updateUserA).toBe('权限校验未通过')
+		expect(updateUserA).toBe(errMsgA)
 
 		await page.callMethod('myFn', {
 			"type": "update",
@@ -343,7 +346,7 @@ describe('pages/clientDB/permission-field-simple/permission-field-simple.nvue', 
 			"type": "update",
 			"index": 2
 		})
-		expect(updateUserB).toBe('权限校验未通过')
+		expect(updateUserB).toBe(errMsgA)
 
 		await page.callMethod('myFn', {
 			"type": "update",
@@ -375,8 +378,9 @@ describe('pages/clientDB/permission-field-simple/permission-field-simple.nvue', 
 			"type": "create",
 			"index": 0,
 		})
-		console.log("createAuditorA: ",createAuditorA);
+		// console.log("createAuditorA: ",createAuditorA);
 		// expect(createAuditorA).toBe('[permission-test-10.ip.write]权限校验未通过')
+		expect(createAuditorA).toBe(errMsgA)
 
 		await page.callMethod('myFn', {
 			"type": "create",
@@ -428,7 +432,7 @@ describe('pages/clientDB/permission-field-simple/permission-field-simple.nvue', 
 			"type": "read",
 			"index": 0
 		})
-		expect(readAuditorA).toBe('权限校验未通过')
+		expect(readAuditorA).toBe(errMsgA)
 
 		await page.callMethod('myFn', {
 			"type": "read",
@@ -479,7 +483,7 @@ describe('pages/clientDB/permission-field-simple/permission-field-simple.nvue', 
 			"type": "update",
 			"index": 0
 		})
-		expect(updateAuditorA).toBe('权限校验未通过')
+		expect(updateAuditorA).toBe(errMsgA)
 
 		await page.callMethod('myFn', {
 			"type": "update",

@@ -201,7 +201,7 @@
 				return arrJson
 			},
 			async add(){
-				await udb.add({
+				return await udb.add({
 					book_id:"add-test",
 					quantity:Date.now()
 				},{
@@ -212,13 +212,13 @@
 					}
 				})
 			},
-			remove(){
+			async remove(){
 				const _id = udb.dataList[0]._id
-				udb.remove(_id)
+				return await udb.remove(_id)
 			},
-			update(){
+			async update(){
 				const _id = udb.dataList[0]._id
-				udb.update(_id,{book_id:"这条数据被改"},
+				return await udb.update(_id,{book_id:"这条数据被改"},
 				{
 					success: (res) => { // 新增成功后的回调
 						this.getFn()

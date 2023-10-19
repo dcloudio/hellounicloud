@@ -13,10 +13,10 @@ describe('pages/clientDB/permission-demo/permission-demo.vue', () => {
 		page = await program.currentPage()
 	})
 	
-	beforeEach(async()=>{
-		jest.setTimeout(30000)
-		return false
-	})
+	// beforeEach(async()=>{
+	// 	jest.setTimeout(30000)
+	// 	return false
+	// })
 	
 	
 	it('未登陆', async () => {

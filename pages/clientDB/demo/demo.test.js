@@ -4,21 +4,14 @@ describe('pages/clientDB/demo/demo.vue', () => {
 		// 重新reLaunch至首页，并获取首页page对象（其中 program 是uni-automator自动注入的全局对象）
 		page = await program.reLaunch(
 			'/pages/clientDB/demo/demo')
-		if (process.env.UNI_PLATFORM === "h5"|| process.env.UNI_PLATFORM === "app-plus") {
-			await page.waitFor(1000)
-		}
-		if (process.env.UNI_PLATFORM === "mp-weixin") {
-			await page.waitFor(1000);//微信等待
-		}
+		await page.waitFor(1000)
 		page = await program.currentPage()
-		// console.log("page-------------: ",page);
 	})
 
 	beforeEach(async()=>{
 		jest.setTimeout(30000)
 		return false
 	})
-
 
 
 	it('未登陆', async () => {
@@ -91,7 +84,7 @@ describe('pages/clientDB/demo/demo.vue', () => {
 			const auditorWrite = await page.callMethod('submitComment', '我是审核员11')
 			const audId = auditorWrite.id
 			expect(audId).not.toBeUndefined();
-			await page.waitFor(1000)
+			await page.waitFor(800)
 			// 审核一条为通过
 			await page.callMethod('updateState', 
 				{
@@ -101,7 +94,7 @@ describe('pages/clientDB/demo/demo.vue', () => {
 				},
 				audId
 			)
-			await page.waitFor(1000)
+			await page.waitFor(800)
 			
 			//审核员更改留言 
 			const setUid = await page.setData({
@@ -110,7 +103,7 @@ describe('pages/clientDB/demo/demo.vue', () => {
 			const auditorUpdate = await page.callMethod('updateComment',
 				"我是审核员123"
 			) 
-			await page.waitFor(1000)
+			await page.waitFor(800)
 		}
 		
 

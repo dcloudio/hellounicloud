@@ -5,19 +5,14 @@ describe('pages/clientDB/permission-demo/readme.vue', () => {
 		// 重新reLaunch至首页，并获取首页page对象（其中 program 是uni-automator自动注入的全局对象）
 		page = await program.reLaunch(
 			'/pages/clientDB/permission-demo/readme')
-		if (process.env.UNI_PLATFORM === "h5"|| process.env.UNI_PLATFORM === "app-plus" ) {
-			await page.waitFor(1000)
-		}
-		if (process.env.UNI_PLATFORM === "mp-weixin") {
-			await page.waitFor(1000);//微信等待
-		}
+		await page.waitFor(1000)
 		// page = await program.currentPage()
 	})
 	
-	beforeEach(async()=>{
-		jest.setTimeout(30000)
-		return false
-	})
+	// beforeEach(async()=>{
+	// 	jest.setTimeout(30000)
+	// 	return false
+	// })
 	
 	
 	it('用户', async () => {
@@ -199,7 +194,7 @@ describe('pages/clientDB/permission-demo/readme.vue', () => {
 			const auditorRole = await page.data('currentRole')
 			return auditorRole == 'auditor'
 		})
-		console.log(auditor);
+		// console.log(auditor);
 		
 		
 		if(auditor){
@@ -330,9 +325,6 @@ describe('pages/clientDB/permission-demo/readme.vue', () => {
 			
 		}
 		
-		
-		
 	})
-
 
 })

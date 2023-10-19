@@ -120,31 +120,35 @@
       /**
        * 触发表单提交
        */
-      submit() {
+      async submit() {
         uni.showLoading({
           mask: true
         })
-        this.$refs.form.validate().then((res) => {
-          this.submitForm(res)
+        return this.$refs.form.validate().then(async(res) => {
+			  console.log('res: ',res);
+           await this.submitForm(res)
+			  return res
         }).catch(() => {
           uni.hideLoading()
         })
       },
 
-      submitForm(value) {
+      async submitForm(value) {
         // 使用 clientDB 提交数据
-        db.collection(dbCollectionName).add(value).then((res) => {
+        return await db.collection(dbCollectionName).add(value).then((res) => {
           uni.showToast({
             icon: 'none',
             title: '新增成功'
           })
           this.getOpenerEventChannel().emit('refreshData')
           setTimeout(() => uni.navigateBack(), 500)
+			 return res
         }).catch((err) => {
           uni.showModal({
             content: err.message || '请求服务失败',
             showCancel: false
           })
+			 return err
         }).finally(() => {
           uni.hideLoading()
         })

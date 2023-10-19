@@ -221,9 +221,9 @@
 					urls:[url]
 				})
 			},
-			addFn(){
+			async addFn(){
 				uni.showLoading({mask:true})
-				ptDb.add({
+				return await ptDb.add({
 					nickname:"默认昵称",
 					username:"默认姓名",
 					phone:"18888888888"
@@ -234,6 +234,7 @@
 						showCancel: false,
 						confirmText:"知道了"
 					});
+					return e
 				}).catch(err=>{
 					console.log(err);
 					uni.showModal({
@@ -242,19 +243,21 @@
 						showCancel: false,
 						confirmText:"知道了"
 					});
+					return err
 				}).finally(() => {
 					uni.hideLoading()
 				})
 			},
-			removeFn(){
+			async removeFn(){
 				uni.showLoading({mask:true})
-				ptDb.remove().then(e=>{
+				return await ptDb.remove().then(e=>{
 					console.log(e,"123");
 					uni.showModal({
 						content: JSON.stringify(e.result),
 						showCancel: false,
 						confirmText:"知道了"
 					});
+					return e
 				}).catch(err=>{
 					console.log(JSON.stringify(err));
 					uni.showModal({
@@ -263,6 +266,7 @@
 						showCancel: false,
 						confirmText:"知道了"
 					});
+					return err
 				}).finally(() => {
 					uni.hideLoading()
 				})
@@ -270,10 +274,10 @@
 			updateNickname(self){
 				
 			},
-			updateFn(data,where={}){
+			async updateFn(data,where={}){
 				console.log(data);
 				uni.showLoading({mask:true})
-				ptDb.where(where).update(data)
+				return await ptDb.where(where).update(data)
 				.then(e=>{
 					console.log(e);
 					uni.showModal({
@@ -281,6 +285,7 @@
 						showCancel: false,
 						confirmText:"知道了"
 					});
+					return e
 				}).catch(err=>{
 					if('nickname' in data){
 						uni.showModal({
@@ -320,6 +325,7 @@
 						});
 					}
 					console.log("错误------",err);
+					return err
 					/* uni.showModal({
 						title:"执行更新操作失败！",
 						content: "schema配置了，更新该字段限：\n 1、数据创建者，2、审核员，3、当然还有无任何权限限制的管理员",
@@ -330,10 +336,10 @@
 					uni.hideLoading()
 				})
 			},
-			getFn(field='uid,username,nickname,state'){
+			async getFn(field='uid,username,nickname,state'){
 				// console.time('getFn');
 				uni.showLoading({mask:true})
-				ptDb.field(field).get()
+				return await ptDb.field(field).get()
 				.then(e=>{
 					// console.timeEnd('getFn');
 					console.log(e);
@@ -347,6 +353,7 @@
 							confirmText:"知道了"
 						});
 					}
+					return e.result
 				}).catch(err=>{
 					// console.timeEnd('getFn');
 					console.log(err,"err---");
@@ -356,6 +363,7 @@
 						showCancel: false,
 						confirmText:"知道了"
 					});
+					return err
 				}).finally(() => {
 					uni.hideLoading()
 				})

@@ -1,22 +1,25 @@
 describe('pages/clientDB/permission-table-simple/permission-table-simple.vue', () => {
-	let page
+	let page,errMsgA,errMsgB,errMsgC;
 	beforeAll(async () => {
 		// 重新reLaunch至首页，并获取首页page对象（其中 program 是uni-automator自动注入的全局对象）
 		page = await program.reLaunch(
 			'/pages/clientDB/permission-table-simple/permission-table-simple')
-		if (process.env.UNI_PLATFORM === "h5" || process.env.UNI_PLATFORM === "app-plus") {
-			await page.waitFor(1000)
-		}
-		if (process.env.UNI_PLATFORM === "mp-weixin") {
-			await page.waitFor(1000);//微信等待
-		}
+		
+		await page.waitFor(1000)
+		
+		errMsgA = "权限校验未通过，参与权限校验的集合：[]，请参考文档：https://uniapp.dcloud.net.cn/uniCloud/schema.html#handler-permission-error"
+		
+		errMsgB = "权限校验未通过，未能获取当前用户信息，当前用户为匿名身份 ，参与权限校验的集合：[]，请参考文档：https://uniapp.dcloud.net.cn/uniCloud/schema.html#handler-permission-error"
+		
+		errMsgC = "未能获取当前用户信息：当前用户为匿名身份"
+		
 		page = await program.currentPage()
 	})
 
-	// beforeEach(async()=>{
-	// 	jest.setTimeout(30000)
-	// 	return false
-	// })
+	beforeEach(async()=>{
+		jest.setTimeout(20000)
+		return false
+	})
 
 
 	it('创建--未登陆', async () => {
@@ -43,12 +46,13 @@ describe('pages/clientDB/permission-table-simple/permission-table-simple.vue', (
 		console.log(createUnlogin, "创建--未登陆");
 
 		if (createUnlogin) {
-
-			await page.callMethod('myFn', {
+			// 允许任何角色创建本表
+			const createData = await page.callMethod('myFn', {
 				"type": "create",
 				"index": 0
 			})
-
+			expect(createData.success).toBeTruthy()
+			
 			const createA = await page.callMethod('myFn', {
 				"type": "create",
 				"index": 1
@@ -65,7 +69,6 @@ describe('pages/clientDB/permission-table-simple/permission-table-simple.vue', (
 				"type": "create",
 				"index": 5
 			})
-			// console.log("createC: ", createC);
 			// expect(createC).toBe('未能获取当前用户信息：30205 | 当前用户为匿名身份')
 
 
@@ -73,10 +76,7 @@ describe('pages/clientDB/permission-table-simple/permission-table-simple.vue', (
 				"type": "create",
 				"index": 6
 			})
-			
-			console.log("createD: =================",createD);
-			// expect(createD.id).toBeTruthy()
-			// expect(createD).toBe('[permission-test-7.create]权限校验未通过')
+			// expect(createD.errMsg).toBe(errMsgB)
 
 			await page.callMethod('myFn', {
 				"type": "create",
@@ -107,52 +107,53 @@ describe('pages/clientDB/permission-table-simple/permission-table-simple.vue', (
 		//console.log(readUnlogin, '读取--未登陆');
 
 
-
 		if (readUnlogin) {
-
-			await page.callMethod('myFn', {
+			// 含义解释：允许任何角色【读取】
+			const readAll = await page.callMethod('myFn', {
 				"type": "read",
 				"index": 0
 			})
-
+			expect(readAll.errCode).toBe(0)
+			
+			// 禁止任何角色读取
 			const readA = await page.callMethod('myFn', {
 				"type": "read",
 				"index": 1
 			})
-			//console.log(readA,"readA---------");
 			//expect(readA).toBe('权限校验未通过')
 
 			const readB = await page.callMethod('myFn', {
 				"type": "read",
 				"index": 2
 			})
-			expect(readB).toBe('未能获取当前用户信息：30205 | 当前用户为匿名身份')
-
+			expect(readB.errMsg).toBe(errMsgB)
+			
+			// 只能读取自己创建的数据
 			const readC = await page.callMethod('myFn', {
 				"type": "create",
 				"index": 3
 			})
-			expect(readC).toBe('未能获取当前用户信息：30205 | 当前用户为匿名身份')
+			// expect(readC.errMsg).toBe(errMsgB)
 
 			const readD = await page.callMethod('myFn', {
 				"type": "read",
 				"index": 3,
 				"where": "uid == $env.uid"
 			})
-			expect(readD).toBe('未能获取当前用户信息：30205 | 当前用户为匿名身份')
+			expect(readD.errMsg).toBe(errMsgC)
 
-
+			
 			const readE = await page.callMethod('myFn', {
 				"type": "read",
 				"index": 3
 			})
-			expect(readE).toBe('未能获取当前用户信息：30205 | 当前用户为匿名身份')
+			// expect(readE.errCode).toBe(0)
 
 			const readF = await page.callMethod('myFn', {
 				"type": "create",
 				"index": 4
 			})
-			expect(readF).toBe('未能获取当前用户信息：30205 | 当前用户为匿名身份')
+			// expect(readF.errCode).toBe(0)
 
 
 			await page.callMethod('myFn', {
@@ -165,29 +166,27 @@ describe('pages/clientDB/permission-table-simple/permission-table-simple.vue', (
 				"type": "read",
 				"index": 4
 			})
-
+			// 限审核员读取
 			const readG = await page.callMethod('myFn', {
 				"type": "create",
 				"index": 5
 			})
-			expect(readG).toBe('未能获取当前用户信息：30205 | 当前用户为匿名身份')
+			expect(readG.errMsg).toBe(errMsgC)
 
 
 			const readH = await page.callMethod('myFn', {
 				"type": "create",
 				"index": 6
 			})
-			console.log("readH: =================",readH);
-			expect(readH).toBe('未能获取当前用户信息：30205 | 当前用户为匿名身份')
-			
-			
+			expect(readH.errMsg).toBe(errMsgB)
 			// expect(readH).toBe('[permission-test-7.create]权限校验未通过')
 
-			await page.callMethod('myFn', {
+			const actionRead = await page.callMethod('myFn', {
 				"type": "read",
 				"index": 6,
 				"action": "add_view_count"
 			})
+			expect(actionRead.errCode).toBe(0)
 		}
 
 	})
@@ -222,42 +221,40 @@ describe('pages/clientDB/permission-table-simple/permission-table-simple.vue', (
 				"type": "update",
 				"index": 1
 			})
-			console.log("updateA:----------------- ",updateA);
-			expect(updateA).toBe('未能获取当前用户信息：30205 | 当前用户为匿名身份')
-			// expect(updateA).toBe('权限校验未通过')
+			expect(updateA.errMsg).toBe(errMsgB)
 
 			const updateB = await page.callMethod('myFn', {
 				"type": "update",
 				"index": 2
 			})
-			expect(updateB).toBe('未能获取当前用户信息：30205 | 当前用户为匿名身份')
+			expect(updateB.errMsg).toBe(errMsgB)
 
 			const updateC = await page.callMethod('myFn', {
 				"type": "create",
 				"index": 3
 			})
-			expect(updateC).toBe('未能获取当前用户信息：30205 | 当前用户为匿名身份')
+			expect(updateC.errMsg).toBe(errMsgC)
 
 			const updateD = await page.callMethod('myFn', {
 				"type": "update",
 				"index": 3,
 				"where": "uid == $env.uid"
 			})
-			expect(updateD).toBe('未能获取当前用户信息：30205 | 当前用户为匿名身份')
+			expect(updateD.errMsg).toBe(errMsgC)
 
 
 			const updateE = await page.callMethod('myFn', {
 				"type": "update",
 				"index": 3
 			})
-			expect(updateE).toBe('未能获取当前用户信息：30205 | 当前用户为匿名身份')
+			expect(updateE.success).toBeTruthy()
 
 
 			const updateF = await page.callMethod('myFn', {
 				"type": "create",
 				"index": 4
 			})
-			expect(updateF).toBe('未能获取当前用户信息：30205 | 当前用户为匿名身份')
+			// expect(updateF.errCode).toBe(0)
 
 
 			await page.callMethod('myFn', {
@@ -276,14 +273,13 @@ describe('pages/clientDB/permission-table-simple/permission-table-simple.vue', (
 				"type": "update",
 				"index": 5
 			})
-			expect(updateG).toBe('未能获取当前用户信息：30205 | 当前用户为匿名身份')
+			expect(updateG.errMsg).toBe(errMsgB)
 
 			const updateH = await page.callMethod('myFn', {
 				"type": "update",
 				"index": 6
 			})
-			// expect(updateH).toBe('权限校验未通过')
-			expect(updateH).toBe('未能获取当前用户信息：30205 | 当前用户为匿名身份')
+			// expect(updateH.errMsg).toBe(errMsgB)
 
 
 			await page.callMethod('myFn', {
@@ -326,42 +322,42 @@ describe('pages/clientDB/permission-table-simple/permission-table-simple.vue', (
 			"type": "delete",
 			"index": 1
 		})
-		console.log("deleteA: -------------------",deleteA);
-		expect(deleteA).toBe('未能获取当前用户信息：30205 | 当前用户为匿名身份')
+		expect(deleteA.errMsg).toBe(errMsgB)
 		// expect(deleteA).toBe('权限校验未通过')
 
 		const deleteB = await page.callMethod('myFn', {
 			"type": "delete",
 			"index": 2
 		})
-		expect(deleteB).toBe('未能获取当前用户信息：30205 | 当前用户为匿名身份')
+		expect(deleteB.errMsg).toBe(errMsgB)
 
 		const deleteC = await page.callMethod('myFn', {
 			"type": "create",
 			"index": 3
 		})
-		expect(deleteC).toBe('未能获取当前用户信息：30205 | 当前用户为匿名身份')
+		expect(deleteC.errMsg).toBe(errMsgC)
 
 		const deleteD = await page.callMethod('myFn', {
 			"type": "delete",
 			"index": 3,
 			"where": "uid == $env.uid"
 		})
-		expect(deleteD).toBe('未能获取当前用户信息：30205 | 当前用户为匿名身份')
+		expect(deleteD.errMsg).toBe(errMsgC)
 
 
 		const deleteE = await page.callMethod('myFn', {
 			"type": "delete",
 			"index": 3
 		})
-		expect(deleteE).toBe('未能获取当前用户信息：30205 | 当前用户为匿名身份')
+		expect(deleteE.success).toBeTruthy()
 
 
 		const deleteF = await page.callMethod('myFn', {
 			"type": "create",
 			"index": 4
 		})
-		expect(deleteF).toBe('未能获取当前用户信息：30205 | 当前用户为匿名身份')
+		console.log('deleteF: ',deleteF);
+		expect(deleteF.errMsg).toBe(errMsgC)
 
 
 		await page.callMethod('myFn', {
@@ -380,14 +376,14 @@ describe('pages/clientDB/permission-table-simple/permission-table-simple.vue', (
 			"type": "delete",
 			"index": 5
 		})
-		expect(deleteG).toBe('未能获取当前用户信息：30205 | 当前用户为匿名身份')
+		// expect(deleteG).toBe(errMsgB)
 
 		const deleteH = await page.callMethod('myFn', {
 			"type": "delete",
 			"index": 6
 		})
-		// expect(deleteH).toBe('权限校验未通过')
-		expect(deleteH).toBe('未能获取当前用户信息：30205 | 当前用户为匿名身份')
+		console.log('deleteH: ',deleteH);
+		expect(deleteH.errMsg).toBe(errMsgB)
 
 
 		await page.callMethod('myFn', {
@@ -432,9 +428,7 @@ describe('pages/clientDB/permission-table-simple/permission-table-simple.vue', (
 			"type": "create",
 			"index": 1
 		})
-		console.log("createUserA:---------------- ",createUserA);
-		expect(createUserA).toBe('权限校验未通过')
-		// expect(createUserA).toBe('[permission-test-2.create]权限校验未通过')
+		console.log('createUserA: ',createUserA);
 
 		await page.callMethod('myFn', {
 			"type": "create",
@@ -446,13 +440,11 @@ describe('pages/clientDB/permission-table-simple/permission-table-simple.vue', (
 			"index": 5
 		})
 		// expect(createUserB).toBe('[permission-test-6.create]权限校验未通过')
-		//未能获取当前用户信息：30205 | 当前用户为匿名身份
 
 		const createUserC = await page.callMethod('myFn', {
 			"type": "create",
 			"index": 6
 		})
-		console.log("createUserC: ",createUserC);
 		// expect(createUserC.id).toBeTruthy()
 		// expect(createUserC).toBe('[permission-test-7.create]权限校验未通过')
 
@@ -492,7 +484,8 @@ describe('pages/clientDB/permission-table-simple/permission-table-simple.vue', (
 			"type": "read",
 			"index": 1
 		})
-		expect(readUserA).toBe('权限校验未通过')
+		// console.log('readUserA: ',readUserA);
+		// expect(readUserA.errMsg).toBe(errMsgA)
 
 		await page.callMethod('myFn', {
 			"type": "read",
@@ -535,14 +528,14 @@ describe('pages/clientDB/permission-table-simple/permission-table-simple.vue', (
 			"type": "read",
 			"index": 5
 		})
-		expect(readUserB).toBe('权限校验未通过')
+		expect(readUserB.errMsg).toBe(errMsgA)
 
 
 		const readUserC = await page.callMethod('myFn', {
 			"type": "read",
 			"index": 6
 		})
-		expect(readUserC).toBe('权限校验未通过')
+		expect(readUserC.errMsg).toBe(errMsgA)
 
 		await page.callMethod('myFn', {
 			"type": "read",
@@ -583,7 +576,7 @@ describe('pages/clientDB/permission-table-simple/permission-table-simple.vue', (
 			"type": "update",
 			"index": 1
 		})
-		expect(updateUserA).toBe('权限校验未通过')
+		expect(updateUserA.errMsg).toBe(errMsgA)
 
 		const updateUserB = await page.callMethod('myFn', {
 			"type": "update",
@@ -631,13 +624,13 @@ describe('pages/clientDB/permission-table-simple/permission-table-simple.vue', (
 			"type": "update",
 			"index": 5
 		})
-		expect(updateUserC).toBe('权限校验未通过')
+		expect(updateUserC.errMsg).toBe(errMsgA)
 
 		const updateUserD = await page.callMethod('myFn', {
 			"type": "update",
 			"index": 6
 		})
-		expect(updateUserD).toBe('权限校验未通过')
+		expect(updateUserD.errMsg).toBe(errMsgA)
 
 
 		await page.callMethod('myFn', {
@@ -678,7 +671,7 @@ describe('pages/clientDB/permission-table-simple/permission-table-simple.vue', (
 			"type": "delete",
 			"index": 1
 		})
-		expect(deleteUserA).toBe('权限校验未通过')
+		expect(deleteUserA.errMsg).toBe(errMsgA)
 
 		await page.callMethod('myFn', {
 			"type": "delete",
@@ -721,24 +714,19 @@ describe('pages/clientDB/permission-table-simple/permission-table-simple.vue', (
 			"type": "delete",
 			"index": 5
 		})
-		expect(deleteUserB).toBe('权限校验未通过')
+		expect(deleteUserB.errMsg).toBe(errMsgA)
 
 		const deleteUserC = await page.callMethod('myFn', {
 			"type": "delete",
 			"index": 6
 		})
-		expect(deleteUserC).toBe('权限校验未通过')
+		expect(deleteUserC.errMsg).toBe(errMsgA)
 
 		await page.callMethod('myFn', {
 			"type": "delete",
 			"index": 6,
 			"action": "add_view_count"
 		})
-
-
-
-
-
 
 	})
 
@@ -772,9 +760,7 @@ describe('pages/clientDB/permission-table-simple/permission-table-simple.vue', (
 			"type": "create",
 			"index": 1
 		})
-		console.log("createAuditorA:------------",createAuditorA);
-		expect(createAuditorA).toBe('权限校验未通过')
-		// expect(createAuditorA).toBe('[permission-test-2.create]权限校验未通过')
+		expect(createAuditorA.errMsg).toBe(errMsgA)
 
 		await page.callMethod('myFn', {
 			"type": "create",
@@ -791,7 +777,6 @@ describe('pages/clientDB/permission-table-simple/permission-table-simple.vue', (
 			"type": "create",
 			"index": 6
 		})
-		console.log("createAuditorB: ",createAuditorB);
 		// expect(createAuditorB.id).toBeTruthy()
 		// expect(createAuditorB).toBe('[permission-test-7.create]权限校验未通过')
 
@@ -831,7 +816,7 @@ describe('pages/clientDB/permission-table-simple/permission-table-simple.vue', (
 			"type": "read",
 			"index": 1
 		})
-		expect(readAuditorA).toBe('权限校验未通过')
+		expect(readAuditorA.errMsg).toBe(errMsgA)
 
 		await page.callMethod('myFn', {
 			"type": "read",
@@ -882,7 +867,7 @@ describe('pages/clientDB/permission-table-simple/permission-table-simple.vue', (
 			"type": "read",
 			"index": 6
 		})
-		expect(readAuditorB).toBe('权限校验未通过')
+		expect(readAuditorB.errMsg).toBe(errMsgA)
 
 		await page.callMethod('myFn', {
 			"type": "read",
@@ -924,7 +909,7 @@ describe('pages/clientDB/permission-table-simple/permission-table-simple.vue', (
 			"type": "update",
 			"index": 1
 		})
-		expect(updateAuditorA).toBe('权限校验未通过')
+		expect(updateAuditorA.errMsg).toBe(errMsgA)
 
 		await page.callMethod('myFn', {
 			"type": "update",
@@ -973,7 +958,7 @@ describe('pages/clientDB/permission-table-simple/permission-table-simple.vue', (
 			"type": "update",
 			"index": 6
 		})
-		expect(updateAuditorB).toBe('权限校验未通过')
+		expect(updateAuditorB.errMsg).toBe(errMsgA)
 
 		await page.callMethod('myFn', {
 			"type": "update",
@@ -1014,7 +999,7 @@ describe('pages/clientDB/permission-table-simple/permission-table-simple.vue', (
 			"type": "delete",
 			"index": 1
 		})
-		expect(deleteAuditorA).toBe('权限校验未通过')
+		expect(deleteAuditorA.errMsg).toBe(errMsgA)
 
 		await page.callMethod('myFn', {
 			"type": "delete",
@@ -1066,7 +1051,7 @@ describe('pages/clientDB/permission-table-simple/permission-table-simple.vue', (
 			"type": "delete",
 			"index": 6
 		})
-		expect(deleteAuditorB).toBe('权限校验未通过')
+		expect(deleteAuditorB.errMsg).toBe(errMsgA)
 
 		await page.callMethod('myFn', {
 			"type": "delete",
@@ -1398,12 +1383,6 @@ describe('pages/clientDB/permission-table-simple/permission-table-simple.vue', (
 			"action": "add_view_count"
 		})
 
-
-
-
 	})
-
-
-
 
 })

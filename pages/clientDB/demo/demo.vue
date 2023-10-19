@@ -129,7 +129,6 @@
 				console.log("this.currentRole: ", this.currentRole);
 			},
 			async getNoticeData() {
-				console.log('111111111111');
 				let res = await db.action('add_view_count')
 					.collection('notice')
 					.field('data,_id,update_time,view_count')
@@ -146,12 +145,12 @@
 					this.$refs.upDataDialog.open()
 				}
 			},
-			updateState(e, _id) {
+			async updateState(e, _id) {
 				console.log(e.detail.value, _id);
 				uni.showLoading({
 					mask: true
 				});
-				db.collection('comment')
+				return await db.collection('comment')
 					.doc(_id)
 					.update({
 						"state": e.detail.value / 1
@@ -163,11 +162,14 @@
 							duration: 3000
 						});
 						console.log(code, message);
+						return message
 					}).catch(({code,message}) => {
 						console.log(code, message);
+						return message
 					}).finally(e => {
 						uni.hideLoading()
 						this.$refs.upDataDialog.close()
+						return e
 					})
 			},
 			async updateComment(text) {
@@ -185,7 +187,7 @@
 				uni.showLoading({
 					mask: true
 				});
-				await this.$refs.udb.update(this.activeNoticeId, {text}, {
+				return await this.$refs.udb.update(this.activeNoticeId, {text}, {
 					action: "up_comment",
 					toastTitle: '修改成功', // toast提示语
 					success: (res) => { // 更新成功后的回调
@@ -203,10 +205,12 @@
 								}
 							}
 						})
+						return message
 					},
 					fail: (err) => { // 更新失败后的回调
 						console.log("err: ",err);
 						const {message} = err
+						return message
 					},
 					complete: () => { // 完成后的回调
 						uni.hideLoading()
@@ -224,11 +228,12 @@
 					return false
 				}
 				this.$refs.dialog.close()
-				await db.collection('comment').add({
+				return await db.collection('comment').add({
 					text
 				}).then(res => {
 					console.log(res);
 					this.getNewData()
+					return res.result
 				}).catch(({
 					code,
 					message
@@ -246,6 +251,7 @@
 						});
 					}
 					console.log(code, message);
+					return message
 				})
 			},
 			getNewData() {

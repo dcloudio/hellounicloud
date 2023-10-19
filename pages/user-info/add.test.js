@@ -24,7 +24,7 @@ describe('pages/user-info/add.vue', () => {
 		
 		
 		const getForm = await page.data('formData')
-		console.log("getForm: ",getForm);
+		// console.log("getForm: ",getForm);
 		
 		let username = "林小明"
 		let weight = 51

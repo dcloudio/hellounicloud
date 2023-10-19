@@ -4,19 +4,14 @@ describe('pages/clientDB/clientDB-api/clientDB-api.nvue', () => {
 	beforeAll(async () => {
 		// 重新reLaunch至首页，并获取首页page对象（其中 program 是uni-automator自动注入的全局对象）
 		page = await program.reLaunch('/pages/clientDB/clientDB-api/clientDB-api')
-		if (process.env.UNI_PLATFORM === "h5"|| process.env.UNI_PLATFORM === "app-plus") {
-			await page.waitFor(1000)
-		}
-		if (process.env.UNI_PLATFORM === "mp-weixin") {
-			await page.waitFor(1000);//微信等待
-		}
+		await page.waitFor(1000)
 		page = await program.currentPage()
 	})
 	
-	beforeEach(async()=>{
-		jest.setTimeout(30000)
-		return false
-	})
+	// beforeEach(async()=>{
+	// 	jest.setTimeout(30000)
+	// 	return false
+	// })
 
 	it('查图书book表的数据', async () => {
 		expect.assertions(1);
@@ -36,11 +31,9 @@ describe('pages/clientDB/clientDB-api/clientDB-api.nvue', () => {
 		const numBox1 = await page.$('.num-box1')
 		
 		const pageSize = await numBox1.property('value')
-		console.log("pageSize: ",pageSize);
 		//获取当前页
 		const numBox2 = await page.$('.num-box2')
 		const pageCurrent = await numBox2.property('value')
-		console.log("pageCurrent: ",pageCurrent);
 
 		if (pageSize === 1 && pageCurrent == 2) {
 			const orderData = await page.callMethod('getPageData', 'order')

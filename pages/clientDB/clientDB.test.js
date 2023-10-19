@@ -3,14 +3,7 @@ describe('pages/clientDB/clientDB.vue', () => {
 	beforeAll(async () => {
 		// 重新reLaunch至首页，并获取首页page对象（其中 program 是uni-automator自动注入的全局对象）
 		page = await program.reLaunch('/pages/clientDB/clientDB')
-
-		if (process.env.UNI_PLATFORM === "h5" || process.env.UNI_PLATFORM === "app-plus") {
-			await page.waitFor(1000)
-		}
-		if (process.env.UNI_PLATFORM === "mp-weixin") {
-			await page.waitFor(1000)
-		}
-
+		await page.waitFor(1000)
 		page = await program.currentPage()
 	})
 	

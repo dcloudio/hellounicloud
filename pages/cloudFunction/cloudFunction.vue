@@ -24,11 +24,11 @@
 			return {}
 		},
 		methods: {
-			add() {
+			async add() {
 				uni.showLoading({
 					title: '处理中...'
 				})
-				uniCloud.callFunction({
+				return await uniCloud.callFunction({
 					name: 'add',
 					data: {
 						name: 'DCloud',
@@ -42,6 +42,7 @@
 						showCancel: false
 					})
 					console.log(res)
+					return  res.result.id
 				}).catch((err) => {
 					uni.hideLoading()
 					uni.showModal({
@@ -52,7 +53,7 @@
 					return err
 				})
 			},
-			remove() {
+			async remove() {
 				uni.showLoading({
 					title: '处理中...'
 				})
@@ -65,6 +66,7 @@
 						showCancel: false
 					})
 					console.log(res)
+					return res.result.msg
 				}).catch((err) => {
 					uni.hideLoading()
 					uni.showModal({
@@ -72,13 +74,14 @@
 						showCancel: false
 					})
 					console.error(err)
+					return err
 				})
 			},
-			update() {
+			async update() {
 				uni.showLoading({
 					title: '处理中...'
 				})
-				uniCloud.callFunction({
+				return await uniCloud.callFunction({
 					name: 'update',
 					data: {
 						name: 'DCloud',
@@ -92,6 +95,7 @@
 						showCancel: false
 					})
 					console.log(res)
+					return res.result.msg
 				}).catch((err) => {
 					uni.hideLoading()
 					uni.showModal({
@@ -102,11 +106,11 @@
 					return err
 				})
 			},
-			get() {
+			async get() {
 				uni.showLoading({
 					title: '处理中...'
 				})
-				uniCloud.callFunction({
+				return await uniCloud.callFunction({
 					name: 'get'
 				}).then((res) => {
 					uni.hideLoading()
@@ -115,6 +119,7 @@
 						showCancel: false
 					})
 					console.log(res)
+					return res.result.data
 				}).catch((err) => {
 					uni.hideLoading()
 					uni.showModal({
@@ -122,11 +127,12 @@
 						showCancel: false
 					})
 					console.error(err)
+					return err
 				})
 			},
-			useCommon() {
+			async useCommon() {
 				console.log('请确保自己已经阅读并按照公用模块文档操作 https://uniapp.dcloud.io/uniCloud/cf-common')
-				uniCloud.callFunction({
+				return await uniCloud.callFunction({
 					name: 'use-common'
 				}).then((res) => {
 					uni.hideLoading()
@@ -135,6 +141,7 @@
 						showCancel: false
 					})
 					console.log(res)
+					return res.result
 				}).catch((err) => {
 					uni.hideLoading()
 					uni.showModal({
@@ -142,6 +149,7 @@
 						showCancel: false
 					})
 					console.error(err)
+					return err
 				})
 			},
 			toRedisPage(){
