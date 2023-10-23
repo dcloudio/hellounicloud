@@ -9,20 +9,20 @@
 			</view>
 			<text @click="options.selfId?$refs.dialog.open():tipLogin()" class="comment-btn">写留言</text>
 		</view>
-		<unicloud-db ref="udb" v-slot:default="{data, loading, error, options}" :options="options" page-data="replace"
-			collection="comment,uni-id-users" field="uid{username,_id},text,_id,state" :where="options.where">
+		<unicloud-db v-if="noticeData._id" ref="udb" v-slot:default="{data, loading, error, options}" :options="options" page-data="replace"
+			collection="opendb-notice-comment,uni-id-users" field="user_id{nickname,_id},text,_id,state" :where="options.where">
 			<scroll-view :show-scrollbar="true" scroll-y v-if="data.length" class="comment-list">
 				<view class="comment-item" v-for="(item,index) in data" :key="item._id">
-					<image class="userImg" :src="'../../../static/userImg/'+item.uid[0].username+'.png'" mode=""></image>
+					<image class="userImg" :src="'../../../static/userImg/'+item.user_id[0].nickname+'.png'" mode=""></image>
 					<view class="content">
 						<view style="flex-direction: column;">
-							<text style="color: #666;font-size: 14px;font-weight:700;">{{item.uid[0].username}}</text>
+							<text style="color: #666;font-size: 14px;font-weight:700;">{{item.user_id[0].nickname}}</text>
 							<text style="color: #888;font-size: 14px;">{{item.text}}</text>
 						</view>
 						<view style="flex-direction: row;">
 							<switch v-if="options.role.index>1" class="switch" :checked="item.state==1"
 								@change="updateState($event,item._id)" />
-							<template v-if="options.selfId == item.uid[0]._id || options.role.index>1">
+							<template v-if="options.selfId == item.user_id[0]._id || options.role.index>1">
 								<text class="in-review" v-if="options.role.index===1&&item.state==0">审核中</text>
 								<uni-icons v-else color="#cdcfd4" class="ico" size="16" type="compose"
 									@click="clickIcon(0,item)"></uni-icons>
@@ -49,7 +49,7 @@
 			<uni-list-item title="敏感词过滤" note="发表留言内容含test会被拦截请求" />
 			<uni-list-item title="编辑/删除留言" note="限用户编辑或删除自己发表的留言.管理员可以删除/编辑任何人的留言" />
 			<uni-list-item title="公告的阅读量" note="1.读取,限登陆用户查看文章阅读量; \n 2.自增,阅读量自动增加由特殊的云函数add_view_count完成" />
-			<uni-list-item title="数据查询" note="完整留言数据,由comment,uni-id-users连张表,通过foreignKey联查获取" />
+			<uni-list-item title="数据查询" note="完整留言数据,由opendb-notice-comment,uni-id-users连张表,通过foreignKey联查获取" />
 		</uni-popup>
 		<set-permission @change="changePermission"></set-permission>
 	</view>
@@ -63,16 +63,16 @@
 		},
 		data() {
 			return {
+        noticeData: {
+        	"_id": null
+        },
 				currentRole: 0,
 				options: {
 					"selfId": "",
-					"where": "state==1",
+					"where": "",// 默认为空，在查到公告内容后设置
 					role: {
 						index: 0
 					},
-				},
-				noticeData: {
-					"_id": null
 				},
 				activeNoticeId: false,
 				defaultText: "",
@@ -109,16 +109,16 @@
 				this.options.selfId = role.uid
 				switch (role.index) {
 					case 0:
-						this.options.where = "state==1"
+						this.options.where = `state == 1 && notice_id == "${this.noticeData._id}"`
 						break;
 					case 1:
-						this.options.where = "state==1 || uid._id==$env.uid"
+						this.options.where = `state == 1 && notice_id == "${this.noticeData._id}" || user_id._id==$env.uid`
 						break;
 					case 2:
-						this.options.where = {}
+						this.options.where = {"notice_id":this.noticeData._id}
 						break;
 					case 3:
-						this.options.where = {}
+						this.options.where = {"notice_id":this.noticeData._id}
 						break;
 					default:
 						break;
@@ -131,10 +131,12 @@
 				console.log('111111111111');
 				let res = await db.action('add_view_count')
 					.collection('opendb-notice')
+          .doc("65365ac355b3379a66170144")
 					.field('data,_id,update_time,view_count')
 					.get();
 					console.log("res: ",res);
 				this.noticeData = res.result.data[0]
+        this.options.where = `state == 1 && notice_id == "${this.noticeData._id}"`
 			},
 			async clickIcon(e, item) {
 				if (e) {
@@ -150,7 +152,7 @@
 				uni.showLoading({
 					mask: true
 				});
-				db.collection('comment')
+				db.collection('opendb-notice-comment')
 					.doc(_id)
 					.update({
 						"state": e.detail.value / 1
@@ -223,7 +225,8 @@
 					return false
 				}
 				this.$refs.dialog.close()
-				await db.collection('comment').add({
+				await db.collection('opendb-notice-comment').add({
+          notice_id:this.noticeData._id,
 					text
 				}).then(res => {
 					console.log(res);
