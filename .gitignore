@@ -1,5 +1,7 @@
 /.hbuilderx/
 /node_modules/
+/node_modules/*
+**/node_modules/**
 /unpackage/
 /vue.config.js
 /coverage/
