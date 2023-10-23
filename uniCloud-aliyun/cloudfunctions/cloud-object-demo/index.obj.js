@@ -1,8 +1,8 @@
 const db = uniCloud.database();
 const testCollection = db.collection('unicloud-test')
 module.exports = {
-	async add({ name, subType, createTime }) {
-		let res = await testCollection.add({ name, subType, createTime })
+	async add({product, create_time }) {
+		let res = await testCollection.add({product, create_time })
 		return res
 	},
 	async remove() {
@@ -26,7 +26,7 @@ module.exports = {
 			}
 		}
 	},
-	async update({name,subType,createTime}) {
+	async update({product,create_time}) {
 		const docList = await testCollection.limit(1).get();
 		if (!docList.data || docList.data.length === 0) {
 			return {
@@ -34,11 +34,11 @@ module.exports = {
 				msg: '集合unicloud-test内没有数据'
 			}
 		}
-		const res = await testCollection.doc(docList.data[0]._id).update({name,subType,createTime});
+		const res = await testCollection.doc(docList.data[0]._id).update({product,create_time});
 		if (res.updated === 1) {
 			let result = Object.assign({}, {
 				_id: docList.data[0]._id
-			}, {name,subType,createTime})
+			}, {product,create_time})
 			return {
 				status: 0,
 				msg: `集合第一条数据由${JSON.stringify(docList.data[0])}修改为${JSON.stringify(result)}`
