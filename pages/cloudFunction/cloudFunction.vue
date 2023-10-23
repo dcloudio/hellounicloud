@@ -37,9 +37,8 @@
 				uniCloud.callFunction({
 					name: 'add',
 					data: {
-						name: 'DCloud',
-						subType: 'uniCloud',
-						createTime: Date.now()
+						product: 'uniCloud',
+						create_time: Date.now()
 					}
 				}).then((res) => {
 					uni.hideLoading()
@@ -86,9 +85,8 @@
 				uniCloud.callFunction({
 					name: 'update',
 					data: {
-						name: 'DCloud',
-						subType: 'html 5+',
-						createTime: Date.now()
+						product: 'uni-app',
+						create_time: Date.now()
 					}
 				}).then((res) => {
 					uni.hideLoading()

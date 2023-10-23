@@ -50,9 +50,8 @@
 					title: '处理中...'
 				})
 				cloudObjectDemo.add({
-					name: 'DCloud',
-					subType: 'uniCloud',
-					createTime: Date.now()
+					product: 'uniCloud',
+					create_time: Date.now()
 				}).then((res) => {
 					console.log(res)
 					uni.hideLoading()
@@ -94,9 +93,8 @@
 					title: '处理中...'
 				})
 				cloudObjectDemo.update({
-					name: 'DCloud',
-					subType: 'html 5+',
-					createTime: Date.now()
+					product: 'uni-app',
+					create_time: Date.now()
 				}).then((res) => {
 					uni.hideLoading()
 					uni.showModal({
