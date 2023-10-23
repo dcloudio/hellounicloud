@@ -47,6 +47,16 @@
 		},
 		methods: {
 			open(codes) {
+        if('errCode' in codes){
+          // 为过滤警告，不在弹出请求返回的code message
+          try{
+            delete codes.code
+            delete codes.message
+            delete codes.affectedDocs
+          }catch(e){
+            // console.log(e);
+          }
+        }
 				this.codes = purifyCodes(codes)
 				this.isShow = true
 			},
