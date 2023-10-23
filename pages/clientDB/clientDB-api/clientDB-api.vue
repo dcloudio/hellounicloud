@@ -348,7 +348,7 @@
 				uni.showLoading({
 					mask: true
 				});
-				db.collection("department").get({
+				db.collection("opendb-department").get({
 						getTree: {
 							limitLevel: 10, // 最大查询层级（不包含当前层级），可以省略默认10级，最大15，最小1
 							//	startWith: "parent_code==''"  // 第一层级条件，此初始条件可以省略，不传startWith时默认从最顶级开始查询
