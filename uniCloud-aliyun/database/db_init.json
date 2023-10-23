@@ -3,7 +3,7 @@
 // 编写完毕后对本文件点右键，可按配置规则创建表和添加数据
 
 {
-	"department": {
+	"opendb-department": {
 		"data": [{
 				"_id": "5fe77207974b6900018c6c9c",
 				"name": "总部",
