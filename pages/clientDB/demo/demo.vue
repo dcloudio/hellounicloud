@@ -130,7 +130,7 @@
 			},
 			async getNoticeData() {
 				let res = await db.action('add_view_count')
-					.collection('notice')
+					.collection('opendb-notice')
 					.field('data,_id,update_time,view_count')
 					.get();
 					console.log("res: ",res);

@@ -6,7 +6,7 @@ module.exports = {
 		
 	},
 	after: async (state, event, error, result) => {
-		await db.collection('notice').update({
+		await db.collection('opendb-notice').update({
 			view_count:$cmd.inc(1)
 		})
 		if (error) {
