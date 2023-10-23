@@ -1,6 +1,6 @@
 // 开发文档：https://uniapp.dcloud.io/uniCloud/clientdb?id=action
 const db = uniCloud.database()
-const commentDb = db.collection('comment')
+const commentDb = db.collection('opendb-notice-comment')
 module.exports = {
 	before: async (state, event) => {
 		if(state.auth.role.includes('USER')){
