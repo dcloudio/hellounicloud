@@ -47,43 +47,47 @@ describe('pages/clientDB/permission-table-simple/permission-table-simple.vue', (
 
 		if (createUnlogin) {
 			// 允许任何角色创建本表
-			const createData = await page.callMethod('myFn', {
+			const createA = await page.callMethod('myFn', {
 				"type": "create",
 				"index": 0
 			})
-			expect(createData.success).toBeTruthy()
+			expect(createA.success).toBeTruthy()
 			
-			const createA = await page.callMethod('myFn', {
+			// 禁止任何角色创建，管理员除外
+			const createB = await page.callMethod('myFn', {
 				"type": "create",
 				"index": 1
 			})
-			// expect(createA).toBe('[permission-test-2.create]权限校验未通过')
-
-			const createB = await page.callMethod('myFn', {
+			expect(createB.errMsg).toBe(errMsgC)
+			
+			// 需要登录后
+			const createC = await page.callMethod('myFn', {
 				"type": "create",
 				"index": 2
 			})
-			//expect(createB).toBe('未能获取当前用户信息：30205 | 当前用户为匿名身份')
-
-			const createC = await page.callMethod('myFn', {
+			expect(createC.errMsg).toBe(errMsgC)
+			
+			// 限审核员角色创建
+			const createD = await page.callMethod('myFn', {
 				"type": "create",
 				"index": 5
 			})
-			// expect(createC).toBe('未能获取当前用户信息：30205 | 当前用户为匿名身份')
+			expect(createD.errMsg).toBe(errMsgC)
 
-
-			const createD = await page.callMethod('myFn', {
+			// 请求同时必须同时附带执行一个action云函数，如未触发该action则权限验证失败
+			const createE = await page.callMethod('myFn', {
 				"type": "create",
 				"index": 6
 			})
-			// expect(createD.errMsg).toBe(errMsgB)
-
-			await page.callMethod('myFn', {
+			expect(createE.errMsg).toBe(errMsgB)
+			
+			// 附带执行一个action云函数
+			const createAction = await page.callMethod('myFn', {
 				"type": "create",
 				"index": 6,
 				"action": "add_view_count"
 			})
-
+			expect(createAction.success).toBeTruthy()
 		}
 
 	})
@@ -109,78 +113,91 @@ describe('pages/clientDB/permission-table-simple/permission-table-simple.vue', (
 
 		if (readUnlogin) {
 			// 含义解释：允许任何角色【读取】
-			const readAll = await page.callMethod('myFn', {
+			const readA = await page.callMethod('myFn', {
 				"type": "read",
 				"index": 0
 			})
-			expect(readAll.errCode).toBe(0)
+			expect(readA.success).toBeTruthy()
 			
 			// 禁止任何角色读取
-			const readA = await page.callMethod('myFn', {
+			const readB = await page.callMethod('myFn', {
 				"type": "read",
 				"index": 1
 			})
-			//expect(readA).toBe('权限校验未通过')
-
-			const readB = await page.callMethod('myFn', {
+			expect(readB.errMsg).toBe(errMsgB)
+			
+			// 需登录后读取
+			const readC = await page.callMethod('myFn', {
 				"type": "read",
 				"index": 2
 			})
-			expect(readB.errMsg).toBe(errMsgB)
+			expect(readC.errMsg).toBe(errMsgB)
 			
-			// 只能读取自己创建的数据
-			const readC = await page.callMethod('myFn', {
+			// 只能读取自己创建的数据，先创建数据
+			const readD = await page.callMethod('myFn', {
 				"type": "create",
 				"index": 3
 			})
-			// expect(readC.errMsg).toBe(errMsgB)
-
-			const readD = await page.callMethod('myFn', {
+			expect(readD.errMsg).toBe(errMsgC)
+			
+			// 只能读取自己创建的数据
+			const readE = await page.callMethod('myFn', {
 				"type": "read",
 				"index": 3,
 				"where": "uid == $env.uid"
 			})
-			expect(readD.errMsg).toBe(errMsgC)
+			expect(readE.errMsg).toBe(errMsgC)
 
-			
-			const readE = await page.callMethod('myFn', {
+			// 读取全表数据
+			const readF = await page.callMethod('myFn', {
 				"type": "read",
 				"index": 3
 			})
-			// expect(readE.errCode).toBe(0)
-
-			const readF = await page.callMethod('myFn', {
+			console.log('readF: ',readF);
+			// expect(readF.errMsg).toBe(errMsgC)
+			
+			
+			// 只能读取1分钟内创建的数据，先创建数据
+			const readG = await page.callMethod('myFn', {
 				"type": "create",
 				"index": 4
 			})
-			// expect(readF.errCode).toBe(0)
-
-
-			await page.callMethod('myFn', {
+			expect(readG.errMsg).toBe(errMsgC)
+			
+			// 只能读取1分钟内创建的数据
+			const readH = await page.callMethod('myFn', {
 				"type": "read",
 				"index": 4,
 				"where": "create_time > 1613541303576"
-			})
-
-			await page.callMethod('myFn', {
+				})
+			console.log('readH: ',readH);
+			// expect(readH.success).toBeTruthy()
+			
+			
+			// 读取全表数据
+			const readI =await page.callMethod('myFn', {
 				"type": "read",
 				"index": 4
 			})
+			console.log('readI: ',readI);
+			// expect(readI.errCode).toBe(0)
+			
+			
 			// 限审核员读取
-			const readG = await page.callMethod('myFn', {
+			const readJ = await page.callMethod('myFn', {
 				"type": "create",
 				"index": 5
 			})
-			expect(readG.errMsg).toBe(errMsgC)
+			expect(readJ.errMsg).toBe(errMsgC)
 
-
-			const readH = await page.callMethod('myFn', {
+			// 请求同时必须同时附带执行一个action云函数，如未触发该action则权限验证失败 读取全表数据
+			const readK = await page.callMethod('myFn', {
 				"type": "create",
 				"index": 6
 			})
-			expect(readH.errMsg).toBe(errMsgB)
-			// expect(readH).toBe('[permission-test-7.create]权限校验未通过')
-
+			expect(readK.errMsg).toBe(errMsgB)
+			
+			// 执行一个action云函数
 			const actionRead = await page.callMethod('myFn', {
 				"type": "read",
 				"index": 6,
@@ -211,82 +228,93 @@ describe('pages/clientDB/permission-table-simple/permission-table-simple.vue', (
 
 
 		if (updateUnlogin) {
-
-			await page.callMethod('myFn', {
+			
+			// 允许任何角色更新此表
+			const updateA = await page.callMethod('myFn', {
 				"type": "update",
 				"index": 0
 			})
-
-			const updateA = await page.callMethod('myFn', {
+			expect(updateA.result.updated).toBeGreaterThanOrEqual(1)
+			
+			// 禁止任何角色更新，管理员除外
+			const updateB = await page.callMethod('myFn', {
 				"type": "update",
 				"index": 1
 			})
-			expect(updateA.errMsg).toBe(errMsgB)
-
-			const updateB = await page.callMethod('myFn', {
+			expect(updateB.errMsg).toBe(errMsgB)
+			
+			// 需要登录后
+			const updateC = await page.callMethod('myFn', {
 				"type": "update",
 				"index": 2
 			})
-			expect(updateB.errMsg).toBe(errMsgB)
-
-			const updateC = await page.callMethod('myFn', {
+			expect(updateC.errMsg).toBe(errMsgB)
+			
+			// 只能更新自己创建的数据，先创建数据
+			const updateD = await page.callMethod('myFn', {
 				"type": "create",
 				"index": 3
 			})
-			expect(updateC.errMsg).toBe(errMsgC)
-
-			const updateD = await page.callMethod('myFn', {
+			expect(updateD.errMsg).toBe(errMsgC)
+			
+			// 只能更新自己创建的数据
+			const updateE = await page.callMethod('myFn', {
 				"type": "update",
 				"index": 3,
 				"where": "uid == $env.uid"
 			})
-			expect(updateD.errMsg).toBe(errMsgC)
+			expect(updateE.errMsg).toBe(errMsgC)
 
-
-			const updateE = await page.callMethod('myFn', {
+			//更新全表数据表
+			const updateF = await page.callMethod('myFn', {
 				"type": "update",
 				"index": 3
 			})
-			expect(updateE.success).toBeTruthy()
+			expect(updateF.result.updated).toBe(0)
 
-
-			const updateF = await page.callMethod('myFn', {
+			// 只更新1分钟内创建的数据，先创建数据
+			const updateG = await page.callMethod('myFn', {
 				"type": "create",
 				"index": 4
 			})
-			// expect(updateF.errCode).toBe(0)
+			expect(updateG.errMsg).toBe(errMsgC)
 
-
-			await page.callMethod('myFn', {
+			// 只更新1分钟内创建的数据
+			const updateH = await page.callMethod('myFn', {
 				"type": "update",
 				"index": 4,
 				"where": "create_time > 1613546251521"
 			})
-
-			await page.callMethod('myFn', {
+			expect(updateH.result.updated).toBe(0)
+			
+			// 更新全表数据
+			const updateI = await page.callMethod('myFn', {
 				"type": "update",
 				"index": 4
 			})
+			expect(updateI.success).toBeTruthy()
 
-
-			const updateG = await page.callMethod('myFn', {
+			//限审核员更新全表数据
+			const updateJ = await page.callMethod('myFn', {
 				"type": "update",
 				"index": 5
 			})
-			expect(updateG.errMsg).toBe(errMsgB)
-
-			const updateH = await page.callMethod('myFn', {
+			expect(updateJ.errMsg).toBe(errMsgB)
+			
+			// 更新全表 请求同时必须同时附带执行一个action云函数
+			const updateK = await page.callMethod('myFn', {
 				"type": "update",
 				"index": 6
 			})
-			// expect(updateH.errMsg).toBe(errMsgB)
+			expect(updateK.errMsg).toBe(errMsgB)
 
-
-			await page.callMethod('myFn', {
+			// 执行一个action云函数
+			const updateAction = await page.callMethod('myFn', {
 				"type": "update",
 				"index": 6,
 				"action": "add_view_count"
 			})
+			expect(updateAction.result.updated).toBe(1)
 
 		}
 
@@ -308,93 +336,97 @@ describe('pages/clientDB/permission-table-simple/permission-table-simple.vue', (
 			const deleteUnloginRole = await page.data('currentRole')
 			return deleteUnloginIndex === 3 && deleteUnloginRole === 0
 		})
-		//console.log(deleteUnlogin, '删除--未登陆');
+		console.log(deleteUnlogin, '删除--未登陆');
 
-
-
-
-		await page.callMethod('myFn', {
+		// 允许任何角色删除全表
+		const deleteA = await page.callMethod('myFn', {
 			"type": "delete",
 			"index": 0
 		})
-
-		const deleteA = await page.callMethod('myFn', {
+		expect(deleteA.result.deleted).toBeGreaterThan(0)
+		
+		// 禁止任何角色删除，管理员除外
+		const deleteB = await page.callMethod('myFn', {
 			"type": "delete",
 			"index": 1
 		})
-		expect(deleteA.errMsg).toBe(errMsgB)
-		// expect(deleteA).toBe('权限校验未通过')
-
-		const deleteB = await page.callMethod('myFn', {
+		expect(deleteB.errMsg).toBe(errMsgB)
+		
+		// 需登录后可删除
+		const deleteC = await page.callMethod('myFn', {
 			"type": "delete",
 			"index": 2
 		})
-		expect(deleteB.errMsg).toBe(errMsgB)
-
-		const deleteC = await page.callMethod('myFn', {
+		expect(deleteC.errMsg).toBe(errMsgB)
+		
+		// 只能删除自己创建的数据，先创建数据
+		const deleteD = await page.callMethod('myFn', {
 			"type": "create",
 			"index": 3
 		})
-		expect(deleteC.errMsg).toBe(errMsgC)
-
-		const deleteD = await page.callMethod('myFn', {
+		expect(deleteD.errMsg).toBe(errMsgC)
+		
+		// 只能删除自己创建的数据
+		const deleteE = await page.callMethod('myFn', {
 			"type": "delete",
 			"index": 3,
 			"where": "uid == $env.uid"
 		})
-		expect(deleteD.errMsg).toBe(errMsgC)
+		expect(deleteE.errMsg).toBe(errMsgC)
 
-
-		const deleteE = await page.callMethod('myFn', {
+		// 删除全表数据
+		const deleteF = await page.callMethod('myFn', {
 			"type": "delete",
 			"index": 3
 		})
-		expect(deleteE.success).toBeTruthy()
+		console.log('deleteF: ',deleteF);
+		// expect(deleteF.success).toBeTruthy()
 
-
-		const deleteF = await page.callMethod('myFn', {
+		// 只更新1分钟内创建的数据，先创建数据
+		const deleteG = await page.callMethod('myFn', {
 			"type": "create",
 			"index": 4
 		})
-		console.log('deleteF: ',deleteF);
-		expect(deleteF.errMsg).toBe(errMsgC)
+		expect(deleteG.errMsg).toBe(errMsgC)
 
+		// 只更新1分钟内创建的数据
+		expect((
+			await page.callMethod('myFn', {
+				"type": "delete",
+				"index": 4,
+				"where": "create_time > 1613546644107"
+			})
+		).success).toBeTruthy()
+		
+		// 删除全表数据
+		expect((
+			await page.callMethod('myFn', {
+				"type": "delete",
+				"index": 4
+			})
+		).success).toBeTruthy()
 
-		await page.callMethod('myFn', {
-			"type": "delete",
-			"index": 4,
-			"where": "create_time > 1613546644107"
-		})
-
-		await page.callMethod('myFn', {
-			"type": "delete",
-			"index": 4
-		})
-
-
-		const deleteG = await page.callMethod('myFn', {
+		// 删除全表 仅审核员
+		const deleteH = await page.callMethod('myFn', {
 			"type": "delete",
 			"index": 5
 		})
-		// expect(deleteG).toBe(errMsgB)
-
-		const deleteH = await page.callMethod('myFn', {
+		expect(deleteH.errMsg).toBe(errMsgB)
+		
+		// 更新全表 请求同时必须同时附带执行一个action云函数
+		const deleteI = await page.callMethod('myFn', {
 			"type": "delete",
 			"index": 6
 		})
-		console.log('deleteH: ',deleteH);
-		expect(deleteH.errMsg).toBe(errMsgB)
+		expect(deleteI.errMsg).toBe(errMsgB)
 
-
-		await page.callMethod('myFn', {
+		// 附带执行一个action云函数
+		const deleteAction = await page.callMethod('myFn', {
 			"type": "delete",
 			"index": 6,
 			"action": "add_view_count"
 		})
-
-
-
-
+		expect(deleteAction.result.deleted).toBe(1)
 	})
 
 
@@ -418,41 +450,48 @@ describe('pages/clientDB/permission-table-simple/permission-table-simple.vue', (
 		console.log(createUser, '创建--用户');
 
 
-
-		await page.callMethod('myFn', {
+		// 任何角色可创建
+		const createUserA = await page.callMethod('myFn', {
 			"type": "create",
 			"index": 0
 		})
-
-		const createUserA = await page.callMethod('myFn', {
+		expect(createUserA.result.id).toHaveLength(24)
+		
+		// 禁止任何角色创建，仅管理员
+		const createUserB = await page.callMethod('myFn', {
 			"type": "create",
 			"index": 1
 		})
-		console.log('createUserA: ',createUserA);
-
-		await page.callMethod('myFn', {
+		expect(createUserB.errMsg).toBe(errMsgA)
+		
+		// 已登录 可创建
+		const createUserC = await page.callMethod('myFn', {
 			"type": "create",
 			"index": 2
 		})
+		expect(createUserC.result.id).toHaveLength(24)
 
-		const createUserB = await page.callMethod('myFn', {
+		// 仅审核员可创建
+		const createUserD = await page.callMethod('myFn', {
 			"type": "create",
 			"index": 5
 		})
-		// expect(createUserB).toBe('[permission-test-6.create]权限校验未通过')
+		expect(createUserD.errMsg).toBe(errMsgA)
 
-		const createUserC = await page.callMethod('myFn', {
+		// 请求同时必须同时附带执行一个action云函数，如未触发该action则权限验证失败
+		const createUserE = await page.callMethod('myFn', {
 			"type": "create",
 			"index": 6
 		})
-		// expect(createUserC.id).toBeTruthy()
-		// expect(createUserC).toBe('[permission-test-7.create]权限校验未通过')
-
-		await page.callMethod('myFn', {
+		expect(createUserE.errMsg).toBe(errMsgA)
+		
+		// 附带执行一个action云函数
+		const createUserF = await page.callMethod('myFn', {
 			"type": "create",
 			"index": 6,
 			"action": "add_view_count"
 		})
+		expect(createUserF.result.id).toHaveLength(24)
 
 	})
 
@@ -472,81 +511,97 @@ describe('pages/clientDB/permission-table-simple/permission-table-simple.vue', (
 			const readUserRole = await page.data('currentRole')
 			return readUserIndex === 1 && readUserRole == 'user'
 		})
-		//console.log(readUser, '读取--用户');
+		console.log(readUser, '读取--用户');
 
-
-		await page.callMethod('myFn', {
+		// 任何人可读取
+		const readUserA = await page.callMethod('myFn', {
 			"type": "read",
 			"index": 0
 		})
-
-		const readUserA = await page.callMethod('myFn', {
+		expect(readUserA.result.data.length).toBeGreaterThan(0)
+		
+		// 仅管理员可读
+		const readUserB = await page.callMethod('myFn', {
 			"type": "read",
 			"index": 1
 		})
-		// console.log('readUserA: ',readUserA);
-		// expect(readUserA.errMsg).toBe(errMsgA)
-
-		await page.callMethod('myFn', {
+		expect(readUserB.errMsg).toBe(errMsgA)
+		
+		// 登录后可读取
+		const readUserC = await page.callMethod('myFn', {
 			"type": "read",
 			"index": 2
 		})
-
-		await page.callMethod('myFn', {
+		expect(readUserC.result.data.length).toBeGreaterThan(0)
+		
+		// 只能读取自己创建的数据，先创建数据
+		const readUserD = await page.callMethod('myFn', {
 			"type": "create",
 			"index": 3
 		})
-
-		await page.callMethod('myFn', {
+		expect(readUserD.result.id).toHaveLength(24)
+		
+		// 只能读取自己创建的数据
+		const readUserE = await page.callMethod('myFn', {
 			"type": "read",
 			"index": 3,
 			"where": "uid == $env.uid"
 		})
-
-		await page.callMethod('myFn', {
+		expect(readUserE.result.data.length).toBeGreaterThan(0)
+		
+		// 读取全表数据
+		const readUserF = await page.callMethod('myFn', {
 			"type": "read",
 			"index": 3
 		})
-
-		await page.callMethod('myFn', {
+		expect(readUserF.result.data.length).toBeGreaterThan(0)
+		
+		// 只读取1分钟内创建的数据，先创建数据
+		const readUserG = await page.callMethod('myFn', {
 			"type": "create",
 			"index": 4
 		})
-
-		await page.callMethod('myFn', {
+		expect(readUserG.result.id).toHaveLength(24)
+		
+		// 只读取1分钟内创建的数据
+		const readUserH = await page.callMethod('myFn', {
 			"type": "read",
 			"index": 4,
 			"where": "create_time > 1613541303576"
 		})
-
-		await page.callMethod('myFn', {
+		expect(readUserH.result.data.length).toBeGreaterThan(0)
+		
+		// 读取全表数据
+		const readUserI = await page.callMethod('myFn', {
 			"type": "read",
 			"index": 4
 		})
-
-		const readUserB = await page.callMethod('myFn', {
+		expect(readUserI.result.data.length).toBeGreaterThanOrEqual(1)
+		
+		// 仅审核员读取全表数据
+		const readUserJ = await page.callMethod('myFn', {
 			"type": "read",
 			"index": 5
 		})
-		expect(readUserB.errMsg).toBe(errMsgA)
+		expect(readUserJ.errMsg).toBe(errMsgA)
 
-
-		const readUserC = await page.callMethod('myFn', {
+		// 请求同时必须同时附带执行一个action云函数，如未触发该action则权限验证失败
+		const readUserK = await page.callMethod('myFn', {
 			"type": "read",
 			"index": 6
 		})
-		expect(readUserC.errMsg).toBe(errMsgA)
-
-		await page.callMethod('myFn', {
+		expect(readUserK.errMsg).toBe(errMsgA)
+		
+		// 执行一个action云函数
+		const readUserO = await page.callMethod('myFn', {
 			"type": "read",
 			"index": 6,
 			"action": "add_view_count"
 		})
-
-
+		expect(readUserO.result.data.length).toBeGreaterThan(0)
 
 	})
-
+	// ----------------------------------------------
 	it('更新--用户', async () => {
 		const perPage = await page.$('.page')
 		//头部操作控制条
@@ -566,81 +621,93 @@ describe('pages/clientDB/permission-table-simple/permission-table-simple.vue', (
 		})
 		console.log(updateUser, '更新--用户');
 
-
-		await page.callMethod('myFn', {
+		// 允许任何人更新
+		const updateUserA = await page.callMethod('myFn', {
 			"type": "update",
 			"index": 0
 		})
-
-		const updateUserA = await page.callMethod('myFn', {
+		expect(updateUserA.result.updated).toBeGreaterThanOrEqual(1)
+		
+		// 禁止任何人更新 除管理员
+		const updateUserB = await page.callMethod('myFn', {
 			"type": "update",
 			"index": 1
 		})
-		expect(updateUserA.errMsg).toBe(errMsgA)
-
-		const updateUserB = await page.callMethod('myFn', {
+		expect(updateUserB.errMsg).toBe(errMsgA)
+		
+		// 需要登录后更新
+		const updateUserC = await page.callMethod('myFn', {
 			"type": "update",
 			"index": 2
 		})
-
-
-		await page.callMethod('myFn', {
+		console.log('updateUserC: ',updateUserC);
+		
+		
+		// 仅更新自己创建的数据 先创建数据
+		const updateUserD = await page.callMethod('myFn', {
 			"type": "create",
 			"index": 3
 		})
+		expect(updateUserD.result.id).toHaveLength(24)
 
-
-		await page.callMethod('myFn', {
+		// 仅更新自己创建的数据 
+		const updateUserE = await page.callMethod('myFn', {
 			"type": "update",
 			"index": 3,
 			"where": "uid == $env.uid"
 		})
-
-		await page.callMethod('myFn', {
+		expect(updateUserE.result.updated).toBeGreaterThanOrEqual(1)
+		
+		// 更新全部数据
+		const updateUserF = await page.callMethod('myFn', {
 			"type": "update",
 			"index": 3
 		})
-
-
-		await page.callMethod('myFn', {
+		expect(updateUserF.result.updated).toBeGreaterThanOrEqual(1)
+		
+		// 只更新1分钟内创建的数据 先创建数据
+		const updateUserG = await page.callMethod('myFn', {
 			"type": "create",
 			"index": 4
 		})
+		expect(updateUserG.result.id).toHaveLength(24)
 
-
-		await page.callMethod('myFn', {
+		// 只更新1分钟内创建的数据
+		const updateUserH = await page.callMethod('myFn', {
 			"type": "update",
 			"index": 4,
 			"where": "create_time > 1613546251521"
 		})
-
-		await page.callMethod('myFn', {
+		expect(updateUserH.result.updated).toBeGreaterThanOrEqual(1)
+		
+		// 更新全部数据
+		const updateUserI = await page.callMethod('myFn', {
 			"type": "update",
 			"index": 4
 		})
-
-
-		const updateUserC = await page.callMethod('myFn', {
+		expect(updateUserI.result.updated).toBeGreaterThanOrEqual(1)
+		
+		// 限审核员更新数据
+		const updateUserJ = await page.callMethod('myFn', {
 			"type": "update",
 			"index": 5
 		})
-		expect(updateUserC.errMsg).toBe(errMsgA)
-
-		const updateUserD = await page.callMethod('myFn', {
+		expect(updateUserJ.errMsg).toBe(errMsgA)
+		
+		// 请求同时必须同时附带执行一个action云函数，如未触发该action则权限验证失败
+		const updateUserK = await page.callMethod('myFn', {
 			"type": "update",
 			"index": 6
 		})
-		expect(updateUserD.errMsg).toBe(errMsgA)
+		expect(updateUserK.errMsg).toBe(errMsgA)
 
-
-		await page.callMethod('myFn', {
+		// 请求同时必须同时附带执行一个action云函数
+		const updateUserAction = await page.callMethod('myFn', {
 			"type": "update",
 			"index": 6,
 			"action": "add_view_count"
 		})
-
-
-
+		console.log('updateUserAction: ',updateUserAction);
 
 	})
 
@@ -660,7 +727,7 @@ describe('pages/clientDB/permission-table-simple/permission-table-simple.vue', (
 			const deleteUserRole = await page.data('currentRole')
 			return deleteUserIndex === 3 && deleteUserRole == 'user'
 		})
-		//console.log(deleteUser, '删除--用户');
+		console.log(deleteUser, '删除--用户');
 
 		await page.callMethod('myFn', {
 			"type": "delete",
