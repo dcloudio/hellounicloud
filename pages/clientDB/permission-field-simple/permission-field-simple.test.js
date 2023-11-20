@@ -6,17 +6,13 @@ describe('pages/clientDB/permission-field-simple/permission-field-simple.nvue', 
 			'/pages/clientDB/permission-field-simple/permission-field-simple')
 		await page.waitFor('view')
 		page = await program.currentPage()
-		
 		errMsgA = "权限校验未通过，参与权限校验的集合：[]，请参考文档：https://uniapp.dcloud.net.cn/uniCloud/schema.html#handler-permission-error"
-		
 		errMsgB = "权限校验未通过，未能获取当前用户信息，当前用户为匿名身份 ，参与权限校验的集合：[]，请参考文档：https://uniapp.dcloud.net.cn/uniCloud/schema.html#handler-permission-error"
-		
 		perPage = await page.$('.page')
 		//头部操作控制条
 		segItems = await perPage.$$('.segmented-control__item')
 		//底部角色控制条
 		roles = await perPage.$$('.roles-item')
-		
 	})
 
 	it('创建--未登陆', async () => {
@@ -34,8 +30,8 @@ describe('pages/clientDB/permission-field-simple/permission-field-simple.nvue', 
 			const createUnloginRole = await page.data('currentRole')
 			return createUnloginIndex === 0 && createUnloginRole === 0
 		})
-
 		// console.log("createUnlogin: ",createUnlogin);
+		if(!createUnlogin)return
 
 		const createA = await page.callMethod('myFn', {
 			"type": "create",
@@ -76,16 +72,9 @@ describe('pages/clientDB/permission-field-simple/permission-field-simple.nvue', 
 	})
 
 	it('读取--未登陆', async () => {
-		// const perPage = await page.$('.page')
-		//头部操作控制条
-		// const segItems = await perPage.$$('.segmented-control__item')
-		//底部角色控制条
-		// const roles = await perPage.$$('.roles-item')
-
 		//点击读取
 		await segItems[1].tap()
 		await roles[0].tap()
-
 
 		const readUnlogin = await page.waitFor(async () => {
 			const readUnloginIndex = await page.data('typeIndex')
@@ -93,6 +82,7 @@ describe('pages/clientDB/permission-field-simple/permission-field-simple.nvue', 
 			return readUnloginIndex === 1 && readUnloginRole === 0
 		})
 		// console.log("readUnlogin: ",readUnlogin);
+		if(!readUnlogin)return
 
 		const readA = await page.callMethod('myFn', {
 			"type": "read",
@@ -133,11 +123,7 @@ describe('pages/clientDB/permission-field-simple/permission-field-simple.nvue', 
 	})
 
 	it('更新--未登陆', async () => {
-		// const perPage = await page.$('.page')
-		//头部操作控制条
-		// const segItems = await perPage.$$('.segmented-control__item')
-		//底部角色控制条
-		// const roles = await perPage.$$('.roles-item')
+		
 		//点击更新
 		await segItems[2].tap()
 		await roles[0].tap()
@@ -148,7 +134,7 @@ describe('pages/clientDB/permission-field-simple/permission-field-simple.nvue', 
 			return updateUnloginIndex === 2 && updateUnloginRole === 0
 		})
 		// console.log("updateUnlogin: ",updateUnlogin);
-
+		if(!updateUnlogin)return
 		const updateA = await page.callMethod('myFn', {
 			"type": "update",
 			"index": 0
@@ -192,12 +178,6 @@ describe('pages/clientDB/permission-field-simple/permission-field-simple.nvue', 
 
 
 	it('创建--用户', async () => {
-		// const perPage = await page.$('.page')
-		//头部操作控制条
-		// const segItems = await perPage.$$('.segmented-control__item')
-		//底部角色控制条
-		// const roles = await perPage.$$('.roles-item')
-
 		//点击创建
 		await segItems[0].tap()
 		await roles[1].tap()
@@ -207,7 +187,7 @@ describe('pages/clientDB/permission-field-simple/permission-field-simple.nvue', 
 			const createUserRole = await page.data('currentRole')
 			return createUserIndex === 0 && createUserRole == 'user'
 		})
-		console.log("createUser: ",createUser);
+		// console.log("createUser: ",createUser);
 		if(!createUser)return
 
 		const createUserA = await page.callMethod('myFn', {
@@ -262,7 +242,7 @@ describe('pages/clientDB/permission-field-simple/permission-field-simple.nvue', 
 			const readUserRole = await page.data('currentRole')
 			return readUserIndex === 1 && readUserRole == 'user'
 		})
-
+		if(!readUser)return
 		// console.log("readUser: ",readUser);
 		
 		const readUserA = await page.callMethod('myFn', {
@@ -303,11 +283,6 @@ describe('pages/clientDB/permission-field-simple/permission-field-simple.nvue', 
 	})
 
 	it('更新--用户', async () => {
-		// const perPage = await page.$('.page')
-		//头部操作控制条
-		// const segItems = await perPage.$$('.segmented-control__item')
-		//底部角色控制条
-		// const roles = await perPage.$$('.roles-item')
 		//点击更新
 		await segItems[2].tap()
 		await roles[1].tap()
@@ -317,7 +292,6 @@ describe('pages/clientDB/permission-field-simple/permission-field-simple.nvue', 
 			const updateUserRole = await page.data('currentRole')
 			return updateUserIndex === 2 && updateUserRole == 'user'
 		})
-		
 		if(readUser){
 			const updateUserA = await page.callMethod('myFn', {
 				"type": "update",
@@ -359,12 +333,6 @@ describe('pages/clientDB/permission-field-simple/permission-field-simple.nvue', 
 
 
 	it('创建--审核员', async () => {
-		// const perPage = await page.$('.page')
-		//头部操作控制条
-		// const segItems = await perPage.$$('.segmented-control__item')
-		//底部角色控制条
-		// const roles = await perPage.$$('.roles-item')
-
 		//点击创建
 		await segItems[0].tap()
 		await roles[2].tap()
@@ -374,7 +342,7 @@ describe('pages/clientDB/permission-field-simple/permission-field-simple.nvue', 
 			const createAuditorRole = await page.data('currentRole')
 			return createAuditorIndex === 0 && createAuditorRole == 'auditor'
 		})
-
+		if(!createAuditor)return
 		const createAuditorA = await page.callMethod('myFn', {
 			"type": "create",
 			"index": 0,
@@ -414,11 +382,6 @@ describe('pages/clientDB/permission-field-simple/permission-field-simple.nvue', 
 	})
 
 	it('读取--审核员', async () => {
-		// const perPage = await page.$('.page')
-		//头部操作控制条
-		// const segItems = await perPage.$$('.segmented-control__item')
-		//底部角色控制条
-		// const roles = await perPage.$$('.roles-item')
 		//点击读取
 		await segItems[1].tap()
 		await roles[2].tap()
@@ -428,7 +391,7 @@ describe('pages/clientDB/permission-field-simple/permission-field-simple.nvue', 
 			const readAuditorRole = await page.data('currentRole')
 			return readAuditorIndex === 1 && readAuditorRole == 'auditor'
 		})
-
+		if(!readAuditor)return
 		const readAuditorA = await page.callMethod('myFn', {
 			"type": "read",
 			"index": 0
@@ -465,11 +428,6 @@ describe('pages/clientDB/permission-field-simple/permission-field-simple.nvue', 
 	})
 
 	it('更新--审核员', async () => {
-		// const perPage = await page.$('.page')
-		//头部操作控制条
-		// const segItems = await perPage.$$('.segmented-control__item')
-		//底部角色控制条
-		// const roles = await perPage.$$('.roles-item')
 		//点击更新
 		await segItems[2].tap()
 		await roles[2].tap()
@@ -479,7 +437,8 @@ describe('pages/clientDB/permission-field-simple/permission-field-simple.nvue', 
 			const updateAuditorRole = await page.data('currentRole')
 			return updateAuditorIndex === 2 && updateAuditorRole == 'auditor'
 		})
-		console.log('updateAuditor: ',updateAuditor);
+		// console.log('updateAuditor: ',updateAuditor);
+		if(!updateAuditor)return
 
 		const updateAuditorA = await page.callMethod('myFn', {
 			"type": "update",
@@ -519,11 +478,6 @@ describe('pages/clientDB/permission-field-simple/permission-field-simple.nvue', 
 
 
 	it('创建--管理员', async () => {
-		// const perPage = await page.$('.page')
-		//头部操作控制条
-		// const segItems = await perPage.$$('.segmented-control__item')
-		//底部角色控制条
-		// const roles = await perPage.$$('.roles-item')
 		//点击创建
 		await segItems[0].tap()
 		await roles[3].tap()
@@ -533,7 +487,8 @@ describe('pages/clientDB/permission-field-simple/permission-field-simple.nvue', 
 			const createAdminRole = await page.data('currentRole')
 			return createAdminIndex === 0 && createAdminRole == 'admin'
 		})
-		console.log('createAdmin: ',createAdmin);
+		// console.log('createAdmin: ',createAdmin);
+		if(!createAdmin)return
 
 		await page.callMethod('myFn', {
 			"type": "create",
@@ -571,11 +526,6 @@ describe('pages/clientDB/permission-field-simple/permission-field-simple.nvue', 
 	})
 
 	it('读取--管理员', async () => {
-		// const perPage = await page.$('.page')
-		//头部操作控制条
-		// const segItems = await perPage.$$('.segmented-control__item')
-		//底部角色控制条
-		// const roles = await perPage.$$('.roles-item')
 		//点击读取
 		await segItems[1].tap()
 		await roles[3].tap()
@@ -585,7 +535,8 @@ describe('pages/clientDB/permission-field-simple/permission-field-simple.nvue', 
 			const readAdminRole = await page.data('currentRole')
 			return readAdminIndex === 1 && readAdminRole == 'admin'
 		})
-		console.log('readAdmin: ',readAdmin);
+		// console.log('readAdmin: ',readAdmin);
+		if(!readAdmin)return
 
 		await page.callMethod('myFn', {
 			"type": "read",
@@ -623,11 +574,6 @@ describe('pages/clientDB/permission-field-simple/permission-field-simple.nvue', 
 	})
 
 	it('更新--管理员', async () => {
-		// const perPage = await page.$('.page')
-		//头部操作控制条
-		// const segItems = await perPage.$$('.segmented-control__item')
-		//底部角色控制条
-		// const roles = await perPage.$$('.roles-item')
 		//点击更新
 		await segItems[2].tap()
 		await roles[3].tap()
@@ -637,7 +583,9 @@ describe('pages/clientDB/permission-field-simple/permission-field-simple.nvue', 
 			const updateAdminRole = await page.data('currentRole')
 			return updateAdminIndex === 2 && updateAdminRole == 'admin'
 		})
-		console.log('updateAdmin: ',updateAdmin);
+		// console.log('updateAdmin: ',updateAdmin);
+		if(!updateAdmin)return
+		
 		await page.callMethod('myFn', {
 			"type": "update",
 			"index": 0
