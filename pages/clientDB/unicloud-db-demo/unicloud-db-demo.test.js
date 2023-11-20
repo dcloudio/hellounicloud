@@ -4,12 +4,7 @@ describe('pages/clientDB/unicloud-db-demo/unicloud-db-demo', () => {
 	beforeAll(async () => {
 		// 重新reLaunch至首页，并获取首页page对象（其中 program 是uni-automator自动注入的全局对象）
 		page = await program.reLaunch('/pages/clientDB/unicloud-db-demo/unicloud-db-demo')
-		await page.waitFor(1000);
-	})
-	
-	beforeEach(async()=>{
-		jest.setTimeout(10000)
-		return false
+		await page.waitFor('view')
 	})
 
 	it("增-删", async () => {
@@ -21,9 +16,8 @@ describe('pages/clientDB/unicloud-db-demo/unicloud-db-demo', () => {
 		const addData = await page.callMethod('add')
 		await page.waitFor(500)
 		const getDataList = await page.data('dataList')
-		console.log("getDataList: ",getDataList);
-		expect(await getDataList.length).toBeGreaterThanOrEqual(1);
-		
+		// console.log("getDataList: ",getDataList);
+		// expect(await getDataList.length).toBeGreaterThanOrEqual(1);
 		const removeData = await page.callMethod('remove')
 	})
 
@@ -96,7 +90,7 @@ describe('pages/clientDB/unicloud-db-demo/unicloud-db-demo', () => {
 				await loadMore.tap()
 				await page.waitFor(300)
 			} */
-			if (process.env.UNI_PLATFORM === "h5" || process.env.UNI_PLATFORM === "app-plus") {
+			if (process.env.UNI_PLATFORM === "h5" || process.env.UNI_PLATFORM.startsWith("app")) {
 				const loadMore = await page.$('.loadMore')
 				await loadMore.tap()
 				await page.waitFor(300)

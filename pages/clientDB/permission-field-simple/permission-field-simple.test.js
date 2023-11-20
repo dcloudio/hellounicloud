@@ -1,31 +1,30 @@
 describe('pages/clientDB/permission-field-simple/permission-field-simple.nvue', () => {
-	let page,errMsgA,errMsgB;
+	let page,errMsgA,errMsgB,perPage,segItems,roles;
 	beforeAll(async () => {
 		// 重新reLaunch至首页，并获取首页page对象（其中 program 是uni-automator自动注入的全局对象）
 		page = await program.reLaunch(
 			'/pages/clientDB/permission-field-simple/permission-field-simple')
-		await page.waitFor(1000)
+		await page.waitFor('view')
 		page = await program.currentPage()
-		
-		// 权限校验未通过
-		// 未能获取当前用户信息：30205 | 当前用户为匿名身份
 		
 		errMsgA = "权限校验未通过，参与权限校验的集合：[]，请参考文档：https://uniapp.dcloud.net.cn/uniCloud/schema.html#handler-permission-error"
 		
 		errMsgB = "权限校验未通过，未能获取当前用户信息，当前用户为匿名身份 ，参与权限校验的集合：[]，请参考文档：https://uniapp.dcloud.net.cn/uniCloud/schema.html#handler-permission-error"
+		
+		perPage = await page.$('.page')
+		//头部操作控制条
+		segItems = await perPage.$$('.segmented-control__item')
+		//底部角色控制条
+		roles = await perPage.$$('.roles-item')
+		
 	})
 
-	// beforeEach(async()=>{
-	// 	jest.setTimeout(30000)
-	// 	return false
-	// })
-
 	it('创建--未登陆', async () => {
-		const perPage = await page.$('.page')
+		// const perPage = await page.$('.page')
 		//头部操作控制条
-		const segItems = await perPage.$$('.segmented-control__item')
+		// const segItems = await perPage.$$('.segmented-control__item')
 		//底部角色控制条
-		const roles = await perPage.$$('.roles-item')
+		// const roles = await perPage.$$('.roles-item')
 		//点击创建
 		await segItems[0].tap()
 		await roles[0].tap()
@@ -77,11 +76,11 @@ describe('pages/clientDB/permission-field-simple/permission-field-simple.nvue', 
 	})
 
 	it('读取--未登陆', async () => {
-		const perPage = await page.$('.page')
+		// const perPage = await page.$('.page')
 		//头部操作控制条
-		const segItems = await perPage.$$('.segmented-control__item')
+		// const segItems = await perPage.$$('.segmented-control__item')
 		//底部角色控制条
-		const roles = await perPage.$$('.roles-item')
+		// const roles = await perPage.$$('.roles-item')
 
 		//点击读取
 		await segItems[1].tap()
@@ -134,11 +133,11 @@ describe('pages/clientDB/permission-field-simple/permission-field-simple.nvue', 
 	})
 
 	it('更新--未登陆', async () => {
-		const perPage = await page.$('.page')
+		// const perPage = await page.$('.page')
 		//头部操作控制条
-		const segItems = await perPage.$$('.segmented-control__item')
+		// const segItems = await perPage.$$('.segmented-control__item')
 		//底部角色控制条
-		const roles = await perPage.$$('.roles-item')
+		// const roles = await perPage.$$('.roles-item')
 		//点击更新
 		await segItems[2].tap()
 		await roles[0].tap()
@@ -193,11 +192,11 @@ describe('pages/clientDB/permission-field-simple/permission-field-simple.nvue', 
 
 
 	it('创建--用户', async () => {
-		const perPage = await page.$('.page')
+		// const perPage = await page.$('.page')
 		//头部操作控制条
-		const segItems = await perPage.$$('.segmented-control__item')
+		// const segItems = await perPage.$$('.segmented-control__item')
 		//底部角色控制条
-		const roles = await perPage.$$('.roles-item')
+		// const roles = await perPage.$$('.roles-item')
 
 		//点击创建
 		await segItems[0].tap()
@@ -248,11 +247,11 @@ describe('pages/clientDB/permission-field-simple/permission-field-simple.nvue', 
 	})
 
 	it('读取--用户', async () => {
-		const perPage = await page.$('.page')
+		// const perPage = await page.$('.page')
 		//头部操作控制条
-		const segItems = await perPage.$$('.segmented-control__item')
+		// const segItems = await perPage.$$('.segmented-control__item')
 		//底部角色控制条
-		const roles = await perPage.$$('.roles-item')
+		// const roles = await perPage.$$('.roles-item')
 		//点击读取
 		await segItems[1].tap()
 		await roles[1].tap()
@@ -303,11 +302,11 @@ describe('pages/clientDB/permission-field-simple/permission-field-simple.nvue', 
 	})
 
 	it('更新--用户', async () => {
-		const perPage = await page.$('.page')
+		// const perPage = await page.$('.page')
 		//头部操作控制条
-		const segItems = await perPage.$$('.segmented-control__item')
+		// const segItems = await perPage.$$('.segmented-control__item')
 		//底部角色控制条
-		const roles = await perPage.$$('.roles-item')
+		// const roles = await perPage.$$('.roles-item')
 		//点击更新
 		await segItems[2].tap()
 		await roles[1].tap()
@@ -358,11 +357,11 @@ describe('pages/clientDB/permission-field-simple/permission-field-simple.nvue', 
 
 
 	it('创建--审核员', async () => {
-		const perPage = await page.$('.page')
+		// const perPage = await page.$('.page')
 		//头部操作控制条
-		const segItems = await perPage.$$('.segmented-control__item')
+		// const segItems = await perPage.$$('.segmented-control__item')
 		//底部角色控制条
-		const roles = await perPage.$$('.roles-item')
+		// const roles = await perPage.$$('.roles-item')
 
 		//点击创建
 		await segItems[0].tap()
@@ -413,11 +412,11 @@ describe('pages/clientDB/permission-field-simple/permission-field-simple.nvue', 
 	})
 
 	it('读取--审核员', async () => {
-		const perPage = await page.$('.page')
+		// const perPage = await page.$('.page')
 		//头部操作控制条
-		const segItems = await perPage.$$('.segmented-control__item')
+		// const segItems = await perPage.$$('.segmented-control__item')
 		//底部角色控制条
-		const roles = await perPage.$$('.roles-item')
+		// const roles = await perPage.$$('.roles-item')
 		//点击读取
 		await segItems[1].tap()
 		await roles[2].tap()
@@ -464,11 +463,11 @@ describe('pages/clientDB/permission-field-simple/permission-field-simple.nvue', 
 	})
 
 	it('更新--审核员', async () => {
-		const perPage = await page.$('.page')
+		// const perPage = await page.$('.page')
 		//头部操作控制条
-		const segItems = await perPage.$$('.segmented-control__item')
+		// const segItems = await perPage.$$('.segmented-control__item')
 		//底部角色控制条
-		const roles = await perPage.$$('.roles-item')
+		// const roles = await perPage.$$('.roles-item')
 		//点击更新
 		await segItems[2].tap()
 		await roles[2].tap()
@@ -517,11 +516,11 @@ describe('pages/clientDB/permission-field-simple/permission-field-simple.nvue', 
 
 
 	it('创建--管理员', async () => {
-		const perPage = await page.$('.page')
+		// const perPage = await page.$('.page')
 		//头部操作控制条
-		const segItems = await perPage.$$('.segmented-control__item')
+		// const segItems = await perPage.$$('.segmented-control__item')
 		//底部角色控制条
-		const roles = await perPage.$$('.roles-item')
+		// const roles = await perPage.$$('.roles-item')
 		//点击创建
 		await segItems[0].tap()
 		await roles[3].tap()
@@ -568,11 +567,11 @@ describe('pages/clientDB/permission-field-simple/permission-field-simple.nvue', 
 	})
 
 	it('读取--管理员', async () => {
-		const perPage = await page.$('.page')
+		// const perPage = await page.$('.page')
 		//头部操作控制条
-		const segItems = await perPage.$$('.segmented-control__item')
+		// const segItems = await perPage.$$('.segmented-control__item')
 		//底部角色控制条
-		const roles = await perPage.$$('.roles-item')
+		// const roles = await perPage.$$('.roles-item')
 		//点击读取
 		await segItems[1].tap()
 		await roles[3].tap()
@@ -619,11 +618,11 @@ describe('pages/clientDB/permission-field-simple/permission-field-simple.nvue', 
 	})
 
 	it('更新--管理员', async () => {
-		const perPage = await page.$('.page')
+		// const perPage = await page.$('.page')
 		//头部操作控制条
-		const segItems = await perPage.$$('.segmented-control__item')
+		// const segItems = await perPage.$$('.segmented-control__item')
 		//底部角色控制条
-		const roles = await perPage.$$('.roles-item')
+		// const roles = await perPage.$$('.roles-item')
 		//点击更新
 		await segItems[2].tap()
 		await roles[3].tap()

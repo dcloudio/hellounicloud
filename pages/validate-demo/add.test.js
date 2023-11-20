@@ -4,24 +4,11 @@ describe('pages/validate-demo/add.vue', () => {
 	beforeAll(async () => {
 		// 重新reLaunch至首页，并获取首页page对象（其中 program 是uni-automator自动注入的全局对象）
 		page = await program.reLaunch('/pages/validate-demo/add')
-		if (process.env.UNI_PLATFORM === "h5"|| process.env.UNI_PLATFORM === "app-plus") {
-			await page.waitFor(1000)
-		}
-		if (process.env.UNI_PLATFORM === "mp-weixin") {
-			await page.waitFor(1000);//微信等待
-		}
+		await page.waitFor('view')
 		page = await program.currentPage()
-
-		const formData = await page.data('formData')
-	})
-	
-	beforeEach(async()=>{
-		jest.setTimeout(20000)
-		return false
 	})
 
 	it('输入表单内容', async () => {
-		
 		
 		let type = 1
 		let type_name = "数字天堂"

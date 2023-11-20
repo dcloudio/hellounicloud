@@ -5,18 +5,8 @@ describe('pages/user-info/detail.vue', () => {
 		// 重新reLaunch至首页，并获取首页page对象（其中 program 是uni-automator自动注入的全局对象）
 		
 		page = await program.reLaunch('/pages/user-info/edit?id=601d044ac9e7be0001cc00b8')
-		if (process.env.UNI_PLATFORM === "h5"|| process.env.UNI_PLATFORM === "app-plus") {
-			await page.waitFor(1000)
-		}
-		if (process.env.UNI_PLATFORM === "mp-weixin") {
-			await page.waitFor(1000);//微信等待
-		}
+		await page.waitFor('view')
 		page = await program.currentPage()
-	})
-
-	beforeEach(async()=>{
-		jest.setTimeout(10000)
-		return false
 	})
 
 	it('修改表单内容', async () => {

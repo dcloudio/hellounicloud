@@ -1,38 +1,34 @@
 describe('pages/clientDB/permission-table-simple/permission-table-simple.vue', () => {
-	let page,errMsgA,errMsgB,errMsgC;
+	let page,errMsgA,errMsgB,errMsgC,perPage,segItems,roles;
 	beforeAll(async () => {
 		// 重新reLaunch至首页，并获取首页page对象（其中 program 是uni-automator自动注入的全局对象）
 		page = await program.reLaunch(
 			'/pages/clientDB/permission-table-simple/permission-table-simple')
-		
-		await page.waitFor(1000)
+		page = await program.currentPage()
+		await page.waitFor('view')
 		
 		errMsgA = "权限校验未通过，参与权限校验的集合：[]，请参考文档：https://uniapp.dcloud.net.cn/uniCloud/schema.html#handler-permission-error"
-		
 		errMsgB = "权限校验未通过，未能获取当前用户信息，当前用户为匿名身份 ，参与权限校验的集合：[]，请参考文档：https://uniapp.dcloud.net.cn/uniCloud/schema.html#handler-permission-error"
-		
 		errMsgC = "未能获取当前用户信息：当前用户为匿名身份"
 		
-		page = await program.currentPage()
-	})
-
-	beforeEach(async()=>{
-		jest.setTimeout(20000)
-		return false
+		perPage = await page.$('.page')
+		//头部操作控制条
+		segItems = await perPage.$$('.segmented-control__item')
+		//底部角色控制条
+		roles = await perPage.$$('.roles-item')
 	})
 
 
 	it('创建--未登陆', async () => {
-		const perPage = await page.$('.page')
+		// const perPage = await page.$('.page')
 		//头部操作控制条
-		const segItems = await perPage.$$('.segmented-control__item')
+		// const segItems = await perPage.$$('.segmented-control__item')
 		//底部角色控制条
-		const roles = await perPage.$$('.roles-item')
+		// const roles = await perPage.$$('.roles-item')
 
 		//点击创建
 		await segItems[0].tap()
 		await roles[0].tap()
-
 
 		const createUnlogin = await page.waitFor(async () => {
 			const createUnlogintIndex = await page.data('typeIndex')
@@ -93,11 +89,11 @@ describe('pages/clientDB/permission-table-simple/permission-table-simple.vue', (
 	})
 
 	it('读取--未登陆', async () => {
-		const perPage = await page.$('.page')
+		// const perPage = await page.$('.page')
 		//头部操作控制条
-		const segItems = await perPage.$$('.segmented-control__item')
+		// const segItems = await perPage.$$('.segmented-control__item')
 		//底部角色控制条
-		const roles = await perPage.$$('.roles-item')
+		// const roles = await perPage.$$('.roles-item')
 		//点击创建
 		await segItems[1].tap()
 		await roles[0].tap()
@@ -209,11 +205,11 @@ describe('pages/clientDB/permission-table-simple/permission-table-simple.vue', (
 	})
 
 	it('更新--未登陆', async () => {
-		const perPage = await page.$('.page')
+		// const perPage = await page.$('.page')
 		//头部操作控制条
-		const segItems = await perPage.$$('.segmented-control__item')
+		// const segItems = await perPage.$$('.segmented-control__item')
 		//底部角色控制条
-		const roles = await perPage.$$('.roles-item')
+		// const roles = await perPage.$$('.roles-item')
 
 		//点击更新
 		await segItems[2].tap()
@@ -321,11 +317,11 @@ describe('pages/clientDB/permission-table-simple/permission-table-simple.vue', (
 	})
 
 	it('删除--未登陆', async () => {
-		const perPage = await page.$('.page')
+		// const perPage = await page.$('.page')
 		//头部操作控制条
-		const segItems = await perPage.$$('.segmented-control__item')
+		// const segItems = await perPage.$$('.segmented-control__item')
 		//底部角色控制条
-		const roles = await perPage.$$('.roles-item')
+		// const roles = await perPage.$$('.roles-item')
 
 		//点击更新
 		await segItems[3].tap()
@@ -432,11 +428,11 @@ describe('pages/clientDB/permission-table-simple/permission-table-simple.vue', (
 
 
 	it('创建--用户', async () => {
-		const perPage = await page.$('.page')
+		// const perPage = await page.$('.page')
 		//头部操作控制条
-		const segItems = await perPage.$$('.segmented-control__item')
+		// const segItems = await perPage.$$('.segmented-control__item')
 		//底部角色控制条
-		const roles = await perPage.$$('.roles-item')
+		// const roles = await perPage.$$('.roles-item')
 
 
 		//点击创建
@@ -496,11 +492,14 @@ describe('pages/clientDB/permission-table-simple/permission-table-simple.vue', (
 	})
 
 	it('读取--用户', async () => {
-		const perPage = await page.$('.page')
+		// const perPage = await page.$('.page')
+		// console.log('perPage: ',perPage);
 		//头部操作控制条
-		const segItems = await perPage.$$('.segmented-control__item')
+		// const segItems = await perPage.$$('.segmented-control__item')
+		// console.log('segItems: ',segItems);
 		//底部角色控制条
-		const roles = await perPage.$$('.roles-item')
+		// const roles = await perPage.$$('.roles-item')
+		// console.log('roles: ',roles);
 
 		//点击读取
 		await segItems[1].tap()
@@ -601,13 +600,13 @@ describe('pages/clientDB/permission-table-simple/permission-table-simple.vue', (
 		expect(readUserO.result.data.length).toBeGreaterThan(0)
 
 	})
-	// ----------------------------------------------
+	
 	it('更新--用户', async () => {
-		const perPage = await page.$('.page')
+		// const perPage = await page.$('.page')
 		//头部操作控制条
-		const segItems = await perPage.$$('.segmented-control__item')
+		// const segItems = await perPage.$$('.segmented-control__item')
 		//底部角色控制条
-		const roles = await perPage.$$('.roles-item')
+		// const roles = await perPage.$$('.roles-item')
 
 		//点击更新
 		await segItems[2].tap()
@@ -712,11 +711,11 @@ describe('pages/clientDB/permission-table-simple/permission-table-simple.vue', (
 	})
 
 	it('删除--用户', async () => {
-		const perPage = await page.$('.page')
+		// const perPage = await page.$('.page')
 		//头部操作控制条
-		const segItems = await perPage.$$('.segmented-control__item')
+		// const segItems = await perPage.$$('.segmented-control__item')
 		//底部角色控制条
-		const roles = await perPage.$$('.roles-item')
+		// const roles = await perPage.$$('.roles-item')
 
 		//点击更新
 		await segItems[3].tap()
@@ -800,11 +799,11 @@ describe('pages/clientDB/permission-table-simple/permission-table-simple.vue', (
 
 
 	it('创建--审核员Auditor', async () => {
-		const perPage = await page.$('.page')
+		// const perPage = await page.$('.page')
 		//头部操作控制条
-		const segItems = await perPage.$$('.segmented-control__item')
+		// const segItems = await perPage.$$('.segmented-control__item')
 		//底部角色控制条
-		const roles = await perPage.$$('.roles-item')
+		// const roles = await perPage.$$('.roles-item')
 
 		//点击创建
 		await segItems[0].tap()
@@ -856,11 +855,11 @@ describe('pages/clientDB/permission-table-simple/permission-table-simple.vue', (
 	})
 
 	it('读取--审核员', async () => {
-		const perPage = await page.$('.page')
+		// const perPage = await page.$('.page')
 		//头部操作控制条
-		const segItems = await perPage.$$('.segmented-control__item')
+		// const segItems = await perPage.$$('.segmented-control__item')
 		//底部角色控制条
-		const roles = await perPage.$$('.roles-item')
+		// const roles = await perPage.$$('.roles-item')
 
 		//点击读取
 		await segItems[1].tap()
@@ -949,11 +948,11 @@ describe('pages/clientDB/permission-table-simple/permission-table-simple.vue', (
 	})
 
 	it('更新--审核员', async () => {
-		const perPage = await page.$('.page')
+		// const perPage = await page.$('.page')
 		//头部操作控制条
-		const segItems = await perPage.$$('.segmented-control__item')
+		// const segItems = await perPage.$$('.segmented-control__item')
 		//底部角色控制条
-		const roles = await perPage.$$('.roles-item')
+		// const roles = await perPage.$$('.roles-item')
 
 		//点击更新
 		await segItems[2].tap()
@@ -1039,11 +1038,11 @@ describe('pages/clientDB/permission-table-simple/permission-table-simple.vue', (
 	})
 
 	it('删除--审核员', async () => {
-		const perPage = await page.$('.page')
+		// const perPage = await page.$('.page')
 		//头部操作控制条
-		const segItems = await perPage.$$('.segmented-control__item')
+		// const segItems = await perPage.$$('.segmented-control__item')
 		//底部角色控制条
-		const roles = await perPage.$$('.roles-item')
+		// const roles = await perPage.$$('.roles-item')
 
 		//点击更新
 		await segItems[3].tap()
@@ -1129,11 +1128,11 @@ describe('pages/clientDB/permission-table-simple/permission-table-simple.vue', (
 	})
 
 	it('创建--管理员admin', async () => {
-		const perPage = await page.$('.page')
+		// const perPage = await page.$('.page')
 		//头部操作控制条
-		const segItems = await perPage.$$('.segmented-control__item')
+		// const segItems = await perPage.$$('.segmented-control__item')
 		//底部角色控制条
-		const roles = await perPage.$$('.roles-item')
+		// const roles = await perPage.$$('.roles-item')
 
 		//点击创建
 		await segItems[0].tap()
@@ -1186,11 +1185,11 @@ describe('pages/clientDB/permission-table-simple/permission-table-simple.vue', (
 	})
 
 	it('读取--管理员', async () => {
-		const perPage = await page.$('.page')
+		// const perPage = await page.$('.page')
 		//头部操作控制条
-		const segItems = await perPage.$$('.segmented-control__item')
+		// const segItems = await perPage.$$('.segmented-control__item')
 		//底部角色控制条
-		const roles = await perPage.$$('.roles-item')
+		// const roles = await perPage.$$('.roles-item')
 
 		//点击读取
 		await segItems[1].tap()
@@ -1279,11 +1278,11 @@ describe('pages/clientDB/permission-table-simple/permission-table-simple.vue', (
 	})
 
 	it('更新--管理员', async () => {
-		const perPage = await page.$('.page')
+		// const perPage = await page.$('.page')
 		//头部操作控制条
-		const segItems = await perPage.$$('.segmented-control__item')
+		// const segItems = await perPage.$$('.segmented-control__item')
 		//底部角色控制条
-		const roles = await perPage.$$('.roles-item')
+		// const roles = await perPage.$$('.roles-item')
 
 		//点击更新
 		await segItems[2].tap()
@@ -1368,11 +1367,11 @@ describe('pages/clientDB/permission-table-simple/permission-table-simple.vue', (
 	})
 
 	it('删除--管理员', async () => {
-		const perPage = await page.$('.page')
+		// const perPage = await page.$('.page')
 		//头部操作控制条
-		const segItems = await perPage.$$('.segmented-control__item')
+		// const segItems = await perPage.$$('.segmented-control__item')
 		//底部角色控制条
-		const roles = await perPage.$$('.roles-item')
+		// const roles = await perPage.$$('.roles-item')
 
 		//点击更新
 		await segItems[3].tap()

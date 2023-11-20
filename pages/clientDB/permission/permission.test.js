@@ -3,14 +3,9 @@ describe('pages/clientDB/permission/permission.vue', () => {
 	beforeAll(async () => {
 		// 重新reLaunch至首页，并获取首页page对象（其中 program 是uni-automator自动注入的全局对象）
 		page = await program.reLaunch('/pages/clientDB/permission/permission')
-		await page.waitFor(1000)
+		await page.waitFor('view')
 		page = await program.currentPage()
 
-	})
-	
-	beforeEach(async()=>{
-		jest.setTimeout(5000)
-		return false
 	})
 
 	it('获取数据',async()=>{
@@ -19,8 +14,7 @@ describe('pages/clientDB/permission/permission.vue', () => {
 			const listItem = await page.$$('uni-list-item')
 			expect(listItem.length).toBe(4)
 		}
-		
-		if (process.env.UNI_PLATFORM === "h5" || process.env.UNI_PLATFORM === "app-plus") {
+		if (process.env.UNI_PLATFORM === "h5" || process.env.UNI_PLATFORM.startsWith("app")) {
 			await page.waitFor(500)
 			const perPage = await page.$('.page')
 			const getData = await perPage.$$(".table-item")

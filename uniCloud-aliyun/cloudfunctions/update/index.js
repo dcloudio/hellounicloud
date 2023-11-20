@@ -21,7 +21,7 @@ exports.main = async (event, context) => {
 	} else {
 		return {
 			status: -1,
-			msg: `集合unicloud-test内没有数据`
+			msg: `没有数据内容被修改`
 		}
 	}
 };

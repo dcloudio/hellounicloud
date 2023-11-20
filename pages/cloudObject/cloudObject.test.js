@@ -5,7 +5,7 @@ describe('pages/cloudObject/cloudObject.vue', () => {
 	let page;
 	beforeAll(async () => {
 		page = await program.reLaunch('/pages/cloudObject/cloudObject')
-		await page.waitFor(500);
+		await page.waitFor('view');
 	});
 	
 	it('云对象-检查标题',async()=>{

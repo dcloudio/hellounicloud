@@ -1,24 +1,29 @@
 describe('pages/clientDB/permission-demo/readme.vue', () => {
 	
-	let page
+	let page,perPage,setPer,roles;
 	beforeAll(async () => {
 		// 重新reLaunch至首页，并获取首页page对象（其中 program 是uni-automator自动注入的全局对象）
 		page = await program.reLaunch(
 			'/pages/clientDB/permission-demo/readme')
-		await page.waitFor(1000)
+		await page.waitFor('view')
 		// page = await program.currentPage()
+		perPage = await page.$('.page')
+		
+		if (process.env.UNI_PLATFORM === "h5" || process.env.UNI_PLATFORM.startsWith("app") ) {
+			roles = await perPage.$$('.roles-item')
+		}
+		if (process.env.UNI_PLATFORM === "mp-weixin") {
+			setPer = await perPage.$('set-permission')
+			//底部角色控制条
+			roles = await setPer.$$('.roles-item')
+		}
+		
 	})
 	
-	// beforeEach(async()=>{
-	// 	jest.setTimeout(30000)
-	// 	return false
-	// })
-	
-	
 	it('用户', async () => {
-		const perPage = await page.$('.page')
+		// const perPage = await page.$('.page')
 		//底部角色控制条
-		const roles = await perPage.$$('.roles-item')
+		// const roles = await perPage.$$('.roles-item')
 		//点击创建
 		await roles[1].tap()
 		
@@ -88,36 +93,7 @@ describe('pages/clientDB/permission-demo/readme.vue', () => {
 	})
 	
 	it('未登陆', async () => {
-		
-		
-		if (process.env.UNI_PLATFORM === "h5" || process.env.UNI_PLATFORM === "app-plus" ) {
-			
-			
-			console.log("h5");
-			await page.waitFor(2000)
-			const perPage = await page.$('.page')
-			//底部角色控制条
-			const roles = await perPage.$$('.roles-item')
-			//点击创建
-			await roles[0].tap()
-			
-			await page.waitFor(500)
-		}
-		
-		if (process.env.UNI_PLATFORM === "mp-weixin") {
-			
-			
-			await page.waitFor(300)
-			console.log("mp-weixin");
-			const perPage = await page.$('.page')
-			const setPer = await perPage.$('set-permission')
-			//底部角色控制条
-			const roles = await setPer.$$('.roles-item')
-			//点击创建
-			await roles[0].tap()
-			await page.waitFor(500)
-		}
-		
+		await roles[0].tap()
 		
 		const unlogin = await page.waitFor(async()=>{
 			const unloginRole = await page.data('currentRole')
@@ -185,9 +161,9 @@ describe('pages/clientDB/permission-demo/readme.vue', () => {
 	})
 	
 	it('审核员', async () => {
-		const perPage = await page.$('.page')
+		// const perPage = await page.$('.page')
 		//底部角色控制条
-		const roles = await perPage.$$('.roles-item')
+		// const roles = await perPage.$$('.roles-item')
 		//点击创建
 		await roles[2].tap()
 		const auditor = await page.waitFor(async()=>{
@@ -259,9 +235,9 @@ describe('pages/clientDB/permission-demo/readme.vue', () => {
 	
 	
 	it('管理员', async () => {
-		const perPage = await page.$('.page')
+		// const perPage = await page.$('.page')
 		//底部角色控制条
-		const roles = await perPage.$$('.roles-item')
+		// const roles = await perPage.$$('.roles-item')
 		//点击创建
 		await roles[3].tap()
 		const admin = await page.waitFor(async()=>{

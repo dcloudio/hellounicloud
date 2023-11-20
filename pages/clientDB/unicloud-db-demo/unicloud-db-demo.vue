@@ -214,14 +214,14 @@
 			},
 			async remove(){
 				const _id = udb.dataList[0]._id
-				return await udb.remove(_id)
+				return await udb.remove(_id,{needConfirm:false})
 			},
 			async update(){
 				const _id = udb.dataList[0]._id
 				return await udb.update(_id,{book_id:"这条数据被改"},
 				{
 					success: (res) => { // 新增成功后的回调
-						this.getFn()
+						return this.getFn()
 					}
 				})
 			},

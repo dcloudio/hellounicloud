@@ -4,12 +4,7 @@ describe('pages/user-info/list.vue', () => {
 	beforeAll(async () => {
 		// 重新reLaunch至首页，并获取首页page对象（其中 program 是uni-automator自动注入的全局对象）
 		page = await program.reLaunch('/pages/user-info/list')
-		if (process.env.UNI_PLATFORM === "h5"|| process.env.UNI_PLATFORM === "app-plus") {
-			await page.waitFor(1000)
-		}
-		if (process.env.UNI_PLATFORM === "mp-weixin") {
-			await page.waitFor(1000);//微信等待
-		}
+		await page.waitFor('view')
 		page = await program.currentPage()
 	})
 	
@@ -17,7 +12,11 @@ describe('pages/user-info/list.vue', () => {
 	// 	jest.setTimeout(20000)
 	// 	return false
 	// })
-	
+	it('点击第一条',async()=>{
+		const items = await page.$$('.uni-list-item')
+		// console.log('items: ',items);
+		await items[0].tap()
+	})
 	
 	/* it('点击某一条',async()=>{
 		const getDataList = await page.data('dataList')
