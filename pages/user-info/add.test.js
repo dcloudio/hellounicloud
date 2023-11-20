@@ -6,7 +6,6 @@ describe('pages/user-info/add.vue', () => {
 		page = await program.reLaunch('/pages/user-info/add')
 		await page.waitFor('view')
 		page = await program.currentPage()
-		// console.log("page-add: ",page);
 	})
 	
 	it('输入表单内容', async () => {
@@ -30,7 +29,8 @@ describe('pages/user-info/add.vue', () => {
 				"party_member": true,
 				"hobby":["dance"],
 				"comment": "好的"
-			}
+			},
+			"isTest":true
 		})
 		//console.log(await page.data('formData'), "setForm---");
 		

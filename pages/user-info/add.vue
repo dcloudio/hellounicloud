@@ -77,6 +77,7 @@
         "comment": ""
       }
       return {
+			isTest:false,
         formData,
         formOptions: {
           "gender_localdata": [
@@ -140,8 +141,10 @@
             icon: 'none',
             title: '新增成功'
           })
-          this.getOpenerEventChannel().emit('refreshData')
-          setTimeout(() => uni.navigateBack(), 500)
+			 if(!isTest){
+				 this.getOpenerEventChannel().emit('refreshData')
+				 setTimeout(() => uni.navigateBack(), 500)
+			 }
 			 return res
         }).catch((err) => {
           uni.showModal({
