@@ -92,15 +92,14 @@ describe('pages/clientDB/unicloud-db-demo/unicloud-db-demo', () => {
 			} */
 			if (process.env.UNI_PLATFORM === "h5" || process.env.UNI_PLATFORM.startsWith("app")) {
 				const loadMore = await page.$('.loadMore')
+				console.log('loadMore: ',loadMore);
+				// await page.waitFor(300)
 				await loadMore.tap()
 				await page.waitFor(300)
 			}
 		}
-		
-
 		//每页数据数量减去1
 		const pageSizeSubBefore = await page.data('pageSize')
-		
 		const numBox2 = await page.$('.num-box2')
 		const numboxMin2 = await numBox2.$('.uni-numbox__minus')
 		await numboxMin2.tap()

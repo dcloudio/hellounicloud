@@ -11,18 +11,13 @@ describe('pages/clientDB/validate/validate.vue', () => {
 	it('点击切换navBar', async () => {
 		//expect.assertions(1);
 		const segmentedControl = await page.$('.segmented-control')
-		
 		const seControl = await segmentedControl.$$('.segmented-control__item')
-		console.log('seControl: ',seControl);
-		console.log(await seControl[0].text());
-		// expect(await seControl[0].text()).toBe('实例demo')
-		
+		// console.log(await seControl[0].text());
+		expect(await seControl[0].text()).toBe('实例demo')
 		await seControl[1].tap()
 		await page.waitFor(300)
-		
 		await seControl[2].tap()
 		await page.waitFor(300)
-		
 	})
 
 })

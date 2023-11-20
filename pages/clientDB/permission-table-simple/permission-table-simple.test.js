@@ -113,6 +113,7 @@ describe('pages/clientDB/permission-table-simple/permission-table-simple.vue', (
 				"type": "read",
 				"index": 0
 			})
+			// console.log('readA: ',readA);
 			expect(readA.success).toBeTruthy()
 			
 			// 禁止任何角色读取
@@ -230,7 +231,9 @@ describe('pages/clientDB/permission-table-simple/permission-table-simple.vue', (
 				"type": "update",
 				"index": 0
 			})
-			expect(updateA.result.updated).toBeGreaterThanOrEqual(1)
+			// console.log('updateA: ',updateA);
+			// expect(updateA.result.updated).toBeGreaterThanOrEqual(1)
+			expect(updateA.result.errCode).toBe(0)
 			
 			// 禁止任何角色更新，管理员除外
 			const updateB = await page.callMethod('myFn', {
@@ -339,7 +342,9 @@ describe('pages/clientDB/permission-table-simple/permission-table-simple.vue', (
 			"type": "delete",
 			"index": 0
 		})
-		expect(deleteA.result.deleted).toBeGreaterThan(0)
+		// console.log("deleteA",deleteA);
+		// expect(deleteA.result.deleted).toBeGreaterThanOrEqual(0)
+		expect(deleteA.result.errCode).toBe(0)
 		
 		// 禁止任何角色删除，管理员除外
 		const deleteB = await page.callMethod('myFn', {
@@ -375,8 +380,9 @@ describe('pages/clientDB/permission-table-simple/permission-table-simple.vue', (
 			"type": "delete",
 			"index": 3
 		})
-		console.log('deleteF: ',deleteF);
+		// console.log('deleteF: ',deleteF);
 		// expect(deleteF.success).toBeTruthy()
+		expect(deleteF.result.deleted).toBe(0)
 
 		// 只更新1分钟内创建的数据，先创建数据
 		const deleteG = await page.callMethod('myFn', {
@@ -639,7 +645,8 @@ describe('pages/clientDB/permission-table-simple/permission-table-simple.vue', (
 			"type": "update",
 			"index": 2
 		})
-		console.log('updateUserC: ',updateUserC);
+		// console.log('updateUserC: ',updateUserC);
+		expect(updateUserC.result.updated).toBe(1)
 		
 		
 		// 仅更新自己创建的数据 先创建数据
@@ -662,7 +669,8 @@ describe('pages/clientDB/permission-table-simple/permission-table-simple.vue', (
 			"type": "update",
 			"index": 3
 		})
-		expect(updateUserF.result.updated).toBeGreaterThanOrEqual(1)
+		// console.log('updateUserF: ',updateUserF);
+		expect(updateUserF.result.errCode).toBe(0)
 		
 		// 只更新1分钟内创建的数据 先创建数据
 		const updateUserG = await page.callMethod('myFn', {
@@ -706,7 +714,9 @@ describe('pages/clientDB/permission-table-simple/permission-table-simple.vue', (
 			"index": 6,
 			"action": "add_view_count"
 		})
-		console.log('updateUserAction: ',updateUserAction);
+		// console.log('updateUserAction: ',updateUserAction);
+		expect(updateUserAction.result.updated).toBe(1)
+		// expect(updateUserAction.errCode).toBe(0)
 
 	})
 

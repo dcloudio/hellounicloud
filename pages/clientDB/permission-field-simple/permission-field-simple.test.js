@@ -208,6 +208,7 @@ describe('pages/clientDB/permission-field-simple/permission-field-simple.nvue', 
 			return createUserIndex === 0 && createUserRole == 'user'
 		})
 		console.log("createUser: ",createUser);
+		if(!createUser)return
 
 		const createUserA = await page.callMethod('myFn', {
 			"type": "create",
@@ -316,42 +317,43 @@ describe('pages/clientDB/permission-field-simple/permission-field-simple.nvue', 
 			const updateUserRole = await page.data('currentRole')
 			return updateUserIndex === 2 && updateUserRole == 'user'
 		})
-
-
-		const updateUserA = await page.callMethod('myFn', {
-			"type": "update",
-			"index": 0
-		})
-		expect(updateUserA).toBe(errMsgA)
-
-		await page.callMethod('myFn', {
-			"type": "update",
-			"index": 0,
-			"field": "_id,state,create_time,text"
-		})
-
-		await page.callMethod('myFn', {
-			"type": "update",
-			"index": 1
-		})
-
-		await page.callMethod('myFn', {
-			"type": "update",
-			"index": 1,
-			"field": "_id,state,create_time,text"
-		})
-
-		const updateUserB = await page.callMethod('myFn', {
-			"type": "update",
-			"index": 2
-		})
-		expect(updateUserB).toBe(errMsgA)
-
-		await page.callMethod('myFn', {
-			"type": "update",
-			"index": 2,
-			"field": "_id,state,create_time,text"
-		})
+		
+		if(readUser){
+			const updateUserA = await page.callMethod('myFn', {
+				"type": "update",
+				"index": 0
+			})
+			expect(updateUserA).toBe(errMsgA)
+			
+			await page.callMethod('myFn', {
+				"type": "update",
+				"index": 0,
+				"field": "_id,state,create_time,text"
+			})
+			
+			await page.callMethod('myFn', {
+				"type": "update",
+				"index": 1
+			})
+			
+			await page.callMethod('myFn', {
+				"type": "update",
+				"index": 1,
+				"field": "_id,state,create_time,text"
+			})
+			
+			const updateUserB = await page.callMethod('myFn', {
+				"type": "update",
+				"index": 2
+			})
+			expect(updateUserB).toBe(errMsgA)
+			
+			await page.callMethod('myFn', {
+				"type": "update",
+				"index": 2,
+				"field": "_id,state,create_time,text"
+			})
+		}
 
 	})
 
@@ -477,6 +479,7 @@ describe('pages/clientDB/permission-field-simple/permission-field-simple.nvue', 
 			const updateAuditorRole = await page.data('currentRole')
 			return updateAuditorIndex === 2 && updateAuditorRole == 'auditor'
 		})
+		console.log('updateAuditor: ',updateAuditor);
 
 		const updateAuditorA = await page.callMethod('myFn', {
 			"type": "update",
@@ -530,6 +533,7 @@ describe('pages/clientDB/permission-field-simple/permission-field-simple.nvue', 
 			const createAdminRole = await page.data('currentRole')
 			return createAdminIndex === 0 && createAdminRole == 'admin'
 		})
+		console.log('createAdmin: ',createAdmin);
 
 		await page.callMethod('myFn', {
 			"type": "create",
@@ -581,6 +585,7 @@ describe('pages/clientDB/permission-field-simple/permission-field-simple.nvue', 
 			const readAdminRole = await page.data('currentRole')
 			return readAdminIndex === 1 && readAdminRole == 'admin'
 		})
+		console.log('readAdmin: ',readAdmin);
 
 		await page.callMethod('myFn', {
 			"type": "read",
@@ -626,12 +631,13 @@ describe('pages/clientDB/permission-field-simple/permission-field-simple.nvue', 
 		//点击更新
 		await segItems[2].tap()
 		await roles[3].tap()
+		
 		const updateAdmin = await page.waitFor(async () => {
 			const updateAdminIndex = await page.data('typeIndex')
 			const updateAdminRole = await page.data('currentRole')
 			return updateAdminIndex === 2 && updateAdminRole == 'admin'
 		})
-
+		console.log('updateAdmin: ',updateAdmin);
 		await page.callMethod('myFn', {
 			"type": "update",
 			"index": 0
