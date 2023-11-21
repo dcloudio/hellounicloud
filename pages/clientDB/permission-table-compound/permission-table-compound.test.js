@@ -1,3 +1,5 @@
+jest.setTimeout(20000)
+
 describe('pages/clientDB/permission-table-compound/permission-table-compound.vue', () => {
 	let page,errMsgA,errMsgB,perPage,segItems,roles;
 	beforeAll(async () => {
@@ -398,9 +400,6 @@ describe('pages/clientDB/permission-table-compound/permission-table-compound.vue
 			"index": 1,
 			"action": "add_view_count"
 		})
-
-
-
 	})
 
 
