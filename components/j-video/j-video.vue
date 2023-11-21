@@ -35,7 +35,7 @@ var videoContext;
 				}
 			},
 			timeupdate(e){
-				console.log(e.detail);
+				// console.log(e.detail);
 				this.duration = e.detail.duration
 				this.currentTime = e.detail.currentTime
 			},
@@ -58,7 +58,7 @@ var videoContext;
 			poster: {
 				type: [String,Boolean],
 				default(){
-					return ''
+					return 'https://web-assets.dcloud.net.cn/unidoc/zh/schema2code-poster.jpg'
 				}
 			},
 			src: {
