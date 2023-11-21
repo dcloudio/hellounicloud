@@ -22,7 +22,7 @@ describe('pages/clientDB/permission-demo/permission-demo.vue', () => {
 	it('未登陆', async () => {
 		await roles[0].tap()
 		console.log('rulo_index: ',await page.data('rulo_index'));
-		expect(await roles[0].text()).toBe('未登陆')
+		expect((await roles[0].text()).trim()).toBe('未登陆')
 	})
 
 	it('用户', async () => {
