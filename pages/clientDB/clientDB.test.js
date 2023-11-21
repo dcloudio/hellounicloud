@@ -2,7 +2,7 @@ describe('pages/clientDB/clientDB.vue', () => {
 	let page
 	beforeAll(async () => {
 		// 重新reLaunch至首页，并获取首页page对象（其中 program 是uni-automator自动注入的全局对象）
-		page = await program.reLaunch('/pages/clientDB/clientDB')
+		page = await program.switchTab('/pages/clientDB/clientDB')
 		await page.waitFor('view')
 		page = await program.currentPage()
 	})

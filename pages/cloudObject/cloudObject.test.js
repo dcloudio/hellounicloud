@@ -4,7 +4,7 @@ describe('pages/cloudObject/cloudObject.vue', () => {
 
 	let page;
 	beforeAll(async () => {
-		page = await program.reLaunch('/pages/cloudObject/cloudObject')
+		page = await program.switchTab('/pages/cloudObject/cloudObject')
 		await page.waitFor('view');
 	});
 	

@@ -3,9 +3,8 @@ describe('pages/cloudFunction/cloudFunction.vue', () => {
 	let page
 	beforeAll(async () => {
 	    // 重新reLaunch至首页，并获取首页page对象（其中 program 是uni-automator自动注入的全局对象）
-	    page = await program.reLaunch('/pages/cloudFunction/cloudFunction')
+	    page = await program.switchTab('/pages/cloudFunction/cloudFunction')
 	    await page.waitFor('view')
-	    page = await program.currentPage()
 	})
 	
 	it('云函数页-检查标题',async()=>{
