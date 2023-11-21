@@ -42,8 +42,7 @@ describe('pages/clientDB/permission-demo/permission-demo.vue', () => {
 					"phone": "18890903030"
 				}
 			})
-			const perPagea = await page.$('.page')
-			const buttonGroup = await perPagea.$('.uni-button-group')
+			const buttonGroup = await perPage.$('.uni-button-group')
 			const toButton = await buttonGroup.$('.uni-button')
 			await toButton.tap()
 			await page.waitFor(800)

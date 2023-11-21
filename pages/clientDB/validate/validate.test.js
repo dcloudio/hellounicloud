@@ -5,7 +5,6 @@ describe('pages/clientDB/validate/validate.vue', () => {
 		// 重新reLaunch至首页，并获取首页page对象（其中 program 是uni-automator自动注入的全局对象）
 		page = await program.reLaunch('/pages/clientDB/validate/validate')
 		await page.waitFor('view')
-		page = await program.currentPage()
 	})
 	
 	it('点击切换navBar', async () => {

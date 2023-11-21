@@ -74,10 +74,10 @@ describe('pages/clientDB/unicloud-db-demo/unicloud-db-demo', () => {
 	})
 
 	it("追加数据-add", async () => {
-		
 		//改变分页策略为add
-		const pageCheckbox = await page.$('.page-checkbox')
-		const addSet = await page.setData({"pageData": "add"})
+		// const pageCheckbox = await page.$('.page-checkbox')
+		await page.setData({"pageData": "add"})
+		console.log('pageData---add: ',await page.data('pageData'));
 		const isAdd = await page.waitFor(async()=>{
 			const addText = await page.data('pageData')
 			return addText === 'add'
@@ -93,7 +93,7 @@ describe('pages/clientDB/unicloud-db-demo/unicloud-db-demo', () => {
 			if (process.env.UNI_PLATFORM === "h5" || process.env.UNI_PLATFORM.startsWith("app")) {
 				const loadMore = await page.$('.loadMore')
 				console.log('loadMore: ',loadMore);
-				// await page.waitFor(300)
+				await page.waitFor(300)
 				await loadMore.tap()
 				await page.waitFor(300)
 			}
@@ -110,13 +110,10 @@ describe('pages/clientDB/unicloud-db-demo/unicloud-db-demo', () => {
 		expect(pageSizeSubAfter).toBeLessThanOrEqual(pageSizeSubBefore);//小于
 
 	})
-
 	
 	it("设置排序字段-orderBy", async () => {
 		await page.setData({"orderby": 'create_date asc'})
 	})
-
-
 
 	it("是否查询总数据条数", async () => {
 		const swGetcount = await page.$('.switch-getcount')
@@ -125,7 +122,6 @@ describe('pages/clientDB/unicloud-db-demo/unicloud-db-demo', () => {
 		const getcountBool = await page.data('getcount')
 		expect.assertions(1);
 		expect(getcountBool).toBeFalsy();
-
 	})
 
 	it("指定要查询的字段", async () => {

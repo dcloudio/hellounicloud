@@ -1,11 +1,9 @@
 describe('pages/clientDB/clientDB-api/clientDB-api.nvue', () => {
-
 	let page
 	beforeAll(async () => {
 		// 重新reLaunch至首页，并获取首页page对象（其中 program 是uni-automator自动注入的全局对象）
 		page = await program.reLaunch('/pages/clientDB/clientDB-api/clientDB-api')
 		await page.waitFor("view")
-		page = await program.currentPage()
 	})
 	it('查图书book表的数据', async () => {
 		expect.assertions(1);
@@ -17,7 +15,6 @@ describe('pages/clientDB/clientDB-api/clientDB-api.nvue', () => {
 		const orderData = await page.callMethod('getData', 'order')
 		expect(orderData.length).not.toBeUndefined();
 	})
-
 	it('分页查图书book表的数据', async () => {
 		//expect.assertions(1);
 		//获取页码

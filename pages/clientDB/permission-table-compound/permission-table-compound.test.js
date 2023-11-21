@@ -21,23 +21,14 @@ describe('pages/clientDB/permission-table-compound/permission-table-compound.vue
 	
 
 	it('创建--未登陆', async () => {
-		// const perPage = await page.$('.page')
-		//头部操作控制条
-		// const segItems = await perPage.$$('.segmented-control__item')
-		//底部角色控制条
-		// const roles = await perPage.$$('.roles-item')
-
 		//点击创建
 		await segItems[0].tap()
 		await roles[0].tap()
-
 		const createUnlogin = await page.waitFor(async () => {
 			const createUnloginIndex = await page.data('typeIndex')
 			const createUnloginRole = await page.data('currentRole')
 			return createUnloginIndex === 0 && createUnloginRole === 0
 		})
-
-
 
 		const createA = await page.callMethod('myFn', {
 			"type": "create",
@@ -51,17 +42,9 @@ describe('pages/clientDB/permission-table-compound/permission-table-compound.vue
 			"action": "add_view_count"
 		})
 
-
-
 	})
 
 	it('读取--未登陆', async () => {
-		// const perPage = await page.$('.page')
-		//头部操作控制条
-		// const segItems = await perPage.$$('.segmented-control__item')
-		//底部角色控制条
-		// const roles = await perPage.$$('.roles-item')
-		//点击创建
 		await segItems[1].tap()
 		await roles[0].tap()
 
@@ -70,9 +53,6 @@ describe('pages/clientDB/permission-table-compound/permission-table-compound.vue
 			const readUnloginRole = await page.data('currentRole')
 			return readUnloginIndex === 1 && readUnloginRole === 0
 		})
-
-
-
 
 		await page.callMethod('myFn', {
 			"type": "create",
@@ -107,13 +87,6 @@ describe('pages/clientDB/permission-table-compound/permission-table-compound.vue
 	})
 
 	it('更新--未登陆', async () => {
-		// const perPage = await page.$('.page')
-		//头部操作控制条
-		// const segItems = await perPage.$$('.segmented-control__item')
-		//底部角色控制条
-		// const roles = await perPage.$$('.roles-item')
-
-		//点击更新
 		await segItems[2].tap()
 		await roles[0].tap()
 
@@ -122,7 +95,6 @@ describe('pages/clientDB/permission-table-compound/permission-table-compound.vue
 			const updateUnloginRole = await page.data('currentRole')
 			return updateUnloginIndex === 2 && updateUnloginRole === 0
 		})
-
 
 		await page.callMethod('myFn', {
 			"type": "create",
@@ -154,18 +126,9 @@ describe('pages/clientDB/permission-table-compound/permission-table-compound.vue
 			"index": 1,
 			"action": "add_view_count"
 		})
-
-
 	})
 
 	it('删除--未登陆', async () => {
-		// const perPage = await page.$('.page')
-		//头部操作控制条
-		// const segItems = await perPage.$$('.segmented-control__item')
-		//底部角色控制条
-		// const roles = await perPage.$$('.roles-item')
-
-		//点击删除
 		await segItems[3].tap()
 		await roles[0].tap()
 
@@ -174,8 +137,6 @@ describe('pages/clientDB/permission-table-compound/permission-table-compound.vue
 			const deleteUnloginRole = await page.data('currentRole')
 			return deleteUnloginIndex === 3 && deleteUnloginRole === 0
 		})
-
-
 
 		await page.callMethod('myFn', {
 			"type": "create",
@@ -210,16 +171,7 @@ describe('pages/clientDB/permission-table-compound/permission-table-compound.vue
 
 	})
 
-
-
 	it('创建--用户', async () => {
-		// const perPage = await page.$('.page')
-		//头部操作控制条
-		// const segItems = await perPage.$$('.segmented-control__item')
-		//底部角色控制条
-		// const roles = await perPage.$$('.roles-item')
-
-		//点击创建
 		await segItems[0].tap()
 		await roles[1].tap()
 
@@ -228,8 +180,6 @@ describe('pages/clientDB/permission-table-compound/permission-table-compound.vue
 			const createUserRole = await page.data('currentRole')
 			return createUserIndex === 0 && createUserRole == 'user'
 		})
-
-
 
 		await page.callMethod('myFn', {
 			"type": "create",
@@ -242,17 +192,9 @@ describe('pages/clientDB/permission-table-compound/permission-table-compound.vue
 			"action": "add_view_count"
 		})
 
-
 	})
 
 	it('读取--用户', async () => {
-		// const perPage = await page.$('.page')
-		//头部操作控制条
-		// const segItems = await perPage.$$('.segmented-control__item')
-		//底部角色控制条
-		// const roles = await perPage.$$('.roles-item')
-
-		//点击创建
 		await segItems[1].tap()
 		await roles[1].tap()
 
@@ -261,7 +203,6 @@ describe('pages/clientDB/permission-table-compound/permission-table-compound.vue
 			const readUserRole = await page.data('currentRole')
 			return readUserIndex === 1 && readUserRole == 'user'
 		})
-
 
 		await page.callMethod('myFn', {
 			"type": "create",
@@ -273,15 +214,14 @@ describe('pages/clientDB/permission-table-compound/permission-table-compound.vue
 			"index": 0,
 			"where": "create_time > 1613534788761"
 		})
-		//console.log(readUserA,"readUserA---------");
-		//未能获取当前用户信息：30205 | 当前用户为匿名身份
+		console.log(readUserA,"readUserA---------");
 		//expect(readUserA).toBe('权限校验未通过')
 
 		const readUserB = await page.callMethod('myFn', {
 			"type": "read",
 			"index": 0
 		})
-		//console.log(readUserB,"readUserB---------");
+		console.log(readUserB,"readUserB---------");
 		//expect(readUserB).toBe('权限校验未通过')
 
 		await page.callMethod('myFn', {
@@ -295,17 +235,9 @@ describe('pages/clientDB/permission-table-compound/permission-table-compound.vue
 			"action": "add_view_count"
 		})
 
-
-
 	})
 
 	it('更新--用户', async () => {
-		// const perPage = await page.$('.page')
-		//头部操作控制条
-		// const segItems = await perPage.$$('.segmented-control__item')
-		//底部角色控制条
-		// const roles = await perPage.$$('.roles-item')
-
 		//点击更新
 		await segItems[2].tap()
 		await roles[1].tap()
@@ -315,8 +247,6 @@ describe('pages/clientDB/permission-table-compound/permission-table-compound.vue
 			const updateUserRole = await page.data('currentRole')
 			return updateUserIndex === 2 && updateUserRole == 'user'
 		})
-
-
 
 		await page.callMethod('myFn', {
 			"type": "create",
@@ -328,10 +258,8 @@ describe('pages/clientDB/permission-table-compound/permission-table-compound.vue
 			"index": 0,
 			"where": "create_time > 1613534788761"
 		})
-		//console.log(updateUserA,"updateUserA---------");
+		console.log(updateUserA,"updateUserA---------");
 		//expect(updateUserA).toBe('权限校验未通过')
-		//未能获取当前用户信息：30205 | 当前用户为匿名身份
-
 
 		const updateUserB = await page.callMethod('myFn', {
 			"type": "update",
@@ -350,17 +278,9 @@ describe('pages/clientDB/permission-table-compound/permission-table-compound.vue
 			"action": "add_view_count"
 		})
 
-
-
 	})
 
 	it('删除--用户', async () => {
-		// const perPage = await page.$('.page')
-		//头部操作控制条
-		// const segItems = await perPage.$$('.segmented-control__item')
-		//底部角色控制条
-		// const roles = await perPage.$$('.roles-item')
-
 		//点击删除
 		await segItems[3].tap()
 		await roles[1].tap()
@@ -370,7 +290,6 @@ describe('pages/clientDB/permission-table-compound/permission-table-compound.vue
 			const deleteUserRole = await page.data('currentRole')
 			return deleteUserIndex === 3 && deleteUserRole == 'user'
 		})
-
 
 		await page.callMethod('myFn', {
 			"type": "create",
@@ -400,27 +319,17 @@ describe('pages/clientDB/permission-table-compound/permission-table-compound.vue
 			"index": 1,
 			"action": "add_view_count"
 		})
+
 	})
 
-
-
 	it('创建--审核员', async () => {
-		// const perPage = await page.$('.page')
-		//头部操作控制条
-		// const segItems = await perPage.$$('.segmented-control__item')
-		//底部角色控制条
-		// const roles = await perPage.$$('.roles-item')
-
-		//点击创建
 		await segItems[0].tap()
 		await roles[2].tap()
-
 		const createAuditor = await page.waitFor(async () => {
 			const createAuditorIndex = await page.data('typeIndex')
 			const createAuditorRole = await page.data('currentRole')
 			return createAuditorIndex === 0 && createAuditorRole == 'auditor'
 		})
-
 
 		await page.callMethod('myFn', {
 			"type": "create",
@@ -433,17 +342,9 @@ describe('pages/clientDB/permission-table-compound/permission-table-compound.vue
 			"action": "add_view_count"
 		})
 
-
 	})
 
 	it('读取--审核员', async () => {
-		// const perPage = await page.$('.page')
-		//头部操作控制条
-		// const segItems = await perPage.$$('.segmented-control__item')
-		//底部角色控制条
-		// const roles = await perPage.$$('.roles-item')
-
-		//点击创建
 		await segItems[1].tap()
 		await roles[2].tap()
 
@@ -452,7 +353,6 @@ describe('pages/clientDB/permission-table-compound/permission-table-compound.vue
 			const readAuditorRole = await page.data('currentRole')
 			return readAuditorIndex === 1 && readAuditorRole == 'auditor'
 		})
-
 
 		await page.callMethod('myFn', {
 			"type": "create",
@@ -470,7 +370,6 @@ describe('pages/clientDB/permission-table-compound/permission-table-compound.vue
 			"index": 0
 		})
 
-
 		await page.callMethod('myFn', {
 			"type": "read",
 			"index": 1
@@ -481,19 +380,9 @@ describe('pages/clientDB/permission-table-compound/permission-table-compound.vue
 			"index": 1,
 			"action": "add_view_count"
 		})
-
-
-
 	})
 
 	it('更新--审核员', async () => {
-		// const perPage = await page.$('.page')
-		//头部操作控制条
-		// const segItems = await perPage.$$('.segmented-control__item')
-		//底部角色控制条
-		// const roles = await perPage.$$('.roles-item')
-
-		//点击更新
 		await segItems[2].tap()
 		await roles[2].tap()
 
@@ -502,9 +391,6 @@ describe('pages/clientDB/permission-table-compound/permission-table-compound.vue
 			const updateAuditorRole = await page.data('currentRole')
 			return updateAuditorIndex === 2 && updateAuditorRole == 'auditor'
 		})
-
-
-
 
 		await page.callMethod('myFn', {
 			"type": "create",
@@ -516,7 +402,6 @@ describe('pages/clientDB/permission-table-compound/permission-table-compound.vue
 			"index": 0,
 			"where": "create_time > 1613534788761"
 		})
-
 
 		const updateAuditorA = await page.callMethod('myFn', {
 			"type": "update",
@@ -535,17 +420,9 @@ describe('pages/clientDB/permission-table-compound/permission-table-compound.vue
 			"action": "add_view_count"
 		})
 
-
 	})
 
 	it('删除--审核员', async () => {
-		// const perPage = await page.$('.page')
-		//头部操作控制条
-		// const segItems = await perPage.$$('.segmented-control__item')
-		//底部角色控制条
-		// const roles = await perPage.$$('.roles-item')
-
-		//点击删除
 		await segItems[3].tap()
 		await roles[2].tap()
 
@@ -554,7 +431,6 @@ describe('pages/clientDB/permission-table-compound/permission-table-compound.vue
 			const deleteAuditorRole = await page.data('currentRole')
 			return deleteAuditorIndex === 3 && deleteAuditorRole == 'auditor'
 		})
-
 
 		await page.callMethod('myFn', {
 			"type": "create",
@@ -566,7 +442,6 @@ describe('pages/clientDB/permission-table-compound/permission-table-compound.vue
 			"index": 0,
 			"where": "create_time > 1613534788761"
 		})
-
 
 		const deleteAuditorB = await page.callMethod('myFn', {
 			"type": "delete",
@@ -584,21 +459,9 @@ describe('pages/clientDB/permission-table-compound/permission-table-compound.vue
 			"index": 1,
 			"action": "add_view_count"
 		})
-
-
-
 	})
 
-
-
 	it('创建--管理员', async () => {
-		// const perPage = await page.$('.page')
-		//头部操作控制条
-		// const segItems = await perPage.$$('.segmented-control__item')
-		//底部角色控制条
-		// const roles = await perPage.$$('.roles-item')
-
-		//点击创建
 		await segItems[0].tap()
 		await roles[3].tap()
 
@@ -608,7 +471,6 @@ describe('pages/clientDB/permission-table-compound/permission-table-compound.vue
 			return createAdminIndex === 0 && createAdminRole == 'admin'
 		})
 
-
 		await page.callMethod('myFn', {
 			"type": "create",
 			"index": 1
@@ -620,18 +482,9 @@ describe('pages/clientDB/permission-table-compound/permission-table-compound.vue
 			"action": "add_view_count"
 		})
 
-
-
 	})
 
 	it('读取--管理员', async () => {
-		// const perPage = await page.$('.page')
-		//头部操作控制条
-		// const segItems = await perPage.$$('.segmented-control__item')
-		//底部角色控制条
-		// const roles = await perPage.$$('.roles-item')
-
-		//点击创建
 		await segItems[1].tap()
 		await roles[3].tap()
 
@@ -641,7 +494,6 @@ describe('pages/clientDB/permission-table-compound/permission-table-compound.vue
 			return readAdminIndex === 1 && readAdminRole === 'admin'
 		})
 
-
 		await page.callMethod('myFn', {
 			"type": "create",
 			"index": 0
@@ -657,8 +509,6 @@ describe('pages/clientDB/permission-table-compound/permission-table-compound.vue
 			"type": "read",
 			"index": 0
 		})
-
-
 		await page.callMethod('myFn', {
 			"type": "read",
 			"index": 1
@@ -670,17 +520,9 @@ describe('pages/clientDB/permission-table-compound/permission-table-compound.vue
 			"action": "add_view_count"
 		})
 
-
 	})
 
 	it('更新--管理员', async () => {
-		// const perPage = await page.$('.page')
-		//头部操作控制条
-		// const segItems = await perPage.$$('.segmented-control__item')
-		//底部角色控制条
-		// const roles = await perPage.$$('.roles-item')
-
-		//点击更新
 		await segItems[2].tap()
 		await roles[3].tap()
 
@@ -690,7 +532,6 @@ describe('pages/clientDB/permission-table-compound/permission-table-compound.vue
 			return updateAdminIndex === 2 && updateAdminRole == 'admin'
 		})
 
-
 		await page.callMethod('myFn', {
 			"type": "create",
 			"index": 0
@@ -718,18 +559,9 @@ describe('pages/clientDB/permission-table-compound/permission-table-compound.vue
 			"action": "add_view_count"
 		})
 
-
-
 	})
 
 	it('删除--管理员', async () => {
-		// const perPage = await page.$('.page')
-		//头部操作控制条
-		// const segItems = await perPage.$$('.segmented-control__item')
-		//底部角色控制条
-		// const roles = await perPage.$$('.roles-item')
-
-		//点击删除
 		await segItems[3].tap()
 		await roles[3].tap()
 
@@ -739,7 +571,6 @@ describe('pages/clientDB/permission-table-compound/permission-table-compound.vue
 			return deleteAdminIndex === 3 && deleteAdminRole == 'admin'
 		})
 
-
 		await page.callMethod('myFn', {
 			"type": "create",
 			"index": 0
@@ -751,12 +582,10 @@ describe('pages/clientDB/permission-table-compound/permission-table-compound.vue
 			"where": "create_time > 1613534788761"
 		})
 
-
 		await page.callMethod('myFn', {
 			"type": "delete",
 			"index": 0
 		})
-
 
 		await page.callMethod('myFn', {
 			"type": "delete",
@@ -768,11 +597,6 @@ describe('pages/clientDB/permission-table-compound/permission-table-compound.vue
 			"index": 1,
 			"action": "add_view_count"
 		})
-
-
-
 	})
-
-
 
 })
