@@ -19,7 +19,8 @@ import schemaCode from './schemaCode';
         data() {
             return {
 				schemaCode:schemaCode,
-				videoUrl:"https://vkceyugu.cdn.bspapp.com/VKCEYUGU-aliyun-fkixoysdctc5381ccc/85f97090-6096-11eb-8ff1-d5dcf8779628.mp4"
+				videoUrl:"https://web-assets.dcloud.net.cn/unidoc/zh/schema2code%E7%9A%84%E4%B8%A4%E7%A7%8D%E6%96%B9%E5%BC%8F.mp4",
+				// https://web-assets.dcloud.net.cn/unidoc/zh/create-schema2code-video.mp4
             }
         },
         methods: {
