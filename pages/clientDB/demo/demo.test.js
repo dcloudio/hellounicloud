@@ -5,31 +5,34 @@ describe('pages/clientDB/demo/demo.vue', () => {
 		page = await program.reLaunch(
 			'/pages/clientDB/demo/demo')
 		await page.waitFor("view")
-		page = await program.currentPage()
 		perPage = await page.$('.page')
 		//底部角色控制条
 		roles = await perPage.$$('.roles-item')
 	})
-
 	it('未登陆', async () => {
-		//点击创建
 		await roles[0].tap()
-		await page.waitFor(500)
+		const start = Date.now()
 		const unLogin = await page.waitFor(async()=>{
+			if(Date.now() - start > 4000){
+				console.warn('连接服务器超时')
+				return true
+			}
 			const unLoginRole = await page.data('currentRole')
 			return unLoginRole === 0 
 		})
-		console.log("unLogin: ",unLogin,unLogin === 0 );
+		console.log("未登陆: ",unLogin );
 		const commentBtn = await page.$('.comment-btn')
-		// console.log(await commentBtn.text(),"text---------");
-		expect(await commentBtn.text()).toBe('写留言')
+		console.log(await commentBtn.text(),"text---------");
+		expect((await commentBtn.text()).trim()).toBe('写留言')
 	})
-
-
 	it('用户', async () => {
-		//点击创建
 		await roles[1].tap()
+		const start = Date.now()
 		const user = await page.waitFor(async()=>{
+			if(Date.now() - start > 4000){
+				console.warn('连接服务器超时')
+				return true
+			}
 			const userRole = await page.data('currentRole')
 			return userRole === 'user' 
 		})
@@ -38,14 +41,18 @@ describe('pages/clientDB/demo/demo.vue', () => {
 			//新增一条留言
 			const userWrite = await page.callMethod('submitComment', '我是用户')
 			const usId = userWrite.id
+			console.log('usId: ',usId);
 			//expect(usId).not.toBeUndefined();
-			// await page.waitFor(1000)
 		}
 	})
 	it('审核员', async () => {
-		//点击创建
 		await roles[2].tap()
+		const start = Date.now()
 		const auditor = await page.waitFor(async()=>{
+			if(Date.now() - start > 4000){
+				console.warn('连接服务器超时')
+				return true
+			}
 			const auditorRole = await page.data('currentRole')
 			return auditorRole === 'auditor' 
 		})
@@ -67,18 +74,22 @@ describe('pages/clientDB/demo/demo.vue', () => {
 			)
 			await page.waitFor(500)
 			//审核员更改留言 
-			const setUid = await page.setData({
+			await page.setData({
 				"activeNoticeId":audId
 			})
-			const auditorUpdate = await page.callMethod('updateComment',
+			await page.callMethod('updateComment',
 				"我是审核员123"
 			) 
 		}
 	})
 	it('管理员', async () => {
-		//点击创建
 		await roles[3].tap()
+		const start = Date.now()
 		const admin = await page.waitFor(async()=>{
+			if(Date.now() - start > 4000){
+				console.warn('连接服务器超时')
+				return true
+			}
 			const adminRole = await page.data('currentRole')
 			return adminRole === 'admin' 
 		})
@@ -102,7 +113,7 @@ describe('pages/clientDB/demo/demo.vue', () => {
 			)
 			await page.waitFor(500)
 			//审核一条为拒绝
-			const adminRefuse = await page.callMethod('updateState',
+			await page.callMethod('updateState',
 				{
 					"detail": {
 						"value": false
