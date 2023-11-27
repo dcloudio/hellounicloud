@@ -12,6 +12,7 @@ describe('pages/clientDB/demo/demo.vue', () => {
 	it('未登陆', async () => {
 		await roles[0].tap()
 		const start = Date.now()
+		// console.log('start: ',start);
 		const unLogin = await page.waitFor(async()=>{
 			if(Date.now() - start > 4000){
 				console.warn('连接服务器超时')
@@ -20,9 +21,9 @@ describe('pages/clientDB/demo/demo.vue', () => {
 			const unLoginRole = await page.data('currentRole')
 			return unLoginRole === 0 
 		})
+		// console.log('Date.now(): ',Date.now());
 		console.log("未登陆: ",unLogin );
 		const commentBtn = await page.$('.comment-btn')
-		console.log(await commentBtn.text(),"text---------");
 		expect((await commentBtn.text()).trim()).toBe('写留言')
 	})
 	it('用户', async () => {
@@ -40,9 +41,7 @@ describe('pages/clientDB/demo/demo.vue', () => {
 		if(user){
 			//新增一条留言
 			const userWrite = await page.callMethod('submitComment', '我是用户')
-			const usId = userWrite.id
-			console.log('usId: ',usId);
-			//expect(usId).not.toBeUndefined();
+			expect(userWrite.id).toHaveLength(24);
 		}
 	})
 	it('审核员', async () => {

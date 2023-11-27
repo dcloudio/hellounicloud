@@ -214,15 +214,15 @@ describe('pages/clientDB/permission-table-compound/permission-table-compound.vue
 			"index": 0,
 			"where": "create_time > 1613534788761"
 		})
-		console.log(readUserA,"readUserA---------");
-		//expect(readUserA).toBe('权限校验未通过')
+		// console.log(readUserA,"readUserA---------");
+		expect(readUserA).toBe(errMsgA)
 
 		const readUserB = await page.callMethod('myFn', {
 			"type": "read",
 			"index": 0
 		})
-		console.log(readUserB,"readUserB---------");
-		//expect(readUserB).toBe('权限校验未通过')
+		// console.log(readUserB,"readUserB---------");
+		expect(readUserB).toBe(errMsgA)
 
 		await page.callMethod('myFn', {
 			"type": "read",
@@ -258,8 +258,8 @@ describe('pages/clientDB/permission-table-compound/permission-table-compound.vue
 			"index": 0,
 			"where": "create_time > 1613534788761"
 		})
-		console.log(updateUserA,"updateUserA---------");
-		//expect(updateUserA).toBe('权限校验未通过')
+		// console.log(updateUserA,"updateUserA---------");
+		expect(updateUserA).toBe(errMsgA)
 
 		const updateUserB = await page.callMethod('myFn', {
 			"type": "update",

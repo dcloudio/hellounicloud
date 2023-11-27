@@ -208,7 +208,7 @@
 					success: (res) => { // 新增成功后的回调
 						console.log("res.result: ",res.result);
 						this.getFn()
-						return res
+						return res.result
 					}
 				})
 			},
@@ -221,7 +221,9 @@
 				return await udb.update(_id,{book_id:"这条数据被改"},
 				{
 					success: (res) => { // 新增成功后的回调
-						return this.getFn()
+						console.log('res: ',res);
+						this.getFn()
+						return  res.result
 					}
 				})
 			},

@@ -127,13 +127,11 @@
         })
         return this.$refs.form.validate().then(async(res) => {
 			  console.log('res: ',res);
-           await this.submitForm(res)
-			  return res
+           return await this.submitForm(res)
         }).catch(() => {
           uni.hideLoading()
         })
       },
-
       async submitForm(value) {
         // 使用 clientDB 提交数据
         return await db.collection(dbCollectionName).add(value).then((res) => {

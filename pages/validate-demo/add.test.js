@@ -1,15 +1,11 @@
 describe('pages/validate-demo/add.vue', () => {
-
 	let page
 	beforeAll(async () => {
 		// 重新reLaunch至首页，并获取首页page对象（其中 program 是uni-automator自动注入的全局对象）
 		page = await program.reLaunch('/pages/validate-demo/add')
 		await page.waitFor('view')
-		page = await program.currentPage()
 	})
-
 	it('输入表单内容', async () => {
-		
 		let type = 1
 		let type_name = "数字天堂"
 		let comment = "我是备注消息"
@@ -32,8 +28,7 @@ describe('pages/validate-demo/add.vue', () => {
 				"address": "110108"
 			}
 		})
-		
-		console.log(await page.data('formData'), "setForm---");
+		// console.log(await page.data('formData'), "setForm---");
 
 		//姓名只能输入中文
 		//expect(username).toMatch(/\u4e00-\u9fa5/);
@@ -59,6 +54,7 @@ describe('pages/validate-demo/add.vue', () => {
 		expect(weight).toBeGreaterThan(50)
 		expect(weight).toBeLessThanOrEqual(500)
 		await page.callMethod('submit')
+		await page.waitFor(500)
 	})
 
 })

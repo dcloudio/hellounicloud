@@ -33,13 +33,9 @@ describe('pages/cloudObject/cloudObject.vue', () => {
 	})
 	
 	it('查询前10条数据',async()=>{
-		// expect.assertions(1);
+		expect.assertions(1);
 		const getTenData = await page.callMethod('get')
-		console.log("getTenData.data.length: ",getTenData.data.length);
-		// expect(getTenData.length).not.toBeUndefined();
 		expect(getTenData.data.length).toBeGreaterThanOrEqual(1);
-		// expect(getTenData.length).toBeDefined();
-		
 	})
 	
 	it('使用公用模块',async()=>{

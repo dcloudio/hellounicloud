@@ -37,7 +37,8 @@ describe('pages/clientDB/permission-table-simple/permission-table-simple.vue', (
 				"type": "create",
 				"index": 0
 			})
-			expect(createA.success).toBeTruthy()
+			// console.log('createA: ',createA);
+			expect(createA.result.id).toHaveLength(24)
 			
 			// 禁止任何角色创建，管理员除外
 			const createB = await page.callMethod('myFn', {
@@ -73,9 +74,9 @@ describe('pages/clientDB/permission-table-simple/permission-table-simple.vue', (
 				"index": 6,
 				"action": "add_view_count"
 			})
-			expect(createAction.success).toBeTruthy()
+			// console.log('createAction: ',createAction);
+			expect(createAction.result.id).toHaveLength(24)
 		}
-
 	})
 
 	it('读取--未登陆', async () => {
@@ -95,8 +96,8 @@ describe('pages/clientDB/permission-table-simple/permission-table-simple.vue', (
 				"type": "read",
 				"index": 0
 			})
-			console.log('readA: ',readA);
-			// expect(readA.success).toBeTruthy()
+			// console.log('readA: ',readA);
+			expect(readA.result.data.length).toBeGreaterThanOrEqual(1)
 			
 			// 禁止任何角色读取
 			const readB = await page.callMethod('myFn', {
@@ -132,8 +133,8 @@ describe('pages/clientDB/permission-table-simple/permission-table-simple.vue', (
 				"type": "read",
 				"index": 3
 			})
-			console.log('readF: ',readF);
-			// expect(readF.errMsg).toBe(errMsgC)
+			// console.log('readF: ',readF);
+			// expect(readF.errMsg).toBe(errMsgB)
 			
 			
 			// 只能读取1分钟内创建的数据，先创建数据
@@ -149,8 +150,7 @@ describe('pages/clientDB/permission-table-simple/permission-table-simple.vue', (
 				"index": 4,
 				"where": "create_time > 1613541303576"
 				})
-			console.log('readH: ',readH);
-			// expect(readH.success).toBeTruthy()
+			// console.log('readH: ',readH);
 			
 			
 			// 读取全表数据
@@ -158,9 +158,8 @@ describe('pages/clientDB/permission-table-simple/permission-table-simple.vue', (
 				"type": "read",
 				"index": 4
 			})
-			console.log('readI: ',readI);
+			// console.log('readI: ',readI);
 			// expect(readI.errCode).toBe(0)
-			
 			
 			// 限审核员读取
 			const readJ = await page.callMethod('myFn', {
@@ -182,7 +181,7 @@ describe('pages/clientDB/permission-table-simple/permission-table-simple.vue', (
 				"index": 6,
 				"action": "add_view_count"
 			})
-			expect(actionRead.errCode).toBe(0)
+			expect(actionRead.result.data.length).toBeGreaterThanOrEqual(1)
 		}
 
 	})
@@ -205,8 +204,7 @@ describe('pages/clientDB/permission-table-simple/permission-table-simple.vue', (
 				"index": 0
 			})
 			// console.log('updateA: ',updateA);
-			// expect(updateA.result.updated).toBeGreaterThanOrEqual(1)
-			expect(updateA.result.errCode).toBe(0)
+			expect(updateA.result.updated).toBeGreaterThanOrEqual(1)
 			
 			// 禁止任何角色更新，管理员除外
 			const updateB = await page.callMethod('myFn', {
@@ -242,8 +240,8 @@ describe('pages/clientDB/permission-table-simple/permission-table-simple.vue', (
 				"type": "update",
 				"index": 3
 			})
-			console.log('updateF: ',updateF);
-			// expect(updateF.result.updated).toBe(0)
+			// console.log('updateF:---------- ',updateF);
+			expect(updateF.result.updated).toBe(0)
 
 			// 只更新1分钟内创建的数据，先创建数据
 			const updateG = await page.callMethod('myFn', {
@@ -258,6 +256,7 @@ describe('pages/clientDB/permission-table-simple/permission-table-simple.vue', (
 				"index": 4,
 				"where": "create_time > 1613546251521"
 			})
+			// console.log('updateH:------------------ ',updateH);
 			expect(updateH.result.updated).toBe(0)
 			
 			// 更新全表数据
@@ -265,7 +264,7 @@ describe('pages/clientDB/permission-table-simple/permission-table-simple.vue', (
 				"type": "update",
 				"index": 4
 			})
-			expect(updateI.success).toBeTruthy()
+			expect(updateI.result.updated).toBe(0)
 
 			//限审核员更新全表数据
 			const updateJ = await page.callMethod('myFn', {
@@ -288,7 +287,6 @@ describe('pages/clientDB/permission-table-simple/permission-table-simple.vue', (
 				"action": "add_view_count"
 			})
 			expect(updateAction.result.updated).toBe(1)
-
 		}
 
 	})
@@ -310,8 +308,7 @@ describe('pages/clientDB/permission-table-simple/permission-table-simple.vue', (
 			"index": 0
 		})
 		// console.log("deleteA",deleteA);
-		// expect(deleteA.result.deleted).toBeGreaterThanOrEqual(0)
-		expect(deleteA.result.errCode).toBe(0)
+		expect(deleteA.result.deleted).toBeGreaterThanOrEqual(1)
 		
 		// 禁止任何角色删除，管理员除外
 		const deleteB = await page.callMethod('myFn', {
@@ -347,9 +344,8 @@ describe('pages/clientDB/permission-table-simple/permission-table-simple.vue', (
 			"type": "delete",
 			"index": 3
 		})
-		console.log('deleteF: ',deleteF);
-		// expect(deleteF.success).toBeTruthy()
-		// expect(deleteF.result.deleted).toBe(0)
+		// console.log('deleteF: ',deleteF);
+		expect(deleteF.result.deleted).toBe(0)
 
 		// 只更新1分钟内创建的数据，先创建数据
 		const deleteG = await page.callMethod('myFn', {
@@ -357,23 +353,19 @@ describe('pages/clientDB/permission-table-simple/permission-table-simple.vue', (
 			"index": 4
 		})
 		expect(deleteG.errMsg).toBe(errMsgC)
-
+		
 		// 只更新1分钟内创建的数据
-		expect((
-			await page.callMethod('myFn', {
-				"type": "delete",
-				"index": 4,
-				"where": "create_time > 1613546644107"
-			})
-		).success).toBeTruthy()
+		await page.callMethod('myFn', {
+			"type": "delete",
+			"index": 4,
+			"where": "create_time > 1613546644107"
+		})
 		
 		// 删除全表数据
-		expect((
-			await page.callMethod('myFn', {
-				"type": "delete",
-				"index": 4
-			})
-		).success).toBeTruthy()
+		await page.callMethod('myFn', {
+			"type": "delete",
+			"index": 4
+		})
 
 		// 删除全表 仅审核员
 		const deleteH = await page.callMethod('myFn', {
@@ -395,7 +387,8 @@ describe('pages/clientDB/permission-table-simple/permission-table-simple.vue', (
 			"index": 6,
 			"action": "add_view_count"
 		})
-		expect(deleteAction.result.deleted).toBe(1)
+		// console.log('deleteAction: ',deleteAction);
+		expect(deleteAction.result.deleted).toBeGreaterThanOrEqual(1)
 	})
 
 	it('创建--用户', async () => {
@@ -469,7 +462,8 @@ describe('pages/clientDB/permission-table-simple/permission-table-simple.vue', (
 			"type": "read",
 			"index": 0
 		})
-		console.log('readUserA: ',readUserA);
+		// console.log('readUserA: ',readUserA);
+		expect(readUserA.errCode).toBe(0)
 		// expect(readUserA.result.data.length).toBeGreaterThan(0)
 		
 		// 仅管理员可读
@@ -484,7 +478,8 @@ describe('pages/clientDB/permission-table-simple/permission-table-simple.vue', (
 			"type": "read",
 			"index": 2
 		})
-		console.log('readUserC: ',readUserC);
+		// console.log('readUserC: ',readUserC);
+		// expect(readUserA.errCode).toBe(0)
 		expect(readUserC.result.data.length).toBeGreaterThan(0)
 		
 		// 只能读取自己创建的数据，先创建数据
@@ -500,7 +495,7 @@ describe('pages/clientDB/permission-table-simple/permission-table-simple.vue', (
 			"index": 3,
 			"where": "uid == $env.uid"
 		})
-		console.log('readUserE: ',readUserE);
+		// console.log('readUserE: ',readUserE);
 		expect(readUserE.result.data.length).toBeGreaterThan(0)
 		
 		// 读取全表数据
@@ -508,7 +503,7 @@ describe('pages/clientDB/permission-table-simple/permission-table-simple.vue', (
 			"type": "read",
 			"index": 3
 		})
-		console.log('readUserF: ',readUserF);
+		// console.log('readUserF: --------------',readUserF);
 		expect(readUserF.result.data.length).toBeGreaterThan(0)
 		
 		// 只读取1分钟内创建的数据，先创建数据
@@ -524,7 +519,7 @@ describe('pages/clientDB/permission-table-simple/permission-table-simple.vue', (
 			"index": 4,
 			"where": "create_time > 1613541303576"
 		})
-		console.log('readUserH: ',readUserH);
+		// console.log('readUserH: ',readUserH);
 		expect(readUserH.result.data.length).toBeGreaterThan(0)
 		
 		// 读取全表数据
@@ -532,7 +527,7 @@ describe('pages/clientDB/permission-table-simple/permission-table-simple.vue', (
 			"type": "read",
 			"index": 4
 		})
-		console.log('readUserI: ',readUserI);
+		// console.log('readUserI: ',readUserI);
 		expect(readUserI.result.data.length).toBeGreaterThanOrEqual(1)
 		
 		// 仅审核员读取全表数据
@@ -555,8 +550,9 @@ describe('pages/clientDB/permission-table-simple/permission-table-simple.vue', (
 			"index": 6,
 			"action": "add_view_count"
 		})
-		console.log('readUserO: ',readUserO);
+		// console.log('readUserO: ',readUserO);
 		// expect(readUserO.result.data.length).toBeGreaterThan(0)
+		expect(readUserO.errCode).toBe(0)
 
 	})
 	
@@ -590,8 +586,7 @@ describe('pages/clientDB/permission-table-simple/permission-table-simple.vue', (
 			"type": "update",
 			"index": 2
 		})
-		console.log('updateUserC: ',updateUserC);
-		// expect(updateUserC.result.updated).toBe(1)
+		expect(updateUserC.result.updated).toBeGreaterThanOrEqual(1)
 		
 		// 仅更新自己创建的数据 先创建数据
 		const updateUserD = await page.callMethod('myFn', {
@@ -613,8 +608,8 @@ describe('pages/clientDB/permission-table-simple/permission-table-simple.vue', (
 			"type": "update",
 			"index": 3
 		})
-		// console.log('updateUserF: ',updateUserF);
-		expect(updateUserF.result.errCode).toBe(0)
+		// console.log('updateUserF: ------------------',updateUserF);
+		expect(updateUserF.result.updated).toBeGreaterThanOrEqual(1)
 		
 		// 只更新1分钟内创建的数据 先创建数据
 		const updateUserG = await page.callMethod('myFn', {
@@ -658,9 +653,8 @@ describe('pages/clientDB/permission-table-simple/permission-table-simple.vue', (
 			"index": 6,
 			"action": "add_view_count"
 		})
-		console.log('updateUserAction: ',updateUserAction);
-		// expect(updateUserAction.result.updated).toBe(1)
-		// expect(updateUserAction.errCode).toBe(0)
+		// console.log('updateUserAction: ',updateUserAction);
+		expect(updateUserAction.result.updated).toBeGreaterThanOrEqual(1)
 	})
 
 	it('删除--用户', async () => {

@@ -199,14 +199,13 @@ describe('pages/clientDB/permission-field-simple/permission-field-simple.nvue', 
 			"type": "create",
 			"index": 2,
 		})
-		console.log('createUserB: ',createUserB);
-		// expect(createUserB).toBe('[permission-test-12.ip.write]权限校验未通过')
+		// console.log('createUserB: ',createUserB);
+		expect(createUserB).toBe(errMsgA)
 		await page.callMethod('myFn', {
 			"type": "create",
 			"index": 2,
 			"field": "_id,state,create_time,text",
 		})
-
 	})
 
 	it('读取--用户', async () => {

@@ -7,7 +7,6 @@ describe('pages/clientDB/permission-demo/permission-demo.vue', () => {
 		await page.waitFor('view')
 		page = await program.currentPage()
 		perPage = await page.$('.page')
-		
 		if (process.env.UNI_PLATFORM === "h5" || process.env.UNI_PLATFORM.startsWith("app") ) {
 			//底部角色控制条
 			roles = await perPage.$$('.roles-item')
@@ -17,11 +16,12 @@ describe('pages/clientDB/permission-demo/permission-demo.vue', () => {
 			//底部角色控制条
 			roles = await setPer.$$('.roles-item')
 		}
-		
 	})
 	it('未登陆', async () => {
 		await roles[0].tap()
+		await page.waitFor(500)
 		console.log('rulo_index: ',await page.data('rulo_index'));
+		console.log('role: ',await page.data('role'));
 		expect((await roles[0].text()).trim()).toBe('未登陆')
 	})
 
@@ -47,7 +47,6 @@ describe('pages/clientDB/permission-demo/permission-demo.vue', () => {
 			await toButton.tap()
 			await page.waitFor(800)
 		}
-		
 	})
 	
 	it('审核员', async () => {
