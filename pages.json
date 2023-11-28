@@ -49,90 +49,104 @@
 				"enablePullDownRefresh": false
 			}
 
-		},
-		{
-			"path": "pages/clientDB/clientDB",
-			"style": {
-				"navigationBarTitleText": "前端操作数据库",
-				"enablePullDownRefresh": false
-			}
-		},
-		{
-			"path": "pages/user-info/add",
-			"style": {
-				"navigationBarTitleText": "新增"
-			}
-		}, {
-			"path": "pages/user-info/edit",
-			"style": {
-				"navigationBarTitleText": "修改"
-			}
-		}, {
-			"path": "pages/user-info/list",
-			"style": {
-				"navigationBarTitleText": "列表"
-			}
-		}, {
-			"path": "pages/user-info/detail",
-			"style": {
-				"navigationBarTitleText": "详情"
-			}
-		},
-		{
-			"path": "pages/storage/storage",
-			"style": {
-				"navigationBarTitleText": "云存储",
-				"enablePullDownRefresh": false
-			}
-		},
-		{
-			"path": "pages/schema2code/schema2code",
-			"style": {
-				"navigationBarTitleText": "schema2code",
-				"enablePullDownRefresh": false
-			}
-		},
-		{
-			"path": "pages/clientDB/permission/permission",
-			"style": {
-				"navigationBarTitleText": "角色权限",
-				"enablePullDownRefresh": false
-			}
-		},
-		{
-			"path": "pages/clientDB/permission-demo/permission-demo",
-			"style": {
-				"navigationBarTitleText": "角色权限",
-				"enablePullDownRefresh": false
-			}
-		},
-		{
-			"path": "pages/clientDB/permission-demo/readme",
-			"style": {
-				"navigationBarTitleText": "角色权限",
-				"enablePullDownRefresh": false
-			}
-		},
-		{
-			"path": "pages/clientDB/permission-field-simple/permission-field-simple",
-			"style": {
-				"navigationBarTitleText": "简单-字段级权限控制",
-				"enablePullDownRefresh": false
-			}
-		},
-		{
-			"path": "pages/clientDB/clientDB-api/clientDB-api",
-			"style": {
-				"navigationBarTitleText": "前端操作数据库的API",
-				"enablePullDownRefresh": false
-			}
-		},
-		{
-			"path": "pages/clientDB/validate/validate",
-			"style": {
-				"navigationBarTitleText": "字段值域验证",
-				"enablePullDownRefresh": false
-			}
+    },
+    {
+      "path": "pages/clientDB/clientDB",
+      "style": {
+        "navigationBarTitleText": "前端操作数据库",
+        "enablePullDownRefresh": false
+      }
+    },
+    {
+      "path": "pages/user-info/add",
+      "style": {
+        "navigationBarTitleText": "新增"
+      }
+    }, {
+      "path": "pages/user-info/edit",
+      "style": {
+        "navigationBarTitleText": "修改"
+      }
+    }, {
+      "path": "pages/user-info/list",
+      "style": {
+        "navigationBarTitleText": "列表"
+      }
+    }, {
+      "path": "pages/user-info/detail",
+      "style": {
+        "navigationBarTitleText": "详情"
+      }
+    },
+    {
+      "path": "pages/storage/storage",
+      "style": {
+        "navigationBarTitleText": "云存储",
+        "enablePullDownRefresh": false
+      }
+    },
+    {
+      "path": "pages/storage/space-storage",
+      "style": {
+        "navigationBarTitleText": "空间内置云存储",
+        "enablePullDownRefresh": false
+      }
+    },
+    {
+      "path": "pages/storage/ext-storage-qiniu",
+      "style": {
+        "navigationBarTitleText": "扩展存储-七牛云",
+        "enablePullDownRefresh": false
+      }
+    },
+    {
+      "path": "pages/schema2code/schema2code",
+      "style": {
+        "navigationBarTitleText": "schema2code",
+        "enablePullDownRefresh": false
+      }
+    },
+    {
+      "path": "pages/clientDB/permission/permission",
+      "style": {
+        "navigationBarTitleText": "角色权限",
+        "enablePullDownRefresh": false
+      }
+    },
+    {
+      "path": "pages/clientDB/permission-demo/permission-demo",
+      "style": {
+        "navigationBarTitleText": "角色权限",
+        "enablePullDownRefresh": false
+      }
+    },
+    {
+      "path": "pages/clientDB/permission-demo/readme",
+      "style": {
+        "navigationBarTitleText": "角色权限",
+        "enablePullDownRefresh": false
+      }
+    },
+    {
+      "path": "pages/clientDB/permission-field-simple/permission-field-simple",
+      "style": {
+        "navigationBarTitleText": "简单-字段级权限控制",
+        "enablePullDownRefresh": false
+      }
+    },
+    {
+      "path": "pages/clientDB/clientDB-api/clientDB-api",
+      "style": {
+        "navigationBarTitleText": "前端操作数据库的API",
+        "enablePullDownRefresh": false
+      }
+    },
+    {
+      "path": "pages/clientDB/validate/validate",
+      "style": {
+        "navigationBarTitleText": "字段值域验证",
+        "enablePullDownRefresh": false
+      }
 
 		}, {
 			"path": "pages/validate-demo/add",
