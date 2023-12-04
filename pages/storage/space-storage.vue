@@ -8,7 +8,7 @@
 			<j-link text="参考" url="https://uniapp.dcloud.io/uniCloud/quickstart?id=%e5%b0%8f%e7%a8%8b%e5%ba%8f%e4%b8%ad%e4%bd%bf%e7%94%a8unicloud%e7%9a%84%e7%99%bd%e5%90%8d%e5%8d%95%e9%85%8d%e7%bd%ae"></j-link>
 		</view>
 		<view class="btn-list">
-			<button type="primary" plain @click="upload">选择文件“后”上传</button>
+			<button type="primary" plain @click="chooseImage">选择文件“后”上传</button>
 			<text class="tips">先调用uni.chooseImage选完文件/图片/视频后用uniCloud.uploadFile方法上传</text>
 			<button type="primary" plain @click="chooseAndUploadFile()">选择文件“并”上传</button>
 			<text class="tips">调用uniCloud.chooseAndUploadFile方法选择文件/图片/视频直接上传</text>
@@ -29,7 +29,7 @@
 				})
 				uniCloud.chooseAndUploadFile({
 					type: 'image',
-					onChooseFile:(res)=> {
+					onChooseFile: (res) => {
 						console.log(res);
 						const processAll = []
 						for (let i = 0; i < res.tempFiles.length; i++) {
@@ -96,7 +96,7 @@
 					// #endif
 				})
 			},
-			upload() {
+			chooseImage() {
 				new Promise((resolve, reject) => {
 					uni.chooseImage({
 						count: 1,
@@ -132,22 +132,7 @@
 						}
 					})
 				}).then((options) => {
-					uni.showLoading({
-						title: '文件上传中...'
-					})
-					return uniCloud.uploadFile({
-						...options,
-						onUploadProgress(e) {
-							console.log(e)
-						}
-					})
-				}).then(res => {
-					uni.hideLoading()
-					console.log(res);
-					uni.showModal({
-						content: '图片上传成功，fileID为：' + res.fileID,
-						showCancel: false
-					})
+					this.uploadFile(options);
 				}).catch((err) => {
 					uni.hideLoading()
 					console.log(err);
@@ -156,6 +141,38 @@
 							content: `图片上传失败，错误信息为：${err.message}`,
 							showCancel: false
 						})
+					}
+				})
+			},
+			uploadFile(options) {
+				uni.showLoading({
+					title: '文件上传中...'
+				})
+				uniCloud.uploadFile({
+					...options,
+					onUploadProgress(e) {
+						console.log(e)
+					},
+					success: (res) => {
+						// 上传成功后的逻辑
+						console.log(res);
+						uni.showModal({
+							content: '图片上传成功，fileID为：' + res.fileID,
+							showCancel: false
+						})
+					},
+					fail: (err) => {
+						// 上传失败后的逻辑
+						console.log(err);
+						if (err.message !== 'Fail_Cancel') {
+							uni.showModal({
+								content: `图片上传失败，错误信息为：${err.message}`,
+								showCancel: false
+							})
+						}
+					},
+					complete: () => {
+						uni.hideLoading()
 					}
 				})
 			}
