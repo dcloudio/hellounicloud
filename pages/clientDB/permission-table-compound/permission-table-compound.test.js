@@ -19,7 +19,6 @@ describe('pages/clientDB/permission-table-compound/permission-table-compound.vue
 		roles = await perPage.$$('.roles-item')
 	})
 	
-
 	it('创建--未登陆', async () => {
 		//点击创建
 		await segItems[0].tap()
@@ -493,6 +492,7 @@ describe('pages/clientDB/permission-table-compound/permission-table-compound.vue
 			const readAdminRole = await page.data('currentRole')
 			return readAdminIndex === 1 && readAdminRole === 'admin'
 		})
+		console.log('readAdmin:--- ',readAdmin);
 
 		await page.callMethod('myFn', {
 			"type": "create",

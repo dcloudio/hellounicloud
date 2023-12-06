@@ -1,18 +1,18 @@
 describe('pages/storage/storage.vue', () => {
-	
-	let page
+	let page,btnText;
 	beforeAll(async () => {
 	    // 重新reLaunch至首页，并获取首页page对象（其中 program 是uni-automator自动注入的全局对象）
 	    page = await program.switchTab('/pages/storage/storage')
 	    await page.waitFor('view')
+		 btnText = await page.$$('button')
 	})
-	it('云存储页-检查标题',async()=>{
-		//expect.assertions(1);
-		const content = await page.$('.content')
-		const title = await content.$('.title')
-		expect(await title.text()).toBe('直接上传文件到云存储');
+	it('云存储',async()=>{
+		expect.assertions(2);
+		expect(await btnText[0].text()).toBe('空间内置云存储');
+		expect(await btnText[1].text()).toBe('扩展存储-七牛云');
 	})
-	// it('上传文件',async()=>{
-	// 	const upload = await page.callMethod('upload')
-	// })
+	it('空间内置云存储',async()=>{
+		await btnText[0].tap()
+		console.log("---",await program.currentPage())
+	})
 })

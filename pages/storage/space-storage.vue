@@ -19,7 +19,8 @@
 <script>
 	export default {
 		data() {
-			return {}
+			return {
+			}
 		},
 		mounted() {},
 		methods: {
@@ -148,33 +149,38 @@
 				uni.showLoading({
 					title: '文件上传中...'
 				})
-				uniCloud.uploadFile({
-					...options,
-					onUploadProgress(e) {
-						console.log(e)
-					},
-					success: (res) => {
-						// 上传成功后的逻辑
-						console.log(res);
-						uni.showModal({
-							content: '图片上传成功，fileID为：' + res.fileID,
-							showCancel: false
-						})
-					},
-					fail: (err) => {
-						// 上传失败后的逻辑
-						console.log(err);
-						if (err.message !== 'Fail_Cancel') {
+				let testRes = new Promise((resolve, reject) => {
+					uniCloud.uploadFile({
+						...options,
+						onUploadProgress(e) {
+							console.log(e)
+						},
+						success: (res) => {
+							// 上传成功后的逻辑
+							console.log(res);
 							uni.showModal({
-								content: `图片上传失败，错误信息为：${err.message}`,
+								content: '图片上传成功，fileID为：' + res.fileID,
 								showCancel: false
 							})
+							resolve(res)
+						},
+						fail: (err) => {
+							// 上传失败后的逻辑
+							console.log(err);
+							if (err.message !== 'Fail_Cancel') {
+								uni.showModal({
+									content: `图片上传失败，错误信息为：${err.message}`,
+									showCancel: false
+								})
+							}
+							reject(err)
+						},
+						complete: () => {
+							uni.hideLoading()
 						}
-					},
-					complete: () => {
-						uni.hideLoading()
-					}
+					})
 				})
+				return testRes
 			}
 		}
 	}
