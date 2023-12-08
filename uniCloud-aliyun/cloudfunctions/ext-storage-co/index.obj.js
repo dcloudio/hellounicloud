@@ -1,5 +1,5 @@
 // 扩展存储自定义域名
-const domain = "qiniu01.dcloud.net.cn";
+const domain = "jest-ext-storage-aliyun.dcloud.net.cn";
 module.exports = {
 	_before() {},
 	getUploadFileOptions(data = {}) {

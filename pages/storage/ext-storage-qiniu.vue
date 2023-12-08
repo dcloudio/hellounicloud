@@ -21,7 +21,8 @@
 	export default {
 		data() {
 			return {
-				privateFileID: ""
+				privateFileID: "",
+				isTest:false
 			}
 		},
 		mounted() {},
@@ -76,6 +77,7 @@
 				})
 			},
 			async uploadFile(options) {
+				console.log('options: ',options);
 				uni.showLoading({
 					title: '文件上传中...'
 				})
@@ -83,53 +85,60 @@
 					customUI: true
 				});
 				const uploadFileOptionsRes = await uniCloudStorageExtCo.getUploadFileOptions({
-					cloudPath: `test/${Date.now()}.jpg`, // 支持自定义目录
+					cloudPath: `jest/${Date.now()}.jpg`, // 支持自定义目录
 				});
 				console.log('uploadFileOptionsRes: ', uploadFileOptionsRes)
-				const uploadTask = uni.uploadFile({
-					...uploadFileOptionsRes.uploadFileOptions, // 上传文件所需参数
-					filePath: options.filePath, // 本地文件路径
-					success: async () => {
-						const res = {
-							cloudPath: uploadFileOptionsRes.cloudPath, // 文件云端路径
-							fileID: uploadFileOptionsRes.fileID, // 文件ID
-							fileURL: uploadFileOptionsRes.fileURL, // 文件URL（如果是私有权限，则此URL是无法直接访问的）
-						};
-						// 上传成功后的逻辑
-						console.log(res);
-						if (options.isPrivate) {
-							// 设为私有文件
-							const uniCloudStorageExtCo = uniCloud.importObject("ext-storage-co", {
-								customUI: true
-							});
-							await uniCloudStorageExtCo.setFilePrivate({
-								fileID: res.fileID
-							});
-							this.privateFileID = res.fileID;
-						}
-						uni.showModal({
-							content: '图片上传成功，fileID为：' + res.fileID,
-							showCancel: false
-						})
-					},
-					fail: (err) => {
-						// 上传失败后的逻辑
-						console.log(err);
-						if (err.message !== 'Fail_Cancel') {
+				
+				let testRes = new Promise((resolve,reject)=>{
+					const uploadTask = uni.uploadFile({
+						...uploadFileOptionsRes.uploadFileOptions, // 上传文件所需参数
+						filePath: options.filePath, // 本地文件路径
+						success: async () => {
+							const res = {
+								cloudPath: uploadFileOptionsRes.cloudPath, // 文件云端路径
+								fileID: uploadFileOptionsRes.fileID, // 文件ID
+								fileURL: uploadFileOptionsRes.fileURL, // 文件URL（如果是私有权限，则此URL是无法直接访问的）
+							};
+							// 上传成功后的逻辑
+							console.log(res);
+							if (options.isPrivate) {
+								// 设为私有文件
+								const uniCloudStorageExtCo = uniCloud.importObject("ext-storage-co", {
+									customUI: true
+								});
+								await uniCloudStorageExtCo.setFilePrivate({
+									fileID: res.fileID
+								});
+								this.privateFileID = res.fileID;
+							}
 							uni.showModal({
-								content: `图片上传失败，错误信息为：${err.message}`,
+								content: '图片上传成功，fileID为：' + res.fileID,
 								showCancel: false
 							})
+							resolve(res)
+						},
+						fail: (err) => {
+							// 上传失败后的逻辑
+							console.log(err);
+							if (err.message !== 'Fail_Cancel') {
+								uni.showModal({
+									content: `图片上传失败，错误信息为：${err.message}`,
+									showCancel: false
+								})
+							}
+							reject(err)
+						},
+						complete: () => {
+							uni.hideLoading()
 						}
-					},
-					complete: () => {
-						uni.hideLoading()
-					}
-				});
-				// 监听上传进度
-				uploadTask.onProgressUpdate((res) => {
-					console.log("监听上传进度", res);
-				});
+					});
+					// 监听上传进度
+					uploadTask.onProgressUpdate((res) => {
+						console.log("监听上传进度", res);
+					});
+				})
+				console.log("testRes",testRes)
+				return testRes
 			},
 			async getTempFileURL() {
 				const uniCloudStorageExtCo = uniCloud.importObject("ext-storage-co");
@@ -141,6 +150,9 @@
 					content: '图片临时下载链接为：' + tempFileURL,
 					showCancel: false
 				})
+				if(this.isTest){
+					return tempFileURL
+				}
 			}
 		}
 	}
