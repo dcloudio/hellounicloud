@@ -5,7 +5,7 @@
 			<text>
 				各个小程序平台运行时，网络相关的 API 在使用前需要配置域名白名单。
 			</text>
-			<j-link text="参考" url="https://uniapp.dcloud.net.cn/uniCloud/ext-storage/dev.html#%E5%B0%8F%E7%A8%8B%E5%BA%8F%E5%9F%9F%E5%90%8D%E7%99%BD%E5%90%8D%E5%8D%95"></j-link>
+			<j-link text="参考" url="https://uniapp.dcloud.net.cn/uniCloud/publish.html#useinmp"></j-link>
 		</view>
 		<view class="btn-list">
 			<button type="primary" plain @click="chooseImage(false)">选择文件“后”上传</button>
