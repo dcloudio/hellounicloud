@@ -5,7 +5,6 @@ describe('pages/user-info/detail.vue', () => {
 		// page = await program.navigateTo('/pages/user-info/detail')
 		page = await program.currentPage()
 		await page.waitFor('view')
-		// console.log('page: ',page);
 	})
 	it('点击修改',async()=>{
 		// expect.assertions(1);

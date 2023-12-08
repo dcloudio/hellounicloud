@@ -131,12 +131,12 @@
 			async getNoticeData() {
 				let res = await db.action('add_view_count')
 					.collection('opendb-notice')
-          .doc("65365ac355b3379a66170144")
+					.doc("65365ac355b3379a66170144")
 					.field('data,_id,update_time,view_count')
 					.get();
 					console.log("res: ",res);
 				this.noticeData = res.result.data[0]
-        this.options.where = `state == 1 && notice_id == "${this.noticeData._id}"`
+				this.options.where = `state == 1 && notice_id == "${this.noticeData._id}"`
 			},
 			async clickIcon(e, item) {
 				if (e) {
@@ -231,7 +231,7 @@
 				}
 				this.$refs.dialog.close()
 				return await db.collection('opendb-notice-comment').add({
-          notice_id:this.noticeData._id,
+					notice_id:this.noticeData._id,
 					text
 				}).then(res => {
 					console.log(res);

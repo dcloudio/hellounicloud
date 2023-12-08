@@ -38,11 +38,10 @@ describe('pages/clientDB/demo/demo.vue', () => {
 			return userRole === 'user' 
 		})
 		console.log("用户: ",user);
-		if(user){
-			//新增一条留言
-			const userWrite = await page.callMethod('submitComment', '我是用户')
-			expect(userWrite.id).toHaveLength(24);
-		}
+		//新增一条留言
+		const userWrite = await page.callMethod('submitComment', '我是用户')
+		console.log('userWrite: ',userWrite);
+		expect(userWrite.id).toHaveLength(24);
 	})
 	it('审核员', async () => {
 		await roles[2].tap()
@@ -59,6 +58,7 @@ describe('pages/clientDB/demo/demo.vue', () => {
 		if(auditor){
 			//新增一条留言
 			const auditorWrite = await page.callMethod('submitComment', '我是审核员11')
+			console.log('auditorWrite: ',auditorWrite);
 			const audId = auditorWrite.id
 			expect(audId).not.toBeUndefined();
 			await page.waitFor(500)
@@ -98,6 +98,7 @@ describe('pages/clientDB/demo/demo.vue', () => {
 		if(admin){
 			//管理员写入一条留言
 			const adminWrite = await page.callMethod('submitComment','我是管理员') 
+			console.log('adminWrite: ',adminWrite);
 			var admId = adminWrite.id
 			expect(admId).not.toBeUndefined();
 			await page.waitFor(500)

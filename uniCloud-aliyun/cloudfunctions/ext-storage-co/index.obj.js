@@ -1,6 +1,6 @@
 // 扩展存储自定义域名
 
-var domain; // 如果只有一个域名，域名可以直接写在这里
+var domain = 'jest-ext-storage-aliyun.dcloud.net.cn'; // 如果只有一个域名，域名可以直接写在这里
 module.exports = {
 	_before() {
 		if (!domain) {

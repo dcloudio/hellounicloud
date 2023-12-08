@@ -8,6 +8,7 @@ describe('pages/user-info/list.vue', () => {
 	})
 	it('点击fab跳转到添加页',async()=>{
 		await page.callMethod('fabClick')
+		await page.waitFor(500)
 		currentPage = await program.currentPage()
 		expect(currentPage.path).toBe('pages/user-info/add')
 		await program.navigateBack()
@@ -17,7 +18,6 @@ describe('pages/user-info/list.vue', () => {
 		await items[0].tap()
 		await page.waitFor(500)
 		currentPage = await program.currentPage()
-		// console.log('currentPage:---3 ',currentPage);
 		expect(currentPage.path).toBe('pages/user-info/detail')
 		// await program.navigateBack()
 		// console.log('currentPage',await program.currentPage())
