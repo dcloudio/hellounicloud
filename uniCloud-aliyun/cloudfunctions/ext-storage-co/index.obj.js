@@ -1,7 +1,13 @@
 // 扩展存储自定义域名
-const domain = "jest-ext-storage-aliyun.dcloud.net.cn";
+
+var domain; // 如果只有一个域名，域名可以直接写在这里
 module.exports = {
-	_before() {},
+	_before() {
+		if (!domain) {
+			const provider = uniCloud.getCloudInfos()[0].provider;
+			domain = `hello-ext-storage-${provider}.dcloud.net.cn`;
+		}
+	},
 	getUploadFileOptions(data = {}) {
 		let {
 			cloudPath, // 前端传过来的文件路径
