@@ -14,6 +14,12 @@
 				<button type="primary" @click="update">修改数据</button>
 				<button type="primary" @click="get">查询前10条数据</button>
 				<button type="primary" @click="useCommon">使用公用模块</button>
+
+        <!-- #ifdef APP-PLUS || MP-WEIXIN -->
+        <navigator url="../secure-network/cloud-object">
+          <button type="primary">安全网络</button>
+        </navigator>
+        <!-- #endif -->
 			</view>
 		</template>
 		<template v-else>
@@ -39,11 +45,11 @@
 			}
 		},
 		methods: {
-			async add() {
+			add() {
 				uni.showLoading({
 					title: '处理中...'
 				})
-				return await cloudObjectDemo.add({
+				cloudObjectDemo.add({
 					product: 'uniCloud',
 					create_time: Date.now()
 				}).then((res) => {
@@ -53,7 +59,6 @@
 						content: `成功添加一条数据，文档id为：${res.id}`,
 						showCancel: false
 					})
-					return res
 				}).catch((err) => {
 					console.error(err)
 					uni.hideLoading()
@@ -61,21 +66,19 @@
 						content: `添加数据失败，错误信息为：${err.message}`,
 						showCancel: false
 					})
-					return err
 				})
 			},
-			async remove() {
+			remove() {
 				uni.showLoading({
 					title: '处理中...'
 				})
-				return await cloudObjectDemo.remove().then((res) => {
+				cloudObjectDemo.remove().then((res) => {
 					console.log(res)
 					uni.hideLoading()
 					uni.showModal({
 						content: res.msg,
 						showCancel: false
 					})
-					return res.msg
 				}).catch((err) => {
 					uni.hideLoading()
 					uni.showModal({
@@ -83,14 +86,13 @@
 						showCancel: false
 					})
 					console.error(err)
-					return err
 				})
 			},
-			async update() {
+			update() {
 				uni.showLoading({
 					title: '处理中...'
 				})
-				return await cloudObjectDemo.update({
+				cloudObjectDemo.update({
 					product: 'uni-app',
 					create_time: Date.now()
 				}).then((res) => {
@@ -100,7 +102,6 @@
 						showCancel: false
 					})
 					console.log(res)
-					return res
 				}).catch((err) => {
 					uni.hideLoading()
 					uni.showModal({
@@ -108,21 +109,19 @@
 						showCancel: false
 					})
 					console.error(err)
-					return err
 				})
 			},
-			async get() {
+			get() {
 				uni.showLoading({
 					title: '处理中...'
 				})
-				return await cloudObjectDemo.get().then((res) => {
+				cloudObjectDemo.get().then((res) => {
 					uni.hideLoading()
 					uni.showModal({
 						content: `查询成功，获取数据列表为：${JSON.stringify(res)}`,
 						showCancel: false
 					})
 					console.log(res)
-					return res
 				}).catch((err) => {
 					uni.hideLoading()
 					uni.showModal({
@@ -130,18 +129,16 @@
 						showCancel: false
 					})
 					console.error(err)
-					return err
 				})
 			},
-			async useCommon() {
-				return await cloudObjectDemo.useCommon().then((res) => {
+			useCommon() {
+				cloudObjectDemo.useCommon().then((res) => {
 					uni.hideLoading()
 					uni.showModal({
 						content: '云对象使用公共模块返回结果：' + JSON.stringify(res),
 						showCancel: false
 					})
 					console.log(res)
-					return res
 				}).catch((err) => {
 					uni.hideLoading()
 					uni.showModal({
@@ -149,7 +146,6 @@
 						showCancel: false
 					})
 					console.error(err)
-					return err
 				})
 			},
 			toRedisPage() {
