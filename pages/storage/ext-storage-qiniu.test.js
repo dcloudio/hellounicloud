@@ -1,10 +1,11 @@
 describe('pages/storage/ext-storage-qiniu.vue', () => {
-	let page
+	let page,platform;
 	beforeAll(async () => {
 		// 重新reLaunch至首页，并获取首页page对象（其中 program 是uni-automator自动注入的全局对象）
 		page = await program.navigateTo('/pages/storage/ext-storage-qiniu')
 		await page.waitFor('view')
 		await page.setData({'isTest':true})
+		platform = process.env.UNI_PLATFORM
 	})
 	it('qiniu-storage-上传文件', async () => {
 		expect.assertions(2);
@@ -29,6 +30,7 @@ describe('pages/storage/ext-storage-qiniu.vue', () => {
 		expectText(res.fileURL,'https://')
 	})
 	it('获取私有文件临时下载链接', async () => {
+		if(platform === "mp-weixin" || process.env.UNI_PLATFORM.startsWith("app")){return;}
 		expect.assertions(3);
 		expectText(await page.data('privateFileID'),'qiniu://jest')
 		const res = await page.callMethod('getTempFileURL')

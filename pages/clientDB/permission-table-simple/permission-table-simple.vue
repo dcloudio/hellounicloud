@@ -203,7 +203,7 @@
 					}
 					console.log("res: ",res);
 					this.$refs.alertCode.open(res.result)
-					return res
+					return res.result
 				} catch (err) {
 					console.log('TODO handle the exception', err);
 					uni.showModal({
