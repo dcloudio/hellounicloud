@@ -8,7 +8,7 @@ describe('pages/storage/space-storage.vue', () => {
 	it('space-storage-上传文件', async () => {
 		expect.assertions(2);
 		const res = await page.callMethod('uploadFile', {
-			filePath: '../../static/logo.png',
+			filePath: '/static/logo.png',
 			cloudPath: Date.now() + 'test.png'
 		})
 		console.log('res: ', res);

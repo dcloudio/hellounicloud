@@ -10,31 +10,31 @@ describe('pages/storage/ext-storage-qiniu.vue', () => {
 	it('qiniu-storage-上传文件', async () => {
 		expect.assertions(2);
 		const res = await page.callMethod('uploadFile', {
-			filePath: '../../static/logo.png',
-			cloudPath: Date.now() + 'test-qiniu.png',
+			filePath: '/static/logo.png',
+			// cloudPath: Date.now() + 'test-qiniu.png',
 			isPrivate: false
 		})
-		console.log('res: ---1', res);
+		console.log('res: ---qiniu', res);
 		expectText(res.fileID,'qiniu://')
 		expectText(res.fileURL,'https://')
 	})
 	it('qiniu-私有文件-上传', async () => {
 		expect.assertions(2);
 		const res = await page.callMethod('uploadFile', {
-			filePath: '../../static/play.png',
+			filePath: '/static/play.png',
 			// cloudPath: Date.now() + 'test-qiniu.png',
 			isPrivate: true
 		})
-		console.log('res: ----2', res);
+		console.log('res: ----qiniu---isPrivate', res);
 		expectText(res.fileID,'qiniu://')
 		expectText(res.fileURL,'https://')
 	})
 	it('获取私有文件临时下载链接', async () => {
-		if(platform === "mp-weixin" || process.env.UNI_PLATFORM.startsWith("app")){return;}
+		// if(platform === "mp-weixin" || process.env.UNI_PLATFORM.startsWith("app")){return;}
 		expect.assertions(3);
 		expectText(await page.data('privateFileID'),'qiniu://jest')
 		const res = await page.callMethod('getTempFileURL')
-		console.log('res: ----3', res);
+		console.log('res: ----私有文件临时下载链接', res);
 		expectText(res,'&token')
 		expectText(res,'https://')
 	})
