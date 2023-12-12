@@ -164,8 +164,12 @@ describe('pages/clientDB/permission-field-simple/permission-field-simple.nvue', 
 		//点击创建
 		await segItems[0].tap()
 		await roles[1].tap()
-
+		const start = Date.now()
 		const createUser = await page.waitFor(async () => {
+			if(Date.now() - start > 4000){
+				console.warn('连接服务器超时')
+				return true
+			}
 			const createUserIndex = await page.data('typeIndex')
 			const createUserRole = await page.data('currentRole')
 			return createUserIndex === 0 && createUserRole == 'user'

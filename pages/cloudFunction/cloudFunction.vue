@@ -99,7 +99,7 @@
 						showCancel: false
 					})
 					console.log(res)
-					return res.result.msg
+					return res.result
 				}).catch((err) => {
 					uni.hideLoading()
 					uni.showModal({
@@ -123,7 +123,7 @@
 						showCancel: false
 					})
 					console.log(res)
-					return res.result.data
+					return res.result
 				}).catch((err) => {
 					uni.hideLoading()
 					uni.showModal({

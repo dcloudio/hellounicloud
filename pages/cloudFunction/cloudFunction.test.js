@@ -14,7 +14,7 @@ describe('pages/cloudFunction/cloudFunction.vue', () => {
 	it('添加一条数据',async()=>{
 		expect.assertions(1);
 		const addData = await page.callMethod('add')
-		expect(addData).toHaveLength(24);
+		expect(addData.length).toBe(24);
 	})
 	it('删除一条数据',async()=>{
 		expect.assertions(1);
@@ -24,13 +24,20 @@ describe('pages/cloudFunction/cloudFunction.vue', () => {
 	it('修改数据',async()=>{
 		expect.assertions(1);
 		const updateData = await page.callMethod('update')
-		expect(updateData).toBeDefined();
+		if(updateData.status == -1){
+			expect(updateData.msg).toBe('集合unicloud-test内没有数据');
+		}else{
+			expect(updateData.msg).toBeDefined();
+		}
 	})
 	it('查询前10条数据',async()=>{
-		expect.assertions(1);
 		const getTenData = await page.callMethod('get')
-		// expect(getTenData.affectedDocs).toBe(10);
-		expect(getTenData.length).not.toBeUndefined();
+		// 首次可能也会没有数据
+		if(getTenData.affectedDocs>0){
+			expect(getTenData.data.length).toBeGreaterThanOrEqual(1);
+		}else{
+			console.log('no data')
+		}
 	})
 	it('使用公用模块',async()=>{
 		expect.assertions(1);

@@ -32,13 +32,8 @@
 					contentdown: '',
 					contentrefresh: '',
 					contentnomore: ''
-				},
-				dataList: []
+				}
 			}
-		},
-		onReady() {
-			this.dataList = this.$refs.udb.loadData()
-			console.log("dataList: ",this.dataList);
 		},
 		onPullDownRefresh() {
 			this.$refs.udb.loadData({

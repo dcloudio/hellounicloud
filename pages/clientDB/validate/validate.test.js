@@ -6,7 +6,6 @@ describe('pages/clientDB/validate/validate.vue', () => {
 		page = await program.reLaunch('/pages/clientDB/validate/validate')
 		await page.waitFor('view')
 	})
-	
 	it('点击切换navBar', async () => {
 		//expect.assertions(1);
 		const segmentedControl = await page.$('.segmented-control')
@@ -18,5 +17,4 @@ describe('pages/clientDB/validate/validate.vue', () => {
 		await seControl[2].tap()
 		await page.waitFor(300)
 	})
-
 })

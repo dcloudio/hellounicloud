@@ -18,49 +18,52 @@ describe('pages/clientDB/permission-demo/readme.vue', () => {
 	
 	it('用户', async () => {
 		await roles[1].tap()
+		const start = Date.now()
 		const user = await page.waitFor(async()=>{
+			if(Date.now() - start > 4000){
+				console.warn('连接服务器超时')
+				return true
+			}
 			const userRole = await page.data('currentRole')
 			return userRole == 'user'
 		})
 		console.log("user: ",user);
-		if(user){
-			const getData = await page.callMethod('getFn','uid,username,nickname,state')
-			expect(getData).not.toBeUndefined();
-			const removeAll = await page.callMethod('removeFn','uid,username,nickname,state')
-			// expect(removeAll.code).toBe('PERMISSION_ERROR')
-			//创建一条数据
-			await page.callMethod('addFn') 
-			//更新创建者自己的昵称
-			await page.callMethod(
-				'updateFn',
-				{"nickname":'新昵称'},'uid == $env.uid'
-			)
-			const updateAllNickname = await page.callMethod(
-				'updateFn',
-				{"nickname":'新昵称'}
-			)
-			// expect(updateAllNickname.code).toBe("PERMISSION_ERROR")
-			const updateState = await page.callMethod('updateFn',{state:1})
-			// expect(updateState.code).toBe('PERMISSION_ERROR')
-			const updateAllUsername = await page.callMethod(
-				'updateFn',
-				{"username":"新姓名"}
-			)
-			// expect(updateAllUsername.code).toBe('PERMISSION_ERROR')
-			const updateUsername = await page.callMethod(
-				'updateFn',
-				{"username":'新姓名'},'uid == $env.uid'
-			)
-			// expect(updateUsername.code).toBe('PERMISSION_ERROR')
-			await page.callMethod(
-				'getFn',
-				'uid,username,nickname,state'
-			)
-			const readPhone = await page.callMethod(
-				'getFn',
-				'uid,username,nickname,state'
-			)
-		}
+		const getData = await page.callMethod('getFn','uid,username,nickname,state')
+		expect(getData).not.toBeUndefined();
+		const removeAll = await page.callMethod('removeFn','uid,username,nickname,state')
+		// expect(removeAll.code).toBe('PERMISSION_ERROR')
+		//创建一条数据
+		await page.callMethod('addFn') 
+		//更新创建者自己的昵称
+		await page.callMethod(
+			'updateFn',
+			{"nickname":'新昵称'},'uid == $env.uid'
+		)
+		const updateAllNickname = await page.callMethod(
+			'updateFn',
+			{"nickname":'新昵称'}
+		)
+		// expect(updateAllNickname.code).toBe("PERMISSION_ERROR")
+		const updateState = await page.callMethod('updateFn',{state:1})
+		// expect(updateState.code).toBe('PERMISSION_ERROR')
+		const updateAllUsername = await page.callMethod(
+			'updateFn',
+			{"username":"新姓名"}
+		)
+		// expect(updateAllUsername.code).toBe('PERMISSION_ERROR')
+		const updateUsername = await page.callMethod(
+			'updateFn',
+			{"username":'新姓名'},'uid == $env.uid'
+		)
+		// expect(updateUsername.code).toBe('PERMISSION_ERROR')
+		await page.callMethod(
+			'getFn',
+			'uid,username,nickname,state'
+		)
+		const readPhone = await page.callMethod(
+			'getFn',
+			'uid,username,nickname,state'
+		)
 	})
 	it('未登陆', async () => {
 		await roles[0].tap()

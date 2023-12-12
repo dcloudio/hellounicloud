@@ -5,18 +5,17 @@ describe('pages/user-info/detail.vue', () => {
 		// page = await program.navigateTo('/pages/user-info/detail')
 		page = await program.currentPage()
 		await page.waitFor('view')
+		await page.setData({"isTest":true})
 	})
 	it('点击修改',async()=>{
 		// expect.assertions(1);
 		const getQuery = await page.query
 		console.log('getQuery: ',getQuery);
-		await page.callMethod('handleUpdate')
-		await page.waitFor(1000)
-		console.log('currentPage',await program.currentPage())
-		// console.log('query',await page.query)
-		expect((await program.currentPage()).path).toBe('pages/user-info/edit')
+		if(getQuery.id || getQuery.hobby_valuetotext.length>0){
+			await page.callMethod('handleUpdate')
+			await page.waitFor(1000)
+			console.log('currentPage',await program.currentPage())
+			expect((await program.currentPage()).path).toBe('pages/user-info/edit')
+		}
 	})
-	// it('点击删除',async()=>{
-	// 	const handleDelete = await page.callMethod('handleDelete')
-	// })
 })

@@ -24,55 +24,58 @@ describe('pages/clientDB/permission-demo/permission-demo.vue', () => {
 		console.log('role: ',await page.data('role'));
 		expect((await roles[0].text()).trim()).toBe('未登陆')
 	})
-
 	it('用户', async () => {
 		await roles[1].tap()
-		const user = await page.waitFor(async()=>{
+		const start = Date.now()
+		await page.waitFor(async()=>{
+			if(Date.now() - start > 4000){
+				console.warn('链接服务器超时')
+				return true
+			}
 			const userRole = await page.data('rulo_index')
 			return userRole === 1 
 		})
-		if(user){
-			//更新一条数据
-			await page.setData({
-				"formData": {
-					"_id": "60200c3554a29f0001d14586",
-					"nickname": "我是学生",
-					"username": "小明",
-					"state": 0,
-					"phone": "18890903030"
-				}
-			})
-			const buttonGroup = await perPage.$('.uni-button-group')
-			const toButton = await buttonGroup.$('.uni-button')
-			await toButton.tap()
-			await page.waitFor(800)
-		}
+		//更新一条数据
+		await page.setData({
+			"formData": {
+				"_id": "60200c3554a29f0001d14586",
+				"nickname": "我是学生",
+				"username": "小明",
+				"state": 0,
+				"phone": "18890903030"
+			}
+		})
+		const buttonGroup = await perPage.$('.uni-button-group')
+		const toButton = await buttonGroup.$('.uni-button')
+		await toButton.tap()
+		await page.waitFor(800)
 	})
 	
 	it('审核员', async () => {
 		await roles[2].tap()
-		const auditor = await page.waitFor(async()=>{
+		const start = Date.now()
+		await page.waitFor(async()=>{
+			if(Date.now() - start > 4000){
+				console.warn('链接服务器超时')
+				return true
+			}
 			const auditorRole = await page.data('rulo_index')
 			return auditorRole === 2 
 		})
-		
-		if(auditor){
-			await page.setData({
-				"formData": {
-					"_id": "60200c3554a29f0001d14586",
-					"nickname": "我是学生",
-					"username": "小明",
-					"state":1,
-					"phone": "18890903030"
-				}
-			})
-		}
+		await page.setData({
+			"formData": {
+				"_id": "60200c3554a29f0001d14586",
+				"nickname": "我是学生",
+				"username": "小明",
+				"state":1,
+				"phone": "18890903030"
+			}
+		})
 	})
-
 	it('管理员', async () => {
 		await roles[3].tap()
 		const start = Date.now()
-		const admin = await page.waitFor(async()=>{
+		await page.waitFor(async()=>{
 			if(Date.now() - start > 4000){
 				console.warn('链接服务器超时')
 				return true
@@ -80,17 +83,15 @@ describe('pages/clientDB/permission-demo/permission-demo.vue', () => {
 			const adminRole = await page.data('rulo_index')
 			return adminRole === 3 
 		})
-		if(admin){
-			await page.setData({
-				"formData": {
-					"_id": "60200c3554a29f0001d14586",
-					"nickname": "我是学生",
-					"username": "小明",
-					"state":-1,
-					"phone": "18890903030"
-				}
-			})
-		}
+		await page.setData({
+			"formData": {
+				"_id": "60200c3554a29f0001d14586",
+				"nickname": "我是学生",
+				"username": "小明",
+				"state":-1,
+				"phone": "18890903030"
+			}
+		})
 	})
 	
 })

@@ -121,12 +121,11 @@
       /**
        * 触发表单提交
        */
-      async submit() {
+      submit() {
         uni.showLoading({
           mask: true
         })
         return this.$refs.form.validate().then(async(res) => {
-			  console.log('res: ',res);
            return await this.submitForm(res)
         }).catch(() => {
           uni.hideLoading()

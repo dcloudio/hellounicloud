@@ -77,6 +77,7 @@
         "comment": ""
       }
       return {
+			isTest:false,
         formData,
         formOptions: {
           "gender_localdata": [
@@ -145,9 +146,13 @@
             icon: 'none',
             title: '修改成功'
           })
-          this.getOpenerEventChannel().emit('refreshData')
-          setTimeout(() => uni.navigateBack(), 500)
-			 return res
+			 if(!this.isTest){
+				 
+			 }
+			 this.getOpenerEventChannel().emit('refreshData')
+			 setTimeout(() => uni.navigateBack(), 500)
+			 console.log('res: ',res);
+			 return res.result
         }).catch((err) => {
           uni.showModal({
             content: err.message || '请求服务失败',

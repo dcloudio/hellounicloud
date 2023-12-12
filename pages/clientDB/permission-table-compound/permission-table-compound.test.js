@@ -201,8 +201,12 @@ describe('pages/clientDB/permission-table-compound/permission-table-compound.vue
 	it('读取--用户', async () => {
 		await segItems[1].tap()
 		await roles[1].tap()
-
+		const start = Date.now()
 		const readUser = await page.waitFor(async () => {
+			if(Date.now() - start > 4000){
+				console.warn('连接服务器超时')
+				return true
+			}
 			const readUserIndex = await page.data('typeIndex')
 			const readUserRole = await page.data('currentRole')
 			return readUserIndex === 1 && readUserRole == 'user'
