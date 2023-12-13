@@ -24,9 +24,6 @@ describe('pages/user-info/list.vue', () => {
 	it('点击第一条',async()=>{
 		await page.waitFor(2000)
 		const items = await page.$$('.uni-list-item')
-		console.log('items: ',items);
-		if(items.length<0)return;
-		
 		if(items.length>0){
 			await items[0].tap()
 			await waitTime()

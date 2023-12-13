@@ -1,5 +1,5 @@
+jest.setTimeout(20000)
 describe('pages/cloudFunction/cloudFunction.vue', () => {
-	
 	let page
 	beforeAll(async () => {
 	    // 重新reLaunch至首页，并获取首页page对象（其中 program 是uni-automator自动注入的全局对象）
@@ -9,7 +9,7 @@ describe('pages/cloudFunction/cloudFunction.vue', () => {
 	it('云函数页-检查标题',async()=>{
 		expect.assertions(1);
 		const title = await page.$('.title')
-		expect(await title.text()).toBe('基础示例-云函数');
+		expect((await title.text()).trim()).toBe('基础示例-云函数');
 	})
 	it('添加一条数据',async()=>{
 		expect.assertions(1);

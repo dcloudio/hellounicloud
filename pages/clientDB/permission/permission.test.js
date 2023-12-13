@@ -5,9 +5,7 @@ describe('pages/clientDB/permission/permission.vue', () => {
 		page = await program.reLaunch('/pages/clientDB/permission/permission')
 		await page.waitFor('view')
 		page = await program.currentPage()
-
 	})
-
 	it('获取数据',async()=>{
 		//expect.assertions(2)
 		if(process.env.UNI_PLATFORM === "mp-weixin"){

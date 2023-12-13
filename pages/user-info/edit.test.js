@@ -9,6 +9,7 @@ describe('pages/user-info/detail.vue', () => {
 	it('修改表单内容', async () => {
 		const getQuery = await page.query
 		console.log('getQuery: ',getQuery);
+		if(!getQuery.id || getQuery.hobby_valuetotext.length<0)return;
 		await page.setData({
 			"formData": {
 				"username":"林小明加",

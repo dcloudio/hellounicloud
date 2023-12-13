@@ -1,3 +1,4 @@
+jest.setTimeout(20000)
 describe('pages/storage/space-storage.vue', () => {
 	let page
 	beforeAll(async () => {

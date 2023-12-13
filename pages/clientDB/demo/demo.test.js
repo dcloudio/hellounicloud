@@ -36,7 +36,6 @@ describe('pages/clientDB/demo/demo.vue', () => {
 		})
 		//新增一条留言
 		const userWrite = await page.callMethod('submitComment', '我是用户')
-		console.log('userWrite: ',userWrite);
 		expect(userWrite.id.length).toBe(24);
 	})
 	it('审核员', async () => {

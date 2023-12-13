@@ -16,6 +16,8 @@ describe('pages/user-info/detail.vue', () => {
 			await page.waitFor(1000)
 			console.log('currentPage',await program.currentPage())
 			expect((await program.currentPage()).path).toBe('pages/user-info/edit')
+		}else{
+			console.log('err query')
 		}
 	})
 })

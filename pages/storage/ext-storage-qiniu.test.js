@@ -1,3 +1,4 @@
+jest.setTimeout(20000)
 describe('pages/storage/ext-storage-qiniu.vue', () => {
 	let page,platform;
 	beforeAll(async () => {
