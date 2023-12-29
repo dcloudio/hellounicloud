@@ -1,3 +1,9 @@
+## 1.3.9（2023-12-29）
+- 新增 七牛云扩展存储示例，价格更优、权限更灵活[详见](https://doc.dcloud.net.cn/uniCloud/ext-storage/intro.html)
+## 1.3.8（2023-10-24）
+- 更新 department 表名称为 opendb-department
+- 更新 notice 表名称为 opendb-notice
+- 更新 comment 表名称为 opendb-notice-comment
 ## 1.3.7（2023-05-19）
 - 删除错误的css注释
 ## 1.3.6（2022-11-18）
