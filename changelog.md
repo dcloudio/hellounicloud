@@ -1,3 +1,5 @@
+## 1.4.0（2024-01-15）
+- 更新 db_init.json 按collection拆分，每个collection由schema.json、index.json、init_data.json三个文件描述[详情](https://doc.dcloud.net.cn/uniCloud/hellodb.html#init-db-2)
 ## 1.3.9（2023-12-29）
 - 新增 七牛云扩展存储示例，价格更优、权限更灵活[详见](https://doc.dcloud.net.cn/uniCloud/ext-storage/intro.html)
 ## 1.3.8（2023-10-24）
