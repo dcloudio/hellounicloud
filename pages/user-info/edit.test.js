@@ -31,5 +31,6 @@ describe('pages/user-info/detail.vue', () => {
 			console.log('res: ',res.updated);
 			expect(res.updated).toBe(1)
 		}
+		console.log("currentPage",await program.currentPage())
 	})
 })

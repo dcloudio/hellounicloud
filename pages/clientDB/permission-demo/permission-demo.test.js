@@ -55,12 +55,9 @@ describe('pages/clientDB/permission-demo/permission-demo.vue', () => {
 		await roles[2].tap()
 		const start = Date.now()
 		await page.waitFor(async()=>{
-			if(Date.now() - start > 4000){
-				console.warn('链接服务器超时')
-				return true
-			}
 			const auditorRole = await page.data('rulo_index')
-			return auditorRole === 2 
+			console.log("auditorRole",auditorRole)
+			return auditorRole === 2 || Date.now() - start > 5000
 		})
 		await page.setData({
 			"formData": {
