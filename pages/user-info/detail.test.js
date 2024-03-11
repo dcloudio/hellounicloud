@@ -11,7 +11,7 @@ describe('pages/user-info/detail.vue', () => {
 		// expect.assertions(1);
 		const getQuery = await page.query
 		console.log('getQuery: ',getQuery);
-		if(getQuery.id || getQuery.hobby_valuetotext.length>0){
+		if(getQuery.id || (getQuery.hobby_valuetotext && getQuery.hobby_valuetotext.length>0)){
 			await page.callMethod('handleUpdate')
 			await page.waitFor(1000)
 			console.log('currentPage',await program.currentPage())

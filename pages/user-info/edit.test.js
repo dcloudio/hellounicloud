@@ -9,7 +9,7 @@ describe('pages/user-info/detail.vue', () => {
 	it('修改表单内容', async () => {
 		const getQuery = await page.query
 		console.log('getQuery: ',getQuery);
-		if(getQuery.id || getQuery.hobby_valuetotext.length>0){
+		if(getQuery.id || (getQuery.hobby_valuetotext && getQuery.hobby_valuetotext.length>0) ){
 			await page.setData({
 				"formData": {
 					"username":"林小明加",
@@ -30,6 +30,8 @@ describe('pages/user-info/detail.vue', () => {
 			const res = await page.callMethod('submit')
 			console.log('res: ',res.updated);
 			expect(res.updated).toBe(1)
+		}else{
+			console.log('err query')
 		}
 		console.log("currentPage",await program.currentPage())
 	})
