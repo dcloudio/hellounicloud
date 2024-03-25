@@ -34,7 +34,8 @@
         "platforms": {
             "cloud": {
                 "tcb": "y",
-                "aliyun": "y"
+                "aliyun": "y",
+                "alipay": "y"
             },
             "client": {
                 "App": {
