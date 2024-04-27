@@ -31,7 +31,8 @@ describe('pages/clientDB/permission-demo/readme.vue', () => {
 		const getData = await page.callMethod('getFn','uid,username,nickname,state')
 		expect(getData).not.toBeUndefined();
 		const removeAll = await page.callMethod('removeFn','uid,username,nickname,state')
-		// expect(removeAll.code).toBe('PERMISSION_ERROR')
+    // console.log('removeAll',removeAll)
+		expect(removeAll.errCode).toBe('PERMISSION_ERROR')
 		//创建一条数据
 		await page.callMethod('addFn') 
 		//更新创建者自己的昵称
@@ -71,7 +72,7 @@ describe('pages/clientDB/permission-demo/readme.vue', () => {
 			const unloginRole = await page.data('currentRole')
 			return unloginRole === 0 
 		})
-		console.log("unlogin: ",unlogin);
+		// console.log("unlogin: ",unlogin);
 		if(unlogin){
 			const getData = await page.callMethod('getFn','uid,username,nickname,state')
 			expect(getData.data).not.toBeUndefined();
@@ -120,7 +121,7 @@ describe('pages/clientDB/permission-demo/readme.vue', () => {
 			const auditorRole = await page.data('currentRole')
 			return auditorRole == 'auditor'
 		})
-		console.log("auditor",auditor);
+		// console.log("auditor",auditor);
 		if(auditor){
 			const getData = await page.callMethod('getFn','uid,username,nickname,state')
 			expect(getData).not.toBeUndefined();
@@ -167,7 +168,7 @@ describe('pages/clientDB/permission-demo/readme.vue', () => {
 			const adminRole = await page.data('currentRole')
 			return adminRole == 'admin'
 		})
-		console.log("admin",admin);
+		// console.log("admin",admin);
 		if(admin){
 			const getData = await page.callMethod('getFn','uid,username,nickname,state')
 			expect(getData).not.toBeUndefined();

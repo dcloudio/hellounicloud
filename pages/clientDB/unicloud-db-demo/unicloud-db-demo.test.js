@@ -64,7 +64,7 @@ describe('pages/clientDB/unicloud-db-demo/unicloud-db-demo', () => {
 		//改变分页策略为add
 		// const pageCheckbox = await page.$('.page-checkbox')
 		await page.setData({"pageData": "add"})
-		console.log('pageData---add: ',await page.data('pageData'));
+		// console.log('pageData---add: ',await page.data('pageData'));
 		const isAdd = await page.waitFor(async()=>{
 			const addText = await page.data('pageData')
 			return addText === 'add'
@@ -78,7 +78,7 @@ describe('pages/clientDB/unicloud-db-demo/unicloud-db-demo', () => {
 			} */
 			if (process.env.UNI_PLATFORM === "h5" || process.env.UNI_PLATFORM.startsWith("app")) {
 				const loadMore = await page.$('.loadMore')
-				console.log('loadMore: ',loadMore);
+				// console.log('loadMore: ',loadMore);
 				// await page.waitFor(300)
 				await loadMore.tap()
 				await page.waitFor(300)

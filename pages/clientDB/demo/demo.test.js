@@ -13,7 +13,7 @@ describe('pages/clientDB/demo/demo.vue', () => {
 		await roles[0].tap()
 		const start = Date.now()
 		await page.waitFor(async()=>{
-			if(Date.now() - start > 4000){
+			if(Date.now() - start > 6000){
 				console.warn('连接服务器超时')
 				return true
 			}
@@ -27,7 +27,7 @@ describe('pages/clientDB/demo/demo.vue', () => {
 		await roles[1].tap()
 		const start = Date.now()
 		await page.waitFor(async()=>{
-			if(Date.now() - start > 4000){
+			if(Date.now() - start > 6000){
 				console.warn('连接服务器超时')
 				return true
 			}
@@ -42,7 +42,7 @@ describe('pages/clientDB/demo/demo.vue', () => {
 		await roles[2].tap()
 		const start = Date.now()
 		await page.waitFor(async()=>{
-			if(Date.now() - start > 4000){
+			if(Date.now() - start > 6000){
 				console.warn('连接服务器超时')
 				return true
 			}
@@ -77,7 +77,7 @@ describe('pages/clientDB/demo/demo.vue', () => {
 		await roles[3].tap()
 		const start = Date.now()
 		await page.waitFor(async()=>{
-			if(Date.now() - start > 4000){
+			if(Date.now() - start > 6000){
 				console.warn('连接服务器超时')
 				return true
 			}

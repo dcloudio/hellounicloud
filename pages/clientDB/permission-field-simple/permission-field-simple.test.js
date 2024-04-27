@@ -1,18 +1,11 @@
 describe('pages/clientDB/permission-field-simple/permission-field-simple.nvue', () => {
-	let page,errMsgA,errMsgB,perPage,segItems,roles;
+	let page,perPage,segItems,roles;
 	beforeAll(async () => {
 		// 重新reLaunch至首页，并获取首页page对象（其中 program 是uni-automator自动注入的全局对象）
 		page = await program.reLaunch(
 			'/pages/clientDB/permission-field-simple/permission-field-simple')
 		await page.waitFor('view')
 		page = await program.currentPage()
-		errMsgA = "权限校验未通过，参与权限校验的集合：[]，请参考文档：https://uniapp.dcloud.net.cn/uniCloud/schema.html#handler-permission-error"
-		errMsgB = "权限校验未通过，未能获取当前用户信息，当前用户为匿名身份 ，参与权限校验的集合：[]，请参考文档：https://uniapp.dcloud.net.cn/uniCloud/schema.html#handler-permission-error"
-		
-		errMsgC = "权限校验未通过，未能获取当前用户信息，当前用户为匿名身份，请参考文档：https://uniapp.dcloud.net.cn/uniCloud/schema.html#handler-permission-error"
-		
-		errMsgD = "权限校验未通过，请参考文档：https://uniapp.dcloud.net.cn/uniCloud/schema.html#handler-permission-error"
-		
 		perPage = await page.$('.page')
 		//头部操作控制条
 		segItems = await perPage.$$('.segmented-control__item')
@@ -23,19 +16,19 @@ describe('pages/clientDB/permission-field-simple/permission-field-simple.nvue', 
 	it('创建--未登陆', async () => {
 		await segItems[0].tap()
 		await roles[0].tap()
-
-		const createUnlogin = await page.waitFor(async () => {
+    
+		await page.waitFor(async () => {
 			const createUnloginIndex = await page.data('typeIndex')
 			const createUnloginRole = await page.data('currentRole')
 			return createUnloginIndex === 0 && createUnloginRole === 0
 		})
-		// console.log("createUnlogin: ",createUnlogin);
 
 		const createA = await page.callMethod('myFn', {
 			"type": "create",
 			"index": 0
 		})
-		/* expect(createA).toBe('[permission-test-10.ip.write]权限校验未通过') */
+    console.log("createA",createA)
+    expect(createA).toContain("权限校验未通过");
 
 		await page.callMethod('myFn', {
 			"type": "create",
@@ -47,6 +40,7 @@ describe('pages/clientDB/permission-field-simple/permission-field-simple.nvue', 
 			"type": "create",
 			"index": 1,
 		})
+    // console.log("createB",createB)
 		// expect(createB).toBe('未能获取当前用户信息：30205 | 当前用户为匿名身份')
 
 		await page.callMethod('myFn', {
@@ -59,11 +53,7 @@ describe('pages/clientDB/permission-field-simple/permission-field-simple.nvue', 
 			"type": "create",
 			"index": 2,
 		})
-		console.log('createC: ',createC);
-		// expect(createC).toBe(errMsgB)
-		
-		// Expected: "权限校验未通过，未能获取当前用户信息，当前用户为匿名身份，请参考文档：https://uniapp.dcloud.net.cn/uniCloud/schema.html#handler-permission-error"
-		//阿里云--- 19:59:13.946 [hellounicloud:h5]     Received: "权限校验未通过，未能获取当前用户信息，当前用户为匿名身份 ，参与权限校验的集合：[]，请参考文档：https://uniapp.dcloud.net.cn/uniCloud/schema.html#handler-permission-error"
+		// console.log('createC: ',createC);
 
 		await page.callMethod('myFn', {
 			"type": "create",
@@ -76,27 +66,17 @@ describe('pages/clientDB/permission-field-simple/permission-field-simple.nvue', 
 		await segItems[1].tap()
 		await roles[0].tap()
 
-		const readUnlogin = await page.waitFor(async () => {
+		await page.waitFor(async () => {
 			const readUnloginIndex = await page.data('typeIndex')
 			const readUnloginRole = await page.data('currentRole')
 			return readUnloginIndex === 1 && readUnloginRole === 0
 		})
-		// console.log("readUnlogin: ",readUnlogin);
 
 		const readA = await page.callMethod('myFn', {
 			"type": "read",
 			"index": 0
 		})
-		console.log("readA: ",readA);
-		// expect(readA).toBe(errMsgC)
-		
-		
-		//  Expected: "权限校验未通过，未能获取当前用户信息，当前用户为匿名身份，请参考文档：https://uniapp.dcloud.net.cn/uniCloud/schema.html#handler-permission-error"
-		//阿里云--- 19:59:13.948 [hellounicloud:h5]     Received: "权限校验未通过，未能获取当前用户信息，当前用户为匿名身份 ，参与权限校验的集合：[]，请参考文档：https://uniapp.dcloud.net.cn/uniCloud/schema.html#handler-permission-error"
-		
-		
-		// 支付宝  权限校验未通过，未能获取当前用户信息，当前用户为匿名身份，请参考文档：https://uniapp.dcloud.net.cn/uniCloud/schema.html#handler-permission-error
-		
+		// console.log("readA: ",readA);
 
 		await page.callMethod('myFn', {
 			"type": "read",
@@ -108,7 +88,6 @@ describe('pages/clientDB/permission-field-simple/permission-field-simple.nvue', 
 			"type": "read",
 			"index": 1
 		})
-		// expect(readB).toBe(errMsgC)
 
 		await page.callMethod('myFn', {
 			"type": "read",
@@ -120,7 +99,6 @@ describe('pages/clientDB/permission-field-simple/permission-field-simple.nvue', 
 			"type": "read",
 			"index": 2
 		})
-		// expect(readC).toBe(errMsgC)
 
 		await page.callMethod('myFn', {
 			"type": "read",
@@ -133,18 +111,16 @@ describe('pages/clientDB/permission-field-simple/permission-field-simple.nvue', 
 		await segItems[2].tap()
 		await roles[0].tap()
 
-		const updateUnlogin = await page.waitFor(async () => {
+		await page.waitFor(async () => {
 			const updateUnloginIndex = await page.data('typeIndex')
 			const updateUnloginRole = await page.data('currentRole')
 			return updateUnloginIndex === 2 && updateUnloginRole === 0
 		})
-		// console.log("updateUnlogin: ",updateUnlogin);
 		const updateA = await page.callMethod('myFn', {
 			"type": "update",
 			"index": 0
 		})
 		// console.log("updateA: ",updateA);
-		// expect(updateA).toBe(errMsgC)
 
 		await page.callMethod('myFn', {
 			"type": "update",
@@ -156,7 +132,6 @@ describe('pages/clientDB/permission-field-simple/permission-field-simple.nvue', 
 			"type": "update",
 			"index": 1
 		})
-		// expect(updateB).toBe(errMsgC)
 
 		await page.callMethod('myFn', {
 			"type": "update",
@@ -168,7 +143,6 @@ describe('pages/clientDB/permission-field-simple/permission-field-simple.nvue', 
 			"type": "update",
 			"index": 2
 		})
-		// expect(updateC).toBe(errMsgC)
 
 		await page.callMethod('myFn', {
 			"type": "update",
@@ -182,8 +156,8 @@ describe('pages/clientDB/permission-field-simple/permission-field-simple.nvue', 
 		await segItems[0].tap()
 		await roles[1].tap()
 		const start = Date.now()
-		const createUser = await page.waitFor(async () => {
-			if(Date.now() - start > 4000){
+		await page.waitFor(async () => {
+			if(Date.now() - start > 8000){
 				console.warn('连接服务器超时')
 				return true
 			}
@@ -191,14 +165,12 @@ describe('pages/clientDB/permission-field-simple/permission-field-simple.nvue', 
 			const createUserRole = await page.data('currentRole')
 			return createUserIndex === 0 && createUserRole == 'user'
 		})
-		// console.log("createUser: ",createUser);
 
 		const createUserA = await page.callMethod('myFn', {
 			"type": "create",
 			"index": 0,
 		})
 		// console.log("createUserA: ",createUserA);
-		// expect(createUserA).toBe(errMsgD)
 
 		await page.callMethod('myFn', {
 			"type": "create",
@@ -220,8 +192,6 @@ describe('pages/clientDB/permission-field-simple/permission-field-simple.nvue', 
 			"type": "create",
 			"index": 2,
 		})
-		// console.log('createUserB: ',createUserB);
-		// expect(createUserB).toBe(errMsgD)
 		await page.callMethod('myFn', {
 			"type": "create",
 			"index": 2,
@@ -233,18 +203,16 @@ describe('pages/clientDB/permission-field-simple/permission-field-simple.nvue', 
 		await segItems[1].tap()
 		await roles[1].tap()
 
-		const readUser = await page.waitFor(async () => {
+		await page.waitFor(async () => {
 			const readUserIndex = await page.data('typeIndex')
 			const readUserRole = await page.data('currentRole')
 			return readUserIndex === 1 && readUserRole == 'user'
 		})
-		// console.log("readUser: ",readUser);
 		
 		const readUserA = await page.callMethod('myFn', {
 			"type": "read",
 			"index": 0
 		})
-		// expect(readUserA).toBe(errMsgD)
 
 		await page.callMethod('myFn', {
 			"type": "read",
@@ -267,7 +235,6 @@ describe('pages/clientDB/permission-field-simple/permission-field-simple.nvue', 
 			"type": "read",
 			"index": 2
 		})
-		// expect(readUserB).toBe(errMsgD)
 
 		await page.callMethod('myFn', {
 			"type": "read",
@@ -286,12 +253,12 @@ describe('pages/clientDB/permission-field-simple/permission-field-simple.nvue', 
 			const updateUserRole = await page.data('currentRole')
 			return updateUserIndex === 2 && updateUserRole == 'user'
 		})
+    // console.log('readUser',readUser)
 		if(readUser){
 			const updateUserA = await page.callMethod('myFn', {
 				"type": "update",
 				"index": 0
 			})
-			// expect(updateUserA).toBe(errMsgD)
 			
 			await page.callMethod('myFn', {
 				"type": "update",
@@ -314,7 +281,6 @@ describe('pages/clientDB/permission-field-simple/permission-field-simple.nvue', 
 				"type": "update",
 				"index": 2
 			})
-			// expect(updateUserB).toBe(errMsgD)
 			
 			await page.callMethod('myFn', {
 				"type": "update",
@@ -340,7 +306,6 @@ describe('pages/clientDB/permission-field-simple/permission-field-simple.nvue', 
 			"type": "create",
 			"index": 0,
 		})
-		// expect(createAuditorA).toBe(errMsgD)
 
 		await page.callMethod('myFn', {
 			"type": "create",
@@ -386,7 +351,6 @@ describe('pages/clientDB/permission-field-simple/permission-field-simple.nvue', 
 			"type": "read",
 			"index": 0
 		})
-		// expect(readAuditorA).toBe(errMsgD)
 
 		await page.callMethod('myFn', {
 			"type": "read",
@@ -432,7 +396,6 @@ describe('pages/clientDB/permission-field-simple/permission-field-simple.nvue', 
 			"type": "update",
 			"index": 0
 		})
-		// expect(updateAuditorA).toBe(errMsgD)
 
 		await page.callMethod('myFn', {
 			"type": "update",

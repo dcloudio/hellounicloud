@@ -56,7 +56,7 @@ describe('pages/clientDB/permission-demo/permission-demo.vue', () => {
 		const start = Date.now()
 		await page.waitFor(async()=>{
 			const auditorRole = await page.data('rulo_index')
-			console.log("auditorRole",auditorRole)
+			// console.log("auditorRole",auditorRole)
 			return auditorRole === 2 || Date.now() - start > 5000
 		})
 		await page.setData({
