@@ -138,7 +138,7 @@
             icon: 'none',
             title: '新增成功'
           })
-			 if(!isTest){
+			 if(!this.isTest){
 				 this.getOpenerEventChannel().emit('refreshData')
 				 setTimeout(() => uni.navigateBack(), 500)
 			 }

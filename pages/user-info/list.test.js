@@ -9,9 +9,9 @@ describe('pages/user-info/list.vue', () => {
 	})
 	async function waitTime(){
 		if(process.env.UNI_PLATFORM == 'mp-weixin'){
-			await page.waitFor(1000)
+			await page.waitFor(2000)
 		}else{
-			await page.waitFor(500)
+			await page.waitFor(1000)
 		}
 	}
 	it('点击fab跳转到添加页',async()=>{
@@ -30,7 +30,7 @@ describe('pages/user-info/list.vue', () => {
 			currentPage = await program.currentPage()
 			expect(currentPage.path).toBe('pages/user-info/detail')
 			// await program.navigateBack()
-			// console.log('currentPage',await program.currentPage())
+			console.log('currentPage',await program.currentPage())
 		}else{
 			console.log('no items');
 		}

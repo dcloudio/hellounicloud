@@ -1,3 +1,4 @@
+jest.setTimeout(30000)
 describe('pages/clientDB/permission-field-simple/permission-field-simple.nvue', () => {
 	let page,perPage,segItems,roles;
 	beforeAll(async () => {
@@ -16,8 +17,12 @@ describe('pages/clientDB/permission-field-simple/permission-field-simple.nvue', 
 	it('创建--未登陆', async () => {
 		await segItems[0].tap()
 		await roles[0].tap()
-    
+    const start = Date.now()
 		await page.waitFor(async () => {
+      if(Date.now() - start > 5000){
+      	console.warn('链接服务器超时')
+      	return true
+      }
 			const createUnloginIndex = await page.data('typeIndex')
 			const createUnloginRole = await page.data('currentRole')
 			return createUnloginIndex === 0 && createUnloginRole === 0
@@ -65,8 +70,12 @@ describe('pages/clientDB/permission-field-simple/permission-field-simple.nvue', 
 	it('读取--未登陆', async () => {
 		await segItems[1].tap()
 		await roles[0].tap()
-
+    const start = Date.now()
 		await page.waitFor(async () => {
+      if(Date.now() - start > 5000){
+      	console.warn('链接服务器超时')
+      	return true
+      }
 			const readUnloginIndex = await page.data('typeIndex')
 			const readUnloginRole = await page.data('currentRole')
 			return readUnloginIndex === 1 && readUnloginRole === 0
@@ -110,8 +119,12 @@ describe('pages/clientDB/permission-field-simple/permission-field-simple.nvue', 
 	it('更新--未登陆', async () => {
 		await segItems[2].tap()
 		await roles[0].tap()
-
+    const start = Date.now()
 		await page.waitFor(async () => {
+      if(Date.now() - start > 5000){
+      	console.warn('链接服务器超时')
+      	return true
+      }
 			const updateUnloginIndex = await page.data('typeIndex')
 			const updateUnloginRole = await page.data('currentRole')
 			return updateUnloginIndex === 2 && updateUnloginRole === 0

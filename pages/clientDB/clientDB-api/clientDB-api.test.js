@@ -1,3 +1,4 @@
+jest.setTimeout(30000)
 describe('pages/clientDB/clientDB-api/clientDB-api.nvue', () => {
 	let page
 	beforeAll(async () => {

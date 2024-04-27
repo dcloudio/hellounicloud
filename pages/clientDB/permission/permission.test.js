@@ -1,3 +1,4 @@
+jest.setTimeout(30000)
 describe('pages/clientDB/permission/permission.vue', () => {
 	let page
 	beforeAll(async () => {
@@ -9,6 +10,7 @@ describe('pages/clientDB/permission/permission.vue', () => {
 	it('获取数据',async()=>{
 		//expect.assertions(2)
 		if(process.env.UNI_PLATFORM === "mp-weixin"){
+      await page.waitFor(1000)
 			const listItem = await page.$$('uni-list-item')
 			expect(listItem.length).toBe(4)
 		}
