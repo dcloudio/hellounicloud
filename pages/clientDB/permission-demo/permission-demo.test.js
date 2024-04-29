@@ -46,7 +46,9 @@ describe('pages/clientDB/permission-demo/permission-demo.vue', () => {
 			}
 		})
 		const buttonGroup = await perPage.$('.uni-button-group')
+    console.log('buttonGroup',buttonGroup)
 		const toButton = await buttonGroup.$('.uni-button')
+    console.log('toButton',toButton)
 		await toButton.tap()
 		await page.waitFor(800)
 	})

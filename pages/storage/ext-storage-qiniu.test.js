@@ -3,7 +3,7 @@ let page, platform;
 describe('pages/storage/ext-storage-qiniu.vue', () => {
 	beforeAll(async () => {
 		// 重新reLaunch至首页，并获取首页page对象（其中 program 是uni-automator自动注入的全局对象）
-		page = await program.navigateTo('/pages/storage/ext-storage-qiniu')
+		page = await program.reLaunch('/pages/storage/ext-storage-qiniu')
 		await page.waitFor('view')
 		await page.setData({
 			'isTest': true
