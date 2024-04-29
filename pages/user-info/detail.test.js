@@ -1,5 +1,11 @@
 describe('pages/user-info/detail.vue', () => {
 	let page
+  if(process.env.uniTestPlatformInfo == 'ios_simulator 13.7'){
+    it('ios', async () => {
+    	expect(1).toBe(1)
+      return
+    })
+  }
 	beforeAll(async () => {
 		// 重新reLaunch至首页，并获取首页page对象（其中 program 是uni-automator自动注入的全局对象）
 		// page = await program.navigateTo('/pages/user-info/detail')

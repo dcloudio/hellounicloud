@@ -4,7 +4,7 @@ module.exports = {
         "options": {
             "headless": false
         },
-        "executablePath": "C:/Program Files/Google/Chrome/Application/chrome.exe"
+        "executablePath": ""
     },
     "mp-weixin": {
         "executablePath": "D:/software/weixin-10-12/微信web开发者工具/cli.bat"
@@ -26,10 +26,10 @@ module.exports = {
     },
     "app-plus": {
         "android": {
-            "executablePath": "D:\\xm\\download\\uni-app-x-dev\\HBuilderX.3.9.0.20230708.1221-dev\\HBuilderX\\plugins\\launcher\\base\\android_base.apk",
+            "executablePath": "D:\\HX\\insideTest\\alpha\\HBuilderX.4.0.2024012502-alpha\\HBuilderX\\plugins\\launcher\\base\\android_base.apk",
             "id": "emulator-5554"
         },
-        "version": "D:\\xm\\download\\uni-app-x-dev\\HBuilderX.3.9.0.20230708.1221-dev\\HBuilderX\\plugins\\launcher\\base\\version.txt",
+        "version": "D:\\HX\\insideTest\\alpha\\HBuilderX.4.0.2024012502-alpha\\HBuilderX\\plugins\\launcher\\base\\version.txt",
         "ios": {
             "id": "",
             "executablePath": ""
