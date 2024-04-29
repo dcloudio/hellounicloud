@@ -5,6 +5,7 @@ describe('pages/storage/space-storage.vue', () => {
 		// 重新reLaunch至首页，并获取首页page对象（其中 program 是uni-automator自动注入的全局对象）
 		page = await program.reLaunch('/pages/storage/space-storage')
 		await page.waitFor('view')
+		console.log('pageStack',await program.pageStack())
 	})
 	it('space-storage-上传文件', async () => {
 		expect.assertions(2);
