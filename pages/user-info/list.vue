@@ -32,7 +32,9 @@
 					contentdown: '',
 					contentrefresh: '',
 					contentnomore: ''
-				}
+				},
+        // 自动化测试
+        jestResult:false
 			}
 		},
 		onPullDownRefresh() {
@@ -62,7 +64,13 @@
 								clear: true
 							})
 						}
-					}
+					},
+          success: () => {
+            this.jestResult = true
+          },
+          fail: () => {
+            this.jestResult = false
+          }
 				})
 			}
 		}

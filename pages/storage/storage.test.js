@@ -11,8 +11,4 @@ describe('pages/storage/storage.vue', () => {
 		expect(await btnText[0].text()).toBe('空间内置云存储');
 		expect(await btnText[1].text()).toBe('扩展存储-七牛云');
 	})
-	it('空间内置云存储',async()=>{
-		await btnText[0].tap()
-		console.log("---",await program.currentPage())
-	})
 })
