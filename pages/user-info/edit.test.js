@@ -10,7 +10,9 @@ describe('pages/user-info/detail.vue', () => {
 		// 重新reLaunch至首页，并获取首页page对象（其中 program 是uni-automator自动注入的全局对象）
 		// page = await program.navigateTo('/pages/user-info/edit?id=601d044ac9e7be0001cc00b8')
 		page = await program.currentPage()
+    console.log('page: ', page);
 		await page.waitFor('view')
+    await page.setData({'isTest':true})
 		getQuery = await page.query
 		console.log('getQuery: ', getQuery);
 		if (Object.keys(getQuery).length === 0 || getQuery === undefined) {

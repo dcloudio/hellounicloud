@@ -11,7 +11,7 @@ describe('pages/user-info/detail.vue', () => {
 		// page = await program.navigateTo('/pages/user-info/detail')
 		page = await program.currentPage()
 		await page.waitFor('view')
-		const getQuery = await page.query
+		getQuery = await page.query
 		console.log('getQuery: ', getQuery);
 		if (Object.keys(getQuery).length === 0 || getQuery === undefined) {
 		  console.log('err query')
@@ -25,4 +25,11 @@ describe('pages/user-info/detail.vue', () => {
 		console.log('currentPage', await program.currentPage())
 		expect((await program.currentPage()).path).toBe('pages/user-info/edit')
 	})
+  // it('删除当前数据', async () => {
+  // 	await page.callMethod('handleDelete')
+  // 	await page.waitFor(1000)
+  //   const testRes = await page.data('testRes')
+  // 	console.log('testRes', testRes)
+  //   console.log('currentPage', await program.currentPage())
+  // })
 })

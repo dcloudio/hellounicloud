@@ -3,7 +3,7 @@ import App from './App'
 // #ifndef VUE3
 import Vue from 'vue'
 Vue.config.productionTip = false
-
+//自动化测试
 uni.showModal = ()=>{};
 App.mpType = 'app'
 

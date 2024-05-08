@@ -10,6 +10,7 @@ describe('pages/user-info/add.vue', () => {
 		// 重新reLaunch至首页，并获取首页page对象（其中 program 是uni-automator自动注入的全局对象）
 		page = await program.reLaunch('/pages/user-info/add')
 		await page.waitFor('view')
+    await page.setData({'isTest':true})
 	})
 	it('输入表单内容', async () => {
 		await page.setData({
@@ -30,5 +31,6 @@ describe('pages/user-info/add.vue', () => {
 			"isTest": true
 		})
 		await page.callMethod('submit')
+    await page.waitFor(1000)
 	})
 })

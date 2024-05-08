@@ -2,8 +2,7 @@ describe('pages/clientDB/demo/demo.vue', () => {
 	let page,perPage,roles;
 	beforeAll(async () => {
 		// 重新reLaunch至首页，并获取首页page对象（其中 program 是uni-automator自动注入的全局对象）
-		page = await program.reLaunch(
-			'/pages/clientDB/demo/demo')
+		page = await program.reLaunch('/pages/clientDB/demo/demo')
 		await page.waitFor("view")
 		perPage = await page.$('.page')
 		//底部角色控制条

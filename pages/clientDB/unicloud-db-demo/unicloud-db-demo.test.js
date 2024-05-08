@@ -64,26 +64,23 @@ describe('pages/clientDB/unicloud-db-demo/unicloud-db-demo', () => {
 		//改变分页策略为add
 		// const pageCheckbox = await page.$('.page-checkbox')
 		await page.setData({"pageData": "add"})
-		// console.log('pageData---add: ',await page.data('pageData'));
-		const isAdd = await page.waitFor(async()=>{
-			const addText = await page.data('pageData')
-			return addText === 'add'
-		})
-		if(isAdd){//加载更多
-			/* if (process.env.UNI_PLATFORM === "mp-weixin") {
-				const toLoadMore = await page.$('.toLoadMore')
-				const loadMore = await toLoadMore.$('.loadMore')
-				await loadMore.tap()
-				await page.waitFor(300)
-			} */
-			if (process.env.UNI_PLATFORM === "h5" || process.env.UNI_PLATFORM.startsWith("app")) {
-				const loadMore = await page.$('.loadMore')
-				// console.log('loadMore: ',loadMore);
-				// await page.waitFor(300)
-				await loadMore.tap()
-				await page.waitFor(300)
-			}
+		console.log('pageData---: ',await page.data('pageData'));
+    await page.waitFor(1000)
+		
+		//加载更多
+		/* if (process.env.UNI_PLATFORM === "mp-weixin") {
+			const toLoadMore = await page.$('.toLoadMore')
+			const loadMore = await toLoadMore.$('.loadMore')
+			await loadMore.tap()
+			await page.waitFor(300)
+		} */
+		if (process.env.UNI_PLATFORM === "h5" || process.env.UNI_PLATFORM.startsWith("app")) {
+			const loadMore = await page.$('.loadMore')
+			console.log('loadMore: ',loadMore);
+			await loadMore.tap()
+			await page.waitFor(300)
 		}
+		
 		//每页数据数量减去1
 		const pageSizeSubBefore = await page.data('pageSize')
 		const numBox2 = await page.$('.num-box2')

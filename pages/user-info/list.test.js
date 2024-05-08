@@ -1,7 +1,7 @@
 // 	jest.setTimeout(20000)
 describe('pages/user-info/list.vue', () => {
   let page, currentPage;
-  console.log('uniTestPlatformInfo', process.env.uniTestPlatformInfo)
+  console.log('uniTestPlatformInfo', process.env.uniTestPlatformInfo,process.env.UNI_PLATFORM)
   if (process.env.uniTestPlatformInfo == 'ios_simulator 13.7') {
     it('ios', async () => {
       expect(1).toBe(1)
@@ -12,7 +12,6 @@ describe('pages/user-info/list.vue', () => {
     // 重新reLaunch至首页，并获取首页page对象（其中 program 是uni-automator自动注入的全局对象）
     page = await program.navigateTo('/pages/user-info/list')
     await page.waitFor('view')
-    console.log('process----', process.env.UNI_PLATFORM)
   })
   async function waitTime() {
     if (process.env.UNI_PLATFORM == 'mp-weixin') {
@@ -21,7 +20,7 @@ describe('pages/user-info/list.vue', () => {
       await page.waitFor(1000)
     }
   }
-  it('点击fab跳转到添加页', async () => {
+  it('点击fab跳转到add页', async () => {
     await page.callMethod('fabClick')
     await page.waitFor('view')
     await waitTime()
@@ -33,7 +32,7 @@ describe('pages/user-info/list.vue', () => {
     await program.navigateBack()
     await page.waitFor('view')
   })
-  it('点击第一条', async () => {
+  it('点击第一条跳转到detail页', async () => {
     await waitTime()
     const items = await page.$$('.uni-list-item')
     if (items.length > 0) {

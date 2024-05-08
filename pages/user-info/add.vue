@@ -23,19 +23,23 @@
         <uni-easyinput placeholder="请输入网址的地址" v-model="formData.url"></uni-easyinput>
       </uni-forms-item>
       <uni-forms-item name="favorite_book_id" label="喜欢的书">
-        <uni-data-checkbox v-model="formData.favorite_book_id" collection="book" field="title as text, _id as value" orderby="desc"></uni-data-checkbox>
+        <uni-data-checkbox v-model="formData.favorite_book_id" collection="book" field="title as text, _id as value"
+          orderby="desc"></uni-data-checkbox>
       </uni-forms-item>
       <uni-forms-item name="address_code" label="地址">
-        <uni-data-picker self-field="code" parent-field="parent_code" v-model="formData.address_code" collection="opendb-city-china" orderby="value asc" field="code as value, name as text"></uni-data-picker>
+        <uni-data-picker self-field="code" parent-field="parent_code" v-model="formData.address_code"
+          collection="opendb-city-china" orderby="value asc" field="code as value, name as text"></uni-data-picker>
       </uni-forms-item>
       <uni-forms-item name="party_member" label="是否为党员">
         <switch @change="binddata('party_member', $event.detail.value)" :checked="formData.party_member"></switch>
       </uni-forms-item>
       <uni-forms-item name="hobby" label="业余爱好">
-        <uni-data-checkbox multiple="true" :multiple="true" v-model="formData.hobby" :localdata="formOptions.hobby_localdata"></uni-data-checkbox>
+        <uni-data-checkbox multiple="true" :multiple="true" v-model="formData.hobby"
+          :localdata="formOptions.hobby_localdata"></uni-data-checkbox>
       </uni-forms-item>
       <uni-forms-item name="comment" label="备注">
-        <textarea placeholder="拒绝违禁词,如：test" @input="binddata('comment', $event.detail.value)" class="uni-textarea-border" v-model="formData.comment"></textarea>
+        <textarea placeholder="拒绝违禁词,如：test" @input="binddata('comment', $event.detail.value)"
+          class="uni-textarea-border" v-model="formData.comment"></textarea>
       </uni-forms-item>
       <view class="uni-button-group">
         <button type="primary" class="uni-button" @click="submit">提交</button>
@@ -45,7 +49,9 @@
 </template>
 
 <script>
-  import { validator } from '../../js_sdk/validator/user-info.js';
+  import {
+    validator
+  } from '../../js_sdk/validator/user-info.js';
 
   const db = uniCloud.database();
   const dbCollectionName = 'user-info';
@@ -77,11 +83,11 @@
         "comment": ""
       }
       return {
-			isTest:false,
+        //自动化测试
+        isTest: false,
         formData,
         formOptions: {
-          "gender_localdata": [
-            {
+          "gender_localdata": [{
               "text": "未知",
               "value": 0
             },
@@ -94,8 +100,7 @@
               "value": 2
             }
           ],
-          "hobby_localdata": [
-            {
+          "hobby_localdata": [{
               "text": "唱歌",
               "value": "Sing"
             },
@@ -125,8 +130,8 @@
         uni.showLoading({
           mask: true
         })
-        return this.$refs.form.validate().then(async(res) => {
-           return await this.submitForm(res)
+        return this.$refs.form.validate().then(async (res) => {
+          return await this.submitForm(res)
         }).catch(() => {
           uni.hideLoading()
         })
@@ -138,17 +143,17 @@
             icon: 'none',
             title: '新增成功'
           })
-			 if(!this.isTest){
-				 this.getOpenerEventChannel().emit('refreshData')
-				 setTimeout(() => uni.navigateBack(), 500)
-			 }
-			 return res
+          if (!this.isTest) {
+            this.getOpenerEventChannel().emit('refreshData')
+            setTimeout(() => uni.navigateBack(), 500)
+          }
+          return res
         }).catch((err) => {
           uni.showModal({
             content: err.message || '请求服务失败',
             showCancel: false
           })
-			 return err
+          return err
         }).finally(() => {
           uni.hideLoading()
         })
