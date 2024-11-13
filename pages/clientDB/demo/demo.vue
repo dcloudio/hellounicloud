@@ -125,10 +125,8 @@
 				}
 				this.options.role = role
 				this.currentRole = role.role
-				console.log("this.currentRole: ", this.currentRole);
 			},
 			async getNoticeData() {
-				console.log('111111111111');
 				let res = await db.action('add_view_count')
 					.collection('opendb-notice')
           .doc("65365ac355b3379a66170144")
