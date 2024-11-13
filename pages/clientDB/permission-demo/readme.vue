@@ -188,8 +188,8 @@
 
 <script>
 	//import db from '@/js_sdk/uni-clientDB/index.js'
-	 const db = uniCloud.database()
-	const ptDb = db.collection('permission-test')
+	const db = uniCloud.database()
+  let ptDb;
 	import alertCode from '@/components/alertCode/alertCode.vue';
 	import uniNoticeBar from '@/uni_modules/uni-notice-bar/components/uni-notice-bar/uni-notice-bar.vue'
 	export default {
@@ -204,6 +204,7 @@
 		mounted() {
 			uni.setStorageSync('uni_id_token', '')
 			uni.setStorageSync('uni_id_token_expired', '')
+      ptDb = db.collection('permission-test')
 		},
 		onShow() {
 			this.$nextTick(()=>{
