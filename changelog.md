@@ -1,3 +1,5 @@
+## 1.4.1（2025-01-13）
+- 修复 未关联服务空间时导致项目无法正常显示的问题
 ## 1.4.0（2024-01-15）
 - 更新 db_init.json 按collection拆分，每个collection由schema.json、index.json、init_data.json三个文件描述[详情](https://doc.dcloud.net.cn/uniCloud/hellodb.html#init-db-2)
 ## 1.3.9（2023-12-29）
