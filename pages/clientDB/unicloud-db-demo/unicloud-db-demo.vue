@@ -12,6 +12,7 @@
 			:getone="getone"
 			:page-current="pageCurrent"
 			:getcount="getcount"
+      @load="dataTest"
 			>
 				<view class="box">
 					<view class="info" v-if="!getone">
@@ -111,7 +112,9 @@
 				getcount:true,
 				L: "{",
 				R: "}",
-				dataList:[]
+				dataList:[],
+        // 自动化测试使用
+        dataListTest:[]
 			}
 		},
 		mounted() {
@@ -150,6 +153,11 @@
 			}
 		},
 		methods: {
+      // 自动化测试使用
+      dataTest(e){
+        console.log('e: ',e);
+        this.dataListTest = e
+      },
 			changePageCurrent(e){
 				if(e/1>0){
 					this.pageCurrent = e

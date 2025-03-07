@@ -1,17 +1,22 @@
+jest.setTimeout(30000)
 describe('pages/clientDB/unicloud-db-demo/unicloud-db-demo', () => {
-
 	let page
 	beforeAll(async () => {
 		// 重新reLaunch至首页，并获取首页page对象（其中 program 是uni-automator自动注入的全局对象）
 		page = await program.reLaunch('/pages/clientDB/unicloud-db-demo/unicloud-db-demo')
 		await page.waitFor('view')
 	})
+  afterAll(async() => {
+    //恢复
+    await page.setData({'getone':false,'getcount':true})
+  });
 	it("增", async () => {
 		// expect.assertions(1);
 		const count = await page.data('getcount')
 		expect(count).toBeTruthy()
 		await page.callMethod('add')
 	})
+  
 	it("删", async () => {
 		// const getDataList = await page.data('dataList')
 		// expect(await getDataList.length).toBeGreaterThanOrEqual(1);
@@ -23,18 +28,7 @@ describe('pages/clientDB/unicloud-db-demo/unicloud-db-demo', () => {
 	it("查", async () => {
 		await page.callMethod('getFn')
 	})
-	it("只查一条数据", async () => {
-		//开启只查一条
-		const swGetone = await page.$('.switch-getone')
-		await swGetone.tap()
-		await page.waitFor(500)
-		const getoneBool = await page.data('getone')
-		expect.assertions(1);
-		expect(getoneBool).toBeTruthy();
-		//关闭只查一条
-		await swGetone.tap()
-		await page.waitFor(500)
-	})
+	
 	it("数据翻页-replace", async () => {
 		expect.assertions(3);
 		//判断类型为翻页加载
@@ -64,7 +58,7 @@ describe('pages/clientDB/unicloud-db-demo/unicloud-db-demo', () => {
 		//改变分页策略为add
 		// const pageCheckbox = await page.$('.page-checkbox')
 		await page.setData({"pageData": "add"})
-		console.log('pageData---: ',await page.data('pageData'));
+		console.log('pageData: ',await page.data('pageData'));
     await page.waitFor(1000)
 		
 		//加载更多
@@ -76,7 +70,7 @@ describe('pages/clientDB/unicloud-db-demo/unicloud-db-demo', () => {
 		} */
 		if (process.env.UNI_PLATFORM === "h5" || process.env.UNI_PLATFORM.startsWith("app")) {
 			const loadMore = await page.$('.loadMore')
-			console.log('loadMore: ',loadMore);
+			// console.log('loadMore: ',loadMore);
 			await loadMore.tap()
 			await page.waitFor(300)
 		}
@@ -95,12 +89,22 @@ describe('pages/clientDB/unicloud-db-demo/unicloud-db-demo', () => {
 		await page.setData({"orderby": 'create_date asc'})
 	})
 	it("是否查询总数据条数", async () => {
-		const swGetcount = await page.$('.switch-getcount')
-		await swGetcount.tap()
-		await page.waitFor(500)
-		const getcountBool = await page.data('getcount')
-		expect.assertions(1);
-		expect(getcountBool).toBeFalsy();
+    await page.setData({'getcount':false})
+    await page.waitFor(2000)
+    console.log('pageSize:',await page.data('pageSize'));
+    const dataListTest = await page.data('dataListTest')
+    console.log('dataListTest.length',dataListTest.length);
+    expect(dataListTest.length).toBe(await page.data('pageSize'))
+    // expect(dataList.book_id).toBe('add-test')
+    // await page.waitFor(1000)
+    // await page.setData({'getone':false})
+    
+		// const swGetcount = await page.$('.switch-getcount')
+		// await swGetcount.tap()
+		// await page.waitFor(500)
+		// const getcountBool = await page.data('getcount')
+		// expect.assertions(1);
+		// expect(getcountBool).toBeFalsy();
 	})
 	it("指定要查询的字段", async () => {
 		expect.assertions(1);
@@ -113,4 +117,13 @@ describe('pages/clientDB/unicloud-db-demo/unicloud-db-demo', () => {
 			field: ['create_date'],
 		})
 	})
+  it("只查一条数据", async () => {
+    //开启只查一条
+    await page.setData({'getone':true})
+    await page.waitFor(3000)
+    const dataList = await page.data('dataListTest')
+    console.log('dataList',await page.data('dataListTest'));
+    expect(dataList.book_id).toBe('add-test')
+    await page.waitFor(1000)
+  })
 })
