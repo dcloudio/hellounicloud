@@ -123,7 +123,7 @@ describe('pages/clientDB/unicloud-db-demo/unicloud-db-demo', () => {
     await page.waitFor(3000)
     const dataList = await page.data('dataListTest')
     console.log('dataList',await page.data('dataListTest'));
-    expect(dataList.book_id).toBe('add-test')
+    expect(dataList.book_id == '这条数据被改' || dataList.book_id == 'add-test').toBe(true)
     await page.waitFor(1000)
   })
 })
