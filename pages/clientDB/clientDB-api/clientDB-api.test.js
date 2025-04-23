@@ -17,7 +17,6 @@ describe('pages/clientDB/clientDB-api/clientDB-api.nvue', () => {
 		expect(orderData.length).not.toBeUndefined();
 	})
 	it('分页查图书book表的数据', async () => {
-		//expect.assertions(1);
 		//获取页码
 		const numBox1 = await page.$('.num-box1')
 		const pageSize = await numBox1.property('value')
@@ -48,11 +47,13 @@ describe('pages/clientDB/clientDB-api/clientDB-api.nvue', () => {
 	})
 	it('查询一本图书数据', async () => {
 		const getOneBook = await page.callMethod('getOneBook')
-		expect(getOneBook).toEqual({
-			"_id": "1",
-			"author": "吴承恩",
-			"title": "西游记"
-		});
+		console.log('getOneBook: ',getOneBook);
+		const OneBook = {
+		    "_id": "1",
+		    "author": "吴承恩",
+		    "title": "西游记"
+		}
+		expect(getOneBook).toEqual(OneBook);
 	})
 	it('查询结果返回总数', async () => {
 		const getBookHasCount = await page.callMethod('getBookHasCount')
