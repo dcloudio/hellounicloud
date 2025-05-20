@@ -1,4 +1,3 @@
-
 <template>
 	<view class="page">
 		<view class="top-view">
@@ -74,6 +73,7 @@
 		},
 		data() {
 			return {
+				isTestMode: false,
 				"currentRole":0,
 				lll: '"permission":{',
 				types: [{
@@ -153,6 +153,9 @@
 			console.log(this.permissionList);
 		},
 		methods: {
+			setTestMode(isTest) {
+				this.isTestMode = isTest;
+			},
 			async myFn(e) { // {type:'',tableName:'',index,action:'',where:{}}
 				console.log("e:----------- ",e);
 				// console.log('myFun' + JSON.stringify(e));
@@ -175,21 +178,21 @@
 							res = await db.action(e.action).collection(tableName).where(e.where).get()
 							console.log("res:----read--------- ",res);
 							if (res.result.data.length == 0) {
-								uni.showModal({
-									title: "数据为空，请先点击创建数据",
-									showCancel: false
-								});
+								if (!this.isTestMode) {
+									uni.showModal({
+										title: "数据为空，请先点击创建数据",
+										showCancel: false
+									});
+								}
 								return false
 							}
 							break;
 						case 'create':
-						console.log(e.action);
 							res = await db.action(e.action).collection(tableName).add({
 								"text": "默认写入的数据" + Date.now()
 							})
 							break;
 						case 'update':
-						console.log("tableName: ",tableName);
 							res = await db.action(e.action).collection(tableName).where(e.where).update({
 								"text": "更新后的数据" + Date.now()
 							})
@@ -206,11 +209,13 @@
 					return res.result
 				} catch (err) {
 					console.log('TODO handle the exception', err);
-					uni.showModal({
-						title: '错误:' + err.message + ',' + err.code,
-						content: item.explain + '【' + this.typeText + '数据】' + (item.explain_end ? item.explain_end : ''),
-						showCancel: false
-					});
+					if (!this.isTestMode) {
+						uni.showModal({
+							title: '错误:' + err.message + ',' + err.code,
+							content: item.explain + '【' + this.typeText + '数据】' + (item.explain_end ? item.explain_end : ''),
+							showCancel: false
+						});
+					}
 					return err
 				} finally {
 					uni.hideLoading()
