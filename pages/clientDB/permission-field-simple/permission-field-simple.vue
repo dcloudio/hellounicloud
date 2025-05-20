@@ -1,4 +1,3 @@
-
 <template>
 	<view class="page">
 		<view class="top-view">
@@ -60,6 +59,8 @@
 		},
 		data() {
 			return {
+				// 是否测试模式
+				isTestMode: false,
 				currentRole:0,
 				types: [{
 						text: "创建",
@@ -129,6 +130,9 @@
 			uni.setStorageSync('uni_id_token_expired', '')
 		},
 		methods: {
+			setTestMode(isTest) {
+				this.isTestMode = isTest;
+			},
 			async myFn(e) { // {type:'',tableName:'',index,action:'',where:{}}
 				console.log('myFun' + JSON.stringify(e));
 				e.where = e.where || {}
@@ -187,11 +191,13 @@
 					return res
 				} catch (err) {
 					console.log('TODO handle the exception', err);
-					uni.showModal({
-						title: '错误:' + err.message+','+ err.code,
-						content: item.explain +'【'+ this.typeText+'字段'+item.field+'】' + (item.explain_end?item.explain_end:''),
-						showCancel: false
-					});
+					if (!this.isTestMode) {
+						uni.showModal({
+							title: '错误:' + err.message+','+ err.code,
+							content: item.explain +'【'+ this.typeText+'字段'+item.field+'】' + (item.explain_end?item.explain_end:''),
+							showCancel: false
+						});
+					}
 					return err.message
 				} finally{
 					uni.hideLoading()
