@@ -49,14 +49,6 @@
 				return this.types[this.typeIndex].text
 			}
 		},
-		computed: {
-			type() {
-				return this.types[this.typeIndex].value
-			},
-			typeText() {
-				return this.types[this.typeIndex].text
-			}
-		},
 		data() {
 			return {
 				// 是否测试模式
