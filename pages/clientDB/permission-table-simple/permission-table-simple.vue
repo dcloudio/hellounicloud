@@ -2,11 +2,12 @@
 	<view class="page">
 		<view class="top-view">
 			<uniNoticeBar showIcon="true" iconType="info" text="管理员(admin)拥有任何权限,权限控制对其无效。"></uniNoticeBar>
-			<uni-segmented-control @clickItem="typeIndex = $event.currentIndex" :values="types.map(({text})=>text)"></uni-segmented-control>
+			<uni-segmented-control @clickItem="typeIndex = $event.currentIndex"
+				:values="types.map(({text})=>text)"></uni-segmented-control>
 		</view>
 		<alertCode ref="alertCode"></alertCode>
 		<template v-for="(item,index) in permissionList">
-			<view class="item" v-if="item.exclude !== type" >
+			<view class="item" v-if="item.exclude !== type">
 				<view class="msg">{{item.msg}}</view>
 				<text style="color: #999999;">schema路径：uniCloud/database/permission-test-{{index+1}}.schema.json\n</text>
 				<view class="code">
@@ -18,24 +19,26 @@
 					<text>【{{typeText}}】</text>
 					<text>{{item.explain_end}}</text>
 				</view>
-			
+
 				<template v-if="index==3&&type != 'add'">
 					<button type="primary" size="mini" @click="myFn({type:'create',index})">先为测试需要,创建数据</button>
-					<button type="primary" size="mini" plain @click="myFn({type,index,where:'uid == $env.uid'})">只{{typeText}}当前角色创建的数据</button>
+					<button type="primary" size="mini" plain
+						@click="myFn({type,index,where:'uid == $env.uid'})">只{{typeText}}当前角色创建的数据</button>
 				</template>
-			
+
 				<template v-if="index==4&&type != 'add'">
 					<button type="primary" size="mini" @click="myFn({type:'create',index})">先为测试需要,创建数据</button>
-					<button type="primary" size="mini" plain @click="myFn({type,index,where:'create_time > '+(Date.now()-60000)})">只{{typeText}}1分钟内创建的数据</button>
+					<button type="primary" size="mini" plain
+						@click="myFn({type,index,where:'create_time > '+(Date.now()-60000)})">只{{typeText}}1分钟内创建的数据</button>
 				</template>
-			
+
 				<button type="primary" size="mini" plain @click="myFn({type,index})">
 					{{typeText}}
 					<text v-if="type!='create'">表全部数据</text>
 					<text v-else>一条记录</text>
 				</button>
-			
-			
+
+
 				<button type="primary" size="mini" v-if="index==6" @click="myFn({type,index,action:'add_view_count'})">
 					带上action
 					{{typeText}}
@@ -74,7 +77,7 @@
 		data() {
 			return {
 				isTestMode: false,
-				"currentRole":0,
+				"currentRole": 0,
 				lll: '"permission":{',
 				types: [{
 						text: "创建",
@@ -153,11 +156,8 @@
 			console.log(this.permissionList);
 		},
 		methods: {
-			setTestMode(isTest) {
-				this.isTestMode = isTest;
-			},
 			async myFn(e) { // {type:'',tableName:'',index,action:'',where:{}}
-				console.log("e:----------- ",e);
+				console.log("e:----------- ", e);
 				// console.log('myFun' + JSON.stringify(e));
 				e.where = e.where || {}
 				let item = this.permissionList[e.index]
@@ -176,7 +176,7 @@
 					switch (e.type) {
 						case 'read':
 							res = await db.action(e.action).collection(tableName).where(e.where).get()
-							console.log("res:----read--------- ",res);
+							console.log("res:----read--------- ", res);
 							if (res.result.data.length == 0) {
 								if (!this.isTestMode) {
 									uni.showModal({
@@ -204,7 +204,7 @@
 							console.log('err 未定义事件类型');
 							break;
 					}
-					console.log("res: ",res);
+					console.log("res: ", res);
 					this.$refs.alertCode.open(res.result)
 					return res.result
 				} catch (err) {
@@ -223,8 +223,8 @@
 			},
 			changePermission(e) {
 				console.log(e, '切换完成');
-				console.log("role: ",e.role);
-				console.log("typeIndex: ",this.typeIndex);
+				console.log("role: ", e.role);
+				console.log("typeIndex: ", this.typeIndex);
 				this.currentRole = e.role
 			}
 		}
