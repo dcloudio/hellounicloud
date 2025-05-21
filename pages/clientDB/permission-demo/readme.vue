@@ -229,13 +229,13 @@
 					username:"默认姓名",
 					phone:"18888888888"
 				}).then(e=>{
-					console.log(e);
+					console.log(e.result);
 					uni.showModal({
 						content: '成功写入一条数据：\n{ "nickname":"默认昵称",\n "username":"默认姓名",\n "phone":"18888888888" }',
 						showCancel: false,
 						confirmText:"知道了"
 					});
-					return e
+					return e.result
 				}).catch(err=>{
 					console.log(err);
 					uni.showModal({
@@ -252,13 +252,13 @@
 			async removeFn(){
 				uni.showLoading({mask:true})
 				return await ptDb.remove().then(e=>{
-					console.log(e,"123");
+					console.log(e.result);
 					uni.showModal({
 						content: JSON.stringify(e.result),
 						showCancel: false,
 						confirmText:"知道了"
 					});
-					return e
+					return e.result
 				}).catch(err=>{
 					console.log(JSON.stringify(err));
 					uni.showModal({
@@ -280,13 +280,13 @@
 				uni.showLoading({mask:true})
 				return await ptDb.where(where).update(data)
 				.then(e=>{
-					console.log(e);
+					console.log(e.result);
 					uni.showModal({
 						content: JSON.stringify(e.result),
 						showCancel: false,
 						confirmText:"知道了"
 					});
-					return e
+					return e.result
 				}).catch(err=>{
 					if('nickname' in data){
 						uni.showModal({
@@ -343,7 +343,7 @@
 				return await ptDb.field(field).get()
 				.then(e=>{
 					// console.timeEnd('getFn');
-					console.log(e);
+					console.log(e.result);
 					if(e.result.data.length){
 						this.$refs.alertCode.open(e.result.data)
 					}else{

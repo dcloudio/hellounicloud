@@ -1,213 +1,160 @@
 describe('pages/clientDB/permission-demo/readme.vue', () => {
-	let page,perPage,setPer,roles;
-	beforeAll(async () => {
-		// 重新reLaunch至首页，并获取首页page对象（其中 program 是uni-automator自动注入的全局对象）
-		page = await program.reLaunch(
-			'/pages/clientDB/permission-demo/readme')
-		await page.waitFor('view')
-		perPage = await page.$('.page')
-		if (process.env.UNI_PLATFORM === "h5" || process.env.UNI_PLATFORM.startsWith("app") ) {
-			roles = await perPage.$$('.roles-item')
-		}
-		if (process.env.UNI_PLATFORM === "mp-weixin") {
-			setPer = await perPage.$('set-permission')
-			//底部角色控制条
-			roles = await setPer.$$('.roles-item')
-		}
-	})
-	
-	it('用户', async () => {
-		await roles[1].tap()
-		const start = Date.now()
-		const user = await page.waitFor(async()=>{
-			if(Date.now() - start > 4000){
-				console.warn('连接服务器超时')
-				return true
+	let page, perPage, setPer, roles;
+	const TIMEOUT = 4000;
+	const FIELDS = 'uid,username,nickname,state';
+	const FIELDSPhone = 'uid,username,nickname,state,phone';
+
+	// 辅助函数：等待角色切换
+	const waitForRoleChange = async (expectedRole) => {
+		const start = Date.now();
+		return await page.waitFor(async () => {
+			if (Date.now() - start > TIMEOUT) {
+				console.warn('连接服务器超时');
+				return true;
 			}
-			const userRole = await page.data('currentRole')
-			return userRole == 'user'
-		})
-		console.log("user: ",user);
-		const getData = await page.callMethod('getFn','uid,username,nickname,state')
-		expect(getData).not.toBeUndefined();
-		const removeAll = await page.callMethod('removeFn','uid,username,nickname,state')
-    // console.log('removeAll',removeAll)
-		expect(removeAll.errCode).toBe('PERMISSION_ERROR')
-		//创建一条数据
-		await page.callMethod('addFn') 
-		//更新创建者自己的昵称
-		await page.callMethod(
-			'updateFn',
-			{"nickname":'新昵称'},'uid == $env.uid'
-		)
-		const updateAllNickname = await page.callMethod(
-			'updateFn',
-			{"nickname":'新昵称'}
-		)
-		// expect(updateAllNickname.code).toBe("PERMISSION_ERROR")
-		const updateState = await page.callMethod('updateFn',{state:1})
-		// expect(updateState.code).toBe('PERMISSION_ERROR')
-		const updateAllUsername = await page.callMethod(
-			'updateFn',
-			{"username":"新姓名"}
-		)
-		// expect(updateAllUsername.code).toBe('PERMISSION_ERROR')
-		const updateUsername = await page.callMethod(
-			'updateFn',
-			{"username":'新姓名'},'uid == $env.uid'
-		)
-		// expect(updateUsername.code).toBe('PERMISSION_ERROR')
-		await page.callMethod(
-			'getFn',
-			'uid,username,nickname,state'
-		)
-		const readPhone = await page.callMethod(
-			'getFn',
-			'uid,username,nickname,state'
-		)
-	})
-	it('未登陆', async () => {
-		await roles[0].tap()
-		const unlogin = await page.waitFor(async()=>{
-			const unloginRole = await page.data('currentRole')
-			return unloginRole === 0 
-		})
-		// console.log("unlogin: ",unlogin);
-		if(unlogin){
-			const getData = await page.callMethod('getFn','uid,username,nickname,state')
-			expect(getData.data).not.toBeUndefined();
-			// console.log("getData: ",getData.data);
-			//删除所有
-			const removeAll = await page.callMethod('removeFn','uid,username,nickname,state')
-			// expect(removeAll.code).toBe('PERMISSION_ERROR')
-			//创建一条数据
-			const createOne = await page.callMethod('addFn') 
-			const updateNickname = await page.callMethod(
-				'updateFn',
-				{"nickname":'新昵称'},'uid == $env.uid'
-			)
-			// expect(updateNickname.code).toBe('TOKEN_INVALID_ANONYMOUS_USER')
-			const updateAllNickname = await page.callMethod(
-				'updateFn',
-				{"nickname":'新昵称'}
-			)
-			// expect(updateAllNickname.code).toBe('TOKEN_INVALID_ANONYMOUS_USER')
-			const updateState = await page.callMethod('updateFn',{state:1})
-			// expect(updateState.code).toBe('TOKEN_INVALID_ANONYMOUS_USER')
-			const updateAllUsername = await page.callMethod(
-				'updateFn',
-				{"username":"新姓名"}
-			)
-			// console.log("updateAllUsername: ",updateAllUsername);
-			// expect(updateAllUsername.code).toBe('TOKEN_INVALID_ANONYMOUS_USER')
-			const updateUsername = await page.callMethod(
-				'updateFn',
-				{"username":'新姓名'},'uid == $env.uid'
-			)
-			// expect(updateUsername.code).toBe('TOKEN_INVALID_ANONYMOUS_USER')
-			await page.callMethod(
-				'getFn',
-				'uid,username,nickname,state'
-			)
-			const readPhone = await page.callMethod(
-				'getFn',
-				'uid,username,nickname,state'
-			)
+			const currentRole = await page.data('currentRole');
+			return currentRole === expectedRole;
+		});
+	};
+
+	// 辅助函数：执行数据操作并验证结果
+	const testDataOperations = async (role) => {
+		// 1. 读取全部数据
+		const getData = await page.callMethod('getFn', FIELDS);
+		await page.waitFor(1000); // 等待1秒
+		expect(getData.data.length).toBeGreaterThan(0);
+
+		// 2. 删除全部数据
+		const removeAll = await page.callMethod('removeFn', FIELDS);
+		await page.waitFor(1000); // 等待1秒
+		if (role === 'unlogin') {
+			expect(removeAll.errMsg).toContain('权限校验未通过，未能获取当前用户信息');
+		} else if (role === 'user' || role === 'auditor') {
+			expect(removeAll.errMsg).toContain('权限校验未通过');
+		} else {
+			expect(removeAll.deleted).toBeGreaterThanOrEqual(0);
 		}
-	})
-	it('审核员', async () => {
-		await roles[2].tap()
-		const auditor = await page.waitFor(async()=>{
-			const auditorRole = await page.data('currentRole')
-			return auditorRole == 'auditor'
-		})
-		// console.log("auditor",auditor);
-		if(auditor){
-			const getData = await page.callMethod('getFn','uid,username,nickname,state')
-			expect(getData).not.toBeUndefined();
-			const removeAll = await page.callMethod('removeFn','uid,username,nickname,state')
-			expect(removeAll.code).toBe('PERMISSION_ERROR')
-			await page.callMethod('addFn') 
-			//更新创建者
-			await page.callMethod(
-				'updateFn',
-				{"nickname":'新昵称'},'uid == $env.uid'
-			)
-			//更新表中所有
-			const updateAllNickname = await page.callMethod(
-				'updateFn',
-				{"nickname":'新昵称'}
-			)
-			//state更新为1
-			await page.callMethod('updateFn',{state:1})
-			//更新表中所有
-			await page.callMethod(
-				'updateFn',
-				{"username":"新姓名"}
-			)
-			//更新创建者
-			await page.callMethod(
-				'updateFn',
-				{"username":'新姓名'},'uid == $env.uid'
-			)
-			//读不含phone
-			await page.callMethod(
-				'getFn',
-				'uid,username,nickname,state'
-			)
-			//读含有phone
-			await page.callMethod(
-				'getFn',
-				'uid,username,nickname,state'
-			)
+
+		// 3. 创建一条数据
+		const addResult = await page.callMethod('addFn');
+		await page.waitFor(1000); // 等待1秒
+		if (role === 'unlogin') {
+			expect(addResult.errMsg).toContain('未能获取当前用户信息');
+		} else {
+			expect(addResult.id.length).toBe(24);
 		}
-	})
-	it('管理员', async () => {
-		await roles[3].tap()
-		const admin = await page.waitFor(async()=>{
-			const adminRole = await page.data('currentRole')
-			return adminRole == 'admin'
-		})
-		// console.log("admin",admin);
-		if(admin){
-			const getData = await page.callMethod('getFn','uid,username,nickname,state')
-			expect(getData).not.toBeUndefined();
-			//删除所有
-			await page.callMethod('removeFn','uid,username,nickname,state')
-			//新增一条
-			await page.callMethod('addFn') 
-			//更新创建者
-			await page.callMethod(
-				'updateFn',
-				{"nickname":'新昵称'},'uid == $env.uid'
-			)
-			//更新表中所有
-			const updateAllNickname = await page.callMethod(
-				'updateFn',
-				{"nickname":'新昵称'}
-			)
-			//state更新为1
-			await page.callMethod('updateFn',{state:1})
-			//更新表中所有
-			await page.callMethod(
-				'updateFn',
-				{"username":"新姓名"}
-			)
-			//更新创建者
-			await page.callMethod(
-				'updateFn',
-				{"username":'新姓名'},'uid == $env.uid'
-			)
-			//读不含phone
-			await page.callMethod(
-				'getFn',
-				'uid,username,nickname,state'
-			)
-			//读含有phone
-			await page.callMethod(
-				'getFn',
-				'uid,username,nickname,state'
-			)
+
+		// 4. 更新昵称（仅创建者）
+		const updateSelf = await page.callMethod('updateFn', { nickname: '新昵称' }, 'uid == $env.uid');
+		await page.waitFor(1000); // 等待1秒
+		if (role === 'unlogin') {
+			expect(updateSelf.errMsg).toContain('未能获取当前用户信息');
+		} else {
+			expect(updateSelf.updated).toBeGreaterThanOrEqual(1);
 		}
-	})
-})
+
+		// 5. 更新昵称（全部数据）
+		const updateAll = await page.callMethod('updateFn', { nickname: '新昵称' });
+		await page.waitFor(1000); // 等待1秒
+		if (role === 'unlogin' || role === 'user') {
+			expect(updateAll.errMsg).toContain('权限校验未通过');
+		} else {
+			expect(updateAll.updated).toBeGreaterThanOrEqual(0);
+		}
+
+		// 6. 更新state
+		const updateState = await page.callMethod('updateFn', { state: 1 });
+		await page.waitFor(1000); // 等待1秒
+		if (role === 'unlogin' || role === 'user') {
+			expect(updateState.errMsg).toContain('权限校验未通过');
+		} else {
+			expect(updateState.updated).toBeGreaterThanOrEqual(1);
+		}
+
+		// 7. 更新姓名（全部数据）
+		const updateUsernameAll = await page.callMethod('updateFn', { username: '新姓名' });
+		await page.waitFor(1000); // 等待1秒
+		if (role === 'unlogin' || role === 'user') {
+			expect(updateUsernameAll.errMsg).toContain('权限校验未通过');
+		} else {
+			expect(updateUsernameAll.updated).toBeGreaterThanOrEqual(1);
+		}
+
+		// 8. 更新姓名（仅创建者）
+		const updateUsernameSelf = await page.callMethod('updateFn', { username: '新姓名' }, 'uid == $env.uid');
+		await page.waitFor(1000); // 等待1秒
+		if (role === 'unlogin') {
+			expect(updateUsernameSelf.errMsg).toContain('未能获取当前用户信息');
+		} else if (role === 'user') {
+			expect(updateUsernameSelf.updated).toBe(1);
+		} else if (role === 'auditor') {
+			expect(updateUsernameSelf.updated).toBe(0);
+		} else {
+			expect(updateUsernameSelf.updated).toBeGreaterThanOrEqual(0);
+		}
+
+		// 9. 读不带phone数据
+		const readData = await page.callMethod('getFn', FIELDS);
+		await page.waitFor(1000); // 等待1秒
+		expect(readData.data.length).toBeGreaterThan(0);
+
+		// 10. 读带phone数据
+		const readDataPhone = await page.callMethod('getFn', FIELDSPhone);
+		await page.waitFor(1000); // 等待1秒
+		if (role === 'unlogin') {
+			expect(readDataPhone.errMsg).toContain('权限校验未通过');
+		} else {
+			expect(readDataPhone.data[0]).toHaveProperty('phone');
+		}
+	};
+
+	beforeAll(async () => {
+		page = await program.reLaunch('/pages/clientDB/permission-demo/readme');
+		await page.waitFor('view');
+		perPage = await page.$('.page');
+
+		// 根据平台获取角色控制条
+		if (process.env.UNI_PLATFORM === "h5" || process.env.UNI_PLATFORM.startsWith("app")) {
+			roles = await perPage.$$('.roles-item');
+		} else if (process.env.UNI_PLATFORM === "mp-weixin") {
+			setPer = await perPage.$('set-permission');
+			roles = await setPer.$$('.roles-item');
+		}
+	});
+
+	it('未登录用户 - 应限制数据操作', async () => {
+		await roles[0].tap();
+		const unlogin = await waitForRoleChange(0);
+		expect(unlogin).toBe(true);
+		if (unlogin) {
+			await testDataOperations('unlogin');
+		}
+	});
+
+	it('普通用户 - 应限制部分数据操作', async () => {
+		await roles[1].tap();
+		const user = await waitForRoleChange('user');
+		expect(user).toBe(true);
+		if (user) {
+			await testDataOperations('user');
+		}
+	});
+
+	it('审核员 - 应能执行审核操作', async () => {
+		await roles[2].tap();
+		const auditor = await waitForRoleChange('auditor');
+		expect(auditor).toBe(true);
+		if (auditor) {
+			await testDataOperations('auditor');
+		}
+	});
+
+	it('管理员 - 应能执行所有操作', async () => {
+		await roles[3].tap();
+		const admin = await waitForRoleChange('admin');
+		expect(admin).toBe(true);
+		if (admin) {
+			await testDataOperations('admin');
+		}
+	});
+});
