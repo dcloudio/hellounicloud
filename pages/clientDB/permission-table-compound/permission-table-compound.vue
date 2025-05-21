@@ -1,4 +1,3 @@
-
 <template>
 	<view class="page">
 		<view class="top-view">
@@ -72,6 +71,7 @@
 		data() {
 			return {
 				currentRole:0,
+				isTestMode: false,
 				types:[
 					{
 						text:"创建",
@@ -157,16 +157,20 @@
 							break;
 					}
 					console.log("res: ",res);
-					this.$refs.alertCode.open(res.result)
+					if (!this.isTestMode) {
+						this.$refs.alertCode.open(res.result)
+					}
 					return res
 				} catch (err) {
 					console.log('TODO handle the exception', err);
-					uni.showModal({
-						title: '错误:' + err.message+','+ err.code,
-						content: item.explain +'【'+ this.typeText+'数据】' + (item.explain_end?item.explain_end:''),
-						showCancel: false
-					});
-					return err.message
+					if (!this.isTestMode) {
+						uni.showModal({
+							title: '错误:' + err.message+','+ err.code,
+							content: item.explain +'【'+ this.typeText+'数据】' + (item.explain_end?item.explain_end:''),
+							showCancel: false
+						});
+					}
+					return err
 				} finally{
 					uni.hideLoading()
 				}
