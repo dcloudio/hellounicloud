@@ -1,123 +1,94 @@
 describe('pages/clientDB/demo/demo.vue', () => {
-	let page,perPage,roles;
+	let page, perPage, roles;
+	const TIMEOUT = 6000;
+
+	// 辅助函数：等待角色切换
+	const waitForRoleChange = async (expectedRole) => {
+		const start = Date.now();
+		await page.waitFor(async () => {
+			if (Date.now() - start > TIMEOUT) {
+				console.warn('连接服务器超时');
+				return true;
+			}
+			const currentRole = await page.data('currentRole');
+			return currentRole === expectedRole;
+		});
+	};
+
+	// 辅助函数：提交评论
+	const submitComment = async (content) => {
+		const result = await page.callMethod('submitComment', content);
+		expect(result.id).toBeDefined();
+		expect(result.id.length).toBe(24);
+		return result;
+	};
+
+	// 辅助函数：更新评论状态
+	const updateCommentState = async (commentId, isApproved) => {
+		await page.callMethod('updateState', {
+			detail: { value: isApproved }
+		}, commentId);
+		await page.waitFor(500);
+	};
+
 	beforeAll(async () => {
-		// 重新reLaunch至首页，并获取首页page对象（其中 program 是uni-automator自动注入的全局对象）
-		page = await program.reLaunch('/pages/clientDB/demo/demo')
-		await page.waitFor("view")
-		perPage = await page.$('.page')
-		//底部角色控制条
-		roles = await perPage.$$('.roles-item')
-	})
-	it('未登陆', async () => {
-		await roles[0].tap()
-		const start = Date.now()
-		await page.waitFor(async()=>{
-			if(Date.now() - start > 6000){
-				console.warn('连接服务器超时')
-				return true
-			}
-			const unLoginRole = await page.data('currentRole')
-			return unLoginRole === 0 
-		})
-		const commentBtn = await page.$('.comment-btn')
-		expect((await commentBtn.text()).trim()).toBe('写留言')
-	})
-	it('用户', async () => {
-		await roles[1].tap()
-		const start = Date.now()
-		await page.waitFor(async()=>{
-			if(Date.now() - start > 6000){
-				console.warn('连接服务器超时')
-				return true
-			}
-			const userRole = await page.data('currentRole')
-			return userRole === 'user' 
-		})
-		//新增一条留言
-		const userWrite = await page.callMethod('submitComment', '我是用户')
-		expect(userWrite.id.length).toBe(24);
-	})
-	it('审核员', async () => {
-		await roles[2].tap()
-		const start = Date.now()
-		await page.waitFor(async()=>{
-			if(Date.now() - start > 6000){
-				console.warn('连接服务器超时')
-				return true
-			}
-			const auditorRole = await page.data('currentRole')
-			return auditorRole === 'auditor' 
-		})
-		//新增一条留言
-		const auditorWrite = await page.callMethod('submitComment', '我是审核员11')
-		// console.log('auditorWrite: ',auditorWrite);
-		const audId = auditorWrite.id
-		expect(audId).not.toBeUndefined();
-		await page.waitFor(500)
-		// 审核一条为通过
-		await page.callMethod('updateState', 
-			{
-				"detail": {
-					"value": true
-				},
-			},
-			audId
-		)
-		await page.waitFor(500)
-		//审核员更改留言 
-		await page.setData({
-			"activeNoticeId":audId
-		})
-		await page.callMethod('updateComment',
-			"我是审核员123"
-		) 
-	})
-	it('管理员', async () => {
-		await roles[3].tap()
-		const start = Date.now()
-		await page.waitFor(async()=>{
-			if(Date.now() - start > 6000){
-				console.warn('连接服务器超时')
-				return true
-			}
-			const adminRole = await page.data('currentRole')
-			return adminRole === 'admin' 
-		})
-		// await page.setData({'currentRole':'admin'})
-		// const adminRole = await page.data('currentRole')
-		//管理员写入一条留言
-		const adminWrite = await page.callMethod('submitComment','我是管理员') 
-		// console.log('adminWrite: ',adminWrite);
-		var admId = adminWrite.id
-		expect(admId).not.toBeUndefined();
-		await page.waitFor(500)
-		// 审核一条为通过
-		await page.callMethod('updateState', 
-			{
-				"detail": {
-					"value": true
-				},
-			},
-			admId
-		)
-		await page.waitFor(500)
-		//审核一条为拒绝
-		await page.callMethod('updateState',
-			{
-				"detail": {
-					"value": false
-				},
-			},
-			admId
-		)
-		//管理员删除创建的这条留言   弹框无法操作，点击确定才能删除
-		await page.callMethod('clickIcon',
-			1,
-			{
-				"state": 0,
-				"text": "我是管理员",
-				"_id": admId
-			}
-		) 
-	})
-})
+		page = await program.reLaunch('/pages/clientDB/demo/demo');
+		await page.waitFor("view");
+		perPage = await page.$('.page');
+		roles = await perPage.$$('.roles-item');
+	});
+
+	describe('角色权限测试', () => {
+		it('未登录用户 - 应只能查看留言', async () => {
+			await roles[0].tap();
+			await waitForRoleChange(0);
+			
+			const commentBtn = await page.$('.comment-btn');
+			expect((await commentBtn.text()).trim()).toBe('写留言');
+		});
+
+		it('普通用户 - 应能提交留言', async () => {
+			await roles[1].tap();
+			await waitForRoleChange('user');
+			
+			const result = await submitComment('我是用户');
+			expect(result.id).toBeDefined();
+		});
+
+		it('审核员 - 应能审核和修改留言', async () => {
+			await roles[2].tap();
+			await waitForRoleChange('auditor');
+			
+			// 提交新留言
+			const comment = await submitComment('我是审核员11');
+			
+			// 审核通过
+			await updateCommentState(comment.id, true);
+			
+			// 修改留言
+			await page.setData({ activeNoticeId: comment.id });
+			await page.callMethod('updateComment', '我是审核员123');
+		});
+
+		it('管理员 - 应具有完整权限', async () => {
+			await roles[3].tap();
+			await waitForRoleChange('admin');
+			
+			// 提交新留言
+			const comment = await submitComment('我是管理员');
+			
+			// 审核通过
+			await updateCommentState(comment.id, true);
+			
+			// 审核拒绝
+			await updateCommentState(comment.id, false);
+			
+			// 删除留言
+			await page.callMethod('clickIcon', 1, {
+				state: 0,
+				text: "我是管理员",
+				_id: comment.id
+			});
+		});
+	});
+});
