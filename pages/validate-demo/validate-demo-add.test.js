@@ -3,57 +3,47 @@ describe('pages/validate-demo/add.vue', () => {
 	beforeAll(async () => {
 		page = await program.reLaunch('/pages/validate-demo/add')
 		await page.waitFor('view')
+		await page.setData({isTestMode:true})
 	})
-	it('输入表单内容', async () => {
-		let type = 1
-		let type_name = "数字天堂"
-		let comment = "我是备注消息"
-		let username = "林明"
-		let weight = 51
-		let email = "1076998870@qq.com"
-		let dowloadUrl = "https://dcloud.io/"
-		await page.setData({
-			"formData": {
-				"type": type,
-				"type_name": type_name,
-				"comment": comment,
-				"username": username,
-				"email": email,
-				"dowload_url": dowloadUrl,
-				"weight": weight,
-				"favorite_book": "4",
-				"party_member": true,
-				"hobby": ["dance"],
-				"address": "110108"
-			}
-		})
-		// console.log(await page.data('formData'), "setForm---");
-
-		//姓名只能输入中文
-		//expect(username).toMatch(/\u4e00-\u9fa5/);
-
-		//姓名不能超过5位数
-		if (type === 0 && type_name.length > 5) {
-			expect(type_name).toBeLessThan(5);
+	
+	afterAll(async () => {
+		await page.setData({isTestMode:false})
+	})
+	
+	it('应该能够正确验证表单内容', async () => {
+		const formData = {
+			type: 1,
+			type_name: "数字天堂",
+			comment: "我是备注消息",
+			username: "林明",
+			weight: 51,
+			email: "1076998870@qq.com",
+			dowload_url: "https://dcloud.io/",
+			favorite_book: "4",
+			party_member: true,
+			hobby: ["dance"],
+			address: "110108"
 		}
-		//企业名称不能低于4位数
-		if (type === 1 && type_name.length < 4) {
-			expect(type_name).toBeGreaterThan(4);
-		}
-		//expect(type_name).not.toBeUndefined();
-
-		//var re=/\w+@[a-z0-9]+\.[a-z]{2,4}/
-		expect(email).toMatch(/\w+@[a-z0-9]+\.[a-z]{2,4}/);
-
-		//url验证
-		const urlEx = /^((ht|f)tps?):\/\/[\w\-]+(\.[\w\-]+)+([\w\-\.,@?^=%&:\/~\+#]*[\w\-\@?^=%&\/~\+#])?$/;
-		expect(dowloadUrl).toMatch(urlEx);
-
-		//体重要大于50 小于或等于500
-		expect(weight).toBeGreaterThan(50)
-		expect(weight).toBeLessThanOrEqual(500)
-		await page.callMethod('submit')
+		
+		await page.setData({ formData })
+		
+		// 验证企业名称长度
+		expect(formData.type_name.length).toBeGreaterThanOrEqual(4)
+		
+		// 验证邮箱格式
+		expect(formData.email).toMatch(/^\w+@[a-z0-9]+\.[a-z]{2,4}$/)
+		
+		// 验证URL格式
+		expect(formData.dowload_url).toMatch(/^https?:\/\/[\w\-]+(\.[\w\-]+)+([\w\-\.,@?^=%&:\/~\+#]*[\w\-\@?^=%&\/~\+#])?$/)
+		
+		// 验证体重范围
+		expect(formData.weight).toBeGreaterThan(50)
+		expect(formData.weight).toBeLessThanOrEqual(500)
+		
+		const res = await page.callMethod('submit')
 		await page.waitFor(500)
+		// 验证提交结果
+		expect(res.result.id).toBeTruthy();
+		expect(res.success).toBe(true);
 	})
-
 })

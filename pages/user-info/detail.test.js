@@ -12,17 +12,13 @@ describe('pages/user-info/detail.vue', () => {
 		page = await program.currentPage()
 		await page.waitFor('view')
 		getQuery = await page.query
-		console.log('getQuery: ', getQuery);
 		if (Object.keys(getQuery).length === 0 || getQuery === undefined) {
-		  console.log('err query')
 		  return
 		}
 	})
 	it('打开修改页面', async () => {
-		// expect.assertions(1);
 		await page.callMethod('handleUpdate')
 		await page.waitFor(1000)
-		console.log('currentPage', await program.currentPage())
 		expect((await program.currentPage()).path).toBe('pages/user-info/edit')
 	})
   // it('删除当前数据', async () => {

@@ -1,5 +1,5 @@
 describe('pages/user-info/detail.vue', () => {
-	let page,getQuery;
+	let page, getQuery;
 	if (process.env.uniTestPlatformInfo == 'ios_simulator 13.7') {
 		it('ios', async () => {
 			expect(1).toBe(1)
@@ -7,17 +7,15 @@ describe('pages/user-info/detail.vue', () => {
 		return
 	}
 	beforeAll(async () => {
-		// 重新reLaunch至首页，并获取首页page对象（其中 program 是uni-automator自动注入的全局对象）
 		// page = await program.navigateTo('/pages/user-info/edit?id=601d044ac9e7be0001cc00b8')
 		page = await program.currentPage()
-    console.log('page: ', page);
 		await page.waitFor('view')
-    await page.setData({'isTest':true})
+		await page.setData({
+			'isTest': true
+		})
 		getQuery = await page.query
-		console.log('getQuery: ', getQuery);
 		if (Object.keys(getQuery).length === 0 || getQuery === undefined) {
-		  console.log('err query')
-		  return
+			return
 		}
 	})
 	it('修改表单内容', async () => {
@@ -39,8 +37,6 @@ describe('pages/user-info/detail.vue', () => {
 		})
 		await page.waitFor(300)
 		const res = await page.callMethod('submit')
-		console.log('res: ', res.updated);
 		expect(res.updated).toBe(1)
-		// console.log("currentPage", await program.currentPage())
 	})
 })
