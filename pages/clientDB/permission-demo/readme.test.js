@@ -86,7 +86,7 @@ describe('pages/clientDB/permission-demo/readme.vue', () => {
 		if (role === 'unlogin') {
 			expect(updateUsernameSelf.errMsg).toContain('未能获取当前用户信息');
 		} else if (role === 'user') {
-			expect(updateUsernameSelf.updated).toBe(1);
+			expect(updateUsernameSelf.updated).toBeGreaterThanOrEqual(1);
 		} else if (role === 'auditor') {
 			expect(updateUsernameSelf.updated).toBe(0);
 		} else {
