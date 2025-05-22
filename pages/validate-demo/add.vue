@@ -68,6 +68,8 @@
 	export default {
 		data() {
 			return {
+				// 自动化测试
+				isTestMode: false,
 				formData: {
 					"type": -1,
 					"type_name": "",
@@ -124,11 +126,11 @@
 					mask: true
 				})
 				return this.$refs.form.submit().then(async(res) => {
-					console.log(res,"000");
-					let msg = await this.submitForm(res)
-					console.log(msg,121399999);
-					return res
-					// this.submitForm(res)
+					if(this.isTestMode){
+						return await this.submitForm(res)
+					}else{
+						this.submitForm(res)
+					}
 				}).catch((errors) => {
 					uni.hideLoading()
 				})
@@ -142,15 +144,21 @@
 						icon: 'none',
 						title: '新增成功'
 					})
-					// this.getOpenerEventChannel().emit('refreshData')
-					// setTimeout(() => uni.navigateBack(), 500)
-					return res
+					if(this.isTestMode){
+						return res
+					}else{
+						this.getOpenerEventChannel().emit('refreshData')
+						setTimeout(() => uni.navigateBack(), 500)
+					}
 				}).catch((err) => {
-					uni.showModal({
-						content: err.message || '请求服务失败',
-						showCancel: false
-					})
-					return err
+					if(this.isTestMode){
+						return err
+					}else{
+						uni.showModal({
+							content: err.message || '请求服务失败',
+							showCancel: false
+						})
+					}
 				}).finally(() => {
 					uni.hideLoading()
 				})
