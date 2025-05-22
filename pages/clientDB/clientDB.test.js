@@ -1,16 +1,23 @@
 describe('pages/clientDB/clientDB.vue', () => {
 	let page
 	beforeAll(async () => {
-		// 重新reLaunch至首页，并获取首页page对象（其中 program 是uni-automator自动注入的全局对象）
 		page = await program.switchTab('/pages/clientDB/clientDB')
 		await page.waitFor('view')
-		// page = await program.currentPage()
 	})
-	it('当前页面-clientDB', async () => {
-		//expect.assertions(2);
+	it('应该正确加载页面并显示导航列表', async () => {
+		// 验证页面路径
 		expect(await page.path).toBe('pages/clientDB/clientDB')
-		await page.waitFor(300)
+		// 验证列表项数量
 		const list = await page.$$('.item')
 		expect(list.length).toBe(5)
+		// 验证列表项标题
+		const titles = await page.$$('.uni-list-item__content-title')
+		expect(titles.length).toBe(5)
+		expect(await titles[0].text()).toBe('API操作数据库')
+		expect(await titles[1].text()).toBe('unicloud-db组件')
+		expect(await titles[2].text()).toBe('控制前端操作数据库的权限')
+		expect(await titles[3].text()).toBe('字段值域校验')
+		expect(await titles[4].text()).toBe('完整示例')
 	})
+	
 })
