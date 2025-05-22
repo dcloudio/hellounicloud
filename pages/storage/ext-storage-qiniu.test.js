@@ -1,52 +1,44 @@
 jest.setTimeout(20000)
-let page, platform;
+
 describe('pages/storage/ext-storage-qiniu.vue', () => {
+	let page
 	beforeAll(async () => {
-		// 重新reLaunch至首页，并获取首页page对象（其中 program 是uni-automator自动注入的全局对象）
 		page = await program.reLaunch('/pages/storage/ext-storage-qiniu')
 		await page.waitFor('view')
-		await page.setData({
-			'isTest': true
-		})
-		platform = process.env.UNI_PLATFORM
+		await page.setData({ isTest: true })
 	})
-	it('qiniu-storage-上传文件', async () => {
-		expect.assertions(2);
-		const res = await page.callMethod('uploadFile', {
-			filePath: '/static/logo.png',
-			// cloudPath: Date.now() + 'test-qiniu.png',
-			isPrivate: false
-		})
-		console.log('res: ---qiniu', res);
+	
+	// 上传文件并验证结果
+	async function uploadAndVerify(filePath, isPrivate = false) {
+		const res = await page.callMethod('uploadFile', { filePath, isPrivate })
 		await page.waitFor(2000)
 		expectText(res.fileID, 'qiniu://')
 		expectText(res.fileURL, 'https://')
-	})
-	it('qiniu-私有文件-上传', async () => {
-		expect.assertions(2);
-		const res = await page.callMethod('uploadFile', {
-			filePath: '/static/play.png',
-			// cloudPath: Date.now() + 'test-qiniu.png',
-			isPrivate: true
+		return res
+	}
+	
+	describe('七牛云存储功能', () => {
+		it('应该能够上传公开文件', async () => {
+			await uploadAndVerify('/static/logo.png')
 		})
-		console.log('res: ----qiniu---isPrivate', res);
-		await page.waitFor(2000)
-		expectText(res.fileID, 'qiniu://')
-		expectText(res.fileURL, 'https://')
-	})
-	it('获取私有文件临时下载链接', async () => {
-		// if(platform === "mp-weixin" || process.env.UNI_PLATFORM.startsWith("app")){return;}
-		expect.assertions(3);
-		expectText(await page.data('privateFileID'), 'qiniu://jest')
-		const res = await page.callMethod('getTempFileURL')
-		console.log('res: ----私有文件临时下载链接', res);
-		await page.waitFor(2000)
-		expectText(res, '&token')
-		expectText(res, 'https://')
+		
+		it('应该能够上传私有文件', async () => {
+			await uploadAndVerify('/static/play.png', true)
+		})
+		
+		it('应该能够获取私有文件临时下载链接', async () => {
+			// 验证私有文件ID
+			expectText(await page.data('privateFileID'), 'qiniu://jest')
+			// 获取并验证临时下载链接
+			const tempUrl = await page.callMethod('getTempFileURL')
+			await page.waitFor(2000)
+			expectText(tempUrl, '&token')
+			expectText(tempUrl, 'https://')
+		})
 	})
 })
 
+// 辅助函数：验证文本包含关系
 function expectText(value, expectValue) {
-	expect(value).toEqual(expect.stringContaining(expectValue));
+	expect(value).toEqual(expect.stringContaining(expectValue))
 }
-

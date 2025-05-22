@@ -1,21 +1,19 @@
 jest.setTimeout(20000)
+
 describe('pages/storage/space-storage.vue', () => {
 	let page
 	beforeAll(async () => {
-		// 重新reLaunch至首页，并获取首页page对象（其中 program 是uni-automator自动注入的全局对象）
 		page = await program.reLaunch('/pages/storage/space-storage')
 		await page.waitFor('view')
-		console.log('pageStack',await program.pageStack())
 	})
-	it('space-storage-上传文件', async () => {
-		expect.assertions(2);
+	
+	it('应该能够上传图片文件', async () => {
 		const res = await page.callMethod('uploadFile', {
 			filePath: '/static/logo.png',
 			cloudPath: Date.now() + 'test.png'
 		})
-		console.log('res: ', res);
 		await page.waitFor(1000)
 		expect(res.success).toBeTruthy()
-		expect(res.fileID).toEqual(expect.stringContaining('https'));  
+		expect(res.fileID).toMatch(/^https:\/\/.*\.cdn\.bspapp\.com\/.*\.png$/)
 	})
 })
