@@ -46,7 +46,7 @@
 						content: `成功添加一条数据，文档id为：${res.result.id}`,
 						showCancel: false
 					})
-					console.log(res)
+					console.log(res.result)
 					return res.result.id
 				}).catch((err) => {
 					uni.hideLoading()
@@ -70,7 +70,7 @@
 						content: res.result.msg,
 						showCancel: false
 					})
-					console.log(res)
+					console.log(res.result)
 					return res.result.msg
 				}).catch((err) => {
 					uni.hideLoading()
@@ -98,7 +98,7 @@
 						content: res.result.msg,
 						showCancel: false
 					})
-					console.log(res)
+					console.log(res.result)
 					return res.result
 				}).catch((err) => {
 					uni.hideLoading()
@@ -122,7 +122,7 @@
 						content: `查询成功，获取数据列表为：${JSON.stringify(res.result.data)}`,
 						showCancel: false
 					})
-					console.log(res)
+					console.log(res.result)
 					return res.result
 				}).catch((err) => {
 					uni.hideLoading()
@@ -144,7 +144,7 @@
 						content: '云函数use-common返回结果：' + JSON.stringify(res.result),
 						showCancel: false
 					})
-					console.log(res)
+					console.log(res.result)
 					return res.result
 				}).catch((err) => {
 					uni.hideLoading()
