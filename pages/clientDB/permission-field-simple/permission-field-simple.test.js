@@ -102,11 +102,11 @@ describe('权限字段测试', () => {
 				await segItems[0].tap();
 				// 点击：普通用户
 				await roles[1].tap();
-				await page.waitFor(500);
-
+				await page.waitFor(2000); // 增加等待时间
 				// 验证状态
 				const typeIndex = await page.data('typeIndex');
 				const currentRole = await page.data('currentRole');
+				console.log('普通用户测试 - typeIndex:', typeIndex, 'currentRole:', currentRole);
 				expect(typeIndex).toBe(0);
 				expect(currentRole).toBe('user');
 			});
@@ -170,11 +170,11 @@ describe('权限字段测试', () => {
 				await segItems[0].tap();
 				// 点击：审核员
 				await roles[2].tap();
-				await page.waitFor(500);
-				console.log('page.data: ', await page.data());
+				await page.waitFor(2000); // 增加等待时间
 				// 验证状态
 				const typeIndex = await page.data('typeIndex');
 				const currentRole = await page.data('currentRole');
+				console.log('审核员测试 - typeIndex:', typeIndex, 'currentRole:', currentRole);
 				expect(typeIndex).toBe(0);
 				expect(currentRole).toBe('auditor');
 			});
@@ -238,10 +238,11 @@ describe('权限字段测试', () => {
 				await segItems[0].tap();
 				// 点击：管理员
 				await roles[3].tap();
-				await page.waitFor(500);
+				await page.waitFor(2000); // 增加等待时间
 				// 验证状态
 				const typeIndex = await page.data('typeIndex');
 				const currentRole = await page.data('currentRole');
+				console.log('管理员测试 - typeIndex:', typeIndex, 'currentRole:', currentRole);
 				expect(typeIndex).toBe(0);
 				expect(currentRole).toBe('admin');
 			});
@@ -376,7 +377,6 @@ describe('权限字段测试', () => {
 				// 点击：普通用户
 				await roles[1].tap();
 				await page.waitFor(500);
-				console.log('page.data: ', await page.data());
 				// 验证状态
 				const typeIndex = await page.data('typeIndex');
 				const currentRole = await page.data('currentRole');
@@ -647,10 +647,11 @@ describe('权限字段测试', () => {
 				await segItems[2].tap();
 				// 点击：普通用户
 				await roles[1].tap();
-				await page.waitFor(500);
+				await page.waitFor(2000); // 增加等待时间
 				// 验证状态
 				const typeIndex = await page.data('typeIndex');
 				const currentRole = await page.data('currentRole');
+				console.log('普通用户更新测试 - typeIndex:', typeIndex, 'currentRole:', currentRole);
 				expect(typeIndex).toBe(2);
 				expect(currentRole).toBe('user');
 			});
@@ -714,10 +715,11 @@ describe('权限字段测试', () => {
 				await segItems[2].tap();
 				// 点击：审核员
 				await roles[2].tap();
-				await page.waitFor(500);
+				await page.waitFor(2000); // 增加等待时间
 				// 验证状态
 				const typeIndex = await page.data('typeIndex');
 				const currentRole = await page.data('currentRole');
+				console.log('审核员更新测试 - typeIndex:', typeIndex, 'currentRole:', currentRole);
 				expect(typeIndex).toBe(2);
 				expect(currentRole).toBe('auditor');
 			});
@@ -781,10 +783,11 @@ describe('权限字段测试', () => {
 				await segItems[2].tap();
 				// 点击：管理员
 				await roles[3].tap();
-				await page.waitFor(500);
+				await page.waitFor(2000); // 增加等待时间
 				// 验证状态
 				const typeIndex = await page.data('typeIndex');
 				const currentRole = await page.data('currentRole');
+				console.log('管理员更新测试 - typeIndex:', typeIndex, 'currentRole:', currentRole);
 				expect(typeIndex).toBe(2);
 				expect(currentRole).toBe('admin');
 			});
