@@ -26,21 +26,41 @@ describe('权限字段测试', () => {
 		});
 	});
 
+	/**
+	 * 切换角色并校验状态
+	 * @param {Object} segItem - 操作类型按钮（如创建/读取/更新）
+	 * @param {Object} role - 角色按钮（如未登录/普通用户/审核员/管理员）
+	 * @param {number} expectedTypeIndex - 期望的typeIndex
+	 * @param {string|number} expectedRole - 期望的currentRole
+	 */
+	async function switchRole(segItem, role, expectedTypeIndex, expectedRole) {
+		await segItem.tap();
+		await role.tap();
+		const start = Date.now();
+		await page.waitFor(async () => {
+			if (Date.now() - start > 5000) {
+				console.warn('链接服务器超时');
+				return true;
+			}
+			const typeIndex = await page.data('typeIndex');
+			const currentRole = await page.data('currentRole');
+			return typeIndex === expectedTypeIndex && currentRole === expectedRole;
+		});
+		const typeIndex = await page.data('typeIndex');
+		const currentRole = await page.data('currentRole');
+		console.log(`角色切换测试 - typeIndex: ${typeIndex}, currentRole: ${currentRole}`);
+		expect(typeIndex).toBe(expectedTypeIndex);
+		expect(currentRole).toBe(expectedRole);
+	}
+
 	// 测试创建操作
 	describe('创建操作测试', () => {
 		// 未登录用户测试
 		describe('未登录用户创建测试', () => {
+			// 操作：创建
+			// 角色：未登录
 			beforeAll(async () => {
-				// 点击：创建
-				await segItems[0].tap();
-				// 点击：未登录
-				await roles[0].tap();
-				await page.waitFor(500);
-				// 验证状态
-				const typeIndex = await page.data('typeIndex');
-				const currentRole = await page.data('currentRole');
-				expect(typeIndex).toBe(0);
-				expect(currentRole).toBe(0);
+				await switchRole(segItems[0], roles[0], 0, 0);
 			});
 
 			it('直接禁止-创建含ip记录', async () => {
@@ -97,18 +117,10 @@ describe('权限字段测试', () => {
 
 		// 普通用户测试
 		describe('普通用户创建测试', () => {
+			// 操作：创建
+			// 角色：普通用户
 			beforeAll(async () => {
-				// 点击：创建
-				await segItems[0].tap();
-				// 点击：普通用户
-				await roles[1].tap();
-				await page.waitFor(2000); // 增加等待时间
-				// 验证状态
-				const typeIndex = await page.data('typeIndex');
-				const currentRole = await page.data('currentRole');
-				console.log('普通用户测试 - typeIndex:', typeIndex, 'currentRole:', currentRole);
-				expect(typeIndex).toBe(0);
-				expect(currentRole).toBe('user');
+				await switchRole(segItems[0], roles[1], 0, 'user');
 			});
 
 			it('直接禁止-创建含ip记录', async () => {
@@ -165,18 +177,10 @@ describe('权限字段测试', () => {
 
 		// 审核员测试
 		describe('审核员创建测试', () => {
+			// 操作：创建
+			// 角色：审核员
 			beforeAll(async () => {
-				// 点击：创建
-				await segItems[0].tap();
-				// 点击：审核员
-				await roles[2].tap();
-				await page.waitFor(2000); // 增加等待时间
-				// 验证状态
-				const typeIndex = await page.data('typeIndex');
-				const currentRole = await page.data('currentRole');
-				console.log('审核员测试 - typeIndex:', typeIndex, 'currentRole:', currentRole);
-				expect(typeIndex).toBe(0);
-				expect(currentRole).toBe('auditor');
+				await switchRole(segItems[0], roles[2], 0, 'auditor');
 			});
 
 			it('直接禁止-创建含ip记录', async () => {
@@ -233,18 +237,10 @@ describe('权限字段测试', () => {
 
 		// 管理员测试
 		describe('管理员创建测试', () => {
+			// 操作：创建
+			// 角色：管理员
 			beforeAll(async () => {
-				// 点击：创建
-				await segItems[0].tap();
-				// 点击：管理员
-				await roles[3].tap();
-				await page.waitFor(2000); // 增加等待时间
-				// 验证状态
-				const typeIndex = await page.data('typeIndex');
-				const currentRole = await page.data('currentRole');
-				console.log('管理员测试 - typeIndex:', typeIndex, 'currentRole:', currentRole);
-				expect(typeIndex).toBe(0);
-				expect(currentRole).toBe('admin');
+				await switchRole(segItems[0], roles[3], 0, 'admin');
 			});
 
 			it('直接禁止-创建含ip记录-管理员角色除外', async () => {
@@ -304,17 +300,10 @@ describe('权限字段测试', () => {
 	describe('读取操作测试', () => {
 		// 未登录用户测试
 		describe('未登录用户读取测试', () => {
+			// 操作：读取
+			// 角色：未登录
 			beforeAll(async () => {
-				// 点击：读取
-				await segItems[1].tap();
-				// 点击：未登录
-				await roles[0].tap();
-				await page.waitFor(500);
-				// 验证状态
-				const typeIndex = await page.data('typeIndex');
-				const currentRole = await page.data('currentRole');
-				expect(typeIndex).toBe(1);
-				expect(currentRole).toBe(0);
+				await switchRole(segItems[1], roles[0], 1, 0);
 			});
 
 			it('直接禁止-读取含ip记录', async () => {
@@ -371,17 +360,10 @@ describe('权限字段测试', () => {
 
 		// 普通用户测试
 		describe('普通用户读取测试', () => {
+			// 操作：读取
+			// 角色：普通用户
 			beforeAll(async () => {
-				// 点击：读取
-				await segItems[1].tap();
-				// 点击：普通用户
-				await roles[1].tap();
-				await page.waitFor(500);
-				// 验证状态
-				const typeIndex = await page.data('typeIndex');
-				const currentRole = await page.data('currentRole');
-				expect(typeIndex).toBe(1);
-				expect(currentRole).toBe('user');
+				await switchRole(segItems[1], roles[1], 1, 'user');
 			});
 
 			it('直接禁止-读取含ip记录', async () => {
@@ -438,17 +420,10 @@ describe('权限字段测试', () => {
 
 		// 审核员测试
 		describe('审核员读取测试', () => {
+			// 操作：读取
+			// 角色：审核员
 			beforeAll(async () => {
-				// 点击：读取
-				await segItems[1].tap();
-				// 点击：审核员
-				await roles[2].tap();
-				await page.waitFor(500);
-				// 验证状态
-				const typeIndex = await page.data('typeIndex');
-				const currentRole = await page.data('currentRole');
-				expect(typeIndex).toBe(1);
-				expect(currentRole).toBe('auditor');
+				await switchRole(segItems[1], roles[2], 1, 'auditor');
 			});
 
 			it('直接禁止-读取含ip记录', async () => {
@@ -505,17 +480,10 @@ describe('权限字段测试', () => {
 
 		// 管理员测试
 		describe('管理员读取测试', () => {
+			// 操作：读取
+			// 角色：管理员
 			beforeAll(async () => {
-				// 点击：读取
-				await segItems[1].tap();
-				// 点击：管理员
-				await roles[3].tap();
-				await page.waitFor(500);
-				// 验证状态
-				const typeIndex = await page.data('typeIndex');
-				const currentRole = await page.data('currentRole');
-				expect(typeIndex).toBe(1);
-				expect(currentRole).toBe('admin');
+				await switchRole(segItems[1], roles[3], 1, 'admin');
 			});
 
 			it('直接禁止-读取含ip记录', async () => {
@@ -575,17 +543,10 @@ describe('权限字段测试', () => {
 	describe('更新操作测试', () => {
 		// 未登录用户测试
 		describe('未登录用户更新测试', () => {
+			// 操作：更新
+			// 角色：未登录
 			beforeAll(async () => {
-				// 点击：更新
-				await segItems[2].tap();
-				// 点击：未登录
-				await roles[0].tap();
-				await page.waitFor(500);
-				// 验证状态
-				const typeIndex = await page.data('typeIndex');
-				const currentRole = await page.data('currentRole');
-				expect(typeIndex).toBe(2);
-				expect(currentRole).toBe(0);
+				await switchRole(segItems[2], roles[0], 2, 0);
 			});
 
 			it('直接禁止-更新含ip记录', async () => {
@@ -642,18 +603,10 @@ describe('权限字段测试', () => {
 
 		// 普通用户测试
 		describe('普通用户更新测试', () => {
+			// 操作：更新
+			// 角色：普通用户
 			beforeAll(async () => {
-				// 点击：更新
-				await segItems[2].tap();
-				// 点击：普通用户
-				await roles[1].tap();
-				await page.waitFor(2000); // 增加等待时间
-				// 验证状态
-				const typeIndex = await page.data('typeIndex');
-				const currentRole = await page.data('currentRole');
-				console.log('普通用户更新测试 - typeIndex:', typeIndex, 'currentRole:', currentRole);
-				expect(typeIndex).toBe(2);
-				expect(currentRole).toBe('user');
+				await switchRole(segItems[2], roles[1], 2, 'user');
 			});
 
 			it('直接禁止-更新含ip记录', async () => {
@@ -710,18 +663,10 @@ describe('权限字段测试', () => {
 
 		// 审核员测试
 		describe('审核员更新测试', () => {
+			// 操作：更新
+			// 角色：审核员
 			beforeAll(async () => {
-				// 点击：更新
-				await segItems[2].tap();
-				// 点击：审核员
-				await roles[2].tap();
-				await page.waitFor(2000); // 增加等待时间
-				// 验证状态
-				const typeIndex = await page.data('typeIndex');
-				const currentRole = await page.data('currentRole');
-				console.log('审核员更新测试 - typeIndex:', typeIndex, 'currentRole:', currentRole);
-				expect(typeIndex).toBe(2);
-				expect(currentRole).toBe('auditor');
+				await switchRole(segItems[2], roles[2], 2, 'auditor');
 			});
 
 			it('直接禁止-更新含ip记录', async () => {
@@ -778,18 +723,10 @@ describe('权限字段测试', () => {
 
 		// 管理员测试
 		describe('管理员更新测试', () => {
+			// 操作：更新
+			// 角色：管理员
 			beforeAll(async () => {
-				// 点击：更新
-				await segItems[2].tap();
-				// 点击：管理员
-				await roles[3].tap();
-				await page.waitFor(2000); // 增加等待时间
-				// 验证状态
-				const typeIndex = await page.data('typeIndex');
-				const currentRole = await page.data('currentRole');
-				console.log('管理员更新测试 - typeIndex:', typeIndex, 'currentRole:', currentRole);
-				expect(typeIndex).toBe(2);
-				expect(currentRole).toBe('admin');
+				await switchRole(segItems[2], roles[3], 2, 'admin');
 			});
 
 			it('直接禁止-更新含ip记录', async () => {
@@ -845,5 +782,99 @@ describe('权限字段测试', () => {
 		});
 	});
 
+	
 
+	// 使用封装后的方法进行角色切换
+	it('创建--审核员', async () => {
+		await switchRole(segItems[0], roles[2], 0, 'auditor');
+		await page.callMethod('myFn', {
+			"type": "create",
+			"index": 0,
+		});
+		await page.callMethod('myFn', {
+			"type": "create",
+			"index": 0,
+			"field": "_id,state,create_time,text"
+		});
+		await page.callMethod('myFn', {
+			"type": "create",
+			"index": 1,
+		});
+		await page.callMethod('myFn', {
+			"type": "create",
+			"index": 1,
+			"field": "_id,state,create_time,text",
+		});
+		await page.callMethod('myFn', {
+			"type": "create",
+			"index": 2,
+		});
+		await page.callMethod('myFn', {
+			"type": "create",
+			"index": 2,
+			"field": "_id,state,create_time,text",
+		});
+	});
+
+	it('读取--审核员', async () => {
+		await switchRole(segItems[1], roles[2], 1, 'auditor');
+		await page.callMethod('myFn', {
+			"type": "read",
+			"index": 0
+		});
+		await page.callMethod('myFn', {
+			"type": "read",
+			"index": 0,
+			"field": "_id,state,create_time,text"
+		});
+		await page.callMethod('myFn', {
+			"type": "read",
+			"index": 1
+		});
+		await page.callMethod('myFn', {
+			"type": "read",
+			"index": 1,
+			"field": "_id,state,create_time,text"
+		});
+		await page.callMethod('myFn', {
+			"type": "read",
+			"index": 2
+		});
+		await page.callMethod('myFn', {
+			"type": "read",
+			"index": 2,
+			"field": "_id,state,create_time,text"
+		});
+	});
+
+	it('更新--审核员', async () => {
+		await switchRole(segItems[2], roles[2], 2, 'auditor');
+		await page.callMethod('myFn', {
+			"type": "update",
+			"index": 0
+		});
+		await page.callMethod('myFn', {
+			"type": "update",
+			"index": 0,
+			"field": "_id,state,create_time,text"
+		});
+		await page.callMethod('myFn', {
+			"type": "update",
+			"index": 1
+		});
+		await page.callMethod('myFn', {
+			"type": "update",
+			"index": 1,
+			"field": "_id,state,create_time,text"
+		});
+		await page.callMethod('myFn', {
+			"type": "update",
+			"index": 2
+		});
+		await page.callMethod('myFn', {
+			"type": "update",
+			"index": 2,
+			"field": "_id,state,create_time,text"
+		});
+	});
 });
