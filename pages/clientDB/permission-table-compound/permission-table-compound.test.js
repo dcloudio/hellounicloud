@@ -196,11 +196,13 @@ describe('权限表复合条件测试', () => {
 
       it('并集表达式-读取表全部数据', async () => {
         const res = await page.callMethod('myFn', { type: 'read', index: 1 });
+				console.log('res:---1 ',res);
         expect(res.result.data.length).toBeGreaterThan(0);
       });
 
       it('并集表达式-带action读取数据', async () => {
         const res = await page.callMethod('myFn', { type: 'read', index: 1, action: 'add_view_count' });
+				console.log('res:---2 ',res);
         expect(res.result.data.length).toBeGreaterThan(0);
       });
     });
