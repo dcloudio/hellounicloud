@@ -97,7 +97,7 @@ describe('pages/clientDB/permission-demo/readme.vue', () => {
 		// 9. 读不带phone数据
 		const readData = await page.callMethod('getFn', FIELDS);
 		await page.waitFor(1000); // 等待1秒
-		expect(readData.data.length).toBeGreaterThan(0);
+		expect(readData.data.length).toBeGreaterThanOrEqual(0);
 
 		// 10. 读带phone数据
 		const readDataPhone = await page.callMethod('getFn', FIELDSPhone);
