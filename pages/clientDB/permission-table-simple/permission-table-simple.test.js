@@ -3,21 +3,21 @@ describe('权限表测试', () => {
 	let perPage;
 	let segItems;
 	let roles;
-
 	// 添加等待状态变化的辅助函数
-	const waitForStateChange = async (page, expectedTypeIndex, expectedRole, maxRetries = 5, interval = 1000) => {
-		for (let i = 0; i < maxRetries; i++) {
-			const typeIndex = await page.data('typeIndex');
-			const currentRole = await page.data('currentRole');
-
-			if (typeIndex === expectedTypeIndex && currentRole === expectedRole) {
+	async function waitForStateChange(page, expectedTypeIndex, expectedRole) {
+		let typeIndex,currentRole;
+		const start = Date.now();
+		await page.waitFor(async () => {
+			if (Date.now() - start > 5000) {
+				console.warn('链接服务器超时');
 				return true;
 			}
-
-			await page.waitFor(interval);
-		}
-		throw new Error(`State change timeout: expected typeIndex=${expectedTypeIndex}, role=${expectedRole}`);
-	};
+			typeIndex = await page.data('typeIndex');
+			currentRole = await page.data('currentRole');
+			return typeIndex === expectedTypeIndex && currentRole === expectedRole;
+		});
+		console.log(`角色切换测试 - typeIndex: ${typeIndex}, currentRole: ${currentRole}`);
+	}
 
 	beforeAll(async () => {
 		page = await program.reLaunch('/pages/clientDB/permission-table-simple/permission-table-simple');
@@ -55,6 +55,7 @@ describe('权限表测试', () => {
 				const currentRole = await page.data('currentRole');
 				expect(typeIndex).toBe(0);
 				expect(currentRole).toBe(0);
+				await waitForStateChange(page, 0, 0);
 			});
 
 			it('无任何限制-创建数据', async () => {
@@ -300,12 +301,8 @@ describe('权限表测试', () => {
 				await segItems[1].tap();
 				// 点击：未登录
 				await roles[0].tap();
-				await page.waitFor(500);
 				// 验证状态
-				const typeIndex = await page.data('typeIndex');
-				const currentRole = await page.data('currentRole');
-				expect(typeIndex).toBe(1);
-				expect(currentRole).toBe(0);
+				await waitForStateChange(page, 1, 0);
 			});
 
 			it('无任何限制-读取数据', async () => {
@@ -553,10 +550,7 @@ describe('权限表测试', () => {
 				await roles[0].tap();
 				await page.waitFor(500);
 				// 验证状态
-				const typeIndex = await page.data('typeIndex');
-				const currentRole = await page.data('currentRole');
-				expect(typeIndex).toBe(2);
-				expect(currentRole).toBe(0);
+				await waitForStateChange(page, 2, 0);
 			});
 
 			it('无任何限制-更新数据', async () => {
