@@ -1,4 +1,4 @@
-// 	jest.setTimeout(20000)
+	jest.setTimeout(10000)
 describe('pages/user-info/list.vue', () => {
   let page, currentPage;
   if (process.env.uniTestPlatformInfo == 'ios_simulator 13.7') {
@@ -28,7 +28,9 @@ describe('pages/user-info/list.vue', () => {
   })
   it('点击第一条跳转到detail页', async () => {
     await waitTime()
+		await page.waitFor(2000)
     const items = await page.$$('.uni-list-item')
+		console.log('items',items)
     if (items.length > 0) {
       await items[0].tap()
       await waitTime()
