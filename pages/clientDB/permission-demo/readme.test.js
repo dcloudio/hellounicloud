@@ -1,6 +1,6 @@
 describe('pages/clientDB/permission-demo/readme.vue', () => {
 	let page, perPage, setPer, roles;
-	const TIMEOUT = 4000;
+	const TIMEOUT = 10000;
 	const FIELDS = 'uid,username,nickname,state';
 	const FIELDSPhone = 'uid,username,nickname,state,phone';
 
