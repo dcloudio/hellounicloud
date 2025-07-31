@@ -43,7 +43,7 @@ describe('pages/clientDB/unicloud-db-demo/unicloud-db-demo', () => {
 
 		it("删除数据", async () => {
 			await page.callMethod('remove');
-			await page.waitFor(WAIT_TIME.SHORT);
+			await page.waitFor(WAIT_TIME.MEDIUM);
 		});
 
 		it("更新数据", async () => {
