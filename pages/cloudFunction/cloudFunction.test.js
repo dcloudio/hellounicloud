@@ -1,12 +1,15 @@
 jest.setTimeout(20000)
-
+const platformInfo = process.env.uniTestPlatformInfo.toLocaleLowerCase()
+const isMP = platformInfo.startsWith('mp')
 describe('pages/cloudFunction/cloudFunction.vue', () => {
 	let page
-	
 	beforeAll(async () => {
 		// 重新reLaunch至首页，并获取首页page对象
 		page = await program.switchTab('/pages/cloudFunction/cloudFunction')
+		console.log('page',page)
 		await page.waitFor('view')
+		const waitTime = isMP ? 5000 : 100
+		await page.waitFor(waitTime)
 	})
 	
 	afterAll(async () => {
