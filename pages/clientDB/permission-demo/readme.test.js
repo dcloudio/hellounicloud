@@ -28,7 +28,7 @@ describe('pages/clientDB/permission-demo/readme.vue', () => {
 		// 2. 删除全部数据
 		const removeAll = await page.callMethod('removeFn', FIELDS);
 		console.log('role',role,'removeAll: ',removeAll);
-		await page.waitFor(3000); // 等待2秒
+		await page.waitFor(3000); 
 		if (role === 'unlogin') {
 			expect(removeAll.errMsg).toContain('权限校验未通过，未能获取当前用户信息');
 		} else if (role === 'user' || role === 'auditor') {
@@ -48,7 +48,7 @@ describe('pages/clientDB/permission-demo/readme.vue', () => {
 
 		// 4. 更新昵称（仅创建者）
 		const updateSelf = await page.callMethod('updateFn', { nickname: '新昵称' }, 'uid == $env.uid');
-		await page.waitFor(1000); // 等待1秒
+		await page.waitFor(1000); 
 		// console.log('role',role,'updateSelf: ',updateSelf);
 		if (role === 'unlogin') {
 			expect(updateSelf.errMsg).toContain('未能获取当前用户信息');
@@ -59,7 +59,7 @@ describe('pages/clientDB/permission-demo/readme.vue', () => {
 		// 5. 更新昵称（全部数据）
 		const updateAll = await page.callMethod('updateFn', { nickname: '新昵称' });
 		console.log('role',role,'updateAll: ',updateAll);
-		await page.waitFor(3000); // 等待1秒
+		await page.waitFor(3000); 
 		if (role === 'unlogin' || role === 'user') {
 			expect(updateAll.errMsg).toContain('权限校验未通过');
 		} else {
@@ -68,7 +68,7 @@ describe('pages/clientDB/permission-demo/readme.vue', () => {
 
 		// 6. 更新state
 		const updateState = await page.callMethod('updateFn', { state: 1 });
-		await page.waitFor(1000); // 等待1秒
+		await page.waitFor(3000); 
 		if (role === 'unlogin' || role === 'user') {
 			expect(updateState.errMsg).toContain('权限校验未通过');
 		} else {
@@ -77,7 +77,7 @@ describe('pages/clientDB/permission-demo/readme.vue', () => {
 
 		// 7. 更新姓名（全部数据）
 		const updateUsernameAll = await page.callMethod('updateFn', { username: '新姓名' });
-		await page.waitFor(1000); // 等待1秒
+		await page.waitFor(3000); 
 		console.log('role',role,'updateUsernameAll: ',updateUsernameAll);
 		if (role === 'unlogin' || role === 'user') {
 			expect(updateUsernameAll.errMsg).toContain('权限校验未通过');
@@ -88,7 +88,7 @@ describe('pages/clientDB/permission-demo/readme.vue', () => {
 		// 8. 更新姓名（仅创建者）
 		const updateUsernameSelf = await page.callMethod('updateFn', { username: '新姓名' }, 'uid == $env.uid');
 		// console.log('role',role,'updateUsernameSelf: ',updateUsernameSelf);
-		await page.waitFor(1000); // 等待1秒
+		await page.waitFor(1000); 
 		if (role === 'unlogin') {
 			expect(updateUsernameSelf.errMsg).toContain('未能获取当前用户信息');
 		} else if (role === 'user') {
@@ -101,12 +101,12 @@ describe('pages/clientDB/permission-demo/readme.vue', () => {
 
 		// 9. 读不带phone数据
 		const readData = await page.callMethod('getFn', FIELDS);
-		await page.waitFor(1000); // 等待1秒
+		await page.waitFor(1000); 
 		expect(readData.data.length).toBeGreaterThanOrEqual(0);
 
 		// 10. 读带phone数据
 		const readDataPhone = await page.callMethod('getFn', FIELDSPhone);
-		await page.waitFor(1000); // 等待1秒
+		await page.waitFor(1000); 
 		if (role === 'unlogin') {
 			expect(readDataPhone.errMsg).toContain('权限校验未通过');
 		} else {
