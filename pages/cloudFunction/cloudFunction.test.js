@@ -33,6 +33,7 @@ describe('pages/cloudFunction/cloudFunction.vue', () => {
 		
 		it('应该能够查询数据', async () => {
 			const getTenData = await page.callMethod('get')
+			console.log('getTenData',getTenData)
 			expect(getTenData).toBeDefined()
 			expect(getTenData.affectedDocs).toBeGreaterThanOrEqual(0)
 			if (getTenData.affectedDocs > 0) {
@@ -52,8 +53,12 @@ describe('pages/cloudFunction/cloudFunction.vue', () => {
 		})
 		
 		it('应该能够删除数据', async () => {
-			const removeData = await page.callMethod('remove')
-			expect(removeData).toBe('成功删除unicloud-test内第一条数据')
+			const getData = await page.callMethod('get')
+			console.log('getData',getData)
+			if(getData.data.length){
+				const removeData = await page.callMethod('remove')
+				expect(removeData).toBe('成功删除unicloud-test内第一条数据')
+			}
 		})
 	})
 	

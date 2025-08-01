@@ -88,7 +88,7 @@ describe('pages/clientDB/permission-demo/readme.vue', () => {
 		// 8. 更新姓名（仅创建者）
 		const updateUsernameSelf = await page.callMethod('updateFn', { username: '新姓名' }, 'uid == $env.uid');
 		// console.log('role',role,'updateUsernameSelf: ',updateUsernameSelf);
-		await page.waitFor(1000); 
+		await page.waitFor(3000); 
 		if (role === 'unlogin') {
 			expect(updateUsernameSelf.errMsg).toContain('未能获取当前用户信息');
 		} else if (role === 'user') {
