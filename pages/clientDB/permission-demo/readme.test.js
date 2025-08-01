@@ -22,12 +22,12 @@ describe('pages/clientDB/permission-demo/readme.vue', () => {
 		// 1. 读取全部数据
 		const getData = await page.callMethod('getFn', FIELDS);
 		await page.waitFor(1000); // 等待1秒,可能是空数据
+		console.log('getData.data.length',getData.data.length)
 		expect(getData.data.length).toBeGreaterThanOrEqual(0);
 
 		// 2. 删除全部数据
 		const removeAll = await page.callMethod('removeFn', FIELDS);
-		console.log('role',role)
-		console.log('removeAll',removeAll)
+		console.log('role',role,'removeAll: ',removeAll);
 		await page.waitFor(2000); // 等待2秒
 		if (role === 'unlogin') {
 			expect(removeAll.errMsg).toContain('权限校验未通过，未能获取当前用户信息');
@@ -49,6 +49,7 @@ describe('pages/clientDB/permission-demo/readme.vue', () => {
 		// 4. 更新昵称（仅创建者）
 		const updateSelf = await page.callMethod('updateFn', { nickname: '新昵称' }, 'uid == $env.uid');
 		await page.waitFor(1000); // 等待1秒
+		console.log('role',role,'updateSelf: ',updateSelf);
 		if (role === 'unlogin') {
 			expect(updateSelf.errMsg).toContain('未能获取当前用户信息');
 		} else {
