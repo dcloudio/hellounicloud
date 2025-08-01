@@ -27,8 +27,8 @@ describe('pages/clientDB/permission-demo/readme.vue', () => {
 
 		// 2. 删除全部数据
 		const removeAll = await page.callMethod('removeFn', FIELDS);
-		// console.log('role',role,'removeAll: ',removeAll);
-		await page.waitFor(2000); // 等待2秒
+		console.log('role',role,'removeAll: ',removeAll);
+		await page.waitFor(3000); // 等待2秒
 		if (role === 'unlogin') {
 			expect(removeAll.errMsg).toContain('权限校验未通过，未能获取当前用户信息');
 		} else if (role === 'user' || role === 'auditor') {
@@ -58,7 +58,8 @@ describe('pages/clientDB/permission-demo/readme.vue', () => {
 
 		// 5. 更新昵称（全部数据）
 		const updateAll = await page.callMethod('updateFn', { nickname: '新昵称' });
-		await page.waitFor(1000); // 等待1秒
+		console.log('role',role,'updateAll: ',updateAll);
+		await page.waitFor(3000); // 等待1秒
 		if (role === 'unlogin' || role === 'user') {
 			expect(updateAll.errMsg).toContain('权限校验未通过');
 		} else {
