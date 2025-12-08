@@ -2,16 +2,21 @@
 	<view class="uni-data-checklist" :style="{'margin-top':isTop+'px'}">
 		<template v-if="!isLocal">
 			<view class="uni-data-loading">
-				<uni-load-more v-if="!mixinDatacomErrorMessage" status="loading" iconType="snow" :iconSize="18" :content-text="contentText"></uni-load-more>
+				<uni-load-more v-if="!mixinDatacomErrorMessage" status="loading" iconType="snow" :iconSize="18"
+					:content-text="contentText"></uni-load-more>
 				<text v-else>{{mixinDatacomErrorMessage}}</text>
 			</view>
 		</template>
 		<template v-else>
-			<checkbox-group v-if="multiple" class="checklist-group" :class="{'is-list':mode==='list' || wrap}" @change="chagne">
-				<label class="checklist-box" :class="['is--'+mode,item.selected?'is-checked':'',(disabled || !!item.disabled)?'is-disable':'',index!==0&&mode==='list'?'is-list-border':'']"
-				 :style="item.styleBackgroud" v-for="(item,index) in dataList" :key="index">
-					<checkbox class="hidden" hidden :disabled="disabled || !!item.disabled" :value="item[map.value]+''" :checked="item.selected" />
-					<view v-if="(mode !=='tag' && mode !== 'list') || ( mode === 'list' && icon === 'left')" class="checkbox__inner"  :style="item.styleIcon">
+			<checkbox-group v-if="multiple" class="checklist-group" :class="{'is-list':mode==='list' || wrap}"
+				@change="change">
+				<label class="checklist-box"
+					:class="['is--'+mode,item.selected?'is-checked':'',(disabled || !!item.disabled)?'is-disable':'',index!==0&&mode==='list'?'is-list-border':'']"
+					:style="item.styleBackgroud" v-for="(item,index) in dataList" :key="index">
+					<checkbox class="hidden" hidden :disabled="disabled || !!item.disabled" :value="item[map.value]+''"
+						:checked="item.selected" />
+					<view v-if="(mode !=='tag' && mode !== 'list') || ( mode === 'list' && icon === 'left')"
+						class="checkbox__inner" :style="item.styleIcon">
 						<view class="checkbox__inner-icon"></view>
 					</view>
 					<view class="checklist-content" :class="{'list-content':mode === 'list' && icon ==='left'}">
@@ -20,13 +25,14 @@
 					</view>
 				</label>
 			</checkbox-group>
-			<radio-group v-else class="checklist-group" :class="{'is-list':mode==='list','is-wrap':wrap}" @change="chagne">
-				<!-- -->
-				<label class="checklist-box" :class="['is--'+mode,item.selected?'is-checked':'',(disabled || !!item.disabled)?'is-disable':'',index!==0&&mode==='list'?'is-list-border':'']"
-				 :style="item.styleBackgroud" v-for="(item,index) in dataList" :key="index">
-					<radio class="hidden" hidden :disabled="disabled || item.disabled" :value="item[map.value]+''" :checked="item.selected" />
+			<radio-group v-else class="checklist-group" :class="{'is-list':mode==='list','is-wrap':wrap}" @change="change">
+				<label class="checklist-box"
+					:class="['is--'+mode,item.selected?'is-checked':'',(disabled || !!item.disabled)?'is-disable':'',index!==0&&mode==='list'?'is-list-border':'']"
+					:style="item.styleBackgroud" v-for="(item,index) in dataList" :key="index">
+					<radio class="hidden" hidden :disabled="disabled || item.disabled" :value="item[map.value]+''"
+						:checked="item.selected" />
 					<view v-if="(mode !=='tag' && mode !== 'list') || ( mode === 'list' && icon === 'left')" class="radio__inner"
-					 :style="item.styleBackgroud">
+						:style="item.styleBackgroud">
 						<view class="radio__inner-icon" :style="item.styleIcon"></view>
 					</view>
 					<view class="checklist-content" :class="{'list-content':mode === 'list' && icon ==='left'}">
@@ -68,7 +74,7 @@
 	export default {
 		name: 'uniDataChecklist',
 		mixins: [uniCloud.mixinDatacom || {}],
-		emits:['input','update:modelValue','change'],
+		emits: ['input', 'update:modelValue', 'change'],
 		props: {
 			mode: {
 				type: String,
@@ -88,7 +94,7 @@
 			// TODO vue3
 			modelValue: {
 				type: [Array, String, Number],
-				default() {
+				default () {
 					return '';
 				}
 			},
@@ -122,20 +128,20 @@
 				type: String,
 				default: ''
 			},
-			emptyText:{
+			emptyText: {
 				type: String,
 				default: '暂无数据'
 			},
-			disabled:{
+			disabled: {
 				type: Boolean,
 				default: false
 			},
-			map:{
+			map: {
 				type: Object,
-				default(){
+				default () {
 					return {
-						text:'text',
-						value:'value'
+						text: 'text',
+						value: 'value'
 					}
 				}
 			}
@@ -177,18 +183,18 @@
 					contentrefresh: '加载中',
 					contentnomore: '没有更多'
 				},
-				isLocal:true,
+				isLocal: true,
 				styles: {
 					selectedColor: '#2979ff',
 					selectedTextColor: '#666',
 				},
-				isTop:0
+				isTop: 0
 			};
 		},
-		computed:{
-			dataValue(){
-				if(this.value === '')return this.modelValue
-				if(this.modelValue === '') return this.value
+		computed: {
+			dataValue() {
+				if (this.value === '') return this.modelValue
+				if (this.modelValue === '') return this.value
 				return this.value
 			}
 		},
@@ -223,15 +229,15 @@
 		},
 		methods: {
 			loadData() {
-				this.mixinDatacomGet().then(res=>{
+				this.mixinDatacomGet().then(res => {
 					this.mixinDatacomResData = res.result.data
-					if(this.mixinDatacomResData.length === 0){
+					if (this.mixinDatacomResData.length === 0) {
 						this.isLocal = false
 						this.mixinDatacomErrorMessage = this.emptyText
-					}else{
+					} else {
 						this.isLocal = true
 					}
-				}).catch(err=>{
+				}).catch(err => {
 					this.mixinDatacomErrorMessage = err.message
 				})
 			},
@@ -248,7 +254,7 @@
 				}
 				return parent;
 			},
-			chagne(e) {
+			change(e) {
 				const values = e.detail.value
 
 				let detail = {
@@ -302,6 +308,10 @@
 				if (this.multiple) {
 					if (!Array.isArray(value)) {
 						value = []
+					}
+				} else {
+					if (Array.isArray(value) && value.length) {
+						value = value[0]
 					}
 				}
 				dataList.forEach((item, index) => {
@@ -383,12 +393,14 @@
 			 */
 			setStyleBackgroud(item) {
 				let styles = {}
-				let selectedColor = this.selectedColor?this.selectedColor:'#2979ff'
-				if (this.mode !== 'list') {
-					styles['border-color'] = item.selected?selectedColor:'#DCDFE6'
-				}
-				if (this.mode === 'tag') {
-					styles['background-color'] = item.selected? selectedColor:'#f5f5f5'
+				let selectedColor = this.selectedColor ? this.selectedColor : '#2979ff'
+				if (this.selectedColor) {
+					if (this.mode !== 'list') {
+						styles['border-color'] = item.selected ? selectedColor : '#DCDFE6'
+					}
+					if (this.mode === 'tag') {
+						styles['background-color'] = item.selected ? selectedColor : '#f5f5f5'
+					}
 				}
 				let classles = ''
 				for (let i in styles) {
@@ -399,15 +411,16 @@
 			setStyleIcon(item) {
 				let styles = {}
 				let classles = ''
-				let selectedColor = this.selectedColor?this.selectedColor:'#2979ff'
-				styles['background-color'] = item.selected?selectedColor:'#fff'
-				styles['border-color'] = item.selected?selectedColor:'#DCDFE6'
+				if (this.selectedColor) {
+					let selectedColor = this.selectedColor ? this.selectedColor : '#2979ff'
+					styles['background-color'] = item.selected ? selectedColor : '#fff'
+					styles['border-color'] = item.selected ? selectedColor : '#DCDFE6'
 
-				if(!item.selected && item.disabled){
-					styles['background-color'] = '#F2F6FC'
-					styles['border-color'] = item.selected?selectedColor:'#DCDFE6'
+					if (!item.selected && item.disabled) {
+						styles['background-color'] = '#F2F6FC'
+						styles['border-color'] = item.selected ? selectedColor : '#DCDFE6'
+					}
 				}
-
 				for (let i in styles) {
 					classles += `${i}:${styles[i]};`
 				}
@@ -416,16 +429,17 @@
 			setStyleIconText(item) {
 				let styles = {}
 				let classles = ''
-				let selectedColor = this.selectedColor?this.selectedColor:'#2979ff'
-				if (this.mode === 'tag') {
-					styles.color = item.selected?(this.selectedTextColor?this.selectedTextColor:'#fff'):'#666'
-				} else {
-					styles.color = item.selected?(this.selectedTextColor?this.selectedTextColor:selectedColor):'#666'
+				if (this.selectedColor) {
+					let selectedColor = this.selectedColor ? this.selectedColor : '#2979ff'
+					if (this.mode === 'tag') {
+						styles.color = item.selected ? (this.selectedTextColor ? this.selectedTextColor : '#fff') : '#666'
+					} else {
+						styles.color = item.selected ? (this.selectedTextColor ? this.selectedTextColor : selectedColor) : '#666'
+					}
+					if (!item.selected && item.disabled) {
+						styles.color = '#999'
+					}
 				}
-				if(!item.selected && item.disabled){
-					styles.color = '#999'
-				}
-
 				for (let i in styles) {
 					classles += `${i}:${styles[i]};`
 				}
@@ -435,7 +449,7 @@
 				let styles = {}
 				let classles = ''
 				if (this.mode === 'list') {
-					styles['border-color'] = item.selected?this.styles.selectedColor:'#DCDFE6'
+					styles['border-color'] = item.selected ? this.styles.selectedColor : '#DCDFE6'
 				}
 				for (let i in styles) {
 					classles += `${i}:${styles[i]};`
@@ -448,9 +462,9 @@
 </script>
 
 <style lang="scss">
-	$checked-color: #2979ff;
+	$uni-primary: #2979ff !default;
 	$border-color: #DCDFE6;
-	$disable:0.4;
+	$disable: 0.4;
 
 	@mixin flex {
 		/* #ifndef APP-NVUE */
@@ -472,6 +486,7 @@
 		position: relative;
 		z-index: 0;
 		flex: 1;
+
 		// 多选样式
 		.checklist-group {
 			@include flex;
@@ -502,6 +517,7 @@
 					flex-direction: row;
 					align-items: center;
 					justify-content: space-between;
+
 					.checklist-text {
 						font-size: 14px;
 						color: #666;
@@ -513,7 +529,7 @@
 						border-right-width: 1px;
 						border-right-color: #007aff;
 						border-right-style: solid;
-						border-bottom-width:1px;
+						border-bottom-width: 1px;
 						border-bottom-color: #007aff;
 						border-bottom-style: solid;
 						height: 12px;
@@ -538,6 +554,7 @@
 					border-radius: 4px;
 					background-color: #fff;
 					z-index: 1;
+
 					.checkbox__inner-icon {
 						position: absolute;
 						/* #ifdef APP-NVUE */
@@ -552,7 +569,7 @@
 						border-right-width: 1px;
 						border-right-color: #fff;
 						border-right-style: solid;
-						border-bottom-width:1px ;
+						border-bottom-width: 1px;
 						border-bottom-color: #fff;
 						border-bottom-style: solid;
 						opacity: 0;
@@ -593,6 +610,7 @@
 					&.is-disable {
 						/* #ifdef H5 */
 						cursor: not-allowed;
+
 						/* #endif */
 						.checkbox__inner {
 							background-color: #F2F6FC;
@@ -606,6 +624,7 @@
 							background-color: #F2F6FC;
 							border-color: $border-color;
 						}
+
 						.checklist-text {
 							color: #999;
 						}
@@ -614,24 +633,28 @@
 					// 选中
 					&.is-checked {
 						.checkbox__inner {
-							border-color: $checked-color;
-							background-color: $checked-color;
+							border-color: $uni-primary;
+							background-color: $uni-primary;
 
 							.checkbox__inner-icon {
 								opacity: 1;
 								transform: rotate(45deg);
 							}
 						}
+
 						.radio__inner {
-							border-color: $checked-color;
+							border-color: $uni-primary;
+
 							.radio__inner-icon {
 								opacity: 1;
-								background-color: $checked-color;
+								background-color: $uni-primary;
 							}
 						}
+
 						.checklist-text {
-							color: $checked-color;
+							color: $uni-primary;
 						}
+
 						// 选中禁用
 						&.is-disable {
 							.checkbox__inner {
@@ -641,6 +664,7 @@
 							.checklist-text {
 								opacity: $disable;
 							}
+
 							.radio__inner {
 								opacity: $disable;
 							}
@@ -663,6 +687,7 @@
 						/* #endif */
 						border: 1px #eee solid;
 						opacity: $disable;
+
 						.checkbox__inner {
 							background-color: #F2F6FC;
 							border-color: $border-color;
@@ -670,6 +695,7 @@
 							cursor: not-allowed;
 							/* #endif */
 						}
+
 						.radio__inner {
 							background-color: #F2F6FC;
 							border-color: $border-color;
@@ -677,16 +703,19 @@
 							cursor: not-allowed;
 							/* #endif */
 						}
+
 						.checklist-text {
 							color: #999;
 						}
 					}
 
 					&.is-checked {
-						border-color: $checked-color;
+						border-color: $uni-primary;
+
 						.checkbox__inner {
-							border-color: $checked-color;
-							background-color: $checked-color;
+							border-color: $uni-primary;
+							background-color: $uni-primary;
+
 							.checkbox__inner-icon {
 								opacity: 1;
 								transform: rotate(45deg);
@@ -694,16 +723,16 @@
 						}
 
 						.radio__inner {
-							border-color: $checked-color;
+							border-color: $uni-primary;
 
 							.radio__inner-icon {
 								opacity: 1;
-								background-color: $checked-color;
+								background-color: $uni-primary;
 							}
 						}
 
 						.checklist-text {
-							color: $checked-color;
+							color: $uni-primary;
 						}
 
 						// 选中禁用
@@ -735,14 +764,15 @@
 					}
 
 					&.is-checked {
-						background-color: $checked-color;
-						border-color: $checked-color;
+						background-color: $uni-primary;
+						border-color: $uni-primary;
 
 						.checklist-text {
 							color: #fff;
 						}
 					}
 				}
+
 				// 列表样式
 				&.is--list {
 					/* #ifndef APP-NVUE */
@@ -760,6 +790,7 @@
 					&.is-disable {
 						/* #ifdef H5 */
 						cursor: not-allowed;
+
 						/* #endif */
 						.checkbox__inner {
 							background-color: #F2F6FC;
@@ -768,6 +799,7 @@
 							cursor: not-allowed;
 							/* #endif */
 						}
+
 						.checklist-text {
 							color: #999;
 						}
@@ -775,27 +807,31 @@
 
 					&.is-checked {
 						.checkbox__inner {
-							border-color: $checked-color;
-							background-color: $checked-color;
+							border-color: $uni-primary;
+							background-color: $uni-primary;
 
 							.checkbox__inner-icon {
 								opacity: 1;
 								transform: rotate(45deg);
 							}
 						}
+
 						.radio__inner {
+							border-color: $uni-primary;
 							.radio__inner-icon {
 								opacity: 1;
+								background-color: $uni-primary;
 							}
 						}
+
 						.checklist-text {
-							color: $checked-color;
+							color: $uni-primary;
 						}
 
 						.checklist-content {
 							.checkobx__list {
 								opacity: 1;
-								border-color: $checked-color;
+								border-color: $uni-primary;
 							}
 						}
 
