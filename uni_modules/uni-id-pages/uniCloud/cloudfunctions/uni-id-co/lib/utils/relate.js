@@ -14,7 +14,9 @@ const {
 const {
   batchFindObjctValue
 } = require('../../common/utils')
-const merge = require('lodash.merge')
+const {
+  merge
+} = require('../npm/index')
 
 /**
  *
@@ -27,7 +29,9 @@ async function preBind ({
   bindAccount,
   logType
 } = {}) {
-  const userMatched = await findUser({
+  const {
+    userMatched
+  } = await findUser({
     userQuery: bindAccount,
     authorizedApp: this.getUniversalClientInfo().appId
   })
