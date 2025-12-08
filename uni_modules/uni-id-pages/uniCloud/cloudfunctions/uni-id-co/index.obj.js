@@ -1,7 +1,8 @@
 const uniIdCommon = require('uni-id-common')
 const uniCaptcha = require('uni-captcha')
 const {
-  getType
+  getType,
+  checkIdCard
 } = require('./common/utils')
 const {
   checkClientInfo,
@@ -9,7 +10,8 @@ const {
 } = require('./common/validator')
 const ConfigUtils = require('./lib/utils/config')
 const {
-  isUniIdError
+  isUniIdError,
+  ERROR
 } = require('./common/error')
 const middleware = require('./middleware/index')
 const universal = require('./common/universal')
@@ -31,7 +33,9 @@ const {
   loginByAlipay,
   loginByQQ,
   loginByApple,
-  loginByWeixinMobile
+  loginByWeixinMobile,
+  loginByHuawei,
+  loginByHuaweiMobile
 } = require('./module/login/index')
 const {
   logout
@@ -47,14 +51,19 @@ const {
   unbindWeixin,
   unbindAlipay,
   unbindQQ,
-  unbindApple
+  unbindApple,
+  bindHuawei,
+  unbindHuawei,
+  bindMobileByHuawei
 } = require('./module/relate/index')
 const {
+  setPwd,
   updatePwd,
   resetPwdBySms,
   resetPwdByEmail,
   closeAccount,
-  getAccountInfo
+  getAccountInfo,
+  getRealNameInfo
 } = require('./module/account/index')
 const {
   createCaptcha,
@@ -79,6 +88,15 @@ const {
 const {
   getSupportedLoginType
 } = require('./module/dev/index')
+const {
+  externalRegister,
+  externalLogin,
+  updateUserInfoByExternal
+} = require('./module/external')
+const {
+  getFrvCertifyId,
+  getFrvAuthResult
+} = require('./module/facial-recognition-verify')
 
 module.exports = {
   async _before () {
@@ -98,6 +116,8 @@ module.exports = {
     switch (clientPlatform) {
       case 'app':
       case 'app-plus':
+      case 'app-android':
+      case 'app-ios':
         clientPlatform = 'app'
         break
       case 'web':
@@ -125,6 +145,26 @@ module.exports = {
     this.validator = new Validator({
       passwordStrength: this.config.passwordStrength
     })
+
+    // 扩展 validator 增加 验证身份证号码合法性
+    this.validator.mixin('idCard', function (idCard) {
+      if (!checkIdCard(idCard)) {
+        return {
+          errCode: ERROR.INVALID_ID_CARD
+        }
+      }
+    })
+    this.validator.mixin('realName', function (realName) {
+      if (
+        typeof realName !== 'string' ||
+        realName.length < 2 ||
+        !/^[\u4e00-\u9fa5]{1,10}(·?[\u4e00-\u9fa5]{1,10}){0,5}$/.test(realName)
+      ) {
+        return {
+          errCode: ERROR.INVALID_REAL_NAME
+        }
+      }
+    })
     /**
      * 示例：覆盖密码验证规则
      */
@@ -147,21 +187,21 @@ module.exports = {
     //   }
     // })
     // // 新增规则同样可以在数组验证规则中使用
-    // this.validator.valdate({
+    // this.validator.validate({
     //   timestamp: 123456789
     // }, {
     //   timestamp: 'timestamp'
     // })
-    // this.validator.valdate({
+    // this.validator.validate({
     //   timestampList: [123456789, 123123123123]
     // }, {
     //   timestampList: 'array<timestamp>'
     // })
     // // 甚至更复杂的写法
-    // this.validator.valdate({
-    //   timestamp: [123456789, 123123123123]
+    // this.validator.validate({
+    //   timestamp: [123456789123123123, 123123123123]
     // }, {
-    //   timestamp: 'timestamp|array<timestamp>'
+    //   timestamp: 'timestamp|array<timestamp|number>'
     // })
 
     // 挂载uni-captcha到this上，方便后续调用
@@ -179,14 +219,22 @@ module.exports = {
     }
 
     // 国际化
+    const messages = require('./lang/index')
+    const fallbackLocale = 'zh-Hans'
     const i18n = uniCloud.initI18n({
       locale: clientInfo.locale,
-      fallbackLocale: 'zh-Hans',
-      messages: require('./lang/index')
+      fallbackLocale,
+      messages: JSON.parse(JSON.stringify(messages))
     })
+    if (!messages[i18n.locale]) {
+      i18n.setLocale(fallbackLocale)
+    }
     this.t = i18n.t.bind(i18n)
 
     this.response = {}
+
+    // 请求鉴权验证
+    await this.middleware.verifyRequestSign()
 
     // 通用权限校验模块
     await this.middleware.accessControl()
@@ -374,6 +422,8 @@ module.exports = {
    */
   loginByApple,
   loginByWeixinMobile,
+  loginByHuawei,
+  loginByHuaweiMobile,
   /**
    * 用户退出登录
    * @tutorial https://uniapp.dcloud.net.cn/uniCloud/uni-id-pages.html#logout
@@ -585,5 +635,72 @@ module.exports = {
   /**
    * 安全网络握手，目前仅处理微信小程序安全网络握手
    */
-  secureNetworkHandshakeByWeixin
+  secureNetworkHandshakeByWeixin,
+  /**
+   * 设置密码
+   * @tutorial https://uniapp.dcloud.net.cn/uniCloud/uni-id-pages.html#set-pwd
+   * @returns
+   */
+  setPwd,
+  /**
+   * 外部注册用户
+   * @tutorial https://uniapp.dcloud.net.cn/uniCloud/uni-id-pages.html#external-register
+   * @param {object} params
+   * @param {string} params.externalUid   业务系统的用户id
+   * @param {string} params.nickname  昵称
+   * @param {string} params.gender  性别
+   * @param {string} params.avatar  头像
+   * @returns {object}
+   */
+  externalRegister,
+  /**
+   * 外部用户登录
+   * @tutorial https://uniapp.dcloud.net.cn/uniCloud/uni-id-pages.html#external-login
+   * @param {object} params
+   * @param {string} params.userId  uni-id体系用户id
+   * @param {string} params.externalUid   业务系统的用户id
+   * @returns {object}
+   */
+  externalLogin,
+  /**
+   * 使用 userId 或 externalUid 获取用户信息
+   * @tutorial https://uniapp.dcloud.net.cn/uniCloud/uni-id-pages.html#external-update-userinfo
+   * @param {object} params
+   * @param {string} params.userId   uni-id体系的用户id
+   * @param {string} params.externalUid   业务系统的用户id
+   * @param {string} params.nickname  昵称
+   * @param {string} params.gender  性别
+   * @param {string} params.avatar  头像
+   * @returns {object}
+   */
+  updateUserInfoByExternal,
+  /**
+   * 获取认证ID
+   * @tutorial https://uniapp.dcloud.net.cn/uniCloud/uni-id-pages.html#get-frv-certify-id
+   * @param {Object} params
+   * @param {String} params.realName  真实姓名
+   * @param {String} params.idCard    身份证号码
+   * @returns
+   */
+  getFrvCertifyId,
+  /**
+   * 查询认证结果
+   * @tutorial https://uniapp.dcloud.net.cn/uniCloud/uni-id-pages.html#get-frv-auth-result
+   * @param {Object} params
+   * @param {String} params.certifyId       认证ID
+   * @param {String} params.needAlivePhoto  是否获取认证照片，Y_O （原始图片）、Y_M（虚化，背景马赛克）、N（不返图）
+   * @returns
+   */
+  getFrvAuthResult,
+  /**
+   * 获取实名信息
+   * @tutorial https://uniapp.dcloud.net.cn/uniCloud/uni-id-pages.html#get-realname-info
+   * @param {Object} params
+   * @param {Boolean} params.decryptData 是否解密数据
+   * @returns
+   */
+  getRealNameInfo,
+  bindHuawei,
+  unbindHuawei,
+  bindMobileByHuawei
 }

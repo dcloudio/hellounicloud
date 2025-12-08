@@ -1,3 +1,34 @@
+## 0.8.2（2025-11-24）
+- 兼容 在uni-app x项目，鸿蒙端暂不支持svg格式验证码，切换为bmp格式验证码
+## 0.8.1（2025-10-13）
+- 兼容 在uni-app x项目，低版本 HBuilderX (<4.81) 及 iOS13 以下使用 bmp 验证码，4.81 + 版本使用 svg 验证码
+## 0.8.0（2025-09-30）
+- 修复 vue3上的warning提示问题
+## 0.7.9（2025-09-30）
+- 修复 在uni-app x项目，小程序和web端兼容问题
+## 0.7.8（2025-09-29）
+- 修复 在uni-app x项目，SVG验证码类型兼容问题
+## 0.7.7（2025-09-29）
+- 修复 在uni-app x项目APP端不显示的问题
+## 0.7.6（2025-09-28）
+- uniappx的uvue页面支持显示svg验证码（需要HBuilderX4.81+，注意iOS13以下仍不支持svg）
+## 0.7.5（2023-12-18）
+- 修复 在uni-app x项目，部分情况下，执行uni-captcha组件的setFocus无效的问题
+## 0.7.4（2023-12-18）
+- 更新 `package.json` -> `dependencies` 增加 `uni-popup`
+## 0.7.3（2023-11-15）
+- 更新 uni-popup-captcha.uvue依赖的popup组件，直接使用uni_modules下的uni-popup组件
+## 0.7.2（2023-11-07）
+- 新增 前端组件：uni-captcha.uvue、uni-popup-captcha
+## 0.7.1（2023-11-07）
+- 新增 前端组件：uni-captcha.uvue、uni-popup-captcha
+## 0.7.0（2023-10-10）
+- 新增 支持在`uni-config-center`中配置mode，可选值为svg和bmp，配置成bmp后可以在uniappx的uvue页面正常显示验证码（uvue不支持显示svg验证码）
+## 0.6.4（2023-01-16）
+- 修复 部分情况下APP端无法获取验证码的问题
+## 0.6.3（2023-01-11）
+- 修复 抖音小程序无法显示的Bug
+- 修复 刷新时兼容 device_uuid
 ## 0.6.1（2022-06-23）
 - 修复：部分返回值，不符合响应体规范的问题
 ## 0.6.0（2022-05-27）

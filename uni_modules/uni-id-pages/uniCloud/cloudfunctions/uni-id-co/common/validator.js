@@ -46,12 +46,12 @@ baseValidator.password = function (password) {
 
 baseValidator.mobile = function (mobile) {
   const errCode = ERROR.INVALID_MOBILE
-  if (!isValidString(mobile)) {
+  if (getType(mobile) !== 'string') {
     return {
       errCode
     }
   }
-  if (!/^1\d{10}$/.test(mobile)) {
+  if (mobile && !/^1\d{10}$/.test(mobile)) {
     return {
       errCode
     }
@@ -60,12 +60,12 @@ baseValidator.mobile = function (mobile) {
 
 baseValidator.email = function (email) {
   const errCode = ERROR.INVALID_EMAIL
-  if (!isValidString(email)) {
+  if (getType(email) !== 'string') {
     return {
       errCode
     }
   }
-  if (!/@/.test(email)) {
+  if (email && !/@/.test(email)) {
     return {
       errCode
     }
@@ -198,52 +198,6 @@ function getRuleCategory(rule) {
   }
 }
 
-function isMatchUnionType(val, rule) {
-  if (!rule.children || rule.children.length === 0) {
-    return true
-  }
-  const children = rule.children
-  for (let i = 0; i < children.length; i++) {
-    const child = children[i]
-    const category = getRuleCategory(child)
-    let pass = false
-    switch (category) {
-      case 'base':
-        pass = isMatchBaseType(val, child)
-        break
-      case 'array':
-        pass = isMatchArrayType(val, child)
-        break
-      default:
-        break
-    }
-    if (pass) {
-      return true
-    }
-  }
-  return false
-}
-
-function isMatchBaseType(val, rule) {
-  if (typeof baseValidator[rule.type] !== 'function') {
-    throw new Error(`invalid schema type: ${rule.type}`)
-  }
-  const validateRes = baseValidator[rule.type](val)
-  if (validateRes && validateRes.errCode) {
-    return false
-  }
-  return true
-}
-
-function isMatchArrayType(arr, rule) {
-  if (getType(arr) !== 'array') {
-    return false
-  }
-  if (rule.children && rule.children.length && arr.some(item => !isMatchUnionType(item, rule))) {
-    return false
-  }
-  return true
-}
 
 // 特殊符号 https://www.ibm.com/support/pages/password-strength-rules  ~!@#$%^&*_-+=`|\(){}[]:;"'<>,.?/
 // const specialChar = '~!@#$%^&*_-+=`|\(){}[]:;"\'<>,.?/'
@@ -290,6 +244,12 @@ function createPasswordVerifier({
   }
 }
 
+function isEmpty(value) {
+  return value === undefined || 
+  value === null ||
+  (typeof value === 'string' && value.trim() === '')
+}
+
 class Validator {
   constructor({
     passwordStrength = ''
@@ -314,7 +274,57 @@ class Validator {
     return this.customValidator[type] || this.baseValidator[type]
   }
 
+  
+  _isMatchUnionType(val, rule) {
+    if (!rule.children || rule.children.length === 0) {
+      return true
+    }
+    const children = rule.children
+    for (let i = 0; i < children.length; i++) {
+      const child = children[i]
+      const category = getRuleCategory(child)
+      let pass = false
+      switch (category) {
+        case 'base':
+          pass = this._isMatchBaseType(val, child)
+          break
+        case 'array':
+          pass = this._isMatchArrayType(val, child)
+          break
+        default:
+          break
+      }
+      if (pass) {
+        return true
+      }
+    }
+    return false
+  }
+
+  _isMatchBaseType(val, rule) {
+    const method = this.getRealBaseValidator(rule.type)
+    if (typeof method !== 'function') {
+      throw new Error(`invalid schema type: ${rule.type}`)
+    }
+    const validateRes = method(val)
+    if (validateRes && validateRes.errCode) {
+      return false
+    }
+    return true
+  }
+
+  _isMatchArrayType(arr, rule) {
+    if (getType(arr) !== 'array') {
+      return false
+    }
+    if (rule.children && rule.children.length && arr.some(item => !this._isMatchUnionType(item, rule))) {
+      return false
+    }
+    return true
+  }
+
   get validator() {
+    const _this = this
     return new Proxy({}, {
       get: (_, prop) => {
         if (typeof prop !== 'string') {
@@ -326,7 +336,7 @@ class Validator {
         }
         const rule = parseValidatorName(prop)
         return function (val) {
-          if (!isMatchUnionType(val, rule)) {
+          if (!_this._isMatchUnionType(val, rule)) {
             return {
               errCode: ERROR.INVALID_PARAM
             }
@@ -350,7 +360,7 @@ class Validator {
         type
       } = schemaValue
       // value内未传入了schemaKey或对应值为undefined
-      if (value[schemaKey] === undefined) {
+      if (isEmpty(value[schemaKey])) {
         if (required) {
           return {
             errCode: ERROR.PARAM_REQUIRED,
@@ -360,6 +370,7 @@ class Validator {
             schemaKey
           }
         } else {
+          //delete value[schemaKey]
           continue
         }
       }

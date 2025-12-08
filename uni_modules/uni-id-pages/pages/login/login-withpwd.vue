@@ -9,11 +9,11 @@
 		<uni-forms>
 			<uni-forms-item name="username">
 				<uni-easyinput :focus="focusUsername" @blur="focusUsername = false" class="input-box"
-					:inputBorder="false" v-model="username" placeholder="请输入手机号/用户名/邮箱" />
+					:inputBorder="false" v-model="username" placeholder="请输入手机号/用户名/邮箱" trim="all" />
 			</uni-forms-item>
 			<uni-forms-item name="password">
-				<uni-easyinput :focus="focusPassword" @blur="focusPassword = false" class="input-box" clearable
-					type="password" :inputBorder="false" v-model="password" placeholder="请输入密码" />
+					<uni-easyinput :focus="focusPassword" @blur="focusPassword = false" class="input-box" clearable
+					               type="password" :inputBorder="false" v-model="password" placeholder="请输入密码" trim="all" />
 			</uni-forms-item>
 		</uni-forms>
 		<uni-captcha v-if="needCaptcha" focus ref="captcha" scene="login-by-pwd" v-model="captcha" />
@@ -84,21 +84,24 @@
 					this.focusPassword = true
 					return uni.showToast({
 						title: '请输入密码',
-						icon: 'none'
+						icon: 'none',
+						duration: 3000
 					});
 				}
 				if (!this.username.length) {
 					this.focusUsername = true
 					return uni.showToast({
 						title: '请输入手机号/用户名/邮箱',
-						icon: 'none'
+						icon: 'none',
+						duration: 3000
 					});
 				}
 				if (this.needCaptcha && this.captcha.length != 4) {
 					this.$refs.captcha.getImageCaptcha()
 					return uni.showToast({
 						title: '请输入验证码',
-						icon: 'none'
+						icon: 'none',
+						duration: 3000
 					});
 				}
 
@@ -149,7 +152,7 @@
 
 	@media screen and (min-width: 690px) {
 		.uni-content {
-			max-height: 650px;
+			height: auto;
 		}
 	}
 

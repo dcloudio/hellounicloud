@@ -10,7 +10,7 @@
 		</match-media>
 		<uni-forms ref="form" :value="formData" err-show-type="toast">
 			<uni-forms-item name="phone">
-				<uni-easyinput :focus="focusPhone" @blur="focusPhone = false" class="input-box" :disabled="lock" type="number" :inputBorder="false"
+				<uni-easyinput :focus="focusPhone" @blur="focusPhone = false" class="input-box" :disabled="lock" type="number" :inputBorder="false" trim="both"
 					v-model="formData.phone" maxlength="11" placeholder="请输入手机号">
 				</uni-easyinput>
 			</uni-forms-item>
@@ -19,11 +19,11 @@
 				</uni-id-pages-sms-form>
 			</uni-forms-item>
 			<uni-forms-item name="password">
-				<uni-easyinput :focus="focusPassword" @blur="focusPassword = false" class="input-box" type="password" :inputBorder="false" v-model="formData.password"
+				<uni-easyinput :focus="focusPassword" @blur="focusPassword = false" class="input-box" type="password" :inputBorder="false" v-model="formData.password" trim="both"
 					placeholder="请输入新密码"></uni-easyinput>
 			</uni-forms-item>
 			<uni-forms-item name="password2">
-				<uni-easyinput :focus="focusPassword2" @blur="focusPassword2 = false" class="input-box" type="password" :inputBorder="false" v-model="formData.password2"
+				<uni-easyinput :focus="focusPassword2" @blur="focusPassword2 = false" class="input-box" type="password" :inputBorder="false" v-model="formData.password2" trim="both"
 					placeholder="请再次输入新密码"></uni-easyinput>
 			</uni-forms-item>
 			<button class="uni-btn send-btn-box" type="primary" @click="submit">提交</button>
@@ -166,8 +166,6 @@
 			 * 完成并提交
 			 */
 			submit() {
-				console.log("formData", this.formData);
-				console.log('rules', this.rules);
 				this.$refs.form.validate()
 					.then(res => {
 						let {
@@ -182,7 +180,6 @@
 								password,
 								captcha
 							}).then(e => {
-								console.log(e);
 								uni.navigateBack()
 							})
 							.catch(e => {
@@ -195,11 +192,9 @@
 					}).catch(errors=>{
 						let key = errors[0].key
 						if(key == 'code'){
-							console.log(this.$refs.shortCode);
 							return this.$refs.shortCode.focusSmsCodeInput = true
 						}
 						key = key.replace(key[0], key[0].toUpperCase())
-						console.log(key,'focus'+key);
 						this['focus'+key] = true
 					})
 			},
@@ -208,11 +203,11 @@
 					url: '/uni_modules/uni-id-pages/pages/retrieve/retrieve-by-email'
 				})
 			},
-      backLogin () {
-        uni.redirectTo({
-          url: '/uni_modules/uni-id-pages/pages/login/login-withpwd'
-        })
-      }
+			backLogin () {
+				uni.redirectTo({
+					url: '/uni_modules/uni-id-pages/pages/login/login-withpwd'
+				})
+			}
 		}
 	}
 </script>

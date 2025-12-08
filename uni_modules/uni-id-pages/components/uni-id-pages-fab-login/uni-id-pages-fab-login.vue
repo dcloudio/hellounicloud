@@ -2,28 +2,18 @@
 	<view>
 		<view class="fab-login-box">
 			<view class="item" v-for="(item,index) in servicesList" :key="index"
-				@click="item.path?navigateTo(item.path):login_before(item.id,false)">
+				@click="item.path?toPage(item.path):login_before(item.id,false)">
 				<image class="logo" :src="item.logo" mode="scaleToFill"></image>
 				<text class="login-title">{{item.text}}</text>
 			</view>
 		</view>
-		<!-- #ifdef MP-WEIXIN -->
-		<uni-id-pages-user-profile @next="doUserProfileNext" ref="userProfile"></uni-id-pages-user-profile>
-		<!-- #endif -->
 	</view>
 </template>
 <script>
 	import config from '@/uni_modules/uni-id-pages/config.js'
 	//前一个窗口的页面地址。控制点击切换快捷登录方式是创建还是返回
-	import {
-			store,
-			mutations
-		} from '@/uni_modules/uni-id-pages/common/store.js'
-
-	const db = uniCloud.database();
-	const usersTable = db.collection('uni-id-users')
+	import {store,mutations} from '@/uni_modules/uni-id-pages/common/store.js'
 	let allServicesList = []
-
 	export default {
 		computed: {
 			agreements() {
@@ -49,7 +39,6 @@
 					return this.getParentComponent().agree
 				},
 				set(agree) {
-					console.log('setAgree', agree);
 					return this.getParentComponent().agree = agree
 				}
 			}
@@ -59,20 +48,33 @@
 				servicesList: [{
 						"id": "username",
 						"text": "账号登录",
-						"logo": "/uni_modules/uni-id-pages/static/uni-fab-login/user.png",
+						"logo": "/uni_modules/uni-id-pages/static/login/uni-fab-login/user.png",
 						"path": "/uni_modules/uni-id-pages/pages/login/login-withpwd"
 					},
 					{
 						"id": "smsCode",
 						"text": "短信验证码",
-						"logo": "/uni_modules/uni-id-pages/static/uni-fab-login/sms.png",
+						"logo": "/uni_modules/uni-id-pages/static/login/uni-fab-login/sms.png",
 						"path": "/uni_modules/uni-id-pages/pages/login/login-withoutpwd?type=smsCode"
 					},
 					{
 						"id": "weixin",
 						"text": "微信登录",
-						"logo": "/uni_modules/uni-id-pages/static/uni-fab-login/weixin.png",
+						"logo": "/uni_modules/uni-id-pages/static/login/uni-fab-login/weixin.png",
 					},
+					{
+						"id": "huawei",
+						"text": "华为登录",
+						"logo": "/uni_modules/uni-id-pages/static/login/uni-fab-login/huawei.png",
+						"path": "/uni_modules/uni-id-pages/pages/login/login-withoutpwd?type=huawei"
+					},
+					{
+						"id": "huaweiMobile",
+						"text": "华为账号一键登录",
+						"logo": "/uni_modules/uni-id-pages/static/login/uni-fab-login/huawei.png",
+						"path": "/uni_modules/uni-id-pages/pages/login/login-withoutpwd?type=huaweiMobile"
+					},
+					// #ifndef MP-WEIXIN
 					{
 						"id": "apple",
 						"text": "苹果登录",
@@ -81,43 +83,44 @@
 					{
 						"id": "univerify",
 						"text": "一键登录",
-						"logo": "/uni_modules/uni-id-pages/static/uni-fab-login/univerify.png",
+						"logo": "/uni_modules/uni-id-pages/static/app/uni-fab-login/univerify.png",
 					},
 					{
 						"id": "taobao",
 						"text": "淘宝登录", //暂未提供该登录方式的接口示例
-						"logo": "/uni_modules/uni-id-pages/static/uni-fab-login/taobao.png",
+						"logo": "/uni_modules/uni-id-pages/static/app/uni-fab-login/taobao.png",
 					},
 					{
 						"id": "facebook",
 						"text": "脸书登录", //暂未提供该登录方式的接口示例
-						"logo": "/uni_modules/uni-id-pages/static/uni-fab-login/facebook.png",
+						"logo": "/uni_modules/uni-id-pages/static/app/uni-fab-login/facebook.png",
 					},
 					{
 						"id": "alipay",
 						"text": "支付宝登录", //暂未提供该登录方式的接口示例
-						"logo": "/uni_modules/uni-id-pages/static/uni-fab-login/alipay.png",
+						"logo": "/uni_modules/uni-id-pages/static/app/uni-fab-login/alipay.png",
 					},
 					{
 						"id": "qq",
 						"text": "QQ登录", //暂未提供该登录方式的接口示例
-						"logo": "/uni_modules/uni-id-pages/static/uni-fab-login/qq.png",
+						"logo": "/uni_modules/uni-id-pages/static/app/uni-fab-login/qq.png",
 					},
 					{
 						"id": "google",
 						"text": "谷歌登录", //暂未提供该登录方式的接口示例
-						"logo": "/uni_modules/uni-id-pages/static/uni-fab-login/google.png",
+						"logo": "/uni_modules/uni-id-pages/static/app/uni-fab-login/google.png",
 					},
 					{
 						"id": "douyin",
 						"text": "抖音登录", //暂未提供该登录方式的接口示例
-						"logo": "/uni_modules/uni-id-pages/static/uni-fab-login/douyin.png",
+						"logo": "/uni_modules/uni-id-pages/static/app/uni-fab-login/douyin.png",
 					},
 					{
 						"id": "sinaweibo",
 						"text": "新浪微博", //暂未提供该登录方式的接口示例
-						"logo": "/uni_modules/uni-id-pages/static/uni-fab-login/sinaweibo.png",
+						"logo": "/uni_modules/uni-id-pages/static/app/uni-fab-login/sinaweibo.png",
 					}
+					// #endif
 				],
 				univerifyStyle: { //一键登录弹出窗的样式配置参数
 					"fullScreen": true, // 是否全屏显示，true表示全屏模式，false表示非全屏模式，默认值为false。
@@ -189,7 +192,6 @@
 				let path = item.path ? item.path.split('?')[0] : '';
 				return path != this.getRoute(1)
 			})
-			//console.log('servicesList', servicesList, this.servicesList);
 		},
 		methods: {
 			getParentComponent(){
@@ -206,36 +208,44 @@
 			},
 			getRoute(n = 0) {
 				let pages = getCurrentPages();
-				// console.log('route-pages-length', pages.length);
 				if (n > pages.length) {
 					return ''
 				}
 				return '/' + pages[pages.length - n].route
 			},
-			navigateTo(path) {
-				//console.log('比较', this.getRoute(1),this.getRoute(2), path)
+			toPage(path,index = 0) {
+				console.log('比较', this.getRoute(1),this.getRoute(2), path)
 				if (this.getRoute(1) == path.split('?')[0] && this.getRoute(1) ==
 					'/uni_modules/uni-id-pages/pages/login/login-withoutpwd') {
 					//如果要被打开的页面已经打开，且这个页面是 /uni_modules/uni-id-pages/pages/index/index 则把类型参数传给他
-					let type = path.split('?')[1].split('=')[1]
-					uni.$emit('uni-id-pages-set-login-type', type)
+					let loginType = path.split('?')[1].split('=')[1]
+					uni.$emit('uni-id-pages-setLoginType', loginType)
 				} else if (this.getRoute(2) == path) { // 如果上一个页面就是，马上要打开的页面，直接返回。防止重复开启
 					uni.navigateBack();
 				} else if (this.getRoute(1) != path) {
-					//console.log(3);
-					uni.navigateTo({
-						url: path,
-						animationType: 'slide-in-left',
-						complete(e) {
-							// console.log(e);
-						}
-					})
+					if(index === 0){
+						uni.navigateTo({
+							url: path,
+							animationType: 'slide-in-left',
+							complete(e) {
+								// console.log(e);
+							}
+						})
+					}else{
+						uni.redirectTo({
+							url: path,
+							animationType: 'slide-in-left',
+							complete(e) {
+								// console.log(e);
+							}
+						})
+					}
 				} else {
 					console.log('出乎意料的情况,path：' + path);
 				}
 			},
 			async login_before(type, navigateBack = true, options = {}) {
-				console.log(type);
+				console.log(type, options);
 				//提示空实现
 				if (["qq",
 						"xiaomi",
@@ -248,27 +258,43 @@
 					].includes(type)) {
 					return uni.showToast({
 						title: '该登录方式暂未实现，欢迎提交pr',
-						icon: 'none'
+						icon: 'none',
+						duration: 3000
 					});
 				}
 
+				console.log('检查当前环境是否支持这种登录方式')
 				//检查当前环境是否支持这种登录方式
 				// #ifdef APP
 				let isAppExist = true
 				await new Promise((callback) => {
-					plus.oauth.getServices(oauthServices => {
-						let index = oauthServices.findIndex(e => e.id == type)
-						if(index != -1){
-							isAppExist = oauthServices[index].nativeClient
-							callback()
-						}else{
-							return uni.showToast({
-								title: '当前设备不支持此登录，请选择其他登录方式',
-								icon: 'none'
-							});
+					console.log('uni.getProvider', uni.getProvider)
+					uni.getProvider({
+						service: 'oauth',
+						success: (res) => {
+							const provider = res.providers.find(item => {
+
+								if (item.id === 'huawei') {
+									return ['huawei', 'huaweiMobile'].includes(type)
+								}
+
+								return item.id === type
+							})
+							console.log('res', res)
+							if (provider) {
+								isAppExist = provider?.isAppExist ?? true
+								callback()
+							} else {
+								return uni.showToast({
+									title: '当前设备不支持此登录，请选择其他登录方式',
+									icon: 'none',
+									duration: 3000
+								});
+							}
+						},
+						fail: () => {
+							throw new Error('获取服务供应商失败：' + JSON.stringify(err))
 						}
-					}, err => {
-						throw new Error('获取服务供应商失败：' + JSON.stringify(err))
 					})
 				})
 				// #endif
@@ -286,32 +312,40 @@
 				) {
 					return uni.showToast({
 						title: '当前设备不支持此登录，请选择其他登录方式',
-						icon: 'none'
+						icon: 'none',
+						duration: 3000
 					});
 				}
-
 				//判断是否需要弹出隐私协议授权框
-				console.log(type, this.agree);
 				let needAgreements = (config?.agreements?.scope || []).includes('register')
-				console.log({
-					needAgreements
-				});
 				if (type != 'univerify' && needAgreements && !this.agree) {
 					let agreementsRef = this.getParentComponent().$refs.agreements
 					return agreementsRef.popup(() => {
-						console.log(type, navigateBack);
 						this.login_before(type, navigateBack, options)
 					})
 				}
-
 				// #ifdef H5
 					if(type == 'weixin'){
 						// console.log('开始微信网页登录');
-						let redirectUrl = location.protocol +'//'+
-										document.domain +
-										(window.location.href.includes('#')?'/#':'') +
-										'/uni_modules/uni-id-pages/pages/login/login-withoutpwd?is_weixin_redirect=true&type=weixin'
-						console.log('redirectUrl----',redirectUrl);
+						// let redirectUrl = location.protocol +'//'+
+						// 				document.domain +
+						// 				(window.location.href.includes('#')?'/#':'') +
+						// 				'/uni_modules/uni-id-pages/pages/login/login-withoutpwd?is_weixin_redirect=true&type=weixin'
+            // #ifdef VUE2
+            const baseUrl = process.env.BASE_URL
+            // #endif
+            // #ifdef VUE3
+            const baseUrl = import.meta.env.BASE_URL
+            // #endif
+
+            let redirectUrl = location.protocol +
+                '//' +
+                location.host +
+                baseUrl.replace(/\/$/, '') +
+                (window.location.href.includes('#')?'/#':'') +
+                '/uni_modules/uni-id-pages/pages/login/login-withoutpwd?is_weixin_redirect=true&type=weixin'
+
+						// console.log('redirectUrl----',redirectUrl);
 						let ua = window.navigator.userAgent.toLowerCase();
 						if (ua.match(/MicroMessenger/i) == 'micromessenger'){
 							// console.log('在微信公众号内');
@@ -330,36 +364,48 @@
 						}
 					}
 				// #endif
-
+				console.log('login ----')
 				uni.showLoading({
+					// #ifdef MP-HARMONY
+					title: "正在登录",
+					// #endif
 					mask: true
 				})
+
 				if (type == 'univerify') {
 					let univerifyManager = uni.getUniverifyManager()
+					let clickAnotherButtons = false
 					let onButtonsClickFn = async res => {
 						console.log('点击了第三方登录，provider：', res, res.provider, this.univerifyStyle.buttons.list);
-						//同步一键登录弹出层隐私协议框是否打勾
-						let agree = (await uni.getCheckBoxState())[1].state
-						//console.log('agree',agree);
-						this.agree = agree
+						clickAnotherButtons = true
+						let checkBoxState = await uni.getCheckBoxState();
+						// 同步一键登录弹出层隐私协议框是否打勾
+						// #ifdef VUE2
+						this.agree = checkBoxState[1].state
+						// #endif
+						// #ifdef VUE3
+						this.agree = checkBoxState.state
+						// #endif
 						let {
 							path
 						} = this.univerifyStyle.buttons.list[res.index]
 						if (path) {
-							this.navigateTo(path)
+							if( this.getRoute(1).includes('login-withoutpwd') && path.includes('login-withoutpwd') ){
+								this.getParentComponent().showCurrentWebview()
+							}
+							this.toPage(path,1)
 							closeUniverify()
 						} else {
-							if (agree) {
+							if (this.agree) {
 								closeUniverify()
 								setTimeout(() => {
-									//console.log('login_before');
 									this.login_before(res.provider)
 								}, 500)
 							} else {
-								//console.log("你未同意隐私政策协议");
 								uni.showToast({
 									title: "你未同意隐私政策协议",
-									icon: 'none'
+									icon: 'none',
+									duration: 3000
 								});
 							}
 						}
@@ -377,31 +423,34 @@
 					return univerifyManager.login({
 						"univerifyStyle": this.univerifyStyle,
 						success: res => {
-							console.log('login success', res)
 							this.login(res.authResult, 'univerify')
 						},
 						fail(err) {
-							uni.showToast({
-								title: JSON.stringify(err),
-								icon: 'none'
-							});
+							console.log(err)
+							if(!clickAnotherButtons){
+								uni.navigateBack()
+							}
+							// uni.showToast({
+							// 	title: JSON.stringify(err),
+							// 	icon: 'none',
+							// 	duration: 3000
+							// });
 						},
 						complete: async e => {
-							console.log(e);
 							uni.hideLoading()
 							//同步一键登录弹出层隐私协议框是否打勾
-							this.agree = (await uni.getCheckBoxState())[1].state
+							// this.agree = (await uni.getCheckBoxState())[1].state
 							// 取消订阅自定义按钮点击事件
 							univerifyManager.offButtonsClick(onButtonsClickFn)
 						}
 					})
 				}
 
-        if (type === 'weixinMobile') {
-          return this.login({
-            phoneCode: options.phoneNumberCode
-          }, type)
-        }
+				if (type === 'weixinMobile' || type === 'huaweiMobile') {
+					return this.login({
+						phoneCode: options.phoneNumberCode
+					}, type)
+				}
 
 				uni.login({
 					"provider": type,
@@ -410,7 +459,6 @@
 					"univerifyStyle": this.univerifyStyle,
 					// #endif
 					success: async e => {
-						console.log(e);
 						if (type == 'apple') {
 							let res = await this.getUserInfo({
 								provider: "apple"
@@ -418,51 +466,42 @@
 							Object.assign(e.authResult, res.userInfo)
 							uni.hideLoading()
 						}
-						this.login(type == 'weixin' ? {
+
+						this.login(['huawei', 'weixin'].includes(type) ? {
 							code: e.code
 						} : e.authResult, type)
 					},
 					fail: async (err) => {
-						console.log(err);
+						console.error(JSON.stringify(err));
+						uni.showModal({
+							content: `登录失败; code: ${err.errCode || -1}`,
+							confirmText: "知道了",
+							showCancel: false
+						});
 						uni.hideLoading()
 					}
 				})
 			},
 			login(params, type) { //联网验证登录
-				console.log('执行登录开始----');
-				console.log({
-					params,
-					type
-				});
+				// console.log('执行登录开始----');
+				console.log({params,type});
 				//toLowerCase
 				let action = 'loginBy' + type.trim().replace(type[0], type[0].toUpperCase())
 				const uniIdCo = uniCloud.importObject("uni-id-co",{
 					customUI:true
 				})
 				uniIdCo[action](params).then(result => {
-					console.log("login-result", result);
 					uni.showToast({
 						title: '登录成功',
-						icon: 'none'
+						icon: 'none',
+						duration: 2000
 					});
-					// #ifdef MP-WEIXIN
-					//如果是微信小程序端的微信登录，且为首次登录，就弹出获取微信昵称+头像用于绑定资料
-					if (['weixin', 'weixinMobile'].includes(type) && result.type == "register") {
-            mutations.loginSuccess({
-							...result,
-							showToast: false,
-							autoBack: false
-						})
-						return this.$refs.userProfile.open(result.uid)
-					}
-					// #endif
 					// #ifdef H5
 					result.loginType = type
 					// #endif
 					mutations.loginSuccess(result)
 				})
 				.catch(e=>{
-					console.log(e);
 					uni.showModal({
 						content: e.message,
 						confirmText:"知道了",
@@ -475,13 +514,6 @@
 					}
 					uni.hideLoading()
 				})
-			},
-			doUserProfileNext() {
-				try {
-					mutations.loginSuccess()
-				} catch (e) {
-					console.log(e);
-				}
 			},
 			async getUserInfo(e) {
 				return new Promise((resolve, reject) => {
@@ -512,7 +544,6 @@
 		box-sizing: border-box;
 		flex-direction: column;
 	}
-
 	/* #endif */
 
 	.fab-login-box {
@@ -551,8 +582,6 @@
 
 	/* #endif */
 
-
-
 	.logo {
 		width: 60rpx;
 		height: 60rpx;
@@ -562,12 +591,11 @@
 		border: solid 1px #F6F6F6;
 	}
 
-
 	.login-title {
 		text-align: center;
 		margin-top: 6px;
 		color: #999;
 		font-size: 10px;
-		width: 70px;
+		width: 80px;
 	}
 </style>

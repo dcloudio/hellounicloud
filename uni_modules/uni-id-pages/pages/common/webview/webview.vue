@@ -8,6 +8,8 @@
 <script>
 	export default {
 		onLoad({url,title}) {
+			url = decodeURIComponent(url)
+
 			if(url.substring(0, 4) != 'http'){
 				uni.showModal({
 					title:"错误",
@@ -20,7 +22,6 @@
 				});
 				title = "页面路径错误"
 			}else{
-				console.log(url,title);
 				this.url = url;
 			}
 			if(title){
@@ -34,7 +35,3 @@
 		}
 	}
 </script>
-
-<style lang="scss">
-
-</style>

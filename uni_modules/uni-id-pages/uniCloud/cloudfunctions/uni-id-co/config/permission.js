@@ -74,5 +74,17 @@ module.exports = {
   },
   unbindApple: {
     auth: true
+  },
+  setPwd: {
+    auth: true
+  },
+  getFrvCertifyId: {
+    auth: true
+  },
+  getFrvAuthResult: {
+    auth: true
+  },
+  getRealNameInfo: {
+    auth: true
   }
 }
